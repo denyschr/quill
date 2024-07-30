@@ -20,9 +20,7 @@
             "outputPath": "dist/quill",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -31,9 +29,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -68,6 +64,11 @@
             },
             "development": {
               "buildTarget": "quill:build:development"
+            },
+            "e2e": {
+              "buildTarget": "quill:build:development",
+              "port": 4201,
+              "liveReload": false
             }
           },
           "defaultConfiguration": "development"
@@ -78,22 +79,65 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
+            "codeCoverageExclude": [
+              "src/app/app.config.ts",
+              "src/app/app.routes.ts",
+              "src/app/app.tokens.ts",
+              "src/i18n-test.ts"
+            ],
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html", "cypress/**/*.ts"],
+            "maxWarnings": 0
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "quill:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "quill:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "quill:serve:e2e",
+            "browser": "chrome",
+            "baseUrl": "http://localhost:4201",
+            "watch": true,
+            "headless": false,
+            "e2e": true
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "quill:serve:production"
+            }
           }
         }
       }
