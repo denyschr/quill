@@ -33,9 +33,10 @@ module.exports = function (config) {
     },
     jsonReporter: {
       stdout: false,
-      outputFile: './results/karma-results.json'
+      outputFile: './test-results/karma-results.json'
     },
     reporters: process.env.CI === 'true' ? ['dots', 'json'] : ['mocha', 'json', 'kjhtml'],
+    port: 9876,
     browsers: ['ChromeHeadless'],
     restartOnFileChange: true
   });
