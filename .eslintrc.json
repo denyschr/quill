@@ -20,6 +20,7 @@
       ],
       "rules": {
         "prettier/prettier": ["warn", { "endOfLine": "auto" }],
+        "@typescript-eslint/explicit-member-accessibility": "error",
         "@typescript-eslint/member-ordering": [
           "error",
           {
