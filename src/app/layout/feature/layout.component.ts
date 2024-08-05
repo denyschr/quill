@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import MenuComponent from '../ui/menu/menu.component';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../ui/footer/footer.component';
@@ -24,6 +24,7 @@ import { FooterComponent } from '../ui/footer/footer.component';
     `
   ],
   imports: [RouterOutlet, MenuComponent, FooterComponent],
-  providers: []
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LayoutComponent {}

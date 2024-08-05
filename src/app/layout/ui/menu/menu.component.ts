@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -37,7 +37,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     `
   ],
   imports: [RouterLink, RouterLinkActive],
-  providers: []
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class MenuComponent {
   public navbarCollapsed = true;
