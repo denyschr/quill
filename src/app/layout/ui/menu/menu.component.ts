@@ -5,27 +5,29 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   selector: 'ql-menu',
   standalone: true,
   template: `
-    <nav class="navbar navbar-expand-lg shadow-sm bg-white">
-      <div class="container">
-        <a class="navbar-brand fw-bold text-success" routerLink="/">Quill</a>
-        <button type="button" class="navbar-toggler" (click)="toggleNavbar()">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navbar" class="navbar-collapse" [class.collapse]="navbarCollapsed">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
-            </li>
-          </ul>
+    <header>
+      <nav class="navbar navbar-expand-lg shadow-sm bg-white">
+        <div class="container">
+          <a class="navbar-brand fw-bold text-success" routerLink="/">Quill</a>
+          <button type="button" class="navbar-toggler" (click)="toggleNavbar()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div id="navbar" class="navbar-collapse" [class.collapse]="navbarCollapsed">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   `,
   styles: [
     `
