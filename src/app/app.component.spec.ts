@@ -1,15 +1,31 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { provideRouter } from '@angular/router';
 
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
-  it('should have a title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideRouter([])]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should have a router outlet', () => {
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('h1')!.textContent)
-      .withContext('You should have an `h1` with the text Quill')
-      .toContain('Quill');
+    const routerOutlet = element.querySelector('router-outlet');
+    expect(routerOutlet)
+      .withContext('You need a RouterOutlet component in the AppComponent template')
+      .not.toBeNull();
   });
 });
