@@ -7,7 +7,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   template: `
     <nav class="navbar navbar-expand-lg shadow-sm bg-white">
       <div class="container">
-        <a class="navbar-brand text-success" routerLink="/">Quill</a>
+        <a class="navbar-brand fw-bold text-success" routerLink="/">Quill</a>
         <button type="button" class="navbar-toggler" (click)="toggleNavbar()">
           <span class="navbar-toggler-icon"></span>
         </button>
