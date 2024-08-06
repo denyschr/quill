@@ -2035,6 +2035,13 @@
     semver "^7.3.5"
     strip-json-comments "3.1.1"
 
+"@ngrx/store-devtools@^18.0.2":
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-18.0.2.tgz#81d61f8ea869651163c58226fdec3e02dfcf9bbf"
+  integrity sha512-NcfVGUOGNvl1luV+Lt8KDqqwuwNYYaSbEuGi4mq70Hb4ws3sO6BFL9v+AeHLCQ51vKccL/cYqDNMYe4QMD7UaA==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngrx/store@^18.0.2":
   version "18.0.2"
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-18.0.2.tgz#be885154531f52ce6fe0bcd1a6790c75544b42ea"
