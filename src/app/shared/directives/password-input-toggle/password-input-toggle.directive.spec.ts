@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
 })
 class TestFormFieldComponent {}
 
-describe('PasswordInputToggle', () => {
+describe('PasswordInputToggleDirective', () => {
   let fixture: ComponentFixture<TestFormFieldComponent>;
   let button: IconButtonComponent;
   let input: InputDirective;
@@ -39,11 +39,6 @@ describe('PasswordInputToggle', () => {
       By.directive(FormFieldComponent)
     ).componentInstance;
     input = formField.input!;
-  });
-
-  it('should create', () => {
-    expect(button).toBeTruthy();
-    expect(input).toBeTruthy();
   });
 
   it('should toggle the password visibility', () => {

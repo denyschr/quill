@@ -1,4 +1,4 @@
-import { Component, ContentChild } from '@angular/core';
+import { Component, ContentChild, Input } from '@angular/core';
 import { ErrorComponent } from '../error/error.component';
 import { InputDirective } from '../../directives/input/input.directive';
 
@@ -12,7 +12,7 @@ import { InputDirective } from '../../directives/input/input.directive';
       <ng-content slect="button"></ng-content>
     </div>
     @if (input?.hasError) {
-      <ql-error [error]="input!.error" />
+      <ql-error [error]="input!.error" [controlKey]="controlKey" />
     }
   `,
   styles: [``],
@@ -20,6 +20,9 @@ import { InputDirective } from '../../directives/input/input.directive';
   providers: []
 })
 export class FormFieldComponent {
+  @Input({ required: true })
+  public controlKey!: string | number;
+
   @ContentChild(InputDirective)
   public input?: InputDirective;
 }

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, Optional, Self } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
-import { InputType } from '../../models/input-type.model';
+import { InputType } from '../../models/input.model';
 
 @Directive({
   selector: '[qlInput]',
@@ -22,7 +22,7 @@ export class InputDirective {
 
   public constructor(
     @Optional() @Self() private readonly _ngControl: NgControl,
-    private _elementRef: ElementRef<HTMLInputElement>
+    private readonly _elementRef: ElementRef<HTMLInputElement>
   ) {}
 
   public focus(): void {

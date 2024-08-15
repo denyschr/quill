@@ -24,8 +24,6 @@ describe('MenuComponent', () => {
   it('should toggle the class on click', () => {
     const element = fixture.nativeElement as HTMLElement;
 
-    fixture.detectChanges();
-
     const navbarCollapsed = element.querySelector<HTMLElement>('#navbar')!;
     expect(navbarCollapsed).withContext('No element with the id `#navbar`').not.toBeNull();
     expect(navbarCollapsed.classList)
@@ -35,13 +33,12 @@ describe('MenuComponent', () => {
     const button = element.querySelector<HTMLButtonElement>('.navbar-toggler')!;
     expect(button).withContext('No `button` element to collapse the menu').not.toBeNull();
     button.click();
-
     fixture.detectChanges();
 
     const navbar = element.querySelector<HTMLElement>('#navbar')!;
     expect(navbar.classList)
       .withContext(
-        'The element with the id `#navbar` should not have the class `collapse` after click'
+        'The element with the id `#navbar` should NOT have the class `collapse` after click'
       )
       .not.toContain('collapse');
   });

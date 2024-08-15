@@ -17,8 +17,8 @@ export class PasswordInputToggleDirective {
   }
 
   public constructor(
-    private _formField: FormFieldComponent,
-    private _button: IconButtonComponent
+    private readonly _formField: FormFieldComponent,
+    private readonly _button: IconButtonComponent
   ) {
     this._button.icon = this.iconClass;
   }
