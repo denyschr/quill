@@ -1,4 +1,4 @@
-export type InputType =
+export type InputTypeModel =
   | 'text'
   | 'password'
   | 'number'

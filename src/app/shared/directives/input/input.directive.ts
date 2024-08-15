@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, Optional, Self } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
-import { InputType } from '../../models/input.model';
+import { InputTypeModel } from '../../models/input.model';
 
 @Directive({
   selector: '[qlInput]',
@@ -9,7 +9,7 @@ import { InputType } from '../../models/input.model';
 export class InputDirective {
   @HostBinding('attr.type')
   @Input()
-  public type?: InputType;
+  public type?: InputTypeModel;
 
   public get hasError(): boolean | null {
     return this._ngControl?.status === 'INVALID' && this._ngControl?.touched;

@@ -6,7 +6,7 @@ import { FormFieldComponent } from '../../../shared/ui/form-field/form-field.com
 import { InputDirective } from '../../../shared/directives/input/input.directive';
 import { PasswordInputToggleDirective } from '../../../shared/directives/password-input-toggle/password-input-toggle.directive';
 import { IconButtonComponent } from '../../../shared/ui/icon-button/icon-button.component';
-import { RegisterRequest } from '../../data-access/models/register-request.model';
+import { RegisterRequestModel } from '../../data-access/models/register-request.model';
 
 @Component({
   selector: 'ql-register-form',
@@ -87,7 +87,7 @@ export class RegisterFormComponent {
   });
 
   @Output()
-  public readonly submitted = new EventEmitter<RegisterRequest>();
+  public readonly submitted = new EventEmitter<RegisterRequestModel>();
 
   public constructor(private readonly _fb: NonNullableFormBuilder) {}
 
