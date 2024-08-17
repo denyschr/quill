@@ -2027,6 +2027,14 @@
   dependencies:
     tslib "^2.3.0"
 
+"@ngrx/effects@^18.0.2":
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-18.0.2.tgz#5ef20346f486e733f962dfb8f7c577a1e476eae1"
+  integrity sha512-YojXcOD9Lsq4kl2HCjENccyUM/mOlgBdtddsg9j/ojzSUgu3ZuBVKLN3atrL2TJYkbMX1MN0RzafSkL3TPGFIA==
+  dependencies:
+    "@ngrx/operators" "18.0.1"
+    tslib "^2.0.0"
+
 "@ngrx/eslint-plugin@18.0.2":
   version "18.0.2"
   resolved "https://registry.yarnpkg.com/@ngrx/eslint-plugin/-/eslint-plugin-18.0.2.tgz#dc18f54d7a2950e717f071f9341a2459992a7342"
@@ -2034,6 +2042,13 @@
   dependencies:
     semver "^7.3.5"
     strip-json-comments "3.1.1"
+
+"@ngrx/operators@18.0.1":
+  version "18.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/operators/-/operators-18.0.1.tgz#fd127dce1bccb27824b77149fbb4f8b56d2ad8a9"
+  integrity sha512-M+QMrHNKgcuiLaRGZxJ4aQi5/OCRfKC4+T/63dsHyLFZ53/FFpF6a/ytSO1Q+tzOplZ5o99S+i8FVaZqNQ3LmQ==
+  dependencies:
+    tslib "^2.3.0"
 
 "@ngrx/store-devtools@18.0.2":
   version "18.0.2"
