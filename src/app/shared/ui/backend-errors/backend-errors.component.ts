@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { KeyValuePipe } from '@angular/common';
 import { BackendErrorsModel } from '@shared/data-access/models';
@@ -19,7 +19,8 @@ import { BackendErrorsModel } from '@shared/data-access/models';
   `,
   styles: [``],
   imports: [NgbAlert, KeyValuePipe],
-  providers: []
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BackendErrorsComponent {
   @Input({ required: true })
