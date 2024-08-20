@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, Optional, Self } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
-import { InputTypeModel } from '../../models/input.model';
+import { InputTypeModel } from '../../models/input-type.model';
 
 @Directive({
   selector: '[qlInput]',
