@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
