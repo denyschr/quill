@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import MenuComponent from '../ui/menu/menu.component';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from '../ui/footer/footer.component';
+import { MenuComponent } from '@layout/ui/menu';
+import { FooterComponent } from '@layout/ui/footer';
 
 @Component({
   selector: 'ql-layout',

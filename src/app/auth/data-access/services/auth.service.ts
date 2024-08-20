@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterCredentialsModel } from '../models/register-credentials.model';
 import { map, Observable } from 'rxjs';
-import { UserModel } from '../../../shared/models/user.model';
-import { environment } from '../../../../environments/environment';
+import { UserModel } from '@shared/data-access/models';
+import { environment } from '@environment';
+import { RegisterCredentialsModel } from '@auth/data-access/models';
 
 @Injectable({
   providedIn: 'root'

@@ -3,6 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -20,7 +21,29 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "lib": ["ES2022", "dom"],
+    "paths": {
+      "@environment": ["src/environments/environment"],
+      "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
+      "@auth/data-access/services": ["src/app/auth/data-access/services/index.ts"],
+      "@auth/data-access/store": ["src/app/auth/data-access/store/index.ts"],
+      "@auth/data-access/store/*": ["src/app/auth/data-access/store/*"],
+      "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
+      "@auth/ui/register-form": ["src/app/auth/ui/register-form/index.ts"],
+      "@layout/feature": ["src/app/layout/feature/index.ts"],
+      "@layout/ui/menu": ["src/app/layout/ui/menu/index.ts"],
+      "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
+      "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
+      "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],
+      "@shared/directives/input": ["src/app/shared/directives/input/index.ts"],
+      "@shared/directives/password-input-toggle": [
+        "src/app/shared/directives/password-input-toggle/index.ts"
+      ],
+      "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
+      "@shared/ui/error": ["src/app/shared/ui/error/index.ts"],
+      "@shared/ui/form-field": ["src/app/shared/ui/form-field/index.ts"],
+      "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

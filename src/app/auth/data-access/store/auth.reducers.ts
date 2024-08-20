@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { authActions } from './auth.actions';
-import { AuthStateModel } from '../models/auth-state.model';
+import { AuthStateModel } from '@auth/data-access/models';
 
 const initialState: AuthStateModel = {
   user: null,

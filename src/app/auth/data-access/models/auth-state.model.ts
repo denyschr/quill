@@ -1,5 +1,4 @@
-import { UserModel } from '../../../shared/models/user.model';
-import { BackendErrorsModel } from '../../../shared/models/backend-errors.model';
+import { UserModel, BackendErrorsModel } from '@shared/data-access/models';
 
 export interface AuthStateModel {
   user: UserModel | null;

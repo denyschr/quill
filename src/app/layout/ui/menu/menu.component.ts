@@ -40,7 +40,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class MenuComponent {
+export class MenuComponent {
   public navbarCollapsed = true;
 
   public toggleNavbar(): void {

@@ -1,6 +1,6 @@
 import { Component, ContentChild, Input } from '@angular/core';
-import { ErrorComponent } from '../error/error.component';
-import { InputDirective } from '../../directives/input/input.directive';
+import { ErrorComponent } from '@shared/ui/error';
+import { InputDirective } from '@shared/directives/input';
 
 @Component({
   selector: 'ql-form-field',

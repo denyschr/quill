@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { BackendErrorsModel } from '../../models/backend-errors.model';
 import { KeyValuePipe } from '@angular/common';
+import { BackendErrorsModel } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-backend-errors',

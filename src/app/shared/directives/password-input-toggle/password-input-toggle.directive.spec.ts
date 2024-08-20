@@ -1,8 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
-import { FormFieldComponent } from '../../ui/form-field/form-field.component';
-import { InputDirective } from '../input/input.directive';
+import { InputDirective } from '@shared/directives/input';
 import { PasswordInputToggleDirective } from './password-input-toggle.directive';
-import { IconButtonComponent } from '../../ui/icon-button/icon-button.component';
+import { IconButtonComponent } from '@shared/ui/icon-button';
+import { FormFieldComponent } from '@shared/ui/form-field';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 

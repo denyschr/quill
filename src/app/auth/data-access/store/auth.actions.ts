@@ -1,7 +1,6 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { RegisterCredentialsModel } from '../models/register-credentials.model';
-import { UserModel } from '../../../shared/models/user.model';
-import { BackendErrorsModel } from '../../../shared/models/backend-errors.model';
+import { RegisterCredentialsModel } from '@auth/data-access/models';
+import { BackendErrorsModel, UserModel } from '@shared/data-access/models';
 
 export const authActions = createActionGroup({
   source: 'Auth API',

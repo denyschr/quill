@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RegisterFormComponent } from '../../ui/register-form/register-form.component';
-import { authActions } from '../../data-access/store/auth.actions';
-import { Store } from '@ngrx/store';
-import { RegisterCredentialsModel } from '../../data-access/models/register-credentials.model';
-import { combineLatest } from 'rxjs';
-import { selectErrors, selectSubmitting } from '../../data-access/store/auth.reducers';
 import { AsyncPipe } from '@angular/common';
-import { BackendErrorsComponent } from '../../../shared/ui/backend-errors/backend-errors.component';
+import { RegisterFormComponent } from '@auth/ui/register-form';
+import { Store } from '@ngrx/store';
+import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/store';
+import { RegisterCredentialsModel } from '@auth/data-access/models';
+import { combineLatest } from 'rxjs';
+import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 
 @Component({
   selector: 'ql-register',

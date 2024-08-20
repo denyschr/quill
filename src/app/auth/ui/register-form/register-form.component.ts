@@ -2,11 +2,11 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormFieldComponent } from '../../../shared/ui/form-field/form-field.component';
-import { InputDirective } from '../../../shared/directives/input/input.directive';
-import { PasswordInputToggleDirective } from '../../../shared/directives/password-input-toggle/password-input-toggle.directive';
-import { IconButtonComponent } from '../../../shared/ui/icon-button/icon-button.component';
-import { RegisterCredentialsModel } from '../../data-access/models/register-credentials.model';
+import { FormFieldComponent } from '@shared/ui/form-field';
+import { InputDirective } from '@shared/directives/input';
+import { PasswordInputToggleDirective } from '@shared/directives/password-input-toggle';
+import { IconButtonComponent } from '@shared/ui/icon-button';
+import { RegisterCredentialsModel } from '@auth/data-access/models';
 
 @Component({
   selector: 'ql-register-form',

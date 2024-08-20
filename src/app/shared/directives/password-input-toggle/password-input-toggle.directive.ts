@@ -1,6 +1,6 @@
 import { Directive, HostBinding, HostListener } from '@angular/core';
-import { FormFieldComponent } from '../../ui/form-field/form-field.component';
-import { IconButtonComponent } from '../../ui/icon-button/icon-button.component';
+import { FormFieldComponent } from '@shared/ui/form-field';
+import { IconButtonComponent } from '@shared/ui/icon-button';
 
 @Directive({
   selector: '[qlPasswordInputToggle]',

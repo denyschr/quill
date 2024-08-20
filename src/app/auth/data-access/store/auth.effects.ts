@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '@auth/data-access/services';
 import { authActions } from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JwtService } from '../../../shared/data-access/jwt.service';
+import { JwtService } from '@shared/data-access/services';
 import { Router } from '@angular/router';
 
 export const registerEffect = createEffect(
