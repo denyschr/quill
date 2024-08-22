@@ -2027,7 +2027,14 @@
   dependencies:
     tslib "^2.3.0"
 
-"@ngrx/effects@^18.0.2":
+"@ngrx/component@18.0.2":
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-18.0.2.tgz#d7b505a19d4d2610b5916817394777c85108a008"
+  integrity sha512-GrdS87ifqJNPKsThxF9saIVoCHdNqdUVtl1dSoTFIhwh/zWIkpqKFf4qAltZzRMyFj9MHESVrytXOZPDeTPs6Q==
+  dependencies:
+    tslib "^2.0.0"
+
+"@ngrx/effects@18.0.2":
   version "18.0.2"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-18.0.2.tgz#5ef20346f486e733f962dfb8f7c577a1e476eae1"
   integrity sha512-YojXcOD9Lsq4kl2HCjENccyUM/mOlgBdtddsg9j/ojzSUgu3ZuBVKLN3atrL2TJYkbMX1MN0RzafSkL3TPGFIA==
