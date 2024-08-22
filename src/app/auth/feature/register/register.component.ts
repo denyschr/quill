@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { RegisterFormComponent } from '@auth/ui/register-form';
 import { Store } from '@ngrx/store';
 import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/store';
 import { RegisterCredentialsModel } from '@auth/data-access/models';
 import { combineLatest } from 'rxjs';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { LetDirective } from '@ngrx/component';
 
 @Component({
   selector: 'ql-register',
@@ -19,20 +19,16 @@ import { BackendErrorsComponent } from '@shared/ui/backend-errors';
             <h1 class="text-dark-emphasis">Sign up</h1>
             <a class="hover-underline text-success" routerLink="/login">Have an account?</a>
           </div>
-          @if (vm$ | async; as vm) {
+          <ng-container *ngrxLet="vm$; let vm">
             <ql-backend-errors [errors]="vm.backendErrors" />
-            <ql-register-form
-              [submitting]="vm.submitting"
-              (submitted)="register($event)"
-              #registerForm
-            />
-          }
+            <ql-register-form [submitting]="vm.submitting" (submitted)="register($event)" />
+          </ng-container>
         </div>
       </div>
     </div>
   `,
   styles: [``],
-  imports: [RouterLink, AsyncPipe, BackendErrorsComponent, RegisterFormComponent],
+  imports: [RouterLink, LetDirective, BackendErrorsComponent, RegisterFormComponent],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

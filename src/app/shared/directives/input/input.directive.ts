@@ -9,7 +9,7 @@ import { InputTypeModel } from '@shared/data-access/models';
 export class InputDirective {
   @HostBinding('attr.type')
   @Input()
-  public type?: InputTypeModel;
+  public type: InputTypeModel = 'text';
 
   public get hasError(): boolean | null {
     return this._ngControl?.status === 'INVALID' && this._ngControl?.touched;
