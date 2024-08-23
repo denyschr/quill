@@ -13,7 +13,7 @@ const formatErrorMessage = (template: string, value: number): string =>
   selector: 'ql-error',
   standalone: true,
   template: `
-    <div [id]="id" class="invalid-feedback">
+    <div class="invalid-feedback">
       <i class="bi bi-x-circle"></i>
       {{ message }}
     </div>
@@ -25,16 +25,7 @@ const formatErrorMessage = (template: string, value: number): string =>
 })
 export class ErrorComponent {
   @Input({ required: true })
-  public controlKey!: string | number;
-
-  @Input({ required: true })
   public error!: [string, any];
-
-  public get id(): string {
-    return this.controlKey === 'email'
-      ? `${this.controlKey}-invalid-error`
-      : `${this.controlKey}-${this.error[0]}-error`;
-  }
 
   public get message(): string | [string, any] {
     switch (this.error[0]) {

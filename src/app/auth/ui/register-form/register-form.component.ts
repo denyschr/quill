@@ -15,7 +15,7 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
       <fieldset [disabled]="submitting">
         <fieldset class="mb-3">
-          <ql-form-field controlKey="username">
+          <ql-form-field>
             <label for="username" class="form-label fw-bold">Username</label>
             <input
               id="username"
@@ -27,13 +27,13 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
           </ql-form-field>
         </fieldset>
         <fieldset class="mb-3">
-          <ql-form-field controlKey="email">
+          <ql-form-field>
             <label for="email" class="form-label fw-bold">Email</label>
             <input id="email" qlInput type="email" class="form-control" formControlName="email" />
           </ql-form-field>
         </fieldset>
         <fieldset class="mb-3">
-          <ql-form-field controlKey="password">
+          <ql-form-field>
             <label for="password" class="form-label fw-bold">Password</label>
             <input
               id="password"

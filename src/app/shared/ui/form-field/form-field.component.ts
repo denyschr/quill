@@ -1,4 +1,4 @@
-import { Component, ContentChild, Input } from '@angular/core';
+import { Component, ContentChild } from '@angular/core';
 import { ErrorComponent } from '@shared/ui/error';
 import { InputDirective } from '@shared/directives/input';
 
@@ -6,13 +6,13 @@ import { InputDirective } from '@shared/directives/input';
   selector: 'ql-form-field',
   standalone: true,
   template: `
-    <ng-content select="label"></ng-content>
+    <ng-content select="label" />
     <div class="input-group">
-      <ng-content select="input"></ng-content>
-      <ng-content slect="button"></ng-content>
+      <ng-content select="input" />
+      <ng-content slect="button" />
     </div>
     @if (input?.hasError) {
-      <ql-error [error]="input!.error" [controlKey]="controlKey" />
+      <ql-error [error]="input!.error" />
     }
   `,
   styles: [``],
@@ -20,9 +20,6 @@ import { InputDirective } from '@shared/directives/input';
   providers: []
 })
 export class FormFieldComponent {
-  @Input({ required: true })
-  public controlKey!: string | number;
-
-  @ContentChild(InputDirective)
+  @ContentChild(InputDirective, { static: true })
   public input?: InputDirective;
 }
