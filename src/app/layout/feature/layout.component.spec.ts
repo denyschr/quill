@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import LayoutComponent from './layout.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import MenuComponent from '../ui/menu/menu.component';
+import { MenuComponent } from '@layout/ui/menu';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
