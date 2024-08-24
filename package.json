@@ -29,6 +29,7 @@
     "@ng-bootstrap/ng-bootstrap": "17.0.0",
     "@ngrx/component": "18.0.2",
     "@ngrx/effects": "18.0.2",
+    "@ngrx/router-store": "18.0.2",
     "@ngrx/store": "18.0.2",
     "@ngrx/store-devtools": "18.0.2",
     "@popperjs/core": "2.11.8",
