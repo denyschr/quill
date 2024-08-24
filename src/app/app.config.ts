@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { provideState, provideStore } from '@ngrx/store';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { authFeatureKey, authReducer } from '@auth/data-access/store';
@@ -15,7 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(),
     provideAnimationsAsync(),
-    provideStore(),
+    provideStore({ router: routerReducer }),
+    provideRouterStore(),
     provideState(authFeatureKey, authReducer),
     provideEffects(authEffects),
     provideStoreDevtools({
