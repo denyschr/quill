@@ -34,7 +34,7 @@
       "@layout/ui/menu": ["src/app/layout/ui/menu/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
-      "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],
+      "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
       "@shared/directives/input": ["src/app/shared/directives/input/index.ts"],
       "@shared/directives/password-input-toggle": [
         "src/app/shared/directives/password-input-toggle/index.ts"

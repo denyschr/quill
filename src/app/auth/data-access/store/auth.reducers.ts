@@ -3,7 +3,7 @@ import { authActions } from './auth.actions';
 import { AuthStateModel } from '@auth/data-access/models';
 
 const initialState: AuthStateModel = {
-  user: null,
+  currentUser: null,
   submitting: false,
   errors: null
 };
@@ -21,9 +21,9 @@ const authFeature = createFeature({
     ),
     on(
       authActions.registerSuccess,
-      (state, { user }): AuthStateModel => ({
+      (state, { currentUser }): AuthStateModel => ({
         ...state,
-        user: user,
+        currentUser: currentUser,
         submitting: false,
         errors: null
       })
@@ -42,7 +42,7 @@ const authFeature = createFeature({
 export const {
   name: authFeatureKey,
   reducer: authReducer,
-  selectUser,
+  selectCurrentUser,
   selectErrors,
   selectSubmitting
 } = authFeature;

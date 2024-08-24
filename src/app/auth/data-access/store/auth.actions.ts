@@ -6,7 +6,7 @@ export const authActions = createActionGroup({
   source: 'Auth API',
   events: {
     Register: props<{ credentials: RegisterCredentialsModel }>(),
-    'Register Success': props<{ user: UserModel }>(),
+    'Register Success': props<{ currentUser: UserModel }>(),
     'Register Failure': props<{ errors: BackendErrorsModel }>()
   }
 });

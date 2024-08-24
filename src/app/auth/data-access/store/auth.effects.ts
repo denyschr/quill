@@ -4,7 +4,7 @@ import { AuthService } from '@auth/data-access/services';
 import { authActions } from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JwtService } from '@shared/data-access/services';
+import { JwtService } from '@shared/data-access/services/jwt';
 import { Router } from '@angular/router';
 
 export const registerEffect = createEffect(
@@ -17,9 +17,9 @@ export const registerEffect = createEffect(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
         authService.register(credentials).pipe(
-          map(user => {
-            jwtService.saveToken(user.token);
-            return authActions.registerSuccess({ user });
+          map(currentUser => {
+            jwtService.saveToken(currentUser.token);
+            return authActions.registerSuccess({ currentUser });
           }),
           catchError((errorResponse: HttpErrorResponse) =>
             of(authActions.registerFailure({ errors: errorResponse.error.errors }))
