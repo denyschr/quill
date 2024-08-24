@@ -4,6 +4,7 @@ import { AuthStateModel } from '@auth/data-access/models';
 
 const initialState: AuthStateModel = {
   currentUser: null,
+  authenticated: false,
   submitting: false,
   errors: null
 };
@@ -13,6 +14,7 @@ const authFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
+      authActions.login,
       authActions.register,
       (state): AuthStateModel => ({
         ...state,
@@ -20,18 +22,22 @@ const authFeature = createFeature({
       })
     ),
     on(
+      authActions.loginSuccess,
       authActions.registerSuccess,
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
+        authenticated: true,
         submitting: false,
         errors: null
       })
     ),
     on(
+      authActions.loginFailure,
       authActions.registerFailure,
       (state, { errors }): AuthStateModel => ({
         ...state,
+        authenticated: false,
         submitting: false,
         errors: errors
       })
@@ -44,5 +50,6 @@ export const {
   reducer: authReducer,
   selectCurrentUser,
   selectErrors,
-  selectSubmitting
+  selectSubmitting,
+  selectAuthenticated
 } = authFeature;

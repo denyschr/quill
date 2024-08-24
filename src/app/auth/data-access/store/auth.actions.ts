@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { RegisterCredentialsModel } from '@auth/data-access/models';
+import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-access/models';
 import { BackendErrorsModel, UserModel } from '@shared/data-access/models';
 
 export const authActions = createActionGroup({
@@ -7,6 +7,10 @@ export const authActions = createActionGroup({
   events: {
     Register: props<{ credentials: RegisterCredentialsModel }>(),
     'Register Success': props<{ currentUser: UserModel }>(),
-    'Register Failure': props<{ errors: BackendErrorsModel }>()
+    'Register Failure': props<{ errors: BackendErrorsModel }>(),
+
+    Login: props<{ credentials: LoginCredentialsModel }>(),
+    'Login Success': props<{ currentUser: UserModel }>(),
+    'Login Failure': props<{ errors: BackendErrorsModel }>()
   }
 });
