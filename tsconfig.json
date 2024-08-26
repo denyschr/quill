@@ -33,7 +33,7 @@
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
       "@auth/ui/register-form": ["src/app/auth/ui/register-form/index.ts"],
       "@layout/feature": ["src/app/layout/feature/index.ts"],
-      "@layout/ui/menu": ["src/app/layout/ui/menu/index.ts"],
+      "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],

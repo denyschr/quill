@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MenuComponent } from '@layout/ui/menu';
+import { NavbarComponent } from '@layout/ui/navbar';
 import { FooterComponent } from '@layout/ui/footer';
 
 @Component({
   selector: 'ql-layout',
   standalone: true,
   template: `
-    <ql-menu />
+    <ql-navbar />
     <main class="flex-grow-1">
       <router-outlet />
     </main>
@@ -23,7 +23,7 @@ import { FooterComponent } from '@layout/ui/footer';
       }
     `
   ],
-  imports: [RouterOutlet, MenuComponent, FooterComponent],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

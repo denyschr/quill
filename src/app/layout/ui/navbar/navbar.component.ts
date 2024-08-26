@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 
 @Component({
-  selector: 'ql-menu',
+  selector: 'ql-navbar',
   standalone: true,
   template: `
     <header>
@@ -95,7 +95,7 @@ import { combineLatest } from 'rxjs';
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MenuComponent {
+export class NavbarComponent {
   public navbarCollapsed = true;
   public readonly vm$ = combineLatest({
     currentUser: this.store.select(selectCurrentUser),

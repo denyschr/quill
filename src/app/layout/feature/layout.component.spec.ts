@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import LayoutComponent from './layout.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { MenuComponent } from '@layout/ui/menu';
+import { NavbarComponent } from '@layout/ui/navbar';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -31,10 +31,10 @@ describe('LayoutComponent', () => {
       .not.toBeNull();
   });
 
-  it('should use the menu component', () => {
+  it('should use the navbar component', () => {
     const element = fixture.debugElement;
-    expect(element.query(By.directive(MenuComponent)))
-      .withContext('You probably forgot to add MenuComponent to the LayoutComponent template')
+    expect(element.query(By.directive(NavbarComponent)))
+      .withContext('You probably forgot to add NavbarComponent to the LayoutComponent template')
       .not.toBeNull();
   });
 });
