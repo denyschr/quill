@@ -7,6 +7,7 @@ const initialState: AuthStateModel = {
   currentUser: null,
   authenticated: false,
   submitting: false,
+  loading: false,
   errors: null
 };
 
@@ -38,9 +39,31 @@ const authFeature = createFeature({
       authActions.registerFailure,
       (state, { errors }): AuthStateModel => ({
         ...state,
-        authenticated: false,
         submitting: false,
         errors: errors
+      })
+    ),
+    on(
+      authActions.getCurrentUser,
+      (state): AuthStateModel => ({
+        ...state,
+        loading: true
+      })
+    ),
+    on(
+      authActions.getCurrentUserSuccess,
+      (state, { currentUser }): AuthStateModel => ({
+        ...state,
+        currentUser: currentUser,
+        authenticated: true,
+        loading: false
+      })
+    ),
+    on(
+      authActions.getCurrentUserFailure,
+      (state): AuthStateModel => ({
+        ...state,
+        loading: false
       })
     ),
     on(
@@ -57,7 +80,8 @@ export const {
   name: authFeatureKey,
   reducer: authReducer,
   selectCurrentUser,
-  selectErrors,
+  selectAuthenticated,
   selectSubmitting,
-  selectAuthenticated
+  selectLoading,
+  selectErrors
 } = authFeature;

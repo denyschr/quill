@@ -11,6 +11,12 @@ import { RegisterCredentialsModel, LoginCredentialsModel } from '@auth/data-acce
 export class AuthService {
   public constructor(private readonly _http: HttpClient) {}
 
+  public getCurrentUser(): Observable<UserModel> {
+    return this._http
+      .get<{ user: UserModel }>(`${environment.apiUrl}/user`)
+      .pipe(map(({ user }) => user));
+  }
+
   public register(credentials: RegisterCredentialsModel): Observable<UserModel> {
     return this._http
       .post<{ user: UserModel }>(`${environment.apiUrl}/users`, { user: credentials })

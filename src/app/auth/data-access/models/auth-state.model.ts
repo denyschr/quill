@@ -4,5 +4,6 @@ export interface AuthStateModel {
   currentUser: UserModel | null;
   authenticated: boolean;
   submitting: boolean;
+  loading: boolean;
   errors: BackendErrorsModel | null;
 }

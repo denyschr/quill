@@ -7,6 +7,27 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { JwtService } from '@shared/data-access/services/jwt';
 import { Router } from '@angular/router';
 
+export const getCurrentUserEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    authService = inject(AuthService),
+    jwtService = inject(JwtService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.getCurrentUser),
+      switchMap(() =>
+        authService.getCurrentUser().pipe(
+          map(currentUser => {
+            return authActions.getCurrentUserSuccess({ currentUser });
+          }),
+          catchError(() => of(authActions.getCurrentUserFailure()))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
 export const registerEffect = createEffect(
   (
     actions$ = inject(Actions),

@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-access/models';
 import { BackendErrorsModel, UserModel } from '@shared/data-access/models';
 
@@ -11,6 +11,10 @@ export const authActions = createActionGroup({
 
     Login: props<{ credentials: LoginCredentialsModel }>(),
     'Login Success': props<{ currentUser: UserModel }>(),
-    'Login Failure': props<{ errors: BackendErrorsModel }>()
+    'Login Failure': props<{ errors: BackendErrorsModel }>(),
+
+    'Get Current User': emptyProps(),
+    'Get Current User Success': props<{ currentUser: UserModel }>(),
+    'Get Current User Failure': emptyProps()
   }
 });

@@ -45,7 +45,7 @@ import { LoginCredentialsModel } from '@auth/data-access/models';
       <button type="submit" class="btn btn-success w-100" [disabled]="submitting">
         @if (submitting) {
           <i class="bi bi-hourglass-split"></i>
-          Creating...
+          Authenticating...
         } @else {
           Sign in
         }
