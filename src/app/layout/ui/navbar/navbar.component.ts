@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { selectAuthenticated, selectCurrentUser } from '@auth/data-access/store';
+import { selectCurrentUser } from '@auth/data-access/store';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -23,60 +24,85 @@ import { combineLatest } from 'rxjs';
             *ngrxLet="vm$; let vm"
           >
             @let currentUser = vm.currentUser;
-            @let authenticated = vm.authenticated;
 
-            @if (!authenticated) {
+            <!-- Show this if the user is not authenticated -->
+            @if (currentUser === null) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+                  <a class="nav-link" routerLink="/" routerLinkActive="active" ngbTooltip="Home"
+                    >Home</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
+                  <a
+                    class="nav-link"
+                    routerLink="/login"
+                    routerLinkActive="active"
+                    ngbTooltip="Sign in"
+                    >Sign in</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
+                  <a
+                    class="nav-link"
+                    routerLink="/register"
+                    routerLinkActive="active"
+                    ngbTooltip="Sign up"
+                    >Sign up</a
+                  >
                 </li>
               </ul>
             }
 
-            @if (authenticated) {
+            <!-- Show this if the user is authenticated -->
+            @if (currentUser) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+                  <a class="nav-link" routerLink="/" routerLinkActive="active" ngbTooltip="Home"
+                    >Home</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/articles" routerLinkActive="active">
+                  <a
+                    class="nav-link"
+                    routerLink="/articles"
+                    routerLinkActive="active"
+                    ngbTooltip="New Article"
+                  >
                     <i class="bi bi-pencil-square"></i>
                     New Article
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/settings" routerLinkActive="active">
+                  <a
+                    class="nav-link"
+                    routerLink="/settings"
+                    routerLinkActive="active"
+                    ngbTooltip="Settings"
+                  >
                     <i class="bi bi-gear-wide-connected"></i>
                     Settings
                   </a>
                 </li>
-
-                @if (currentUser) {
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      [routerLink]="['/profiles', currentUser.username]"
-                      routerLinkActive="active"
-                    >
-                      @if (currentUser.image) {
-                        <img
-                          class="rounded-circle me-1"
-                          width="26"
-                          height="26"
-                          [src]="currentUser.image"
-                          [alt]="currentUser.username"
-                        />
-                      }
-                      {{ currentUser.username }}
-                    </a>
-                  </li>
-                }
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    [routerLink]="['/profiles', currentUser.username]"
+                    routerLinkActive="active"
+                    [ngbTooltip]="currentUser.username"
+                  >
+                    @if (currentUser.image) {
+                      <img
+                        class="rounded-circle me-1"
+                        width="26"
+                        height="26"
+                        [src]="currentUser.image"
+                        [alt]="currentUser.username"
+                      />
+                    }
+                    {{ currentUser.username }}
+                  </a>
+                </li>
               </ul>
             }
           </div>
@@ -91,15 +117,14 @@ import { combineLatest } from 'rxjs';
       }
     `
   ],
-  imports: [RouterLink, RouterLinkActive, LetDirective],
+  imports: [RouterLink, RouterLinkActive, LetDirective, NgbTooltip],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
   public navbarCollapsed = true;
   public readonly vm$ = combineLatest({
-    currentUser: this.store.select(selectCurrentUser),
-    authenticated: this.store.select(selectAuthenticated)
+    currentUser: this.store.select(selectCurrentUser)
   });
 
   public constructor(private readonly store: Store) {}

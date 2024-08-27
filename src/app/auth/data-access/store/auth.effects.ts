@@ -15,14 +15,20 @@ export const getCurrentUserEffect = createEffect(
   ) => {
     return actions$.pipe(
       ofType(authActions.getCurrentUser),
-      switchMap(() =>
-        authService.getCurrentUser().pipe(
+      switchMap(() => {
+        const token = jwtService.getToken();
+
+        if (!token) {
+          return of(authActions.getCurrentUserFailure());
+        }
+
+        return authService.getCurrentUser().pipe(
           map(currentUser => {
             return authActions.getCurrentUserSuccess({ currentUser });
           }),
           catchError(() => of(authActions.getCurrentUserFailure()))
-        )
-      )
+        );
+      })
     );
   },
   { functional: true }

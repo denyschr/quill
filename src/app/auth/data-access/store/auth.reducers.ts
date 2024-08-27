@@ -4,8 +4,7 @@ import { AuthStateModel } from '@auth/data-access/models';
 import { routerNavigatedAction } from '@ngrx/router-store';
 
 const initialState: AuthStateModel = {
-  currentUser: null,
-  authenticated: false,
+  currentUser: undefined,
   submitting: false,
   loading: false,
   errors: null
@@ -29,7 +28,6 @@ const authFeature = createFeature({
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
-        authenticated: true,
         submitting: false,
         errors: null
       })
@@ -55,7 +53,6 @@ const authFeature = createFeature({
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
-        authenticated: true,
         loading: false
       })
     ),
@@ -63,6 +60,7 @@ const authFeature = createFeature({
       authActions.getCurrentUserFailure,
       (state): AuthStateModel => ({
         ...state,
+        currentUser: null,
         loading: false
       })
     ),
@@ -80,7 +78,6 @@ export const {
   name: authFeatureKey,
   reducer: authReducer,
   selectCurrentUser,
-  selectAuthenticated,
   selectSubmitting,
   selectLoading,
   selectErrors
