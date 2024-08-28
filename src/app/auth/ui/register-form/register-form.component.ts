@@ -26,12 +26,14 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
             />
           </ql-form-field>
         </fieldset>
+
         <fieldset class="mb-3">
           <ql-form-field>
             <label for="email" class="form-label fw-bold">Email</label>
             <input id="email" qlInput type="email" class="form-control" formControlName="email" />
           </ql-form-field>
         </fieldset>
+
         <fieldset class="mb-3">
           <ql-form-field>
             <label for="password" class="form-label fw-bold">Password</label>
@@ -54,6 +56,7 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
           </ql-form-field>
         </fieldset>
       </fieldset>
+
       <button type="submit" class="btn btn-success w-100" [disabled]="submitting">
         @if (submitting) {
           <i class="bi bi-hourglass-split"></i>
