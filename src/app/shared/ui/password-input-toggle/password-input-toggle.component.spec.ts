@@ -33,6 +33,7 @@ describe('PasswordInputToggleComponent', () => {
 
   it('should toggle password visibility', () => {
     const element = fixture.nativeElement as HTMLElement;
+
     const input = element.querySelector<HTMLInputElement>('input')!;
     expect(input.type).withContext('The input should have the type `password`').toBe('password');
     expect(iconButton.icon).withContext('The icon should have the class `bi-eye`').toBe('bi-eye');
