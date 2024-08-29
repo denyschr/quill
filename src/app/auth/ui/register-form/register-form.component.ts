@@ -1,12 +1,9 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormFieldComponent } from '@shared/ui/form-field';
-import { InputDirective } from '@shared/directives/input';
-import { PasswordInputToggleDirective } from '@shared/directives/password-input-toggle';
-import { IconButtonComponent } from '@shared/ui/icon-button';
 import { RegisterCredentialsModel } from '@auth/data-access/models';
+import { ValidationErrorsComponent } from 'ngx-valdemort';
+import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 
 @Component({
   selector: 'ql-register-form',
@@ -15,45 +12,33 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
       <fieldset [disabled]="submitting">
         <fieldset class="mb-3">
-          <ql-form-field>
-            <label for="username" class="form-label fw-bold">Username</label>
-            <input
-              id="username"
-              qlInput
-              type="text"
-              class="form-control"
-              formControlName="username"
-            />
-          </ql-form-field>
+          <label for="username" class="form-label fw-bold">Username</label>
+          <input id="username" type="text" class="form-control" formControlName="username" />
+          <val-errors controlName="username" label="The username"></val-errors>
         </fieldset>
+
         <fieldset class="mb-3">
-          <ql-form-field>
-            <label for="email" class="form-label fw-bold">Email</label>
-            <input id="email" qlInput type="email" class="form-control" formControlName="email" />
-          </ql-form-field>
+          <label for="email" class="form-label fw-bold">Email</label>
+          <input id="email" type="email" class="form-control" formControlName="email" />
+          <val-errors controlName="email" label="The email"></val-errors>
         </fieldset>
+
         <fieldset class="mb-3">
-          <ql-form-field>
-            <label for="password" class="form-label fw-bold">Password</label>
+          <label for="password" class="form-label fw-bold">Password</label>
+          <div class="input-group">
             <input
               id="password"
-              qlInput
               type="password"
               class="form-control"
               formControlName="password"
+              #inputElement
             />
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              qlPasswordInputToggle
-              qlIconButton
-              placement="bottom"
-              ngbTooltip="Toggle visibility"
-              container="body"
-            ></button>
-          </ql-form-field>
+            <ql-password-input-toggle [input]="inputElement" />
+          </div>
+          <val-errors controlName="password" label="The password"></val-errors>
         </fieldset>
       </fieldset>
+
       <button type="submit" class="btn btn-success w-100" [disabled]="submitting">
         @if (submitting) {
           <i class="bi bi-hourglass-split"></i>
@@ -64,17 +49,7 @@ import { RegisterCredentialsModel } from '@auth/data-access/models';
       </button>
     </form>
   `,
-  styles: [``],
-  imports: [
-    NgClass,
-    NgbTooltip,
-    ReactiveFormsModule,
-    InputDirective,
-    PasswordInputToggleDirective,
-    IconButtonComponent,
-    FormFieldComponent
-  ],
-  providers: [],
+  imports: [NgClass, ReactiveFormsModule, ValidationErrorsComponent, PasswordInputToggleComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterFormComponent {
