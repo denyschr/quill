@@ -12,9 +12,7 @@ import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
     <router-outlet />
     <ql-validation-defaults />
   `,
-  styles: [``],
-  imports: [RouterOutlet, ValidationDefaultsComponent],
-  providers: []
+  imports: [RouterOutlet, ValidationDefaultsComponent]
 })
 export class AppComponent implements OnInit {
   public constructor(private readonly store: Store) {}
