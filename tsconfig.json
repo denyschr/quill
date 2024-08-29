@@ -38,14 +38,10 @@
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
-      "@shared/directives/input": ["src/app/shared/directives/input/index.ts"],
-      "@shared/directives/password-input-toggle": [
-        "src/app/shared/directives/password-input-toggle/index.ts"
-      ],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
-      "@shared/ui/error": ["src/app/shared/ui/error/index.ts"],
-      "@shared/ui/form-field": ["src/app/shared/ui/form-field/index.ts"],
-      "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"]
+      "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
+      "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],
+      "@shared/ui/validation-defaults": ["src/app/shared/ui/validation-defaults/index.ts"]
     }
   },
   "angularCompilerOptions": {
