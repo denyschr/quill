@@ -25,7 +25,7 @@ import { combineLatest } from 'rxjs';
           >
             @let currentUser = vm.currentUser;
 
-            <!-- Show this if the user is not authenticated -->
+            <!-- Show this if the user is not logged in -->
             @if (currentUser === null) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -54,7 +54,7 @@ import { combineLatest } from 'rxjs';
               </ul>
             }
 
-            <!-- Show this if the user is authenticated -->
+            <!-- Show this if the user is logged in -->
             @if (currentUser) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -118,7 +118,6 @@ import { combineLatest } from 'rxjs';
     `
   ],
   imports: [RouterLink, RouterLinkActive, LetDirective, NgbTooltip],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {

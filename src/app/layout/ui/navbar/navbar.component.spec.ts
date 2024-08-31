@@ -1,17 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
+  let store: MockStore;
+  const initialState = {
+    auth: {
+      currentUser: undefined,
+      submitting: false,
+      loading: false,
+      errors: null
+    }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NavbarComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideMockStore({ initialState })]
     }).compileComponents();
 
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,5 +52,74 @@ describe('NavbarComponent', () => {
         'The element with the id `#navbar` should NOT have the class `collapse` after click'
       )
       .not.toContain('collapse');
+  });
+
+  it('should display correct router links if not logged in', () => {
+    store.setState({ ...initialState, auth: { ...initialState.auth, currentUser: null } });
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+
+    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]')!;
+    expect(homeLink)
+      .withContext(
+        'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+
+    const loginLink = element.querySelector('a[href="/login"]')!;
+    expect(loginLink)
+      .withContext(
+        'You should have an `a` element to display the link to the login page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+
+    const registerLink = element.querySelector<HTMLAnchorElement>('a[href="/register"]')!;
+    expect(registerLink)
+      .withContext(
+        'You should have an `a` element to display the link to the register page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+  });
+
+  it('should display correct router links if logged in', () => {
+    store.setState({
+      ...initialState,
+      auth: { ...initialState.auth, currentUser: { username: 'denys' } }
+    });
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+
+    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]')!;
+    expect(homeLink)
+      .withContext(
+        'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+
+    const articleLink = element.querySelector<HTMLAnchorElement>('a[href="/articles"]')!;
+    expect(articleLink)
+      .withContext(
+        'You should have an `a` element to display the link to the article page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+
+    const settingsLink = element.querySelector<HTMLAnchorElement>('a[href="/settings"]')!;
+    expect(settingsLink)
+      .withContext(
+        'You should have an `a` element to display the link to the settings page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+
+    const profileLink = element.querySelector<HTMLAnchorElement>('a[href="/profiles/denys"]')!;
+    expect(profileLink)
+      .withContext(
+        'You should have an `a` element to display the link to the profile page. Maybe you forgot to use `routerLink`?'
+      )
+      .not.toBeNull();
+    expect(profileLink.textContent)
+      .withContext('You should display the name of the user in an `a` element')
+      .toContain('denys');
   });
 });
