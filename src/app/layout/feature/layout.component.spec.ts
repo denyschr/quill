@@ -3,6 +3,7 @@ import LayoutComponent from './layout.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { NavbarComponent } from '@layout/ui/navbar';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -11,7 +12,7 @@ describe('LayoutComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LayoutComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideMockStore({})]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutComponent);

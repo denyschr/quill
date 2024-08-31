@@ -24,7 +24,6 @@ import { FooterComponent } from '@layout/ui/footer';
     `
   ],
   imports: [RouterOutlet, NavbarComponent, FooterComponent],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LayoutComponent {}
