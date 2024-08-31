@@ -12,9 +12,7 @@ import { RouterLink } from '@angular/router';
       </div>
     </footer>
   `,
-  styles: [``],
   imports: [RouterLink],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {}
