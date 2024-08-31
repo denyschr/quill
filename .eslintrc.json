@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["dist", "results", "coverage", "*.d.ts", "cypress.config.ts"],
+  "ignorePatterns": ["dist", "test-results", "coverage", "*.d.ts", "cypress.config.ts"],
   "parserOptions": {
     "ecmaVersion": 2020
   },
