@@ -30,8 +30,8 @@ describe('AuthReducers', () => {
     it('should initiate the registration', () => {
       const { initialState } = fromAuth;
       const credentials: RegisterCredentialsModel = {
-        username: 'denys',
-        email: 'denys@gmail.com',
+        username: user.username,
+        email: user.email,
         password: '12345678'
       };
       const newState = {
@@ -79,7 +79,7 @@ describe('AuthReducers', () => {
     it('should initiate the login', () => {
       const { initialState } = fromAuth;
       const credentials: LoginCredentialsModel = {
-        email: 'denys@gmail.com',
+        email: user.email,
         password: '12345678'
       };
       const newState = {
