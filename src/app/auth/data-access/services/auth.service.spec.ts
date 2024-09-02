@@ -26,7 +26,7 @@ describe('AuthService', () => {
     http = TestBed.inject(HttpTestingController);
   });
 
-  afterAll(() => http.verify());
+  afterEach(() => http.verify());
 
   it('should create', () => {
     expect(authService).toBeTruthy();
