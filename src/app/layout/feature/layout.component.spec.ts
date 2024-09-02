@@ -29,21 +29,21 @@ describe('LayoutComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const routerOutlet = element.querySelector('router-outlet');
     expect(routerOutlet)
-      .withContext('You need a RouterOutlet component in the LayoutComponent template')
+      .withContext('You need a `RouterOutlet` component in the `LayoutComponent` template')
       .not.toBeNull();
   });
 
   it('should use the navbar component', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(NavbarComponent)))
-      .withContext('You probably forgot to add NavbarComponent to the LayoutComponent template')
+      .withContext('You probably forgot to add `NavbarComponent` to the `LayoutComponent` template')
       .not.toBeNull();
   });
 
   it('should use the footer component', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(FooterComponent)))
-      .withContext('You probably forgot to add FooterComponent to the LayoutComponent template')
+      .withContext('You probably forgot to add `FooterComponent` to the `LayoutComponent` template')
       .not.toBeNull();
   });
 });

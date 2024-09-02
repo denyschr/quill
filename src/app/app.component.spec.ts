@@ -44,7 +44,7 @@ describe('AppComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const routerOutlet = element.querySelector('router-outlet');
     expect(routerOutlet)
-      .withContext('You need a RouterOutlet component in the AppComponent template')
+      .withContext('You need a `RouterOutlet` component in the `AppComponent` template')
       .not.toBeNull();
   });
 
@@ -52,7 +52,7 @@ describe('AppComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ValidationDefaultsComponent)))
       .withContext(
-        'You probably forgot to add ValidationDefaultsComponent to the AppComponent template'
+        'You probably forgot to add `ValidationDefaultsComponent` to the `AppComponent` template'
       )
       .not.toBeNull();
   });
