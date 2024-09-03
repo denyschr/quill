@@ -20,16 +20,17 @@ import { LetDirective } from '@ngrx/component';
             <a class="hover-underline text-success" routerLink="/login">Have an account?</a>
           </div>
           <ng-container *ngrxLet="vm$; let vm">
-            <ql-backend-errors [errors]="vm.backendErrors" />
+            @let backendErrors = vm.backendErrors;
+            @if (backendErrors) {
+              <ql-backend-errors [errors]="backendErrors" />
+            }
             <ql-register-form [submitting]="vm.submitting" (submitted)="register($event)" />
           </ng-container>
         </div>
       </div>
     </div>
   `,
-  styles: [``],
   imports: [RouterLink, LetDirective, BackendErrorsComponent, RegisterFormComponent],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class RegisterComponent {

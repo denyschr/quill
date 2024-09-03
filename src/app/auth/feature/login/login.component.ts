@@ -22,16 +22,17 @@ import { combineLatest } from 'rxjs';
             >
           </div>
           <ng-container *ngrxLet="vm$; let vm">
-            <ql-backend-errors [errors]="vm.backendErrors" />
+            @let backendErros = vm.backendErrors;
+            @if (backendErros) {
+              <ql-backend-errors [errors]="backendErros" />
+            }
             <ql-login-form [submitting]="vm.submitting" (submitted)="login($event)" />
           </ng-container>
         </div>
       </div>
     </div>
   `,
-  styles: [``],
   imports: [RouterLink, LetDirective, BackendErrorsComponent, LoginFormComponent],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LoginComponent {
