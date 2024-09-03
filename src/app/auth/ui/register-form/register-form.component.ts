@@ -10,7 +10,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
   standalone: true,
   template: `
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
-      <fieldset [disabled]="submitting">
+      <fieldset id="form-fields" [disabled]="submitting">
         <fieldset class="mb-3">
           <label for="username" class="form-label fw-bold">Username</label>
           <input id="username" type="text" class="form-control" formControlName="username" />
@@ -64,7 +64,7 @@ export class RegisterFormComponent {
   });
 
   @Input({ required: true })
-  public submitting: boolean = false;
+  public submitting!: boolean;
 
   @Output()
   public readonly submitted = new EventEmitter<RegisterCredentialsModel>();
