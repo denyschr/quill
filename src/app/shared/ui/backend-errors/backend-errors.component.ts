@@ -15,9 +15,7 @@ import { BackendErrorsModel } from '@shared/data-access/models';
       </ul>
     </ngb-alert>
   `,
-  styles: [``],
   imports: [NgbAlert, KeyValuePipe],
-  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BackendErrorsComponent {
