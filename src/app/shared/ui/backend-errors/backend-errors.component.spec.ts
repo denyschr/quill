@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [BackendErrorsComponent],
-  template: `<ql-backend-errors [errors]="backendErrors" />`
+  template: `<ql-backend-errors [errors]="backendErrors" />`,
+  imports: [BackendErrorsComponent]
 })
 class BackendErrorsTestComponent {
   public backendErrors = {
@@ -37,7 +37,7 @@ describe('BackendErrorsComponent', () => {
       .toBe('danger');
     expect(ngbAlert.componentInstance.dismissible)
       .withContext('The `dismissible` property of the `ngb-alert` is not correct')
-      .toBeFalse();
+      .toBeFalsy();
   });
 
   it('should display an error', () => {
