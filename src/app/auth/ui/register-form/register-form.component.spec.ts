@@ -1,24 +1,27 @@
+/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterFormComponent } from './register-form.component';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
+import { Component } from '@angular/core';
+
+@Component({
+  standalone: true,
+  template: `<ql-register-form [submitting]="submitting" />`,
+  imports: [RegisterFormComponent]
+})
+class RegisterFormTestComponent {
+  public submitting = false;
+}
 
 describe('RegisterFormComponent', () => {
-  let component: RegisterFormComponent;
-  let fixture: ComponentFixture<RegisterFormComponent>;
+  let fixture: ComponentFixture<RegisterFormTestComponent>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [RegisterFormComponent]
-    }).compileComponents();
+    TestBed.configureTestingModule({});
 
-    fixture = TestBed.createComponent(RegisterFormComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(RegisterFormTestComponent);
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should display a form to register', () => {
@@ -30,7 +33,7 @@ describe('RegisterFormComponent', () => {
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     expect(button.disabled)
       .withContext('Your submit button should NOT be disabled by default')
-      .toBeFalse();
+      .toBeFalsy();
 
     const username = element.querySelector<HTMLInputElement>('#username')!;
     expect(username)
@@ -81,7 +84,9 @@ describe('RegisterFormComponent', () => {
 
   it('should emit an event on submit', () => {
     const element = fixture.nativeElement as HTMLElement;
-    spyOn(component.submitted, 'emit');
+
+    const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
+    spyOn(registerForm.componentInstance.submitted, 'emit');
 
     const username = element.querySelector<HTMLInputElement>('#username')!;
     username.value = 'den';
@@ -97,9 +102,8 @@ describe('RegisterFormComponent', () => {
 
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     button.click();
-    fixture.detectChanges();
 
-    expect(component.submitted.emit)
+    expect(registerForm.componentInstance.submitted.emit)
       .withContext('You may have probably forgot to raise the event when the form is submitted')
       .toHaveBeenCalledWith({
         username: 'den',
@@ -110,47 +114,34 @@ describe('RegisterFormComponent', () => {
 
   it('should not emit an event on submit when form is invalid', () => {
     const element = fixture.nativeElement as HTMLElement;
-    spyOn(component.submitted, 'emit');
+
+    const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
+    spyOn(registerForm.componentInstance.submitted, 'emit');
 
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     button.click();
-    fixture.detectChanges();
 
-    expect(component.submitted.emit)
+    expect(registerForm.componentInstance.submitted.emit)
       .withContext('You should NOT raise the event when the form is invalid')
       .not.toHaveBeenCalled();
-    expect(component.registerForm.touched)
+    expect(registerForm.componentInstance.registerForm.touched)
       .withContext('Your form should be marked as touched when the form is invalid')
-      .toBeTrue();
+      .toBeTruthy();
   });
 
-  it('should disable a form on submit', () => {
+  it('should disable a form while submitting', () => {
     const element = fixture.nativeElement as HTMLElement;
-
-    const username = element.querySelector<HTMLInputElement>('#username')!;
-    username.value = 'den';
-    username.dispatchEvent(new Event('input'));
-
-    const email = element.querySelector<HTMLInputElement>('#email')!;
-    email.value = 'den@gmail.com';
-    email.dispatchEvent(new Event('input'));
-
-    const password = element.querySelector<HTMLInputElement>('#password')!;
-    password.value = '12345678';
-    password.dispatchEvent(new Event('input'));
-
-    const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    button.click();
-
-    component.submitting = true;
+    fixture.componentInstance.submitting = true;
     fixture.detectChanges();
 
     const formFields = element.querySelector<HTMLFieldSetElement>('#form-fields')!;
     expect(formFields.disabled)
-      .withContext('All your form fields should be disabled when the form is submitted')
-      .toBeTrue();
+      .withContext('All your form fields should be disabled while submitting')
+      .toBeTruthy();
+
+    const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     expect(button.disabled)
-      .withContext('Your submit button should be disabled when the form is submitted')
-      .toBeTrue();
+      .withContext('Your submit button should be disabled while submitting')
+      .toBeTruthy();
   });
 });
