@@ -28,13 +28,16 @@ describe('BackendErrorsComponent', () => {
 
   it('shoud use the ngb-alert component', () => {
     const element = fixture.debugElement;
-    const ngbAlert = element.query(By.directive(NgbAlert)).nativeElement as HTMLElement;
+    const ngbAlert = element.query(By.directive(NgbAlert));
     expect(ngbAlert)
       .withContext('You probably forgot to add `NgbAlert` to the `BackendErrorsComponent` template')
       .not.toBeNull();
-    expect(ngbAlert.getAttribute('type'))
+    expect(ngbAlert.nativeElement.getAttribute('type'))
       .withContext('The `type` attribute of the `ngb-alert` is not correct')
       .toBe('danger');
+    expect(ngbAlert.componentInstance.dismissible)
+      .withContext('The `dismissible` property of the `ngb-alert` is not correct')
+      .toBeFalse();
   });
 
   it('should display an error', () => {
