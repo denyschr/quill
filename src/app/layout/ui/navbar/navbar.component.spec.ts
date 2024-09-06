@@ -54,18 +54,19 @@ describe('NavbarComponent', () => {
       .not.toContain('collapse');
   });
 
-  it('should display correct router links if not logged in', () => {
+  it('should display correct links for anonymous users', () => {
     store.setState({ ...initialState, auth: { ...initialState.auth, currentUser: null } });
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
 
-    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]')!;
+    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]:not(.navbar-brand)')!;
     expect(homeLink)
       .withContext(
         'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(homeLink.textContent).withContext('The link should have a text').toContain('Home');
 
     const loginLink = element.querySelector('a[href="/login"]')!;
     expect(loginLink)
@@ -73,6 +74,7 @@ describe('NavbarComponent', () => {
         'You should have an `a` element to display the link to the login page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(loginLink.textContent).withContext('The link should have a text').toContain('Sign in');
 
     const registerLink = element.querySelector<HTMLAnchorElement>('a[href="/register"]')!;
     expect(registerLink)
@@ -80,9 +82,12 @@ describe('NavbarComponent', () => {
         'You should have an `a` element to display the link to the register page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(registerLink.textContent)
+      .withContext('The link should have a text')
+      .toContain('Sign up');
   });
 
-  it('should display correct router links if logged in', () => {
+  it('should display correct links for logged in users', () => {
     store.setState({
       ...initialState,
       auth: { ...initialState.auth, currentUser: { username: 'denys' } }
@@ -91,12 +96,13 @@ describe('NavbarComponent', () => {
 
     const element = fixture.nativeElement as HTMLElement;
 
-    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]')!;
+    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]:not(.navbar-brand)')!;
     expect(homeLink)
       .withContext(
         'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(homeLink.textContent).withContext('The link should have a text').toContain('Home');
 
     const articleLink = element.querySelector<HTMLAnchorElement>('a[href="/articles"]')!;
     expect(articleLink)
@@ -104,6 +110,9 @@ describe('NavbarComponent', () => {
         'You should have an `a` element to display the link to the article page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(articleLink.textContent)
+      .withContext('The link should have a text')
+      .toContain('New Article');
 
     const settingsLink = element.querySelector<HTMLAnchorElement>('a[href="/settings"]')!;
     expect(settingsLink)
@@ -111,6 +120,9 @@ describe('NavbarComponent', () => {
         'You should have an `a` element to display the link to the settings page. Maybe you forgot to use `routerLink`?'
       )
       .not.toBeNull();
+    expect(settingsLink.textContent)
+      .withContext('The link should have a text')
+      .toContain('Settings');
 
     const profileLink = element.querySelector<HTMLAnchorElement>('a[href="/profiles/denys"]')!;
     expect(profileLink)
