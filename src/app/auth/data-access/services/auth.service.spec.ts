@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { UserModel } from '@shared/data-access/models';
-import { environment } from '@environment';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -44,7 +43,7 @@ describe('AuthService', () => {
       acutalUser = fetchedUser;
     });
 
-    const req = http.expectOne({ method: 'POST', url: `${environment.apiUrl}/users` });
+    const req = http.expectOne({ method: 'POST', url: '/users' });
     expect(req.request.body).toEqual({
       user: credentials
     });
@@ -62,7 +61,7 @@ describe('AuthService', () => {
     let actualUser: UserModel | undefined;
     authService.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = http.expectOne({ method: 'POST', url: `${environment.apiUrl}/users/login` });
+    const req = http.expectOne({ method: 'POST', url: '/users/login' });
     expect(req.request.body).toEqual({ user: credentials });
     req.flush({ user: user });
 
@@ -73,7 +72,7 @@ describe('AuthService', () => {
     let actualUser: UserModel | undefined;
     authService.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = http.expectOne({ method: 'GET', url: `${environment.apiUrl}/user` });
+    const req = http.expectOne({ method: 'GET', url: '/user' });
     req.flush({ user: user });
 
     expect(actualUser).withContext('The observable should return the user').toBe(user);
