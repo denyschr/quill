@@ -1,26 +1,26 @@
 /* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterFormComponent } from './register-form.component';
+import { LoginFormComponent } from './login-form.component';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  template: `<ql-register-form [submitting]="submitting" />`,
-  imports: [RegisterFormComponent]
+  template: `<ql-login-form [submitting]="submitting" />`,
+  imports: [LoginFormComponent]
 })
-class RegisterFormTestComponent {
+class LoginFormTestComponent {
   public submitting = false;
 }
 
-describe('RegisterFormComponent', () => {
-  let fixture: ComponentFixture<RegisterFormTestComponent>;
+describe('LoginFormComponent', () => {
+  let fixture: ComponentFixture<LoginFormTestComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
 
-    fixture = TestBed.createComponent(RegisterFormTestComponent);
+    fixture = TestBed.createComponent(LoginFormTestComponent);
     fixture.detectChanges();
   });
 
@@ -29,31 +29,18 @@ describe('RegisterFormComponent', () => {
 
     const valErrors = fixture.debugElement.queryAll(By.css('val-errors'));
     expect(valErrors.length)
-      .withContext('You should have 3 `ValidationErrorsComponent` displayed')
-      .toBe(3);
+      .withContext('You should have 2 `ValidationErrorsComponent` displayed')
+      .toBe(2);
 
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     expect(button.disabled)
       .withContext('Your submit button should NOT be disabled by default')
       .toBeFalsy();
 
-    const username = element.querySelector<HTMLInputElement>('#username')!;
-    expect(username)
-      .withContext('Your template should have an input for the username')
-      .not.toBeNull();
-
-    const usernameValError = valErrors[0].nativeElement as HTMLElement;
-    expect(usernameValError.getAttribute('controlName'))
-      .withContext('The validation error control name for the username field is incorrect')
-      .toContain('username');
-    expect(usernameValError.getAttribute('label'))
-      .withContext('The validation error label for the username field is incorrect')
-      .toContain('The username');
-
     const email = element.querySelector<HTMLInputElement>('#email')!;
     expect(email).withContext('Your template should have an input for the email').not.toBeNull();
 
-    const emailValError = valErrors[1].nativeElement as HTMLElement;
+    const emailValError = valErrors[0].nativeElement as HTMLElement;
     expect(emailValError.getAttribute('controlName'))
       .withContext('The validation error control name for the email field is incorrect')
       .toContain('email');
@@ -75,7 +62,7 @@ describe('RegisterFormComponent', () => {
       )
       .not.toBeNull();
 
-    const passwordValError = valErrors[2].nativeElement as HTMLElement;
+    const passwordValError = valErrors[1].nativeElement as HTMLElement;
     expect(passwordValError.getAttribute('controlName'))
       .withContext('The validation error control name for the password field is incorrect')
       .toContain('password');
@@ -87,12 +74,8 @@ describe('RegisterFormComponent', () => {
   it('should emit an event on submit', () => {
     const element = fixture.nativeElement as HTMLElement;
 
-    const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
-    spyOn(registerForm.componentInstance.submitted, 'emit');
-
-    const username = element.querySelector<HTMLInputElement>('#username')!;
-    username.value = 'den';
-    username.dispatchEvent(new Event('input'));
+    const loginForm = fixture.debugElement.query(By.directive(LoginFormComponent));
+    spyOn(loginForm.componentInstance.submitted, 'emit');
 
     const email = element.querySelector<HTMLInputElement>('#email')!;
     email.value = 'den@gmail.com';
@@ -105,10 +88,9 @@ describe('RegisterFormComponent', () => {
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     button.click();
 
-    expect(registerForm.componentInstance.submitted.emit)
+    expect(loginForm.componentInstance.submitted.emit)
       .withContext('You may have probably forgot to raise the event when the form is submitted')
       .toHaveBeenCalledWith({
-        username: 'den',
         email: 'den@gmail.com',
         password: '12345678'
       });
@@ -117,16 +99,16 @@ describe('RegisterFormComponent', () => {
   it('should not emit an event on submit when form is invalid', () => {
     const element = fixture.nativeElement as HTMLElement;
 
-    const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
-    spyOn(registerForm.componentInstance.submitted, 'emit');
+    const loginForm = fixture.debugElement.query(By.directive(LoginFormComponent));
+    spyOn(loginForm.componentInstance.submitted, 'emit');
 
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     button.click();
 
-    expect(registerForm.componentInstance.submitted.emit)
+    expect(loginForm.componentInstance.submitted.emit)
       .withContext('You should NOT raise the event when the form is invalid')
       .not.toHaveBeenCalled();
-    expect(registerForm.componentInstance.registerForm.touched)
+    expect(loginForm.componentInstance.loginForm.touched)
       .withContext('Your form should be marked as touched when the form is invalid')
       .toBeTruthy();
   });
