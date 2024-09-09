@@ -17,15 +17,12 @@ export const getCurrentUserEffect = createEffect(
       ofType(authActions.getCurrentUser),
       switchMap(() => {
         const token = jwtService.getToken();
-
         if (!token) {
           return of(authActions.getCurrentUserFailure());
         }
 
         return authService.getCurrentUser().pipe(
-          map(currentUser => {
-            return authActions.getCurrentUserSuccess({ currentUser });
-          }),
+          map(currentUser => authActions.getCurrentUserSuccess({ currentUser })),
           catchError(() => of(authActions.getCurrentUserFailure()))
         );
       })
@@ -44,10 +41,8 @@ export const registerEffect = createEffect(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
         authService.register(credentials).pipe(
-          map(currentUser => {
-            jwtService.saveToken(currentUser.token);
-            return authActions.registerSuccess({ currentUser });
-          }),
+          tap(currentUser => jwtService.saveToken(currentUser.token)),
+          map(currentUser => authActions.registerSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(authActions.registerFailure({ errors: errorResponse.error.errors }))
           )
@@ -80,10 +75,8 @@ export const loginEffect = createEffect(
       ofType(authActions.login),
       switchMap(({ credentials }) =>
         authService.login(credentials).pipe(
-          map(currentUser => {
-            jwtService.saveToken(currentUser.token);
-            return authActions.loginSuccess({ currentUser });
-          }),
+          tap(currentUser => jwtService.saveToken(currentUser.token)),
+          map(currentUser => authActions.loginSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(authActions.loginFailure({ errors: errorResponse.error.errors }))
           )
