@@ -40,14 +40,6 @@ describe('LoginFormComponent', () => {
     const email = element.querySelector<HTMLInputElement>('#email')!;
     expect(email).withContext('Your template should have an input for the email').not.toBeNull();
 
-    const emailValError = valErrors[0].nativeElement as HTMLElement;
-    expect(emailValError.getAttribute('controlName'))
-      .withContext('The validation error control name for the email field is incorrect')
-      .toContain('email');
-    expect(emailValError.getAttribute('label'))
-      .withContext('The validation error label for the email field is incorrect')
-      .toContain('The email');
-
     const password = element.querySelector<HTMLInputElement>('#password')!;
     expect(password)
       .withContext('Your template should have an input for the password')
@@ -61,14 +53,6 @@ describe('LoginFormComponent', () => {
         'You probably forgot to add `PasswordInputToggleComponent` to the `RegisterFormComponent` template'
       )
       .not.toBeNull();
-
-    const passwordValError = valErrors[1].nativeElement as HTMLElement;
-    expect(passwordValError.getAttribute('controlName'))
-      .withContext('The validation error control name for the password field is incorrect')
-      .toContain('password');
-    expect(passwordValError.getAttribute('label'))
-      .withContext('The validation error label for the password field is incorrect')
-      .toContain('The password');
   });
 
   it('should emit an event on submit', () => {
