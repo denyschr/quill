@@ -9,7 +9,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { authFeatureKey, authReducer } from '@auth/data-access/store';
 import * as authEffects from '@auth/data-access/store/auth.effects';
-import { apiInterceptor, tokenInterceptor } from '@auth/data-access/interceptors';
+import { apiInterceptor, tokenInterceptor } from '@auth/utils';
 
 export const appConfig: ApplicationConfig = {
   providers: [
