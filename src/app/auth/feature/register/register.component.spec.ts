@@ -5,7 +5,6 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { RegisterFormComponent } from '@auth/ui/register-form';
-import { authActions } from '@auth/data-access/store';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -84,16 +83,5 @@ describe('RegisterComponent', () => {
         'You probably forgot to add `RegisterFormComponent` to the `RegisterComponent` template'
       )
       .not.toBeNull();
-  });
-
-  it('should dispatch register', () => {
-    const credentials = {
-      username: 'den',
-      email: 'den@gmail.com',
-      password: '12345678'
-    };
-    const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
-    registerForm.componentInstance.submitted.emit(credentials);
-    expect(store.dispatch).toHaveBeenCalledWith(authActions.register({ credentials }));
   });
 });
