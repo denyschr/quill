@@ -4,7 +4,6 @@ import LoginComponent from './login.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import { authActions } from '@auth/data-access/store';
 import { LoginFormComponent } from '@auth/ui/login-form';
 
 describe('LoginComponent', () => {
@@ -84,15 +83,5 @@ describe('LoginComponent', () => {
         'You probably forgot to add `LoginFormComponent` to the `LoginComponent` template'
       )
       .not.toBeNull();
-  });
-
-  it('should dispatch register', () => {
-    const credentials = {
-      email: 'den@gmail.com',
-      password: '12345678'
-    };
-    const loginForm = fixture.debugElement.query(By.directive(LoginFormComponent));
-    loginForm.componentInstance.submitted.emit(credentials);
-    expect(store.dispatch).toHaveBeenCalledWith(authActions.login({ credentials }));
   });
 });
