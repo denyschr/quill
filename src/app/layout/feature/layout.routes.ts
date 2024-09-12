@@ -8,5 +8,9 @@ export const LAYOUT_ROUTES: Route[] = [
   {
     path: 'login',
     loadComponent: () => import('../../auth/feature/login/login.component')
+  },
+  {
+    path: '',
+    loadComponent: () => import('../../home/feature/home.component')
   }
 ];

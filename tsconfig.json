@@ -36,8 +36,12 @@
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
+      "@home/feature": ["src/app/home/feature/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
+      "@shared/data-access/services/article": [
+        "src/app/shared/data-access/services/article/index.ts"
+      ],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
       "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
       "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],
