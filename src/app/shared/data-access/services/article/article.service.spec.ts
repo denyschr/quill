@@ -23,7 +23,7 @@ describe('ArticleService', () => {
   });
 
   it('should get a list of articles', () => {
-    const hardcodedArticleList = {
+    const hardcodedArticles = {
       articles: [
         {
           title: 'How to train your dragon'
@@ -35,15 +35,15 @@ describe('ArticleService', () => {
       articlesCount: 2
     } as ArticleListResponseModel;
 
-    let actualArticleList: ArticleListResponseModel | undefined;
+    let actualArticles: ArticleListResponseModel | undefined;
     articleService
       .getList({ type: 'all', filters: {} })
-      .subscribe(articleList => (actualArticleList = articleList));
+      .subscribe(articleList => (actualArticles = articleList));
 
-    http.expectOne({ method: 'GET', url: '/articles' }).flush(hardcodedArticleList);
+    http.expectOne({ method: 'GET', url: '/articles' }).flush(hardcodedArticles);
 
-    expect(actualArticleList)
+    expect(actualArticles)
       .withContext('The observable should emit the list of articles')
-      .toBe(hardcodedArticleList);
+      .toBe(hardcodedArticles);
   });
 });
