@@ -29,7 +29,7 @@ import { ArticlePreviewComponent } from '@shared/ui/article-preview';
       }
 
       @if (error) {
-        <div>{{ error }}</div>
+        <div id="error">{{ error }}</div>
       }
 
       @if (data) {
