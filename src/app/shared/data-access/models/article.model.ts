@@ -1,3 +1,5 @@
+import { ProfileModel } from './profile.model';
+
 export interface ArticleModel {
   slug: string;
   title: string;
@@ -8,10 +10,10 @@ export interface ArticleModel {
   updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
-  // TODO: Add author model
+  author: ProfileModel;
 }
 
-export interface ArticleResponseModel {
+export interface ArticleListResponseModel {
   articles: ArticleModel[];
   articlesCount: number;
 }

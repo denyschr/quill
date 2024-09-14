@@ -42,10 +42,15 @@
       "@shared/data-access/services/article": [
         "src/app/shared/data-access/services/article/index.ts"
       ],
+      "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
+      "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
       "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
       "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],
-      "@shared/ui/validation-defaults": ["src/app/shared/ui/validation-defaults/index.ts"]
+      "@shared/ui/validation-defaults": ["src/app/shared/ui/validation-defaults/index.ts"],
+      "@shared/ui/article-list": ["src/app/shared/ui/article-list/index.ts"],
+      "@shared/ui/article-preview": ["src/app/shared/ui/article-preview/index.ts"],
+      "@shared/ui/article-meta": ["src/app/shared/ui/article-meta/index.ts"]
     }
   },
   "angularCompilerOptions": {
