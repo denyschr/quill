@@ -98,7 +98,7 @@ describe('ArticleListComponent', () => {
 
     const element = fixture.nativeElement as HTMLElement;
 
-    const error = element.querySelector('#error')!;
+    const error = element.querySelector<HTMLElement>('#error')!;
     expect(error).withContext('You should have a div to display an error message').not.toBeNull();
     expect(error.textContent).toContain('Some error');
   });
