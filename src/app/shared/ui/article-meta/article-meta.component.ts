@@ -14,7 +14,9 @@ import { ProfileModel } from '@shared/data-access/models';
         <a class="hover-underline link-success" [routerLink]="['/profile', author.username]">
           {{ author.username }}
         </a>
-        <span class="article-date text-body-tertiary">{{ createdAt }}</span>
+        <time class="article-date text-body-tertiary" [attr.datetime]="createdAt">{{
+          createdAt
+        }}</time>
       </div>
       <div class="ms-auto">ADD TO FAVORITES</div>
     </div>
