@@ -4,6 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
+import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 
 describe('ArticleListComponent', () => {
   let component: ArticleListComponent;
@@ -76,15 +77,14 @@ describe('ArticleListComponent', () => {
       .toBe(2);
   });
 
-  it('should display a loading indicator while a list of articles is being retrieved', () => {
+  it('should use the loading-spinner component while a list of articles is being retrieved', () => {
     store.setState({ ...initialState, articles: { ...initialState.articles, loading: true } });
     fixture.detectChanges();
 
-    const element = fixture.nativeElement as HTMLElement;
-
-    expect(element.querySelector('.spinner-border'))
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(LoadingSpinnerComponent)))
       .withContext(
-        'You should have a div with a class `spinner-border` to display a loading indicator'
+        'You probably forgot to add `LoadingSpinnerComponent` to the `ArticleListComponent` template'
       )
       .not.toBeNull();
   });

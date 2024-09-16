@@ -50,7 +50,8 @@
       "@shared/ui/validation-defaults": ["src/app/shared/ui/validation-defaults/index.ts"],
       "@shared/ui/article-list": ["src/app/shared/ui/article-list/index.ts"],
       "@shared/ui/article-preview": ["src/app/shared/ui/article-preview/index.ts"],
-      "@shared/ui/article-meta": ["src/app/shared/ui/article-meta/index.ts"]
+      "@shared/ui/article-meta": ["src/app/shared/ui/article-meta/index.ts"],
+      "@shared/ui/loading-spinner": ["src/app/shared/ui/loading-spinner/index.ts"]
     }
   },
   "angularCompilerOptions": {

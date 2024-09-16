@@ -10,6 +10,7 @@ import {
 } from '@shared/data-access/store/articles';
 import { combineLatest } from 'rxjs';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
+import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 
 @Component({
   selector: 'ql-article-list',
@@ -21,11 +22,7 @@ import { ArticlePreviewComponent } from '@shared/ui/article-preview';
       @let data = vm.data;
 
       @if (loading) {
-        <div class="d-flex justify-content-center">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading articles...</span>
-          </div>
-        </div>
+        <ql-loading-spinner />
       }
 
       @if (error) {
@@ -42,7 +39,7 @@ import { ArticlePreviewComponent } from '@shared/ui/article-preview';
       PAGINATION
     </ng-container>
   `,
-  imports: [LetDirective, ArticlePreviewComponent],
+  imports: [LetDirective, ArticlePreviewComponent, LoadingSpinnerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleListComponent implements OnInit {
