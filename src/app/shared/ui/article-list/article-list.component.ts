@@ -11,6 +11,7 @@ import {
 import { combineLatest } from 'rxjs';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
+import { ErrorComponent } from '@shared/ui/error';
 
 @Component({
   selector: 'ql-article-list',
@@ -26,7 +27,7 @@ import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
       }
 
       @if (error) {
-        <div id="error">{{ error }}</div>
+        <ql-error [message]="error" />
       }
 
       @if (data) {
@@ -39,7 +40,7 @@ import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
       PAGINATION
     </ng-container>
   `,
-  imports: [LetDirective, ArticlePreviewComponent, LoadingSpinnerComponent],
+  imports: [LetDirective, ArticlePreviewComponent, LoadingSpinnerComponent, ErrorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleListComponent implements OnInit {

@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
+import { ErrorComponent } from '@shared/ui/error';
 
 describe('ArticleListComponent', () => {
   let component: ArticleListComponent;
@@ -89,17 +90,18 @@ describe('ArticleListComponent', () => {
       .not.toBeNull();
   });
 
-  it('should display an error if the retrieval of articles fails', () => {
+  it('should use the error component if the retrieval of articles fails', () => {
     store.setState({
       ...initialState,
       articles: { ...initialState.articles, error: 'Some error' }
     });
     fixture.detectChanges();
 
-    const element = fixture.nativeElement as HTMLElement;
-
-    const error = element.querySelector<HTMLElement>('#error')!;
-    expect(error).withContext('You should have a div to display an error message').not.toBeNull();
-    expect(error.textContent).toContain('Some error');
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(ErrorComponent)))
+      .withContext(
+        'You probably forgot to add `ErrorComponent` to the `ArticleListComponent` template'
+      )
+      .not.toBeNull();
   });
 });
