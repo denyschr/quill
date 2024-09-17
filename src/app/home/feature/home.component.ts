@@ -1,6 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { LetDirective } from '@ngrx/component';
+import { Store } from '@ngrx/store';
 import { ArticleListConfigModel } from '@shared/data-access/models';
+import {
+  articlesActions,
+  selectArticleData,
+  selectError,
+  selectLoading
+} from '@shared/data-access/store/articles';
 import { ArticleListComponent } from '@shared/ui/article-list';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'ql-home',
@@ -17,7 +26,15 @@ import { ArticleListComponent } from '@shared/ui/article-list';
               <a class="nav-link">Your Feed</a>
             </li>
           </ul>
-          <ql-article-list [config]="listConfig" />
+
+          <ng-container *ngrxLet="$vm; let vm">
+            <ql-article-list
+              [articles]="vm.data?.articles"
+              [loading]="vm.loading"
+              [error]="vm.error"
+            />
+          </ng-container>
+          PAGINATION
         </div>
 
         <div class="col-md-3">POPULAR TAGS</div>
@@ -31,12 +48,23 @@ import { ArticleListComponent } from '@shared/ui/article-list';
       }
     `
   ],
-  imports: [ArticleListComponent],
+  imports: [LetDirective, ArticleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class HomeComponent {
+export default class HomeComponent implements OnInit {
   public listConfig: ArticleListConfigModel = {
     type: 'all',
     filters: {}
   };
+  public readonly $vm = combineLatest({
+    data: this.store.select(selectArticleData),
+    loading: this.store.select(selectLoading),
+    error: this.store.select(selectError)
+  });
+
+  public constructor(private readonly store: Store) {}
+
+  public ngOnInit(): void {
+    this.store.dispatch(articlesActions.getArticles({ config: this.listConfig }));
+  }
 }

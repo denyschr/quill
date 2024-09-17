@@ -19,7 +19,7 @@ import { ArticleMetaComponent } from '@shared/ui/article-meta';
         <p class="text-secondary">{{ article.description }}</p>
         <div class="position-relative z-2 d-flex justify-content-between">
           <a
-            class="preview-more hover-underline text-body-tertiary"
+            class="preview-more | hover-underline text-body-tertiary"
             [routerLink]="['/article', article.slug]"
             >Read more...</a
           >
