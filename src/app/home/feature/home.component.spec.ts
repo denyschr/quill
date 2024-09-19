@@ -4,6 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticleListComponent } from '@shared/ui/article-list';
+import { PaginationComponent } from '@shared/ui/pagination';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -72,6 +73,15 @@ describe('HomeComponent', () => {
     expect(element.query(By.directive(ArticleListComponent)))
       .withContext(
         'You probably forgot to add `ArticleListComponent` to the `HomeComponent` template'
+      )
+      .not.toBeNull();
+  });
+
+  it('should use the pagination component', () => {
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(PaginationComponent)))
+      .withContext(
+        'You probably forgot to add `PaginationComponent` to the `HomeComponent` template'
       )
       .not.toBeNull();
   });

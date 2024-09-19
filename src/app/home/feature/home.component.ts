@@ -10,6 +10,9 @@ import {
 } from '@shared/data-access/store/articles';
 import { ArticleListComponent } from '@shared/ui/article-list';
 import { combineLatest } from 'rxjs';
+import { PaginationComponent } from '@shared/ui/pagination';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '@environment';
 
 @Component({
   selector: 'ql-home',
@@ -33,8 +36,16 @@ import { combineLatest } from 'rxjs';
               [loading]="vm.loading"
               [error]="vm.error"
             />
+
+            @if (vm.data) {
+              <ql-pagination
+                url="/"
+                [itemCount]="vm.data.articlesCount"
+                [currentPage]="currentPage"
+                [limit]="limit"
+              />
+            }
           </ng-container>
-          PAGINATION
         </div>
 
         <div class="col-md-3">POPULAR TAGS</div>
@@ -48,23 +59,40 @@ import { combineLatest } from 'rxjs';
       }
     `
   ],
-  imports: [LetDirective, ArticleListComponent],
+  imports: [LetDirective, ArticleListComponent, PaginationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomeComponent implements OnInit {
+  public currentPage = 1;
+  public readonly limit = environment.limit;
   public listConfig: ArticleListConfigModel = {
     type: 'all',
-    filters: {}
+    filters: {
+      limit: this.limit
+    }
   };
+
   public readonly $vm = combineLatest({
     data: this.store.select(selectArticleData),
     loading: this.store.select(selectLoading),
     error: this.store.select(selectError)
   });
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly _route: ActivatedRoute
+  ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(articlesActions.getArticles({ config: this.listConfig }));
+    this._route.queryParamMap.subscribe(params => {
+      this.currentPage = parseInt(params.get('page')!) || 1;
+      this.fetchFeed();
+    });
+  }
+
+  public fetchFeed() {
+    this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
+    const config = JSON.parse(JSON.stringify(this.listConfig));
+    this.store.dispatch(articlesActions.getArticles({ config }));
   }
 }

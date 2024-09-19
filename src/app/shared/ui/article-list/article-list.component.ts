@@ -12,15 +12,15 @@ import { ArticleModel } from '@shared/data-access/models';
     @if (loading) {
       <ql-loading-spinner />
     }
-
     @if (error) {
       <ql-error [message]="error" />
     }
-
     @if (articles) {
-      <div class="d-flex flex-column mb-5 row-gap-4">
+      <div class="d-flex flex-column row-gap-4">
         @for (article of articles; track article.slug) {
           <ql-article-preview [article]="article" />
+        } @empty {
+          <p>No articles are here yet...</p>
         }
       </div>
     }

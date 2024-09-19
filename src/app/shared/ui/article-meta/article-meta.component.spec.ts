@@ -52,7 +52,7 @@ describe('ArticleMetaComponent', () => {
       .withContext('The `alt` attribute for the image is not correct')
       .toBe('jake');
     expect(profileLinks[1].textContent)
-      .withContext('The second `a` element should display the name of the author')
+      .withContext('The `a` element should display the name of the author')
       .toContain('jake');
 
     const time = element.querySelector<HTMLTimeElement>('time')!;
