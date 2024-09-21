@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ArticleModel } from '@shared/data-access/models';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
+import { TagListComponent } from '@shared/ui/tag-list';
 
 @Component({
   selector: 'ql-article-preview',
@@ -23,7 +24,7 @@ import { ArticleMetaComponent } from '@shared/ui/article-meta';
             [routerLink]="['/article', article.slug]"
             >Read more...</a
           >
-          TAG LIST
+          <ql-tag-list [tags]="article.tagList" />
         </div>
       </div>
     </div>
@@ -47,7 +48,7 @@ import { ArticleMetaComponent } from '@shared/ui/article-meta';
       }
     `
   ],
-  imports: [RouterLink, ArticleMetaComponent],
+  imports: [RouterLink, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {

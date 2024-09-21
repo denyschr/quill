@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
+import { TagListComponent } from '../tag-list';
 
 @Component({
   standalone: true,
@@ -67,5 +68,14 @@ describe('ArticlePreviewComponent', () => {
       .withContext('You should have a `p` element to display the description for the article')
       .not.toBeNull();
     expect(description.textContent).toContain('Ever wonder how?');
+  });
+
+  it('should use the tag-list component', () => {
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(TagListComponent)))
+      .withContext(
+        'You probably forgot to add `TagListComponent` to the `ArticlePreviewComponent` template'
+      )
+      .not.toBeNull();
   });
 });
