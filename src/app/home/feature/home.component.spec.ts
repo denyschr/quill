@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticleListComponent } from '@shared/ui/article-list';
 import { PaginationComponent } from '@shared/ui/pagination';
+import { PopularTagsComponent } from '@home/ui/popular-tags';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -50,6 +51,11 @@ describe('HomeComponent', () => {
       },
       loading: false,
       error: null
+    },
+    popularTags: {
+      tags: ['esse', 'at', 'ipsum', 'sunt', 'maiores'],
+      loading: false,
+      error: null
     }
   };
 
@@ -68,7 +74,7 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render article list', () => {
+  it('should use the article-list component', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ArticleListComponent)))
       .withContext(
@@ -82,6 +88,15 @@ describe('HomeComponent', () => {
     expect(element.query(By.directive(PaginationComponent)))
       .withContext(
         'You probably forgot to add `PaginationComponent` to the `HomeComponent` template'
+      )
+      .not.toBeNull();
+  });
+
+  it('should use the popular-tags component', () => {
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(PopularTagsComponent)))
+      .withContext(
+        'You probably forgot to add `PopularTagsComponent` to the `HomeComponent` template'
       )
       .not.toBeNull();
   });

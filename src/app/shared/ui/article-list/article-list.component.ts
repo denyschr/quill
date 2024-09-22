@@ -33,7 +33,7 @@ export class ArticleListComponent {
   public articles?: ArticleModel[];
 
   @Input()
-  public loading = true;
+  public loading = false;
 
   @Input()
   public error: string | null = null;

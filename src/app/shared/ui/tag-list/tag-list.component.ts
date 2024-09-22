@@ -4,9 +4,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'ql-tag-list',
   standalone: true,
   template: `
-    <ul class="d-flex gap-2">
+    <ul class="d-flex flex-wrap list-unstyled m-0 gap-2">
       @for (tag of tags; track tag) {
-        <li class="badge text-bg-secondary">{{ tag }}</li>
+        <li class="p-1 badge text-dark border border-secondary">{{ tag }}</li>
       }
     </ul>
   `,

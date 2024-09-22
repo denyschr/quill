@@ -36,12 +36,17 @@
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
+      "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
+      "@home/data-access/store": ["src/app/home/data-access/store/index.ts"],
+      "@home/data-access/store/*": ["src/app/home/data-access/store/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
+      "@home/ui/popular-tags": ["src/app/home/ui/popular-tags/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
       "@shared/data-access/services/article": [
         "src/app/shared/data-access/services/article/index.ts"
       ],
+      "@shared/data-access/services/tag": ["src/app/shared/data-access/services/tag/index.ts"],
       "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
       "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
