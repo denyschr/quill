@@ -29,7 +29,7 @@ describe('TagsReducers', () => {
     });
 
     it('should update the state after successful retrieval of tags', () => {
-      const hardcodedTags: string[] = ['esse', 'at', 'ipsum', 'sunt', 'maiores'];
+      const hardcodedTags = ['esse', 'at', 'ipsum', 'sunt', 'maiores'];
 
       const { initialState } = fromTags;
       const newState = {
