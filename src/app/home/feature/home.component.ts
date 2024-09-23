@@ -13,13 +13,13 @@ import { combineLatest } from 'rxjs';
 import { PaginationComponent } from '@shared/ui/pagination';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environment';
-import { PopularTagsComponent } from '@home/ui/popular-tags';
+import { TagsComponent } from '@home/ui/tags';
 import {
-  popularTagsActions,
+  tagsActions,
   selectTags,
   selectLoading as selectTagsLoading,
   selectError as selectTagsError
-} from '@home/data-access/store/popular-tags';
+} from '@home/data-access/store/tags';
 
 @Component({
   selector: 'ql-home',
@@ -55,11 +55,7 @@ import {
             }
           </div>
 
-          <ql-popular-tags
-            [tags]="vm.popularTags"
-            [loading]="vm.popularTagsLoading"
-            [error]="vm.popularTagsError"
-          />
+          <ql-tags [tags]="vm.tags" [loading]="vm.tagsLoading" [error]="vm.tagsError" />
         </div>
       </div>
     </ng-container>
@@ -71,7 +67,7 @@ import {
       }
     `
   ],
-  imports: [LetDirective, ArticleListComponent, PaginationComponent, PopularTagsComponent],
+  imports: [LetDirective, ArticleListComponent, PaginationComponent, TagsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomeComponent implements OnInit {
@@ -88,9 +84,9 @@ export default class HomeComponent implements OnInit {
     articleData: this.store.select(selectArticleData),
     articlesLoading: this.store.select(selectArticlesLoading),
     articlesError: this.store.select(selectArticlesError),
-    popularTags: this.store.select(selectTags),
-    popularTagsLoading: this.store.select(selectTagsLoading),
-    popularTagsError: this.store.select(selectTagsError)
+    tags: this.store.select(selectTags),
+    tagsLoading: this.store.select(selectTagsLoading),
+    tagsError: this.store.select(selectTagsError)
   });
 
   public constructor(
@@ -103,7 +99,7 @@ export default class HomeComponent implements OnInit {
       this.currentPage = parseInt(params.get('page')!) || 1;
       this.fetchFeed();
     });
-    this.store.dispatch(popularTagsActions.getPopularTags());
+    this.store.dispatch(tagsActions.getTags());
   }
 
   public fetchFeed() {

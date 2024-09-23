@@ -1,1 +1,1 @@
-export * from './popular-tags-state.model';
+export * from './tags-state.model';

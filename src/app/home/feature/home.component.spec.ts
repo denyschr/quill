@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticleListComponent } from '@shared/ui/article-list';
 import { PaginationComponent } from '@shared/ui/pagination';
-import { PopularTagsComponent } from '@home/ui/popular-tags';
+import { TagsComponent } from '@home/ui/tags';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -92,12 +92,10 @@ describe('HomeComponent', () => {
       .not.toBeNull();
   });
 
-  it('should use the popular-tags component', () => {
+  it('should use the tags component', () => {
     const element = fixture.debugElement;
-    expect(element.query(By.directive(PopularTagsComponent)))
-      .withContext(
-        'You probably forgot to add `PopularTagsComponent` to the `HomeComponent` template'
-      )
+    expect(element.query(By.directive(TagsComponent)))
+      .withContext('You probably forgot to add `TagsComponent` to the `HomeComponent` template')
       .not.toBeNull();
   });
 });

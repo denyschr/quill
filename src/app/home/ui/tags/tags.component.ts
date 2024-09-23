@@ -4,7 +4,7 @@ import { ErrorComponent } from '@shared/ui/error';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 
 @Component({
-  selector: 'ql-popular-tags',
+  selector: 'ql-tags',
   standalone: true,
   template: `
     @if (loading) {
@@ -32,7 +32,7 @@ import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
   imports: [RouterLink, LoadingSpinnerComponent, ErrorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PopularTagsComponent {
+export class TagsComponent {
   @Input()
   public tags: string[] | null = null;
 

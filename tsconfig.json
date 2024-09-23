@@ -37,10 +37,10 @@
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
       "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
-      "@home/data-access/store": ["src/app/home/data-access/store/index.ts"],
-      "@home/data-access/store/*": ["src/app/home/data-access/store/*"],
+      "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
+      "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
-      "@home/ui/popular-tags": ["src/app/home/ui/popular-tags/index.ts"],
+      "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
       "@shared/data-access/services/article": [
@@ -58,8 +58,7 @@
       "@shared/ui/article-meta": ["src/app/shared/ui/article-meta/index.ts"],
       "@shared/ui/loading-spinner": ["src/app/shared/ui/loading-spinner/index.ts"],
       "@shared/ui/error": ["src/app/shared/ui/error/index.ts"],
-      "@shared/ui/pagination": ["src/app/shared/ui/pagination/index.ts"],
-      "@shared/ui/tag-list": ["src/app/shared/ui/tag-list/index.ts"]
+      "@shared/ui/pagination": ["src/app/shared/ui/pagination/index.ts"]
     }
   },
   "angularCompilerOptions": {

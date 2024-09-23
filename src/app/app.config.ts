@@ -10,10 +10,10 @@ import { provideEffects } from '@ngrx/effects';
 import { authFeatureKey, authReducer } from '@auth/data-access/store';
 import * as authEffects from '@auth/data-access/store/auth.effects';
 import * as articlesEffects from '@shared/data-access/store/articles/articles.effects';
-import * as popularTagsEffects from '@home/data-access/store/popular-tags/popular-tags.effects';
+import * as tagsEffects from '@home/data-access/store/tags/tags.effects';
 import { apiInterceptor, tokenInterceptor } from '@auth/utils';
 import { articlesFeatureKey, articlesReducer } from '@shared/data-access/store/articles';
-import { popularTagsFeatureKey, popularTagsReducer } from '@home/data-access/store/popular-tags';
+import { tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,8 +25,8 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
     provideState(authFeatureKey, authReducer),
     provideState(articlesFeatureKey, articlesReducer),
-    provideState(popularTagsFeatureKey, popularTagsReducer),
-    provideEffects(authEffects, articlesEffects, popularTagsEffects),
+    provideState(tagsFeatureKey, tagsReducer),
+    provideEffects(authEffects, articlesEffects, tagsEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
