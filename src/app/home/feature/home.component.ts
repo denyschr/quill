@@ -9,7 +9,7 @@ import {
   selectLoading as selectArticlesLoading
 } from '@shared/data-access/store/articles';
 import { ArticleListComponent } from '@shared/ui/article-list';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { PaginationComponent } from '@shared/ui/pagination';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environment';
@@ -38,28 +38,27 @@ import {
               </li>
             </ul>
 
-            @let articlesData = vm.articles;
+            @let articleData = vm.articleData;
             <ql-article-list
-              [articles]="articlesData.data?.articles"
-              [loading]="articlesData.loading"
-              [error]="articlesData.error"
+              [articles]="articleData?.articles"
+              [loading]="vm.articlesLoading"
+              [error]="vm.articlesError"
             />
 
-            @if (articlesData.data) {
+            @if (articleData) {
               <ql-pagination
                 url="/"
-                [itemCount]="articlesData.data.articlesCount"
+                [itemCount]="articleData.articlesCount"
                 [currentPage]="currentPage"
                 [limit]="limit"
               />
             }
           </div>
 
-          @let popularTags = vm.popularTags;
           <ql-popular-tags
-            [tags]="popularTags.tags"
-            [loading]="popularTags.loading"
-            [error]="popularTags.error"
+            [tags]="vm.popularTags"
+            [loading]="vm.popularTagsLoading"
+            [error]="vm.popularTagsError"
           />
         </div>
       </div>
@@ -86,35 +85,13 @@ export default class HomeComponent implements OnInit {
   };
 
   public readonly vm$ = combineLatest({
-    articlesData: this.store.select(selectArticleData),
+    articleData: this.store.select(selectArticleData),
     articlesLoading: this.store.select(selectArticlesLoading),
     articlesError: this.store.select(selectArticlesError),
     popularTags: this.store.select(selectTags),
     popularTagsLoading: this.store.select(selectTagsLoading),
     popularTagsError: this.store.select(selectTagsError)
-  }).pipe(
-    map(
-      ({
-        articlesData,
-        articlesLoading,
-        articlesError,
-        popularTags,
-        popularTagsLoading,
-        popularTagsError
-      }) => ({
-        articles: {
-          data: articlesData,
-          loading: articlesLoading,
-          error: articlesError
-        },
-        popularTags: {
-          tags: popularTags,
-          loading: popularTagsLoading,
-          error: popularTagsError
-        }
-      })
-    )
-  );
+  });
 
   public constructor(
     private readonly store: Store,
@@ -131,6 +108,7 @@ export default class HomeComponent implements OnInit {
 
   public fetchFeed() {
     this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
+    // TODO: Find a better approach of deep copy
     const config = JSON.parse(JSON.stringify(this.listConfig));
     this.store.dispatch(articlesActions.getArticles({ config }));
   }
