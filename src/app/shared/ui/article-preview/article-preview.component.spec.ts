@@ -72,7 +72,7 @@ describe('ArticlePreviewComponent', () => {
   it('should display the list of tags', () => {
     const element = fixture.nativeElement as HTMLElement;
     expect(element.querySelectorAll('li').length)
-      .withContext('You should have two tags displayed')
+      .withContext('You should have 2 tags displayed')
       .toBe(2);
   });
 });
