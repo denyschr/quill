@@ -104,8 +104,15 @@ export default class HomeComponent implements OnInit {
 
   public fetchFeed() {
     this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
-    // TODO: Find a better approach of deep copy
-    const config = JSON.parse(JSON.stringify(this.listConfig));
-    this.store.dispatch(articlesActions.getArticles({ config }));
+    this.store.dispatch(
+      articlesActions.getArticles({
+        config: {
+          ...this.listConfig,
+          filters: {
+            ...this.listConfig.filters
+          }
+        }
+      })
+    );
   }
 }
