@@ -13,13 +13,15 @@ export interface ArticleModel {
   author: ProfileModel;
 }
 
+export type FeedType = 'all' | 'feed';
+
 export interface ArticleListResponseModel {
   articles: ArticleModel[];
   articlesCount: number;
 }
 
 export interface ArticleListConfigModel {
-  type: string;
+  type: FeedType;
   filters: {
     tag?: string;
     author?: string;

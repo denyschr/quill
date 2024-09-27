@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { articlesActions } from './articles.actions';
 import { ArticlesStateModel } from '@shared/data-access/models';
-import { routerNavigationAction } from '@ngrx/router-store';
 
 export const initialState: ArticlesStateModel = {
   data: null,
@@ -36,15 +35,14 @@ const articlesFeature = createFeature({
         loading: false,
         error: error
       })
-    ),
-    on(routerNavigationAction, (): ArticlesStateModel => initialState)
+    )
   )
 });
 
 export const {
   name: articlesFeatureKey,
   reducer: articlesReducer,
-  selectData: selectArticleData,
+  selectData: selectArticlesData,
   selectLoading,
   selectError
 } = articlesFeature;

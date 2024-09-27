@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ErrorComponent } from '@shared/ui/error';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 
@@ -19,8 +18,12 @@ import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
         <ul class="d-flex flex-wrap list-unstyled m-0 gap-2">
           @for (tag of tags; track tag) {
             <li>
-              <a class="badge text-bg-success" [routerLink]="['/tags', tag]">{{ tag }}</a>
+              <a class="badge text-bg-success" (click)="selectTag.emit(tag)">
+                {{ tag }}
+              </a>
             </li>
+          } @empty {
+            No tags are here yet...
           }
         </ul>
       </div>
@@ -29,7 +32,14 @@ import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
   host: {
     class: 'col-md-3'
   },
-  imports: [RouterLink, LoadingSpinnerComponent, ErrorComponent],
+  styles: [
+    `
+      a {
+        cursor: pointer;
+      }
+    `
+  ],
+  imports: [LoadingSpinnerComponent, ErrorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsComponent {
@@ -41,4 +51,7 @@ export class TagsComponent {
 
   @Input()
   public error: string | null = null;
+
+  @Output()
+  public readonly selectTag = new EventEmitter<string>();
 }

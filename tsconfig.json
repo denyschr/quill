@@ -40,6 +40,7 @@
       "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
       "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
+      "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],

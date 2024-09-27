@@ -1,6 +1,12 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'ql-pagination',
@@ -12,19 +18,25 @@ import { RouterLink } from '@angular/router';
         <a
           class="btn"
           [ngClass]="{ 'btn-success': active, 'btn-outline-success': !active }"
-          [routerLink]="url"
-          [queryParams]="{ page: page }"
-          >{{ page }}</a
+          (click)="selectPage.emit(page)"
         >
+          {{ page }}
+        </a>
       }
     </div>
   `,
-  imports: [NgClass, RouterLink],
+  styles: [
+    `
+      a {
+        cursor: pointer;
+      }
+    `
+  ],
+  imports: [NgClass],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent implements OnInit {
-  @Input({ required: true })
-  public url!: string;
+  public totalPages: number[] = [];
 
   @Input()
   public itemCount = 0;
@@ -35,7 +47,8 @@ export class PaginationComponent implements OnInit {
   @Input()
   public currentPage = 1;
 
-  public totalPages: number[] = [];
+  @Output()
+  public readonly selectPage = new EventEmitter<number>();
 
   public ngOnInit(): void {
     this.totalPages = Array.from(
