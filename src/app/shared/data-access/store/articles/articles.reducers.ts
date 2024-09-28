@@ -16,6 +16,7 @@ const articlesFeature = createFeature({
       articlesActions.getArticles,
       (state): ArticlesStateModel => ({
         ...state,
+        data: null,
         loading: true
       })
     ),

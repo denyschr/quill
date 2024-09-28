@@ -7,7 +7,12 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   template: `
-    <ql-pagination url="/" [itemCount]="itemCount" [limit]="limit" [currentPage]="currentPage" />
+    <ql-pagination
+      [itemCount]="itemCount"
+      [currentPage]="currentPage"
+      [limit]="limit"
+      (selectPage)="selectedPage = true"
+    />
   `,
   imports: [PaginationComponent]
 })
@@ -15,6 +20,7 @@ class PaginationTestComponent {
   public itemCount = 100;
   public limit = 10;
   public currentPage = 1;
+  public selectedPage = false;
 }
 
 describe('PaginationComponent', () => {
@@ -49,9 +55,12 @@ describe('PaginationComponent', () => {
     expect(links[1].textContent).toContain(2);
   });
 
-  it('should set correct query params', () => {
+  it('should emit an event on click', () => {
     const element = fixture.nativeElement as HTMLElement;
-    const links = element.querySelectorAll<HTMLAnchorElement>('a');
-    expect(links[1].getAttribute('href')).toBe('/?page=2');
+    const link = element.querySelectorAll<HTMLAnchorElement>('a')[1];
+    link.click();
+    expect(fixture.componentInstance.selectedPage)
+      .withContext('You may have forgot the click handler on the `a` element')
+      .toBeTruthy();
   });
 });

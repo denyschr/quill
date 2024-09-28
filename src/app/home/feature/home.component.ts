@@ -96,14 +96,14 @@ export default class HomeComponent implements OnInit {
   public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this._fetchFeed();
+    this.fetchFeed();
     this.store.dispatch(tagsActions.getTags());
   }
 
   public selectPage(page: number): void {
     this.currentPage = page;
     this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
-    this._fetchFeed();
+    this.fetchFeed();
   }
 
   public selectFeed(type: FeedType): void {
@@ -115,7 +115,7 @@ export default class HomeComponent implements OnInit {
         offset: 0
       }
     };
-    this._fetchFeed();
+    this.fetchFeed();
   }
 
   public selectTag(tag: string): void {
@@ -128,10 +128,10 @@ export default class HomeComponent implements OnInit {
         tag
       }
     };
-    this._fetchFeed();
+    this.fetchFeed();
   }
 
-  private _fetchFeed(): void {
+  public fetchFeed(): void {
     this.store.dispatch(
       articlesActions.getArticles({
         config: {
