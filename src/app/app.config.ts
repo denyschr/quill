@@ -9,7 +9,11 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { authFeatureKey, authReducer } from '@auth/data-access/store';
 import * as authEffects from '@auth/data-access/store/auth.effects';
+import * as articlesEffects from '@shared/data-access/store/articles/articles.effects';
+import * as tagsEffects from '@home/data-access/store/tags/tags.effects';
 import { apiInterceptor, tokenInterceptor } from '@auth/utils';
+import { articlesFeatureKey, articlesReducer } from '@shared/data-access/store/articles';
+import { tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,7 +24,9 @@ export const appConfig: ApplicationConfig = {
     provideStore({ router: routerReducer }),
     provideRouterStore(),
     provideState(authFeatureKey, authReducer),
-    provideEffects(authEffects),
+    provideState(articlesFeatureKey, articlesReducer),
+    provideState(tagsFeatureKey, tagsReducer),
+    provideEffects(authEffects, articlesEffects, tagsEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

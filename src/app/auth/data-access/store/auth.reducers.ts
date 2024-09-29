@@ -19,7 +19,8 @@ const authFeature = createFeature({
       authActions.register,
       (state): AuthStateModel => ({
         ...state,
-        submitting: true
+        submitting: true,
+        errors: null
       })
     ),
     on(

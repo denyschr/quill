@@ -27,7 +27,7 @@ describe('AuthService', () => {
 
   afterEach(() => http.verify());
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(authService).toBeTruthy();
   });
 
@@ -49,7 +49,7 @@ describe('AuthService', () => {
     });
     req.flush({ user: user });
 
-    expect(acutalUser).withContext('The observable should return the user').toBe(user);
+    expect(acutalUser).withContext('The observable should emit the registered user').toBe(user);
   });
 
   it('should login a user', () => {
@@ -65,7 +65,7 @@ describe('AuthService', () => {
     expect(req.request.body).toEqual({ user: credentials });
     req.flush({ user: user });
 
-    expect(actualUser).withContext('The observable should return the user').toBe(user);
+    expect(actualUser).withContext('The observable should emit the logged in user').toBe(user);
   });
 
   it('should return a user', () => {
@@ -75,6 +75,6 @@ describe('AuthService', () => {
     const req = http.expectOne({ method: 'GET', url: '/user' });
     req.flush({ user: user });
 
-    expect(actualUser).withContext('The observable should return the user').toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(user);
   });
 });
