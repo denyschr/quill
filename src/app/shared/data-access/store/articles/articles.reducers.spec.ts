@@ -20,6 +20,7 @@ describe('ArticlesReducers', () => {
       const { initialState } = fromArticles;
       const newState = {
         ...initialState,
+        data: null,
         loading: true
       };
       const action = articlesActions.getArticles({ config: { type: 'all', filters: {} } });

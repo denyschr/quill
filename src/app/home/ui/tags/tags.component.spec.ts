@@ -9,13 +9,19 @@ import { TagsComponent } from './tags.component';
 
 @Component({
   standalone: true,
-  template: `<ql-tags [tags]="tags" [loading]="loading" [error]="error" />`,
+  template: `<ql-tags
+    [tags]="tags"
+    [loading]="loading"
+    [error]="error"
+    (selectTag)="selectedTag = true"
+  />`,
   imports: [TagsComponent]
 })
 class TagsTestComponent {
   public tags: string[] | null = null;
   public loading = true;
   public error: string | null = null;
+  public selectedTag = false;
 }
 
 describe('TagsComponent', () => {
@@ -68,5 +74,18 @@ describe('TagsComponent', () => {
     expect(element.query(By.directive(ErrorComponent)))
       .withContext('You probably forgot to add `ErrorComponent` to the `TagsComponent` template')
       .not.toBeNull();
+  });
+
+  it('should emit event on click', () => {
+    fixture.componentInstance.loading = false;
+    fixture.componentInstance.tags = tags;
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    const link = element.querySelectorAll<HTMLAnchorElement>('a')[1];
+    link.click();
+    expect(fixture.componentInstance.selectedTag)
+      .withContext('You may have forgot the click handler on the `a` element')
+      .toBeTruthy();
   });
 });
