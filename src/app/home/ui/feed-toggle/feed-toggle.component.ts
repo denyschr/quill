@@ -8,6 +8,7 @@ import { FeedType } from '@shared/data-access/models';
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
+          id="global-feed"
           class="nav-link"
           [class.active]="feedType === 'all' && !selectedTag"
           (click)="selectFeed.emit('all')"
@@ -17,6 +18,7 @@ import { FeedType } from '@shared/data-access/models';
       @if (!feedDisabled) {
         <li class="nav-item">
           <a
+            id="your-feed"
             class="nav-link"
             [class.active]="feedType === 'feed' && !selectedTag"
             (click)="selectFeed.emit('feed')"
@@ -26,7 +28,7 @@ import { FeedType } from '@shared/data-access/models';
       }
       @if (selectedTag) {
         <li class="nav-item">
-          <a class="nav-link active">#{{ selectedTag }}</a>
+          <a id="tag" class="nav-link active">#{{ selectedTag }}</a>
         </li>
       }
     </ul>

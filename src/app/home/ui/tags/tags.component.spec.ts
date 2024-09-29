@@ -76,7 +76,7 @@ describe('TagsComponent', () => {
       .not.toBeNull();
   });
 
-  it('should emit event on click', () => {
+  it('should emit an event on click', () => {
     fixture.componentInstance.loading = false;
     fixture.componentInstance.tags = tags;
     fixture.detectChanges();
