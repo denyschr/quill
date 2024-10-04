@@ -17,7 +17,8 @@ const articlesFeature = createFeature({
       (state): ArticlesStateModel => ({
         ...state,
         data: null,
-        loading: true
+        loading: true,
+        error: null
       })
     ),
     on(
