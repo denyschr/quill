@@ -21,7 +21,8 @@ describe('ArticlesReducers', () => {
       const newState = {
         ...initialState,
         data: null,
-        loading: true
+        loading: true,
+        error: null
       };
       const action = articlesActions.getArticles({ config: { type: 'all', filters: {} } });
       const state = fromArticles.articlesReducer(initialState, action);
