@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ArticleListConfigModel, ArticleListResponseModel } from '@shared/data-access/models';
+import { map, Observable } from 'rxjs';
+import {
+  ArticleListConfigModel,
+  ArticleListResponseModel,
+  ArticleModel
+} from '@shared/data-access/models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +25,11 @@ export class ArticleService {
       `/articles${config.type === 'feed' ? '/feed' : ''}`,
       { params }
     );
+  }
+
+  public get(slug: string): Observable<ArticleModel> {
+    return this._http
+      .get<{ article: ArticleModel }>(`/articles/${slug}`)
+      .pipe(map(({ article }) => article));
   }
 }
