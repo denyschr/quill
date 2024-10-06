@@ -23,10 +23,42 @@ export const getArticleEffect = createEffect(
   { functional: true }
 );
 
-export const redirectOnArticleFailureEffect = createEffect(
+export const redirectAfterFailureEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(articleActions.getArticleFailure),
+      tap(() => {
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  {
+    functional: true,
+    dispatch: false
+  }
+);
+
+export const deleteArticleEffect = createEffect(
+  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+    return actions$.pipe(
+      ofType(articleActions.deleteArticle),
+      switchMap(({ slug }) =>
+        articleService.delete(slug).pipe(
+          map(() => articleActions.deleteArticleSuccess()),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(articleActions.deleteArticleFailure({ error: errorResponse.error }));
+          })
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const redirectAfterDeleteEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(articleActions.deleteArticleSuccess),
       tap(() => {
         router.navigateByUrl('/');
       })

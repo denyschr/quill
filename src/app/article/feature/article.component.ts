@@ -25,11 +25,12 @@ import { combineLatest, filter, map } from 'rxjs';
                 <div class="d-flex column-gap-2">
                   <a class="btn btn-secondary btn-sm" [routerLink]="['/editor', article.slug]">
                     <i class="bi bi-pencil-square"></i>
-                    Edit Article
+                    Edit
                   </a>
-                  <button type="button" class="btn btn-danger btn-sm">
+
+                  <button type="button" class="btn btn-danger btn-sm" (click)="deleteArticle()">
                     <i class="bi bi-trash3"></i>
-                    Delete Article
+                    Delete
                   </button>
                 </div>
               }
@@ -52,6 +53,8 @@ import { combineLatest, filter, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleComponent implements OnInit {
+  public deleteting = false;
+
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store
@@ -78,5 +81,10 @@ export default class ArticleComponent implements OnInit {
 
   public ngOnInit(): void {
     this.store.dispatch(articleActions.getArticle({ slug: this.slug }));
+  }
+
+  public deleteArticle(): void {
+    this.deleteting = true;
+    this.store.dispatch(articleActions.deleteArticle({ slug: this.slug }));
   }
 }

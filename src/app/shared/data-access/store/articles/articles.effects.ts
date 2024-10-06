@@ -10,7 +10,7 @@ export const getArticlesEffect = createEffect(
     return actions$.pipe(
       ofType(articlesActions.getArticles),
       switchMap(({ config }) =>
-        articleService.getList(config).pipe(
+        articleService.getAll(config).pipe(
           map(data => articlesActions.getArticlesSuccess({ data })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(articlesActions.getArticlesFailure({ error: errorResponse.error }))

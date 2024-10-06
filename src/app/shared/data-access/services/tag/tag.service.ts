@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
 export class TagService {
   public constructor(private readonly _http: HttpClient) {}
 
-  public getList(): Observable<string[]> {
+  public getAll(): Observable<string[]> {
     return this._http.get<{ tags: string[] }>('/tags').pipe(map(({ tags }) => tags));
   }
 }

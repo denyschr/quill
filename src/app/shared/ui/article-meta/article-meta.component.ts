@@ -8,7 +8,13 @@ import { ProfileModel } from '@shared/data-access/models';
   template: `
     <div class="d-flex flex-wrap align-items-center row-gap-2 column-gap-3 mb-1">
       <a [routerLink]="['/profile', author.username]">
-        <img class="rounded-circle" [src]="author.image" [alt]="author.username" />
+        <img
+          class="rounded-circle"
+          [src]="author.image"
+          width="32"
+          height="32"
+          [alt]="author.username"
+        />
       </a>
 
       <div class="d-flex flex-column align-items-start">
