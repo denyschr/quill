@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
+import { TagListComponent } from '@shared/ui/tag-list';
 
 @Component({
   standalone: true,
@@ -69,10 +70,12 @@ describe('ArticlePreviewComponent', () => {
     expect(description.textContent).toContain('Ever wonder how?');
   });
 
-  it('should display the list of tags', () => {
-    const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelectorAll('li').length)
-      .withContext('You should have 2 tags displayed')
-      .toBe(2);
+  it('should use the tag-list component', () => {
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(TagListComponent)))
+      .withContext(
+        'You probably forgot to add `TagListComponent` to the `ArticlePreviewComponent` tempalte'
+      )
+      .not.toBeNull();
   });
 });

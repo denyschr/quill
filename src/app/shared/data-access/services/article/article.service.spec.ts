@@ -37,7 +37,7 @@ describe('ArticleService', () => {
 
     let actualArticles: ArticleListResponseModel | undefined;
     articleService
-      .getList({ type: 'all', filters: {} })
+      .getAll({ type: 'all', filters: {} })
       .subscribe(articleList => (actualArticles = articleList));
 
     http.expectOne({ method: 'GET', url: '/articles' }).flush(hardcodedArticles);

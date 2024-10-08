@@ -10,7 +10,7 @@ export const getTagsEffect = createEffect(
     return actions$.pipe(
       ofType(tagsActions.getTags),
       switchMap(() =>
-        tagService.getList().pipe(
+        tagService.getAll().pipe(
           map(tags => tagsActions.getTagsSuccess({ tags })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(tagsActions.getTagsFailure({ error: errorResponse.error }))

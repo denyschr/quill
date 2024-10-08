@@ -25,7 +25,7 @@ describe('TagService', () => {
     const hardcodedTags = { tags: ['esse', 'at', 'ipsum', 'sunt', 'maiores'] };
 
     let actualTags: string[] | undefined;
-    tagService.getList().subscribe(tags => (actualTags = tags));
+    tagService.getAll().subscribe(tags => (actualTags = tags));
 
     http.expectOne({ method: 'GET', url: '/tags' }).flush(hardcodedTags);
 
