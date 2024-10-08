@@ -10,16 +10,20 @@ export const LAYOUT_ROUTES: Route[] = [
     loadComponent: () => import('../../home/feature/home.component')
   },
   {
-    path: 'article/:slug',
-    loadComponent: () => import('../../article/feature/article.component'),
-    providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
-  },
-  {
     path: 'register',
     loadComponent: () => import('../../auth/feature/register/register.component')
   },
   {
     path: 'login',
     loadComponent: () => import('../../auth/feature/login/login.component')
+  },
+  {
+    path: 'article/:slug',
+    loadComponent: () => import('../../article/feature/article.component'),
+    providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
+  },
+  {
+    path: 'editor',
+    loadChildren: () => import('../../editor/feature/editor.routes').then(m => m.editorRoutes)
   }
 ];
