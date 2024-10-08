@@ -6,14 +6,6 @@ import { articleFeatureKey, articleReducer } from '@article/data-access/store';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
-    path: 'register',
-    loadComponent: () => import('../../auth/feature/register/register.component')
-  },
-  {
-    path: 'login',
-    loadComponent: () => import('../../auth/feature/login/login.component')
-  },
-  {
     path: '',
     loadComponent: () => import('../../home/feature/home.component')
   },
@@ -21,5 +13,13 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'article/:slug',
     loadComponent: () => import('../../article/feature/article.component'),
     providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('../../auth/feature/register/register.component')
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('../../auth/feature/login/login.component')
   }
 ];

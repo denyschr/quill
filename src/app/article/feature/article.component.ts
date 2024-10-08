@@ -28,7 +28,12 @@ import { combineLatest, filter, map } from 'rxjs';
                     Edit
                   </a>
 
-                  <button type="button" class="btn btn-danger btn-sm" (click)="deleteArticle()">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    [disabled]="deleting"
+                    (click)="deleteArticle()"
+                  >
                     <i class="bi bi-trash3"></i>
                     Delete
                   </button>
@@ -53,7 +58,7 @@ import { combineLatest, filter, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleComponent implements OnInit {
-  public deleteting = false;
+  public deleting = false;
 
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
@@ -84,7 +89,7 @@ export default class ArticleComponent implements OnInit {
   }
 
   public deleteArticle(): void {
-    this.deleteting = true;
+    this.deleting = true;
     this.store.dispatch(articleActions.deleteArticle({ slug: this.slug }));
   }
 }
