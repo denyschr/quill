@@ -79,7 +79,7 @@ export class ArticleFormComponent {
   public titleControl = this._fb.control('', [Validators.required]);
   public descriptionControl = this._fb.control('', [Validators.required]);
   public bodyControl = this._fb.control('');
-  public tagListControl = this._fb.control(['']);
+  public tagListControl = this._fb.control(<string[]>[]);
 
   public readonly articleForm = this._fb.group({
     title: this.titleControl,
@@ -92,7 +92,7 @@ export class ArticleFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public submitted = new EventEmitter<ArticleFormDataModel>();
+  public readonly submitted = new EventEmitter<ArticleFormDataModel>();
 
   @Input()
   public set article(article: ArticleModel) {
@@ -117,7 +117,7 @@ export class ArticleFormComponent {
 
   public addTag(tagInput: HTMLInputElement): void {
     const newTag = tagInput.value.trim();
-    if (!newTag) {
+    if (!newTag || ~this.tagListControl.value.indexOf(newTag)) {
       return;
     }
     this.tagListControl.patchValue([...this.tagListControl.value, newTag]);
