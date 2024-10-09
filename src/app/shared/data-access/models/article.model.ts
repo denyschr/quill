@@ -4,7 +4,7 @@ export interface ArticleModel {
   slug: string;
   title: string;
   description: string;
-  body?: string;
+  body: string;
   tagList: string[];
   createdAt: string;
   updatedAt: string;
@@ -29,4 +29,11 @@ export interface ArticleListConfigModel {
     limit?: number;
     offset?: number;
   };
+}
+
+export interface ArticleFormDataModel {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
 }

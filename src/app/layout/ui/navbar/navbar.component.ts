@@ -29,7 +29,12 @@ import { combineLatest } from 'rxjs';
             @if (currentUser === null) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/" routerLinkActive="active" ngbTooltip="Home"
+                  <a
+                    class="nav-link"
+                    routerLink="/"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    ngbTooltip="Home"
                     >Home</a
                   >
                 </li>
@@ -58,14 +63,19 @@ import { combineLatest } from 'rxjs';
             @if (currentUser) {
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/" routerLinkActive="active" ngbTooltip="Home"
+                  <a
+                    class="nav-link"
+                    routerLink="/"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    ngbTooltip="Home"
                     >Home</a
                   >
                 </li>
                 <li class="nav-item">
                   <a
                     class="nav-link"
-                    routerLink="/articles"
+                    routerLink="/editor"
                     routerLinkActive="active"
                     ngbTooltip="New Article"
                   >
@@ -87,7 +97,7 @@ import { combineLatest } from 'rxjs';
                 <li class="nav-item">
                   <a
                     class="nav-link"
-                    [routerLink]="['/profiles', currentUser.username]"
+                    [routerLink]="['/profile', currentUser.username]"
                     routerLinkActive="active"
                     [ngbTooltip]="currentUser.username"
                   >

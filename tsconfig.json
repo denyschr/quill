@@ -23,7 +23,10 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
+      // Environments
       "@environment": ["src/environments/environment"],
+
+      // Auth
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/services": ["src/app/auth/data-access/services/index.ts"],
       "@auth/data-access/store": ["src/app/auth/data-access/store/index.ts"],
@@ -33,19 +36,36 @@
       "@auth/ui/login-form": ["src/app/auth/ui/login-form/index.ts"],
       "@auth/ui/register-form": ["src/app/auth/ui/register-form/index.ts"],
       "@auth/utils": ["src/app/auth/utils/index.ts"],
+
+      // Layout
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
+
+      // Home
       "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
       "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
       "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
       "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
-      "@article/feature": ["src/app/article/feature/index.ts"],
+
+      // Article
       "@article/data-access/models": ["src/app/article/data-access/models/index.ts"],
       "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
       "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
+      "@article/feature": ["src/app/article/feature/index.ts"],
+
+      // Editor
+      "@editor/data-access/models": ["src/app/editor/data-access/models/index.ts"],
+      "@editor/data-access/store/new-article": [
+        "src/app/editor/data-access/store/new-article/index.ts"
+      ],
+      "@editor/data-access/store/new-article/*": ["src/app/editor/data-access/store/new-article/*"],
+      "@editor/feature/new-article": ["src/app/editor/feature/new-article/index.ts"],
+      "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
+
+      // Shared
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
       "@shared/data-access/services/article": [
