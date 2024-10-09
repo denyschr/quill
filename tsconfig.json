@@ -51,12 +51,17 @@
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
 
       // Article
-      "@article/feature": ["src/app/article/feature/index.ts"],
       "@article/data-access/models": ["src/app/article/data-access/models/index.ts"],
       "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
       "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
+      "@article/feature": ["src/app/article/feature/index.ts"],
 
       // Editor
+      "@editor/data-access/models": ["src/app/editor/data-access/models/index.ts"],
+      "@editor/data-access/store/new-article": [
+        "src/app/editor/data-access/store/new-article/index.ts"
+      ],
+      "@editor/data-access/store/new-article/*": ["src/app/editor/data-access/store/new-article/*"],
       "@editor/feature/new-article": ["src/app/editor/feature/new-article/index.ts"],
       "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
 
