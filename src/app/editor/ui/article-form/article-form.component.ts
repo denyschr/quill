@@ -42,8 +42,7 @@ import { ValidationErrorDirective, ValidationErrorsComponent } from 'ngx-valdemo
             id="tag-list"
             type="text"
             class="form-control mb-2"
-            (keydown.enter)="addTag(tagInputRef)"
-            #tagInputRef
+            (keydown.enter)="addTag($event)"
           />
 
           @let tagList = articleForm.value.tagList;
@@ -111,15 +110,18 @@ export class ArticleFormComponent {
       this.articleForm.markAllAsTouched();
       return;
     }
-    const articleData = this.articleForm.getRawValue();
-    this.submitted.emit(articleData);
+    this.submitted.emit(this.articleForm.getRawValue());
   }
 
-  public addTag(tagInput: HTMLInputElement): void {
+  public addTag(event: Event): void {
+    event.preventDefault();
+
+    const tagInput = event.target as HTMLInputElement;
     const newTag = tagInput.value.trim();
     if (!newTag || ~this.tagListControl.value.indexOf(newTag)) {
       return;
     }
+
     this.tagListControl.patchValue([...this.tagListControl.value, newTag]);
     tagInput.value = '';
   }
