@@ -19,9 +19,8 @@ import { combineLatest } from 'rxjs';
       <div class="row py-3">
         <div class="col-md-6 offset-md-3">
           <ng-container *ngrxLet="vm$; let vm">
-            @let backendErrors = vm.backendErrors;
-            @if (backendErrors) {
-              <ql-backend-errors [errors]="backendErrors" />
+            @if (vm.backendErrors) {
+              <ql-backend-errors [errors]="vm.backendErrors" />
             }
             <ql-article-form [submitting]="vm.submitting" (submitted)="submitArticle($event)" />
           </ng-container>
