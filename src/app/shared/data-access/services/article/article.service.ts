@@ -38,6 +38,12 @@ export class ArticleService {
       .pipe(map(({ article }) => article));
   }
 
+  public update(slug: string, article: Partial<ArticleModel>): Observable<ArticleModel> {
+    return this._http
+      .put<{ article: ArticleModel }>(`/articles/${slug}`, { article: article })
+      .pipe(map(({ article }) => article));
+  }
+
   public delete(slug: string): Observable<void> {
     return this._http.delete<void>(`/articles/${slug}`);
   }
