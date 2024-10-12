@@ -66,6 +66,13 @@ const authFeature = createFeature({
       })
     ),
     on(
+      authActions.updateCurrentUserSuccess,
+      (state, { currentUser }): AuthStateModel => ({
+        ...state,
+        currentUser: currentUser
+      })
+    ),
+    on(
       routerNavigatedAction,
       (state): AuthStateModel => ({
         ...state,
