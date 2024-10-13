@@ -25,4 +25,8 @@ export class AuthService {
       .post<{ user: UserModel }>(`/users/login`, { user: credentials })
       .pipe(map(({ user }) => user));
   }
+
+  public update(user: Partial<UserModel>): Observable<UserModel> {
+    return this._http.put<{ user: UserModel }>('/user', { user }).pipe(map(({ user }) => user));
+  }
 }

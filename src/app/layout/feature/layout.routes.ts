@@ -3,6 +3,7 @@ import { provideEffects } from '@ngrx/effects';
 import * as articleEffects from '@article/data-access/store/article.effects';
 import { provideState } from '@ngrx/store';
 import { articleFeatureKey, articleReducer } from '@article/data-access/store';
+import { settingsFeatureKey, settingsReducer } from '@settings/data-access/store/index.ts';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -25,5 +26,10 @@ export const LAYOUT_ROUTES: Route[] = [
   {
     path: 'editor',
     loadChildren: () => import('../../editor/feature/editor.routes').then(m => m.editorRoutes)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('../../settings/feature/settings.component'),
+    providers: [provideState(settingsFeatureKey, settingsReducer)]
   }
 ];

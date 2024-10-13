@@ -66,10 +66,25 @@ const authFeature = createFeature({
       })
     ),
     on(
+      authActions.updateCurrentUserSuccess,
+      (state, { currentUser }): AuthStateModel => ({
+        ...state,
+        currentUser: currentUser
+      })
+    ),
+    on(
       routerNavigatedAction,
       (state): AuthStateModel => ({
         ...state,
         errors: null
+      })
+    ),
+    on(
+      authActions.logout,
+      (state): AuthStateModel => ({
+        ...state,
+        ...initialState,
+        currentUser: null
       })
     )
   )
