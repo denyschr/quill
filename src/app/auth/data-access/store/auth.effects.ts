@@ -115,3 +115,16 @@ export const updateCurrentUserEffect = createEffect(
   },
   { functional: true }
 );
+
+export const logoutEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      tap(() => {
+        jwtService.removeToken();
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);

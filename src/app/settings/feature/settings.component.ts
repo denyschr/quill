@@ -28,6 +28,17 @@ import { BackendErrorsComponent } from '@shared/ui/backend-errors';
               [submitting]="vm.submitting"
               (submitted)="submitUser($event)"
             />
+
+            <hr />
+
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              [disabled]="vm.submitting"
+              (click)="logout()"
+            >
+              Log out
+            </button>
           </ng-container>
         </div>
       </div>
@@ -49,5 +60,9 @@ export default class SettingsComponent {
 
   public submitUser(user: UserFormDataModel): void {
     this.store.dispatch(authActions.updateCurrentUser({ user }));
+  }
+
+  public logout(): void {
+    this.store.dispatch(authActions.logout());
   }
 }

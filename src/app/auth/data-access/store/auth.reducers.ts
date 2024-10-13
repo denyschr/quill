@@ -78,6 +78,14 @@ const authFeature = createFeature({
         ...state,
         errors: null
       })
+    ),
+    on(
+      authActions.logout,
+      (state): AuthStateModel => ({
+        ...state,
+        ...initialState,
+        currentUser: null
+      })
     )
   )
 });
