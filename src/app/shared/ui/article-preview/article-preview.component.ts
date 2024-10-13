@@ -3,13 +3,21 @@ import { RouterLink } from '@angular/router';
 import { ArticleModel } from '@shared/data-access/models';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
 import { TagListComponent } from '@shared/ui/tag-list';
+import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 
 @Component({
   selector: 'ql-article-preview',
   standalone: true,
   template: `
     <div class="shadow p-3 bg-white rounded">
-      <ql-article-meta [author]="article.author" [createdAt]="article.createdAt" />
+      <ql-article-meta [author]="article.author" [createdAt]="article.createdAt">
+        <ql-favorite-button
+          [favorited]="article.favorited"
+          [slug]="article.slug"
+          [favoritesCount]="article.favoritesCount"
+          class="ms-auto"
+        />
+      </ql-article-meta>
 
       <div class="position-relative">
         <h3 class="fs-4">
@@ -48,7 +56,7 @@ import { TagListComponent } from '@shared/ui/tag-list';
       }
     `
   ],
-  imports: [RouterLink, ArticleMetaComponent, TagListComponent],
+  imports: [RouterLink, ArticleMetaComponent, FavoriteButtonComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {
