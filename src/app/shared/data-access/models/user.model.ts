@@ -5,3 +5,11 @@ export interface UserModel {
   bio: string | null;
   image: string;
 }
+
+export interface UserFormDataModel {
+  image: string;
+  username: string;
+  bio: string | null;
+  email: string;
+  password: string;
+}

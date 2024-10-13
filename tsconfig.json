@@ -76,6 +76,7 @@
       "@settings/data-access/models/index.ts": ["src/app/settings/data-access/models/index.ts"],
       "@settings/data-access/store/index.ts": ["src/app/settings/data-access/store/index.ts"],
       "@settings/feature/index.ts": ["src/app/settings/feature/index.ts"],
+      "@settings/ui/user-form/index.ts": ["src/app/settings/ui/user-form/index.ts"],
 
       // Shared
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
