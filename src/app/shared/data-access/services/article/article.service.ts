@@ -47,4 +47,16 @@ export class ArticleService {
   public delete(slug: string): Observable<void> {
     return this._http.delete<void>(`/articles/${slug}`);
   }
+
+  public favorite(slug: string): Observable<ArticleModel> {
+    return this._http
+      .post<{ article: ArticleModel }>(`/articles/${slug}/favorite`, {})
+      .pipe(map(({ article }) => article));
+  }
+
+  public unfavorite(slug: string): Observable<ArticleModel> {
+    return this._http
+      .delete<{ article: ArticleModel }>(`/articles/${slug}/favorite`)
+      .pipe(map(({ article }) => article));
+  }
 }
