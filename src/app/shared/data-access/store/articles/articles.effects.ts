@@ -21,3 +21,22 @@ export const getArticlesEffect = createEffect(
   },
   { functional: true }
 );
+
+export const addToFavoritesEffect = createEffect(
+  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+    return actions$.pipe(
+      ofType(articlesActions.addToFavorites),
+      switchMap(({ favorited, slug }) => {
+        const article$ = favorited
+          ? articleService.unfavorite(slug)
+          : articleService.favorite(slug);
+
+        return article$.pipe(
+          map(article => articlesActions.addToFavoritesSuccess({ article })),
+          catchError(() => of(articlesActions.addToFavoritesFailure()))
+        );
+      })
+    );
+  },
+  { functional: true }
+);
