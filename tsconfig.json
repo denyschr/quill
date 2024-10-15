@@ -73,10 +73,16 @@
       "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
 
       // Settings
-      "@settings/data-access/models/index.ts": ["src/app/settings/data-access/models/index.ts"],
-      "@settings/data-access/store/index.ts": ["src/app/settings/data-access/store/index.ts"],
-      "@settings/feature/index.ts": ["src/app/settings/feature/index.ts"],
-      "@settings/ui/user-form/index.ts": ["src/app/settings/ui/user-form/index.ts"],
+      "@settings/data-access/models": ["src/app/settings/data-access/models/index.ts"],
+      "@settings/data-access/store": ["src/app/settings/data-access/store/index.ts"],
+      "@settings/feature": ["src/app/settings/feature/index.ts"],
+      "@settings/ui/user-form": ["src/app/settings/ui/user-form/index.ts"],
+
+      // Profile
+      "@profile/data-access/models": ["src/app/profile/data-access/models/index.ts"],
+      "@profile/data-access/services": ["src/app/profile/data-access/services/index.ts"],
+      "@profile/data-access/store": ["src/app/profile/data-access/store/index.ts"],
+      "@profile/data-access/store/*": ["src/app/profile/data-access/store/*"],
 
       // Shared
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
