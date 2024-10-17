@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { TagsStateModel } from '@home/data-access/models';
 import { tagsActions } from './tags.actions';
 
-export const initialState: TagsStateModel = {
+const initialState: TagsStateModel = {
   tags: null,
   loading: false,
   error: null

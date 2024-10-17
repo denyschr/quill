@@ -3,7 +3,7 @@ import { authActions } from './auth.actions';
 import { AuthStateModel } from '@auth/data-access/models';
 import { routerNavigatedAction } from '@ngrx/router-store';
 
-export const initialState: AuthStateModel = {
+const initialState: AuthStateModel = {
   currentUser: undefined,
   submitting: false,
   loading: false,

@@ -3,7 +3,7 @@ import { articleActions } from './article.actions';
 import { ArticleStateModel } from '@article/data-access/models';
 import { routerNavigationAction } from '@ngrx/router-store';
 
-export const initialState: ArticleStateModel = {
+const initialState: ArticleStateModel = {
   article: null,
   loading: false,
   error: null

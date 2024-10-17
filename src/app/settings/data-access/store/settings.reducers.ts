@@ -1,7 +1,7 @@
 import { authActions } from '@auth/data-access/store';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SettingsStateModel } from '@settings/data-access/models/index.ts';
+import { SettingsStateModel } from '@settings/data-access/models';
 
 const initialState: SettingsStateModel = {
   submitting: false,
