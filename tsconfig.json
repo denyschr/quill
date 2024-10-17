@@ -83,6 +83,9 @@
       "@profile/data-access/services": ["src/app/profile/data-access/services/index.ts"],
       "@profile/data-access/store": ["src/app/profile/data-access/store/index.ts"],
       "@profile/data-access/store/*": ["src/app/profile/data-access/store/*"],
+      "@profile/feature": ["src/app/profile/feature/index.ts"],
+      "@profile/ui/user-info": ["src/app/profile/ui/user-info/index.ts"],
+      "@profile/ui/articles-toggle": ["src/app/profile/ui/articles-toggle/index.ts"],
 
       // Shared
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
