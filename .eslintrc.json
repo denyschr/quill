@@ -26,7 +26,12 @@
             "endOfLine": "auto"
           }
         ],
-        "@typescript-eslint/explicit-member-accessibility": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "overrides": { "constructors": "no-public" }
+          }
+        ],
         "@typescript-eslint/member-ordering": [
           "error",
           {

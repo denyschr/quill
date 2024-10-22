@@ -31,7 +31,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ValidationDefaultsComponent {
-  public constructor(config: ValdemortConfig) {
+  constructor(config: ValdemortConfig) {
     config.errorsClasses = 'invalid-feedback';
   }
 }

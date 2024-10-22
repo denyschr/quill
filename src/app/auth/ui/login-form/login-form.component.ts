@@ -61,7 +61,7 @@ export class LoginFormComponent {
   @Output()
   public readonly submitted = new EventEmitter<LoginCredentialsModel>();
 
-  public constructor(private readonly _fb: NonNullableFormBuilder) {}
+  constructor(private readonly _fb: NonNullableFormBuilder) {}
 
   public submit(): void {
     if (this.loginForm.invalid) {

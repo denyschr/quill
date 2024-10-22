@@ -41,7 +41,7 @@ export default class LoginComponent {
     backendErrors: this.store.select(selectErrors)
   });
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public login(credentials: LoginCredentialsModel): void {
     this.store.dispatch(authActions.login({ credentials }));

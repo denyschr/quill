@@ -92,7 +92,7 @@ export class UserFormComponent {
     });
   }
 
-  public constructor(private readonly _fb: NonNullableFormBuilder) {}
+  constructor(private readonly _fb: NonNullableFormBuilder) {}
 
   public submit(): void {
     if (this.userForm.invalid) {

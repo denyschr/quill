@@ -58,7 +58,7 @@ export default class EditArticleComponent implements OnInit {
   @Input()
   public slug!: string;
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.store.dispatch(editArticleActions.getArticle({ slug: this.slug }));

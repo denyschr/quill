@@ -30,7 +30,7 @@ export class FavoriteButtonComponent {
   @Input()
   public slug = '';
 
-  public constructor(private store: Store) {}
+  constructor(private store: Store) {}
 
   public toggleFavorite(): void {
     this.store.dispatch(

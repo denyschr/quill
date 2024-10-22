@@ -37,7 +37,7 @@ export default class NewArticleComponent {
     backendErrors: this.store.select(selectErrors)
   });
 
-  public constructor(private store: Store) {}
+  constructor(private store: Store) {}
 
   public submitArticle(article: ArticleFormDataModel) {
     this.store.dispatch(newArticleActions.newArticle({ article }));

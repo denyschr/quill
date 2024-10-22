@@ -56,7 +56,7 @@ export default class SettingsComponent {
     currentUser: this.currentUser$
   });
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public submitUser(user: UserFormDataModel): void {
     this.store.dispatch(authActions.updateCurrentUser({ user }));
