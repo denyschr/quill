@@ -15,7 +15,7 @@ import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
   imports: [RouterOutlet, ValidationDefaultsComponent]
 })
 export class AppComponent implements OnInit {
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.store.dispatch(authActions.getCurrentUser());

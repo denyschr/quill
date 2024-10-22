@@ -39,7 +39,7 @@ export default class RegisterComponent {
     backendErrors: this.store.select(selectErrors)
   });
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public register(credentials: RegisterCredentialsModel): void {
     this.store.dispatch(authActions.register({ credentials }));

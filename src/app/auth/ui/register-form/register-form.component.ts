@@ -69,7 +69,7 @@ export class RegisterFormComponent {
   @Output()
   public readonly submitted = new EventEmitter<RegisterCredentialsModel>();
 
-  public constructor(private readonly _fb: NonNullableFormBuilder) {}
+  constructor(private readonly _fb: NonNullableFormBuilder) {}
 
   public submit(): void {
     if (this.registerForm.invalid) {

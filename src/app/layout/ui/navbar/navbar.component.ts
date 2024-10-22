@@ -136,7 +136,7 @@ export class NavbarComponent {
     currentUser: this.store.select(selectCurrentUser)
   });
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;

@@ -11,7 +11,7 @@ import {
   providedIn: 'root'
 })
 export class ArticleService {
-  public constructor(private readonly _http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
   public getAll(config: ArticleListConfigModel): Observable<ArticleListResponseModel> {
     let params = new HttpParams();

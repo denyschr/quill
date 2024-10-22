@@ -8,7 +8,7 @@ import { RegisterCredentialsModel, LoginCredentialsModel } from '@auth/data-acce
   providedIn: 'root'
 })
 export class AuthService {
-  public constructor(private readonly _http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
   public getCurrentUser(): Observable<UserModel> {
     return this._http.get<{ user: UserModel }>(`/user`).pipe(map(({ user }) => user));

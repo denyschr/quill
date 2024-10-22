@@ -93,7 +93,7 @@ export default class HomeComponent implements OnInit {
     authenticated: this.store.select(selectCurrentUser)
   });
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.fetchFeed();

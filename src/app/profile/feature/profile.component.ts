@@ -94,7 +94,7 @@ export default class ProfileComponent implements OnInit, OnChanges {
   @Input()
   public username!: string;
 
-  public constructor(
+  constructor(
     private readonly router: Router,
     private readonly store: Store
   ) {}

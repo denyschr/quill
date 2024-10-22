@@ -7,7 +7,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-  public constructor(private readonly _http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
   public get(username: string): Observable<ProfileModel> {
     return this._http

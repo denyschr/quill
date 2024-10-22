@@ -82,7 +82,7 @@ export default class ArticleComponent implements OnInit {
   @Input()
   public slug!: string;
 
-  public constructor(private store: Store) {}
+  constructor(private store: Store) {}
 
   public ngOnInit(): void {
     this.store.dispatch(articleActions.getArticle({ slug: this.slug }));
