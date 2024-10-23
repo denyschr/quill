@@ -6,8 +6,10 @@ import { NavbarComponent } from '@layout/ui/navbar';
   selector: 'ql-layout',
   standalone: true,
   template: `
-    <ql-navbar />
-    <main class="container mt-3">
+    <header class="fixed-top">
+      <ql-navbar />
+    </header>
+    <main class="container mt-5">
       <router-outlet />
     </main>
   `,
