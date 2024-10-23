@@ -7,20 +7,10 @@ import { NavbarComponent } from '@layout/ui/navbar';
   standalone: true,
   template: `
     <ql-navbar />
-    <main>
+    <main class="container mt-3">
       <router-outlet />
     </main>
   `,
-  styles: [
-    `
-      :host {
-        display: flex;
-        flex-direction: column;
-        min-height: 100%;
-        overflow: clip;
-      }
-    `
-  ],
   imports: [RouterOutlet, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
