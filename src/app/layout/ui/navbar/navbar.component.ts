@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { selectCurrentUser } from '@auth/data-access/store';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -34,27 +33,14 @@ import { combineLatest } from 'rxjs';
                     routerLink="/"
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    ngbTooltip="Home"
                     >Home</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    routerLink="/login"
-                    routerLinkActive="active"
-                    ngbTooltip="Sign in"
-                    >Sign in</a
-                  >
+                  <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    routerLink="/register"
-                    routerLinkActive="active"
-                    ngbTooltip="Sign up"
-                    >Sign up</a
-                  >
+                  <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
                 </li>
               </ul>
             }
@@ -68,28 +54,17 @@ import { combineLatest } from 'rxjs';
                     routerLink="/"
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    ngbTooltip="Home"
                     >Home</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    routerLink="/editor"
-                    routerLinkActive="active"
-                    ngbTooltip="New Article"
-                  >
+                  <a class="nav-link" routerLink="/editor" routerLinkActive="active">
                     <i class="bi bi-pencil-square"></i>
                     New Article
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    routerLink="/settings"
-                    routerLinkActive="active"
-                    ngbTooltip="Settings"
-                  >
+                  <a class="nav-link" routerLink="/settings" routerLinkActive="active">
                     <i class="bi bi-gear-wide-connected"></i>
                     Settings
                   </a>
@@ -99,7 +74,6 @@ import { combineLatest } from 'rxjs';
                     class="nav-link"
                     [routerLink]="['/profile', currentUser.username]"
                     routerLinkActive="active"
-                    [ngbTooltip]="currentUser.username"
                   >
                     @if (currentUser.image) {
                       <img
@@ -120,14 +94,7 @@ import { combineLatest } from 'rxjs';
       </nav>
     </header>
   `,
-  styles: [
-    `
-      .nav-link.active {
-        color: var(--bs-nav-link-hover-color);
-      }
-    `
-  ],
-  imports: [RouterLink, RouterLinkActive, LetDirective, NgbTooltip],
+  imports: [RouterLink, RouterLinkActive, LetDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
