@@ -40,7 +40,6 @@
       // Layout
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
-      "@layout/ui/footer": ["src/app/layout/ui/footer/index.ts"],
 
       // Home
       "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
