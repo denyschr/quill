@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { selectCurrentUser } from '@auth/data-access/store';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -19,7 +20,7 @@ import { combineLatest } from 'rxjs';
           <div
             id="navbar"
             class="navbar-collapse"
-            [class.collapse]="navbarCollapsed"
+            [ngbCollapse]="navbarCollapsed"
             *ngrxLet="vm$; let vm"
           >
             @let currentUser = vm.currentUser;
@@ -94,7 +95,7 @@ import { combineLatest } from 'rxjs';
       </nav>
     </header>
   `,
-  imports: [RouterLink, RouterLinkActive, LetDirective],
+  imports: [RouterLink, RouterLinkActive, LetDirective, NgbCollapse],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
