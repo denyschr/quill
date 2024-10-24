@@ -48,12 +48,6 @@ const authFeature = createFeature({
       })
     ),
     on(
-      authActions.getCurrentUser,
-      (state): AuthStateModel => ({
-        ...state
-      })
-    ),
-    on(
       authActions.getCurrentUserSuccess,
       (state, { currentUser }): AuthStateModel => ({
         ...state,

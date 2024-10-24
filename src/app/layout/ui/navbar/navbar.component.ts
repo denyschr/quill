@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { selectCurrentUser } from '@auth/data-access/store';
+import { selectCurrentUser, selectStatus } from '@auth/data-access/store';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -25,7 +25,7 @@ import { combineLatest } from 'rxjs';
           @let currentUser = vm.currentUser;
 
           <!-- Show this if the user is not logged in -->
-          @if (currentUser === null) {
+          @if (vm.status === 'unauthenticated') {
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
                 <a
@@ -99,7 +99,8 @@ import { combineLatest } from 'rxjs';
 export class NavbarComponent {
   public navbarCollapsed = true;
   public readonly vm$ = combineLatest({
-    currentUser: this.store.select(selectCurrentUser)
+    currentUser: this.store.select(selectCurrentUser),
+    status: this.store.select(selectStatus)
   });
 
   constructor(private readonly store: Store) {}

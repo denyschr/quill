@@ -46,10 +46,8 @@ import { combineLatest, filter } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class EditArticleComponent implements OnInit {
-  public readonly article$ = this.store.select(selectArticle).pipe(filter(Boolean));
-
   public readonly vm$ = combineLatest({
-    article: this.article$,
+    article: this.store.select(selectArticle).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
     loading: this.store.select(selectLoading),
     backendErrors: this.store.select(selectErrors)

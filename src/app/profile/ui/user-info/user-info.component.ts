@@ -10,7 +10,7 @@ import { ProfileModel } from '@shared/data-access/models';
       <div class="container py-4">
         <div class="row">
           <div class="text-center col-md-10 offset-md-1">
-            <img [src]="'user-avatar.png'" width="120" height="120" [alt]="profile.username" />
+            <img [src]="profile.image" width="120" height="120" [alt]="profile.username" />
             <h1 class="fs-3 fw-bold">{{ profile.username }}</h1>
             @if (profile.bio) {
               <p class="text-secondary">{{ profile.bio }}</p>

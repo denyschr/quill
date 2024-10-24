@@ -6,7 +6,7 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
 import { TagListComponent } from '@shared/ui/tag-list';
-import { combineLatest, filter, map } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'ql-article',
@@ -62,9 +62,7 @@ export default class ArticleComponent implements OnInit {
 
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
-    currentUser: this.store
-      .select(selectCurrentUser)
-      .pipe(filter(currentUser => currentUser !== undefined))
+    currentUser: this.store.select(selectCurrentUser)
   }).pipe(
     map(({ article, currentUser }) => {
       if (!article || !currentUser) {
