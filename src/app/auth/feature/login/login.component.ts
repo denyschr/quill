@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoginCredentialsModel } from '@auth/data-access/models';
-import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/store';
+import { authActions, selectErrors, selectStatus } from '@auth/data-access/store';
 import { LoginFormComponent } from '@auth/ui/login-form';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,10 @@ import { combineLatest } from 'rxjs';
             @if (backendErros) {
               <ql-backend-errors [errors]="backendErros" />
             }
-            <ql-login-form [submitting]="vm.submitting" (submitted)="login($event)" />
+            <ql-login-form
+              [authenticating]="vm.status === 'authenticating'"
+              (submitted)="login($event)"
+            />
           </ng-container>
         </div>
       </div>
@@ -37,8 +40,8 @@ import { combineLatest } from 'rxjs';
 })
 export default class LoginComponent {
   public readonly vm$ = combineLatest({
-    submitting: this.store.select(selectSubmitting),
-    backendErrors: this.store.select(selectErrors)
+    backendErrors: this.store.select(selectErrors),
+    status: this.store.select(selectStatus)
   });
 
   constructor(private readonly store: Store) {}

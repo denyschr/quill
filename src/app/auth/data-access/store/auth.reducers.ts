@@ -4,10 +4,9 @@ import { AuthStateModel } from '@auth/data-access/models';
 import { routerNavigatedAction } from '@ngrx/router-store';
 
 const initialState: AuthStateModel = {
-  currentUser: undefined,
-  submitting: false,
-  loading: false,
-  errors: null
+  currentUser: null,
+  errors: null,
+  status: 'pending'
 };
 
 const authFeature = createFeature({
@@ -16,11 +15,18 @@ const authFeature = createFeature({
     initialState,
     on(
       authActions.login,
+      (state): AuthStateModel => ({
+        ...state,
+        errors: null,
+        status: 'authenticating'
+      })
+    ),
+    on(
       authActions.register,
       (state): AuthStateModel => ({
         ...state,
-        submitting: true,
-        errors: null
+        errors: null,
+        status: 'creating'
       })
     ),
     on(
@@ -29,8 +35,7 @@ const authFeature = createFeature({
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
-        submitting: false,
-        errors: null
+        status: 'authenticated'
       })
     ),
     on(
@@ -38,15 +43,14 @@ const authFeature = createFeature({
       authActions.registerFailure,
       (state, { errors }): AuthStateModel => ({
         ...state,
-        submitting: false,
-        errors: errors
+        errors: errors,
+        status: 'unauthenticated'
       })
     ),
     on(
       authActions.getCurrentUser,
       (state): AuthStateModel => ({
-        ...state,
-        loading: true
+        ...state
       })
     ),
     on(
@@ -54,15 +58,14 @@ const authFeature = createFeature({
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
-        loading: false
+        status: 'authenticated'
       })
     ),
     on(
       authActions.getCurrentUserFailure,
       (state): AuthStateModel => ({
         ...state,
-        currentUser: null,
-        loading: false
+        status: 'unauthenticated'
       })
     ),
     on(
@@ -84,7 +87,7 @@ const authFeature = createFeature({
       (state): AuthStateModel => ({
         ...state,
         ...initialState,
-        currentUser: null
+        status: 'unauthenticated'
       })
     )
   )
@@ -94,7 +97,6 @@ export const {
   name: authFeatureKey,
   reducer: authReducer,
   selectCurrentUser,
-  selectSubmitting,
-  selectLoading,
-  selectErrors
+  selectErrors,
+  selectStatus
 } = authFeature;

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RegisterFormComponent } from '@auth/ui/register-form';
 import { Store } from '@ngrx/store';
-import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/store';
+import { authActions, selectErrors, selectStatus } from '@auth/data-access/store';
 import { RegisterCredentialsModel } from '@auth/data-access/models';
 import { combineLatest } from 'rxjs';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
@@ -24,7 +24,10 @@ import { LetDirective } from '@ngrx/component';
             @if (backendErrors) {
               <ql-backend-errors [errors]="backendErrors" />
             }
-            <ql-register-form [submitting]="vm.submitting" (submitted)="register($event)" />
+            <ql-register-form
+              [creating]="vm.status === 'creating'"
+              (submitted)="register($event)"
+            />
           </ng-container>
         </div>
       </div>
@@ -35,8 +38,8 @@ import { LetDirective } from '@ngrx/component';
 })
 export default class RegisterComponent {
   public readonly vm$ = combineLatest({
-    submitting: this.store.select(selectSubmitting),
-    backendErrors: this.store.select(selectErrors)
+    backendErrors: this.store.select(selectErrors),
+    status: this.store.select(selectStatus)
   });
 
   constructor(private readonly store: Store) {}
