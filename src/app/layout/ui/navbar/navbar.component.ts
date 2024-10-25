@@ -1,10 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { selectCurrentUser } from '@auth/data-access/store';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { LetDirective } from '@ngrx/component';
-import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
+import { UserModel } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-navbar',
@@ -16,47 +13,31 @@ import { combineLatest } from 'rxjs';
         <button type="button" class="navbar-toggler" (click)="toggleNavbar()">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          id="navbar"
-          class="navbar-collapse"
-          [ngbCollapse]="navbarCollapsed"
-          *ngrxLet="vm$; let vm"
-        >
-          @let currentUser = vm.currentUser;
 
-          <!-- Show this if the user is not logged in -->
-          @if (currentUser === null) {
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  routerLink="/"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  >Home</a
-                >
-              </li>
+        <div id="navbar" class="navbar-collapse" [ngbCollapse]="navbarCollapsed">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLink="/"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Home</a
+              >
+            </li>
+
+            <!-- Show this if the user is not logged in -->
+            @if (currentUser === null) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
               </li>
-            </ul>
-          }
+            }
 
-          <!-- Show this if the user is logged in -->
-          @if (currentUser) {
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  routerLink="/"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  >Home</a
-                >
-              </li>
+            <!-- Show this if the user is logged in -->
+            @if (currentUser) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/editor" routerLinkActive="active">
                   <i class="bi bi-pencil-square"></i>
@@ -87,22 +68,20 @@ import { combineLatest } from 'rxjs';
                   {{ currentUser.username }}
                 </a>
               </li>
-            </ul>
-          }
+            }
+          </ul>
         </div>
       </div>
     </nav>
   `,
-  imports: [RouterLink, RouterLinkActive, LetDirective, NgbCollapse],
+  imports: [RouterLink, RouterLinkActive, NgbCollapse],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
   public navbarCollapsed = true;
-  public readonly vm$ = combineLatest({
-    currentUser: this.store.select(selectCurrentUser)
-  });
 
-  constructor(private readonly store: Store) {}
+  @Input({ required: true })
+  public currentUser!: UserModel | null;
 
   public toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;

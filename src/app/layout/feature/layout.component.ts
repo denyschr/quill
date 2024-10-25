@@ -1,19 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '@layout/ui/navbar';
+import { Store } from '@ngrx/store';
+import { selectCurrentUser } from '@auth/data-access/store';
+import { LetDirective } from '@ngrx/component';
 
 @Component({
   selector: 'ql-layout',
   standalone: true,
   template: `
-    <header class="fixed-top">
-      <ql-navbar />
-    </header>
-    <main class="container mt-5">
-      <router-outlet />
-    </main>
+    <ng-container *ngrxLet="currentUser$ as currentUser">
+      @if (currentUser !== undefined) {
+        <header class="fixed-top">
+          <ql-navbar [currentUser]="currentUser" />
+        </header>
+        <main class="container mt-5">
+          <router-outlet />
+        </main>
+      }
+    </ng-container>
   `,
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, LetDirective, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class LayoutComponent {}
+export default class LayoutComponent {
+  public readonly currentUser$ = this.store.select(selectCurrentUser);
+
+  constructor(private readonly store: Store) {}
+}
