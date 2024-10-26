@@ -14,7 +14,7 @@ import { UserModel } from '@shared/data-access/models';
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div id="navbar" class="navbar-collapse" [ngbCollapse]="navbarCollapsed">
+        <div data-test-id="navbar" class="navbar-collapse" [ngbCollapse]="navbarCollapsed">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a
