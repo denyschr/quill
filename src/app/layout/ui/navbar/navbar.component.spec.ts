@@ -1,28 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterLink } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { By } from '@angular/platform-browser';
+import { NgbCollapseConfig } from '@ng-bootstrap/ng-bootstrap';
+import { UserModel } from '@shared/data-access/models';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let store: MockStore;
-  const initialState = {
-    auth: {
-      currentUser: undefined,
-      submitting: false,
-      loading: false,
-      errors: null
-    }
-  };
+  let currentUser: UserModel | null | undefined;
 
   beforeEach(() => {
+    currentUser = undefined;
+
     TestBed.configureTestingModule({
       imports: [NavbarComponent],
-      providers: [provideRouter([]), provideMockStore({ initialState })]
+      providers: [provideRouter([])]
     }).compileComponents();
 
-    store = TestBed.inject(MockStore);
+    // turn off the animation for the collapse
+    const collapseConfig = TestBed.inject(NgbCollapseConfig);
+    collapseConfig.animation = false;
+
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -33,105 +32,99 @@ describe('NavbarComponent', () => {
   });
 
   it('should toggle the class on click', () => {
-    const element = fixture.nativeElement as HTMLElement;
+    const element = fixture.debugElement;
 
-    const navbarCollapsed = element.querySelector<HTMLElement>('#navbar')!;
-    expect(navbarCollapsed).withContext('No element with the id `#navbar`').not.toBeNull();
-    expect(navbarCollapsed.classList)
-      .withContext('The element with the id `#navbar` should have the class `collapse`')
-      .toContain('collapse');
+    const navbarCollapsed = element.query(By.css('[data-test-id="navbar"]'));
+    expect(navbarCollapsed)
+      .withContext('No element with the attribute `data-test-id="navbar"`')
+      .not.toBeNull();
+    expect(navbarCollapsed.nativeElement.classList)
+      .withContext(
+        'The element with the attribute `data-test-id="navbar"` should use the `ngbCollapse` directive'
+      )
+      .not.toContain('show');
 
-    const button = element.querySelector<HTMLButtonElement>('.navbar-toggler')!;
+    const button = element.query(By.css('.navbar-toggler'));
     expect(button).withContext('No `button` element to collapse the menu').not.toBeNull();
-    button.click();
+    button.nativeElement.click();
+
     fixture.detectChanges();
 
-    const navbar = element.querySelector<HTMLElement>('#navbar')!;
-    expect(navbar.classList)
+    expect(navbarCollapsed.nativeElement.classList)
       .withContext(
-        'The element with the id `#navbar` should NOT have the class `collapse` after click'
+        'The element with the attribute `data-test-id="navbar"` should use the `ngbCollapse` directive'
       )
-      .not.toContain('collapse');
+      .toContain('show');
   });
 
-  it('should display correct links for anonymous users', () => {
-    store.setState({ ...initialState, auth: { ...initialState.auth, currentUser: null } });
-    fixture.detectChanges();
-
-    const element = fixture.nativeElement as HTMLElement;
-
-    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]:not(.navbar-brand)')!;
-    expect(homeLink)
-      .withContext(
-        'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
-      )
-      .not.toBeNull();
-    expect(homeLink.textContent).withContext('The link should have a text').toContain('Home');
-
-    const loginLink = element.querySelector('a[href="/login"]')!;
-    expect(loginLink)
-      .withContext(
-        'You should have an `a` element to display the link to the login page. Maybe you forgot to use `routerLink`?'
-      )
-      .not.toBeNull();
-    expect(loginLink.textContent).withContext('The link should have a text').toContain('Sign in');
-
-    const registerLink = element.querySelector<HTMLAnchorElement>('a[href="/register"]')!;
-    expect(registerLink)
-      .withContext(
-        'You should have an `a` element to display the link to the register page. Maybe you forgot to use `routerLink`?'
-      )
-      .not.toBeNull();
-    expect(registerLink.textContent)
-      .withContext('The link should have a text')
-      .toContain('Sign up');
+  it('should display two routerLink by default', () => {
+    const element = fixture.debugElement;
+    const links = element.queryAll(By.directive(RouterLink));
+    expect(links.length)
+      .withContext('You should only have two routerLink: one for the brand, one to the home page')
+      .toBe(2);
   });
 
-  it('should display correct links for logged in users', () => {
-    store.setState({
-      ...initialState,
-      auth: { ...initialState.auth, currentUser: { username: 'denys' } }
-    });
+  it('should display correct routerLink if authenticated', () => {
+    currentUser = { username: 'denys' } as UserModel;
+    fixture.componentRef.setInput('currentUser', currentUser);
     fixture.detectChanges();
 
-    const element = fixture.nativeElement as HTMLElement;
+    const element = fixture.debugElement;
 
-    const homeLink = element.querySelector<HTMLAnchorElement>('a[href="/"]:not(.navbar-brand)')!;
-    expect(homeLink)
-      .withContext(
-        'You should have an `a` element to display the link to the home page. Maybe you forgot to use `routerLink`?'
-      )
+    const editorLink = element.query(By.css('a[href="/editor"]'));
+    expect(editorLink)
+      .withContext('You should have an `a` element to display the link to the editor')
       .not.toBeNull();
-    expect(homeLink.textContent).withContext('The link should have a text').toContain('Home');
-
-    const articleLink = element.querySelector<HTMLAnchorElement>('a[href="/articles"]')!;
-    expect(articleLink)
-      .withContext(
-        'You should have an `a` element to display the link to the article page. Maybe you forgot to use `routerLink`?'
-      )
-      .not.toBeNull();
-    expect(articleLink.textContent)
-      .withContext('The link should have a text')
+    expect(editorLink.nativeElement.textContent)
+      .withContext('The link should be `New Article`')
       .toContain('New Article');
 
-    const settingsLink = element.querySelector<HTMLAnchorElement>('a[href="/settings"]')!;
+    const settingsLink = element.query(By.css('a[href="/settings"]'));
     expect(settingsLink)
-      .withContext(
-        'You should have an `a` element to display the link to the settings page. Maybe you forgot to use `routerLink`?'
-      )
+      .withContext('You should have an `a` element to display the link to the settings page')
       .not.toBeNull();
-    expect(settingsLink.textContent)
-      .withContext('The link should have a text')
+    expect(settingsLink.nativeElement.textContent)
+      .withContext('The link should be `Settings`')
       .toContain('Settings');
 
-    const profileLink = element.querySelector<HTMLAnchorElement>('a[href="/profiles/denys"]')!;
+    const profileLink = element.query(By.css(`a[href="/profile/${currentUser.username}"]`));
     expect(profileLink)
-      .withContext(
-        'You should have an `a` element to display the link to the profile page. Maybe you forgot to use `routerLink`?'
-      )
+      .withContext('You should have an `a` element to display the link to the user profile')
       .not.toBeNull();
-    expect(profileLink.textContent)
-      .withContext('You should display the name of the user in an `a` element')
-      .toContain('denys');
+    expect(profileLink.nativeElement.textContent)
+      .withContext(`The link should be \`${currentUser.username}\``)
+      .toContain(currentUser.username);
+  });
+
+  it('should display an image of the user if available', () => {
+    currentUser = { username: 'denys', image: 'image' } as UserModel;
+    fixture.componentRef.setInput('currentUser', currentUser);
+    fixture.detectChanges();
+
+    const element = fixture.debugElement;
+
+    const userImage = element.query(By.css(`img[src="${currentUser.image}"]`));
+    expect(userImage)
+      .withContext('You should have an `img` element to display the image of the user')
+      .not.toBeNull();
+    expect(userImage.nativeElement.getAttribute('alt'))
+      .withContext('The `alt` attribute of the image is not correct')
+      .toBe(currentUser.username);
+  });
+
+  it('should display correct routerLink if not authenticated', () => {
+    currentUser = null;
+    fixture.componentRef.setInput('currentUser', currentUser);
+    fixture.detectChanges();
+
+    const element = fixture.debugElement;
+
+    const links = element.queryAll(By.directive(RouterLink));
+    expect(links.length)
+      .withContext(
+        'You should have two more routerLink: one to the login, one to the register page'
+      )
+      .toBe(4);
   });
 });
