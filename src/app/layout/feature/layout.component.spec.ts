@@ -1,22 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import LayoutComponent from './layout.component';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterOutlet } from '@angular/router';
+import { provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { NavbarComponent } from '@layout/ui/navbar';
-import { provideMockStore } from '@ngrx/store/testing';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
   let fixture: ComponentFixture<LayoutComponent>;
+  const initialState = {
+    auth: {
+      currentUser: null,
+      submitting: false,
+      loading: false,
+      errors: null
+    }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LayoutComponent],
-      providers: [provideRouter([]), provideMockStore({})]
+      providers: [provideRouter([]), provideMockStore({ initialState })]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
@@ -24,18 +33,30 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a router outlet', () => {
-    const element = fixture.nativeElement as HTMLElement;
-    const routerOutlet = element.querySelector('router-outlet');
-    expect(routerOutlet)
-      .withContext('You need a `RouterOutlet` component in the `LayoutComponent` template')
+  it('should have a header', () => {
+    const element = fixture.debugElement;
+    const header = element.query(By.css('header'));
+
+    expect(header)
+      .withContext('You should have a `header` element in your template')
+      .not.toBeNull();
+    expect(header.nativeElement.classList)
+      .withContext('You should make the `header` element fixed at the top of the page')
+      .toContain('fixed-top');
+
+    expect(element.query(By.directive(NavbarComponent)))
+      .withContext(
+        'You should use the `NavbarComponent` inside the `header` element to display a navbar'
+      )
       .not.toBeNull();
   });
 
-  it('should use the navbar component', () => {
+  it('should have a router outlet', () => {
     const element = fixture.debugElement;
-    expect(element.query(By.directive(NavbarComponent)))
-      .withContext('You probably forgot to add `NavbarComponent` to the `LayoutComponent` template')
+    expect(element.query(By.directive(RouterOutlet)))
+      .withContext(
+        'You should use a `RouterOutlet` component inside a `main` element to display routed components'
+      )
       .not.toBeNull();
   });
 });
