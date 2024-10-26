@@ -33,7 +33,6 @@
       "@auth/data-access/store/*": ["src/app/auth/data-access/store/*"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
-      "@auth/ui/register-form": ["src/app/auth/ui/register-form/index.ts"],
       "@auth/utils": ["src/app/auth/utils/index.ts"],
 
       // Layout

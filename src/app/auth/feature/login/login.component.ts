@@ -80,7 +80,7 @@ export default class LoginComponent {
   public emailControl = this._fb.control('', [Validators.required, Validators.email]);
   public passwordControl = this._fb.control('', [Validators.required, Validators.minLength(8)]);
 
-  public loginForm = this._fb.group({
+  public readonly loginForm = this._fb.group({
     email: this.emailControl,
     password: this.passwordControl
   });
