@@ -28,7 +28,9 @@ describe('AppComponent', () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    spyOn(store, 'dispatch').and.callThrough();
+
+    spyOn(store, 'dispatch').and.callFake(() => {});
+
     fixture.detectChanges();
   });
 
@@ -44,15 +46,15 @@ describe('AppComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     const routerOutlet = element.querySelector('router-outlet');
     expect(routerOutlet)
-      .withContext('You need a `RouterOutlet` component in the `AppComponent` template')
+      .withContext('You need a RouterOutlet component in your root component')
       .not.toBeNull();
   });
 
-  it('should use the validation-defaults component', () => {
+  it('should use ValidationDefaultsComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ValidationDefaultsComponent)))
       .withContext(
-        'You probably forgot to add `ValidationDefaultsComponent` to the `AppComponent` template'
+        'You probably forgot to add ValidationDefaultsComponent to the AppComponent template'
       )
       .not.toBeNull();
   });
