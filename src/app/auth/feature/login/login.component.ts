@@ -15,13 +15,11 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
   standalone: true,
   template: `
     <div class="container">
-      <div class="row py-3">
+      <div class="row">
         <div class="col-md-6 offset-md-3">
           <div class="mb-3 pt-5 text-center">
-            <h1 class="text-dark-emphasis">Sign in</h1>
-            <a class="hover-underline text-success" routerLink="/register"
-              >Don't have an account?</a
-            >
+            <h1>Sign in</h1>
+            <a class="link-opacity-100" routerLink="/register">Don't have an account?</a>
           </div>
 
           <ng-container *ngrxLet="vm$; let vm">
@@ -33,15 +31,15 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
             }
 
             <form [formGroup]="loginForm" (ngSubmit)="submit()">
-              <fieldset id="form-fields" [disabled]="submitting">
-                <fieldset class="mb-3">
-                  <label for="email" class="form-label fw-bold">Email</label>
+              <fieldset [disabled]="submitting">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
                   <input id="email" type="email" class="form-control" formControlName="email" />
                   <val-errors controlName="email" label="The email"></val-errors>
-                </fieldset>
+                </div>
 
-                <fieldset class="mb-3">
-                  <label for="password" class="form-label fw-bold">Password</label>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
                   <div class="input-group">
                     <input
                       id="password"
@@ -53,10 +51,14 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
                     <ql-password-input-toggle [input]="inputElement" />
                   </div>
                   <val-errors controlName="password" label="The password"></val-errors>
-                </fieldset>
+                </div>
               </fieldset>
 
-              <button type="submit" class="btn btn-success w-100" [disabled]="submitting">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="submitting || loginForm.invalid"
+              >
                 Sign in
               </button>
             </form>
@@ -96,13 +98,7 @@ export default class LoginComponent {
   ) {}
 
   public submit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
     const credentials = this.loginForm.getRawValue();
-
     this.store.dispatch(authActions.login({ credentials }));
   }
 }

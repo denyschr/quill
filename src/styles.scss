@@ -2,18 +2,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 
-html,
-body {
-	height: 100%;
-}
-
-.hover-underline {
-	text-decoration: none;
-	&:hover {
-		text-decoration: underline !important;
-	}
-}
-
 input.ng-touched.ng-invalid {
 	border: 1px solid red;
 }
