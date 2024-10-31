@@ -2,10 +2,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 
-input.ng-touched.ng-invalid {
-	border: 1px solid red;
-}
-
 .invalid-feedback {
 	display: block;
 }

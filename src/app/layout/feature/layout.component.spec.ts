@@ -25,7 +25,6 @@ describe('LayoutComponent', () => {
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
-
     fixture.detectChanges();
   });
 

@@ -29,7 +29,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
 
-    spyOn(store, 'dispatch').and.callFake(() => {});
+    spyOn(store, 'dispatch');
 
     fixture.detectChanges();
   });
@@ -38,7 +38,7 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch getCurrentUser', () => {
+  it('should dispatch a getCurrentUser action on init', () => {
     expect(store.dispatch).toHaveBeenCalledWith(authActions.getCurrentUser());
   });
 

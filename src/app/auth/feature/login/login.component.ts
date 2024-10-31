@@ -9,6 +9,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { NgClass } from '@angular/common';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
+import { FormControlValidationDirective } from '@shared/directives/form-control-validation';
 
 @Component({
   selector: 'ql-login',
@@ -69,6 +70,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     RouterLink,
     NgClass,
     ReactiveFormsModule,
+    FormControlValidationDirective,
     LetDirective,
     ValidationErrorsComponent,
     BackendErrorsComponent,

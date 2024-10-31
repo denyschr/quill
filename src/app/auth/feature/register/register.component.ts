@@ -9,6 +9,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { NgClass } from '@angular/common';
+import { FormControlValidationDirective } from '@shared/directives/form-control-validation';
 
 @Component({
   selector: 'ql-register',
@@ -79,6 +80,7 @@ import { NgClass } from '@angular/common';
     NgClass,
     ReactiveFormsModule,
     LetDirective,
+    FormControlValidationDirective,
     ValidationErrorsComponent,
     BackendErrorsComponent,
     PasswordInputToggleComponent
