@@ -53,12 +53,12 @@ export const registerEffect = createEffect(
   { functional: true }
 );
 
-export const redirectAfterRegisterEffect = createEffect(
+export const registerSuccessEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess),
       tap(() => {
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
@@ -87,12 +87,12 @@ export const loginEffect = createEffect(
   { functional: true }
 );
 
-export const redirectAfterLoginEffect = createEffect(
+export const loginSuccessEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.loginSuccess),
       tap(() => {
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
@@ -122,7 +122,7 @@ export const logoutEffect = createEffect(
       ofType(authActions.logout),
       tap(() => {
         jwtService.removeToken();
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
