@@ -29,8 +29,7 @@ const authFeature = createFeature({
       (state, { currentUser }): AuthStateModel => ({
         ...state,
         currentUser: currentUser,
-        submitting: false,
-        errors: null
+        submitting: false
       })
     ),
     on(
