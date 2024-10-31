@@ -31,28 +31,26 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
             }
 
             <form [formGroup]="loginForm" (ngSubmit)="submit()">
-              <fieldset [disabled]="submitting">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input id="email" type="email" class="form-control" formControlName="email" />
-                  <val-errors controlName="email" label="The email"></val-errors>
-                </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" type="email" class="form-control" formControlName="email" />
+                <val-errors controlName="email" label="The email"></val-errors>
+              </div>
 
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <div class="input-group">
-                    <input
-                      id="password"
-                      type="password"
-                      class="form-control"
-                      formControlName="password"
-                      #inputElement
-                    />
-                    <ql-password-input-toggle [input]="inputElement" />
-                  </div>
-                  <val-errors controlName="password" label="The password"></val-errors>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    #inputElement
+                  />
+                  <ql-password-input-toggle [input]="inputElement" />
                 </div>
-              </fieldset>
+                <val-errors controlName="password" label="The password"></val-errors>
+              </div>
 
               <button
                 type="submit"
@@ -79,8 +77,11 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LoginComponent {
-  public emailControl = this._fb.control('', [Validators.required, Validators.email]);
-  public passwordControl = this._fb.control('', [Validators.required, Validators.minLength(8)]);
+  public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
+  public readonly passwordControl = this._fb.control('', [
+    Validators.required,
+    Validators.minLength(8)
+  ]);
 
   public readonly loginForm = this._fb.group({
     email: this.emailControl,
