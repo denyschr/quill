@@ -25,9 +25,9 @@ describe('AppComponent', () => {
       providers: [provideRouter([]), provideMockStore({ initialState })]
     }).compileComponents();
 
-    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
 
     spyOn(store, 'dispatch');
 

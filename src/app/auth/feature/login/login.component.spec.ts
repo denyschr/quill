@@ -30,9 +30,9 @@ describe('LoginComponent', () => {
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
 
-    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
 
     spyOn(store, 'dispatch');
 
@@ -83,7 +83,18 @@ describe('LoginComponent', () => {
       .toBe(true);
   });
 
-  it('should be possible to sign in if the form is complete', () => {
+  it('should have a disabled button after the form is submitted', () => {
+    store.setState({ ...initialState, auth: { ...initialState.auth, submitting: true } });
+    store.refreshState();
+    fixture.detectChanges();
+
+    const element = fixture.debugElement;
+    expect(element.query(By.css('button[type="submit"]')).nativeElement.hasAttribute('disabled'))
+      .withContext('The button should be disabled after submitting')
+      .toBe(true);
+  });
+
+  it('should be possible to log in if the form is complete', () => {
     const element = fixture.debugElement;
 
     const emailInput = element.query(By.css('input[type="email"]'));
@@ -200,56 +211,13 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       authActions.login({ credentials: { email: 'email@gmail.com', password: '12345678' } })
     );
-
-    store.setState({
-      auth: {
-        currentUser: null,
-        submitting: true,
-        loading: true,
-        errors: null
-      }
-    });
-    store.refreshState();
-    fixture.detectChanges();
-
-    expect(element.query(By.css('button[type="submit"]')).nativeElement.hasAttribute('disabled'))
-      .withContext('The button should be disabled when submitting')
-      .toBe(true);
   });
 
-  it('should dispatch a login action and display a message if failed', () => {
-    const element = fixture.debugElement;
-
-    expect(element.query(By.directive(BackendErrorsComponent)))
-      .withContext('You should NOT have an error message before trying to log in')
-      .toBeNull();
-
-    const emailInput = element.query(By.css('input[type="email"]'));
-    expect(emailInput)
-      .withContext('You should have an input with the type `email` for the email')
-      .not.toBeNull();
-    emailInput.nativeElement.value = 'email@gmail.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-
-    const passwordInput = element.query(By.css('input[type="password"]')).nativeElement;
-    expect(passwordInput)
-      .withContext('You should have an input with the type `password` for the password')
-      .not.toBeNull();
-    passwordInput.value = '12345678';
-    passwordInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    element.query(By.css('button[type="submit"]')).nativeElement.click();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      authActions.login({ credentials: { email: 'email@gmail.com', password: '12345678' } })
-    );
-
+  it('should display login errors if failed', () => {
     store.setState({
+      ...initialState,
       auth: {
-        currentUser: null,
-        submitting: false,
-        loading: false,
+        ...initialState.auth,
         errors: {
           'email or password': ['is invalid']
         }
@@ -258,10 +226,16 @@ describe('LoginComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
+    const element = fixture.debugElement;
+
     const backendErrors = element.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have the `BackendErrorsComponent` to display an error message')
       .not.toBeNull();
-    expect(backendErrors.nativeElement.textContent).toContain('email or password is invalid');
+
+    const error = element.query(By.css('li'));
+    expect(error.nativeElement.textContent)
+      .withContext('The backend error message is incorrect')
+      .toContain('email or password is invalid');
   });
 });

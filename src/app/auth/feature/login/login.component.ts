@@ -31,7 +31,7 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
               <ql-backend-errors [errors]="errors" />
             }
 
-            <form [formGroup]="loginForm" (ngSubmit)="submit()">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input id="email" type="email" class="form-control" formControlName="email" />
@@ -100,7 +100,7 @@ export default class LoginComponent {
     private readonly store: Store
   ) {}
 
-  public submit(): void {
+  public login(): void {
     const credentials = this.loginForm.getRawValue();
     this.store.dispatch(authActions.login({ credentials }));
   }

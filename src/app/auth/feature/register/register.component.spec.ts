@@ -81,14 +81,14 @@ describe('RegisterComponent', () => {
       .toBe(true);
   });
 
-  it('should have a disabled button if the form is submitted', () => {
+  it('should have a disabled button after the form is submitted', () => {
     store.setState({ ...initialState, auth: { ...initialState.auth, submitting: true } });
     store.refreshState();
     fixture.detectChanges();
 
     const element = fixture.debugElement;
     expect(element.query(By.css('button[type="submit"]')).nativeElement.hasAttribute('disabled'))
-      .withContext('The button should be disabled if submitting')
+      .withContext('The button should be disabled after submitting')
       .toBe(true);
   });
 
