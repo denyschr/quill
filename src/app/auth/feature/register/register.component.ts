@@ -31,7 +31,7 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
               <ql-backend-errors [errors]="errors" />
             }
 
-            <form [formGroup]="registerForm" (ngSubmit)="submit()">
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input id="username" type="text" class="form-control" formControlName="username" />
@@ -111,7 +111,7 @@ export default class RegisterComponent {
     private readonly store: Store
   ) {}
 
-  public submit(): void {
+  public register(): void {
     const credentials = this.registerForm.getRawValue();
     this.store.dispatch(authActions.register({ credentials }));
   }
