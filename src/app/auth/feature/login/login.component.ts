@@ -25,10 +25,10 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
 
           <ng-container *ngrxLet="vm$; let vm">
             @let submitting = vm.submitting;
-            @let backendErrors = vm.backendErrors;
+            @let errors = vm.errors;
 
-            @if (backendErrors) {
-              <ql-backend-errors [errors]="backendErrors" />
+            @if (errors) {
+              <ql-backend-errors [errors]="errors" />
             }
 
             <form [formGroup]="loginForm" (ngSubmit)="submit()">
@@ -92,7 +92,7 @@ export default class LoginComponent {
 
   public readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
-    backendErrors: this.store.select(selectErrors)
+    errors: this.store.select(selectErrors)
   });
 
   constructor(

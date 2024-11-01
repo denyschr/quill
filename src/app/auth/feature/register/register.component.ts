@@ -16,57 +16,54 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
   standalone: true,
   template: `
     <div class="container">
-      <div class="row py-3">
+      <div class="row">
         <div class="col-md-6 offset-md-3">
           <div class="mb-3 pt-5 text-center">
-            <h1 class="text-dark-emphasis">Sign up</h1>
-            <a class="hover-underline text-success" routerLink="/login">Have an account?</a>
+            <h1>Sign up</h1>
+            <a class="link-opacity-100" routerLink="/login">Have an account?</a>
           </div>
 
           <ng-container *ngrxLet="vm$; let vm">
             @let submitting = vm.submitting;
-            @let backendErrors = vm.backendErrors;
+            @let errors = vm.errors;
 
-            @if (backendErrors) {
-              <ql-backend-errors [errors]="backendErrors" />
+            @if (errors) {
+              <ql-backend-errors [errors]="errors" />
             }
 
             <form [formGroup]="registerForm" (ngSubmit)="submit()">
-              <fieldset id="form-fields" [disabled]="submitting">
-                <fieldset class="mb-3">
-                  <label for="username" class="form-label fw-bold">Username</label>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input id="username" type="text" class="form-control" formControlName="username" />
+                <val-errors controlName="username" label="The username"></val-errors>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" type="email" class="form-control" formControlName="email" />
+                <val-errors controlName="email" label="The email"></val-errors>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
                   <input
-                    id="username"
-                    type="text"
+                    id="password"
+                    type="password"
                     class="form-control"
-                    formControlName="username"
+                    formControlName="password"
+                    #inputElement
                   />
-                  <val-errors controlName="username" label="The username"></val-errors>
-                </fieldset>
+                  <ql-password-input-toggle [input]="inputElement" />
+                </div>
+                <val-errors controlName="password" label="The password"></val-errors>
+              </div>
 
-                <fieldset class="mb-3">
-                  <label for="email" class="form-label fw-bold">Email</label>
-                  <input id="email" type="email" class="form-control" formControlName="email" />
-                  <val-errors controlName="email" label="The email"></val-errors>
-                </fieldset>
-
-                <fieldset class="mb-3">
-                  <label for="password" class="form-label fw-bold">Password</label>
-                  <div class="input-group">
-                    <input
-                      id="password"
-                      type="password"
-                      class="form-control"
-                      formControlName="password"
-                      #inputElement
-                    />
-                    <ql-password-input-toggle [input]="inputElement" />
-                  </div>
-                  <val-errors controlName="password" label="The password"></val-errors>
-                </fieldset>
-              </fieldset>
-
-              <button type="submit" class="btn btn-success w-100" [disabled]="submitting">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="submitting || registerForm.invalid"
+              >
                 Sign up
               </button>
             </form>
@@ -88,9 +85,15 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class RegisterComponent {
-  public usernameControl = this._fb.control('', [Validators.required, Validators.minLength(3)]);
-  public emailControl = this._fb.control('', [Validators.required, Validators.email]);
-  public passwordControl = this._fb.control('', [Validators.required, Validators.minLength(8)]);
+  public readonly usernameControl = this._fb.control('', [
+    Validators.required,
+    Validators.minLength(3)
+  ]);
+  public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
+  public readonly passwordControl = this._fb.control('', [
+    Validators.required,
+    Validators.minLength(8)
+  ]);
 
   public readonly registerForm = this._fb.group({
     username: this.usernameControl,
@@ -100,7 +103,7 @@ export default class RegisterComponent {
 
   public readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
-    backendErrors: this.store.select(selectErrors)
+    errors: this.store.select(selectErrors)
   });
 
   constructor(
@@ -109,13 +112,7 @@ export default class RegisterComponent {
   ) {}
 
   public submit(): void {
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      return;
-    }
-
     const credentials = this.registerForm.getRawValue();
-
     this.store.dispatch(authActions.register({ credentials }));
   }
 }
