@@ -10,19 +10,11 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
-  const initialState = {
-    auth: {
-      currentUser: undefined,
-      submitting: false,
-      loading: false,
-      errors: null
-    }
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter([]), provideMockStore({ initialState })]
+      providers: [provideRouter([]), provideMockStore()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

@@ -66,7 +66,7 @@ describe('NavbarComponent', () => {
   });
 
   it('should display correct routerLink if authenticated', () => {
-    currentUser = { username: 'denys' } as UserModel;
+    currentUser = { username: 'username' } as UserModel;
     fixture.componentRef.setInput('currentUser', currentUser);
     fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('NavbarComponent', () => {
   });
 
   it('should display an image of the user if available', () => {
-    currentUser = { username: 'denys', image: 'image' } as UserModel;
+    currentUser = { username: 'username', image: 'image' } as UserModel;
     fixture.componentRef.setInput('currentUser', currentUser);
     fixture.detectChanges();
 
