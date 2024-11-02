@@ -1,17 +1,17 @@
 import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-access/models';
-import * as fromAuth from './auth.reducers';
+import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
 
-describe('AuthReducers', () => {
+describe('AuthState', () => {
   const user = {
-    email: 'denys@gmail.com',
-    token: 'eyJ1c9VyIj7ImlkIjoz0DV9LCJpYXQmOjE3MjUxMjk1NzEsImV4cCI6MTczMDMxMzU3MX0',
-    username: 'denys',
+    email: 'email@gmail.com',
+    token: 'token',
+    username: 'username',
     bio: null,
-    image: 'https://api.realworld.io/images/smiley-cyrus.jpeg'
+    image: 'image'
   };
   const errors = {
-    error: ['something went wrong...']
+    'email or password': ['is invalid']
   };
 
   describe('unknown action', () => {
@@ -27,7 +27,7 @@ describe('AuthReducers', () => {
   });
 
   describe('register action', () => {
-    it('should initiate the registration', () => {
+    it('should set submitting to true', () => {
       const { initialState } = fromAuth;
       const credentials: RegisterCredentialsModel = {
         username: user.username,
@@ -45,13 +45,12 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state after successful registration', () => {
+    it('should have no error and no submitting state if success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
         currentUser: user,
-        submitting: false,
-        errors: null
+        submitting: false
       };
       const action = authActions.registerSuccess({ currentUser: user });
       const state = fromAuth.authReducer(initialState, action);
@@ -60,7 +59,7 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state if the registration fails', () => {
+    it('should have an error and no submitting state if failed', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -76,7 +75,7 @@ describe('AuthReducers', () => {
   });
 
   describe('login action', () => {
-    it('should initiate the login', () => {
+    it('should set submitting to true', () => {
       const { initialState } = fromAuth;
       const credentials: LoginCredentialsModel = {
         email: user.email,
@@ -93,13 +92,12 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state after successful login', () => {
+    it('should have no error and no submitting state if success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
         currentUser: user,
-        submitting: false,
-        errors: null
+        submitting: false
       };
       const action = authActions.loginSuccess({ currentUser: user });
       const state = fromAuth.authReducer(initialState, action);
@@ -108,7 +106,7 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state if the login fails', () => {
+    it('should have an error and no submitting state', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -124,7 +122,7 @@ describe('AuthReducers', () => {
   });
 
   describe('getCurrentUser action', () => {
-    it('should retrieve the user', () => {
+    it('should set loading to true', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -137,7 +135,7 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state after successful retrieval of the user', () => {
+    it('should add the user, have no error and loading state if success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -151,7 +149,7 @@ describe('AuthReducers', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should update the state if the retrieval of the user fails', () => {
+    it('should set currentUser to null and have no loading state if failed', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -159,6 +157,36 @@ describe('AuthReducers', () => {
         loading: false
       };
       const action = authActions.getCurrentUserFailure();
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+  });
+
+  describe('updateCurrentUser action', () => {
+    it('should update the user if success', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        currentUser: user
+      };
+      const action = authActions.updateCurrentUserSuccess({ currentUser: user });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+  });
+
+  describe('logout action', () => {
+    it('should logout the user', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        currentUser: null
+      };
+      const action = authActions.logout();
       const state = fromAuth.authReducer(initialState, action);
 
       expect(state).toEqual(newState);
