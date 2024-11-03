@@ -1,6 +1,7 @@
 import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-access/models';
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
+import { routerNavigatedAction } from '@ngrx/router-store';
 
 describe('AuthState', () => {
   const user = {
@@ -135,7 +136,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should add the user, have no error and loading state if success', () => {
+    it('should add the user and have no error or loading state if success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -173,6 +174,19 @@ describe('AuthState', () => {
       };
       const action = authActions.updateCurrentUserSuccess({ currentUser: user });
       const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+  });
+
+  describe('routerNavigatedAction', () => {
+    it('should clean up errors after navigation', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState
+      };
+      const state = fromAuth.authReducer(initialState, routerNavigatedAction);
 
       expect(state).toEqual(newState);
       expect(state).not.toBe(initialState);
