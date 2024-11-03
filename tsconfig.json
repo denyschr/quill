@@ -23,10 +23,9 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      // Environments
       "@environment": ["src/environments/environment"],
+      "@testing/*": ["src/testing/*"],
 
-      // Auth
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/services": ["src/app/auth/data-access/services/index.ts"],
       "@auth/data-access/store": ["src/app/auth/data-access/store/index.ts"],
@@ -35,11 +34,9 @@
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
       "@auth/utils": ["src/app/auth/utils/index.ts"],
 
-      // Layout
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
 
-      // Home
       "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
       "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
       "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
@@ -47,13 +44,11 @@
       "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
 
-      // Article
       "@article/data-access/models": ["src/app/article/data-access/models/index.ts"],
       "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
       "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
       "@article/feature": ["src/app/article/feature/index.ts"],
 
-      // Editor
       "@editor/data-access/models": ["src/app/editor/data-access/models/index.ts"],
       "@editor/data-access/store/new-article": [
         "src/app/editor/data-access/store/new-article/index.ts"
@@ -69,13 +64,11 @@
       "@editor/feature/edit-article": ["src/app/editor/feature/edit-article/index.ts"],
       "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
 
-      // Settings
       "@settings/data-access/models": ["src/app/settings/data-access/models/index.ts"],
       "@settings/data-access/store": ["src/app/settings/data-access/store/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],
       "@settings/ui/user-form": ["src/app/settings/ui/user-form/index.ts"],
 
-      // Profile
       "@profile/data-access/models": ["src/app/profile/data-access/models/index.ts"],
       "@profile/data-access/services": ["src/app/profile/data-access/services/index.ts"],
       "@profile/data-access/store": ["src/app/profile/data-access/store/index.ts"],
@@ -84,7 +77,6 @@
       "@profile/ui/user-info": ["src/app/profile/ui/user-info/index.ts"],
       "@profile/ui/articles-toggle": ["src/app/profile/ui/articles-toggle/index.ts"],
 
-      // Shared
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/services/jwt": ["src/app/shared/data-access/services/jwt/index.ts"],
       "@shared/data-access/services/article": [
