@@ -15,196 +15,198 @@ describe('AuthState', () => {
     'email or password': ['is invalid']
   };
 
-  describe('unknown action', () => {
-    it('should return the default state', () => {
-      const { initialState } = fromAuth;
-      const action = {
-        type: 'Unknown'
-      };
-      const state = fromAuth.authReducer(initialState, action);
+  describe('Reducers', () => {
+    describe('unknown action', () => {
+      it('should return the default state', () => {
+        const { initialState } = fromAuth;
+        const action = {
+          type: 'Unknown'
+        };
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toBe(initialState);
-    });
-  });
-
-  describe('register action', () => {
-    it('should set submitting to true', () => {
-      const { initialState } = fromAuth;
-      const credentials: RegisterCredentialsModel = {
-        username: user.username,
-        email: user.email,
-        password: '12345678'
-      };
-      const newState = {
-        ...initialState,
-        submitting: true
-      };
-      const action = authActions.register({ credentials });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toBe(initialState);
+      });
     });
 
-    it('should have no error and no submitting state if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user,
-        submitting: false
-      };
-      const action = authActions.registerSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
+    describe('register action', () => {
+      it('should set submitting to true', () => {
+        const { initialState } = fromAuth;
+        const credentials: RegisterCredentialsModel = {
+          username: user.username,
+          email: user.email,
+          password: '12345678'
+        };
+        const newState = {
+          ...initialState,
+          submitting: true
+        };
+        const action = authActions.register({ credentials });
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
+
+      it('should have no error and no submitting state if success', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: user,
+          submitting: false
+        };
+        const action = authActions.registerSuccess({ currentUser: user });
+        const state = fromAuth.authReducer(initialState, action);
+
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
+
+      it('should have an error and no submitting state if failed', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          submitting: false,
+          errors: errors
+        };
+        const action = authActions.registerFailure({ errors });
+        const state = fromAuth.authReducer(initialState, action);
+
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
 
-    it('should have an error and no submitting state if failed', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        submitting: false,
-        errors: errors
-      };
-      const action = authActions.registerFailure({ errors });
-      const state = fromAuth.authReducer(initialState, action);
+    describe('login action', () => {
+      it('should set submitting to true', () => {
+        const { initialState } = fromAuth;
+        const credentials: LoginCredentialsModel = {
+          email: user.email,
+          password: '12345678'
+        };
+        const newState = {
+          ...initialState,
+          submitting: true
+        };
+        const action = authActions.login({ credentials });
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-  });
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
 
-  describe('login action', () => {
-    it('should set submitting to true', () => {
-      const { initialState } = fromAuth;
-      const credentials: LoginCredentialsModel = {
-        email: user.email,
-        password: '12345678'
-      };
-      const newState = {
-        ...initialState,
-        submitting: true
-      };
-      const action = authActions.login({ credentials });
-      const state = fromAuth.authReducer(initialState, action);
+      it('should have no error and no submitting state if success', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: user,
+          submitting: false
+        };
+        const action = authActions.loginSuccess({ currentUser: user });
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
 
-    it('should have no error and no submitting state if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user,
-        submitting: false
-      };
-      const action = authActions.loginSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
+      it('should have an error and no submitting state', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          submitting: false,
+          errors: errors
+        };
+        const action = authActions.loginFailure({ errors });
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-
-    it('should have an error and no submitting state', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        submitting: false,
-        errors: errors
-      };
-      const action = authActions.loginFailure({ errors });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-  });
-
-  describe('getCurrentUser action', () => {
-    it('should set loading to true', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        loading: true
-      };
-      const action = authActions.getCurrentUser();
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
 
-    it('should add the user and have no error or loading state if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user,
-        loading: false
-      };
-      const action = authActions.getCurrentUserSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
+    describe('getCurrentUser action', () => {
+      it('should set loading to true', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          loading: true
+        };
+        const action = authActions.getCurrentUser();
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
+
+      it('should add the user and have no error or loading state if success', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: user,
+          loading: false
+        };
+        const action = authActions.getCurrentUserSuccess({ currentUser: user });
+        const state = fromAuth.authReducer(initialState, action);
+
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
+
+      it('should set currentUser to null and have no loading state if failed', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: null,
+          loading: false
+        };
+        const action = authActions.getCurrentUserFailure();
+        const state = fromAuth.authReducer(initialState, action);
+
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
 
-    it('should set currentUser to null and have no loading state if failed', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: null,
-        loading: false
-      };
-      const action = authActions.getCurrentUserFailure();
-      const state = fromAuth.authReducer(initialState, action);
+    describe('updateCurrentUser action', () => {
+      it('should update the user if success', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: user
+        };
+        const action = authActions.updateCurrentUserSuccess({ currentUser: user });
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
-  });
 
-  describe('updateCurrentUser action', () => {
-    it('should update the user if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user
-      };
-      const action = authActions.updateCurrentUserSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
+    describe('routerNavigatedAction', () => {
+      it('should clean up errors after navigation', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState
+        };
+        const state = fromAuth.authReducer(initialState, routerNavigatedAction);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
-  });
 
-  describe('routerNavigatedAction', () => {
-    it('should clean up errors after navigation', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState
-      };
-      const state = fromAuth.authReducer(initialState, routerNavigatedAction);
+    describe('logout action', () => {
+      it('should logout the user', () => {
+        const { initialState } = fromAuth;
+        const newState = {
+          ...initialState,
+          currentUser: null
+        };
+        const action = authActions.logout();
+        const state = fromAuth.authReducer(initialState, action);
 
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-  });
-
-  describe('logout action', () => {
-    it('should logout the user', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: null
-      };
-      const action = authActions.logout();
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+        expect(state).toEqual(newState);
+        expect(state).not.toBe(initialState);
+      });
     });
   });
 });
