@@ -23,8 +23,8 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
+      "@app/*": ["src/app/*"],
       "@environment": ["src/environments/environment"],
-      "@testing/*": ["src/testing/*"],
 
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/services": ["src/app/auth/data-access/services/index.ts"],

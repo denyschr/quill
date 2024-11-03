@@ -1,7 +1,7 @@
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
 import { routerNavigatedAction } from '@ngrx/router-store';
-import { getMockedUser } from '@testing/mocks.spec';
+import { getMockedUser } from '@app/mocks.spec';
 
 describe('AuthState', () => {
   const user = getMockedUser();
