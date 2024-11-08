@@ -16,7 +16,7 @@ export class ArticleService {
   public getAll(config: ArticleListConfigModel): Observable<ArticleListResponseModel> {
     let params = new HttpParams();
     Object.keys(config.filters).forEach(key => {
-      // @ts-expect-error: Skipped since types are ensured
+      // @ts-expect-error: String keys might not exist
       params = params.set(key, config.filters[key]);
     });
 

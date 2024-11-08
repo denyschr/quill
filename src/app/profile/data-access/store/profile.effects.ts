@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ProfileService } from '@profile/data-access/services';
 import { profileActions } from './profile.actions';
+import { ProfileService } from '@shared/data-access/api';
 
 export const getProfileEffect = createEffect(
   (actions$ = inject(Actions), profileService = inject(ProfileService)) => {

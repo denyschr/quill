@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ArticleService } from '@shared/data-access/services/article';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { editArticleActions } from './edit-article.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ArticleService } from '@shared/data-access/api';
 
 export const getArticleEffect = createEffect(
   (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
