@@ -31,7 +31,6 @@
       "@auth/data-access/store/*": ["src/app/auth/data-access/store/*"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
-      "@auth/utils": ["src/app/auth/utils/index.ts"],
 
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
@@ -78,6 +77,7 @@
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/api": ["src/app/shared/data-access/api/index.ts"],
       "@shared/data-access/services": ["src/app/shared/data-access/services.index.ts"],
+      "@shared/data-access/interceptors": ["src/app/shared/data-access/interceptors/index.ts"],
       "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
       "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
 

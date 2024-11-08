@@ -11,9 +11,9 @@ import { authFeatureKey, authReducer } from '@auth/data-access/store';
 import * as authEffects from '@auth/data-access/store/auth.effects';
 import * as articlesEffects from '@shared/data-access/store/articles/articles.effects';
 import * as tagsEffects from '@home/data-access/store/tags/tags.effects';
-import { apiInterceptor, tokenInterceptor } from '@auth/utils';
 import { articlesFeatureKey, articlesReducer } from '@shared/data-access/store/articles';
 import { tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
+import { apiInterceptor, tokenInterceptor } from '@shared/data-access/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
