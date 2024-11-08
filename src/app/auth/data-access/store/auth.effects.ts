@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { JwtService } from '@shared/data-access/services/jwt';
 import { Router } from '@angular/router';
 
-export const getCurrentUserEffect = createEffect(
+export const getCurrentUser = createEffect(
   (
     actions$ = inject(Actions),
     authService = inject(AuthService),
@@ -31,7 +31,24 @@ export const getCurrentUserEffect = createEffect(
   { functional: true }
 );
 
-export const registerEffect = createEffect(
+export const updateCurrentUser = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUser),
+      switchMap(({ user }) => {
+        return authService.update(user).pipe(
+          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
+          )
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const register = createEffect(
   (
     actions$ = inject(Actions),
     authService = inject(AuthService),
@@ -53,7 +70,7 @@ export const registerEffect = createEffect(
   { functional: true }
 );
 
-export const registerSuccessEffect = createEffect(
+export const registerSuccess = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess),
@@ -65,7 +82,7 @@ export const registerSuccessEffect = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const loginEffect = createEffect(
+export const login = createEffect(
   (
     actions$ = inject(Actions),
     authService = inject(AuthService),
@@ -87,7 +104,7 @@ export const loginEffect = createEffect(
   { functional: true }
 );
 
-export const loginSuccessEffect = createEffect(
+export const loginSuccess = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.loginSuccess),
@@ -99,24 +116,7 @@ export const loginSuccessEffect = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const updateCurrentUserEffect = createEffect(
-  (actions$ = inject(Actions), authService = inject(AuthService)) => {
-    return actions$.pipe(
-      ofType(authActions.updateCurrentUser),
-      switchMap(({ user }) => {
-        return authService.update(user).pipe(
-          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
-          )
-        );
-      })
-    );
-  },
-  { functional: true }
-);
-
-export const logoutEffect = createEffect(
+export const logout = createEffect(
   (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
     return actions$.pipe(
       ofType(authActions.logout),
