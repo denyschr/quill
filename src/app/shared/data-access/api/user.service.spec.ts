@@ -1,11 +1,11 @@
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { UserModel } from '@shared/data-access/models';
 
-describe('AuthService', () => {
-  let authService: AuthService;
+describe('UserService', () => {
+  let userService: UserService;
   let http: HttpTestingController;
 
   const user = {
@@ -21,14 +21,14 @@ describe('AuthService', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
     http = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => http.verify());
 
   it('should be created', () => {
-    expect(authService).toBeTruthy();
+    expect(userService).toBeTruthy();
   });
 
   it('should register a user', () => {
@@ -39,7 +39,7 @@ describe('AuthService', () => {
     };
 
     let acutalUser: UserModel | undefined;
-    authService.register(credentials).subscribe(fetchedUser => {
+    userService.register(credentials).subscribe(fetchedUser => {
       acutalUser = fetchedUser;
     });
 
@@ -59,7 +59,7 @@ describe('AuthService', () => {
     };
 
     let actualUser: UserModel | undefined;
-    authService.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
+    userService.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = http.expectOne({ method: 'POST', url: '/users/login' });
     expect(req.request.body).toEqual({ user: credentials });
@@ -70,7 +70,7 @@ describe('AuthService', () => {
 
   it('should return a user', () => {
     let actualUser: UserModel | undefined;
-    authService.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
+    userService.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = http.expectOne({ method: 'GET', url: '/user' });
     req.flush({ user: user });

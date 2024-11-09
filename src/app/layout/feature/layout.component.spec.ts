@@ -25,7 +25,6 @@ describe('LayoutComponent', () => {
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
-
     fixture.detectChanges();
   });
 
@@ -33,10 +32,10 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a header', () => {
+  it('should have a header and navbar', () => {
     const element = fixture.debugElement;
-    const header = element.query(By.css('header'));
 
+    const header = element.query(By.css('header'));
     expect(header)
       .withContext('You should have a `header` element in your template')
       .not.toBeNull();

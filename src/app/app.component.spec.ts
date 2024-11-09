@@ -10,26 +10,18 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
-  const initialState = {
-    auth: {
-      currentUser: undefined,
-      submitting: false,
-      loading: false,
-      errors: null
-    }
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter([]), provideMockStore({ initialState })]
+      providers: [provideRouter([]), provideMockStore()]
     }).compileComponents();
 
-    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch').and.callFake(() => {});
+    spyOn(store, 'dispatch');
 
     fixture.detectChanges();
   });
@@ -38,7 +30,7 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch getCurrentUser', () => {
+  it('should dispatch a getCurrentUser action on init', () => {
     expect(store.dispatch).toHaveBeenCalledWith(authActions.getCurrentUser());
   });
 

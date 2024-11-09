@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { UserModel } from '@shared/data-access/models';
-import { RegisterCredentialsModel, LoginCredentialsModel } from '@auth/data-access/models';
+import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-access/models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class UserService {
   constructor(private readonly _http: HttpClient) {}
 
   public getCurrentUser(): Observable<UserModel> {

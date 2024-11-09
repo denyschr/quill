@@ -14,7 +14,7 @@ import { LetDirective } from '@ngrx/component';
         <header class="fixed-top">
           <ql-navbar [currentUser]="currentUser" />
         </header>
-        <main class="container mt-5">
+        <main class="mt-5">
           <router-outlet />
         </main>
       }

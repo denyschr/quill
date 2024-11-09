@@ -1,16 +1,16 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from '@auth/data-access/services';
 import { authActions } from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JwtService } from '@shared/data-access/services/jwt';
 import { Router } from '@angular/router';
+import { UserService } from '@shared/data-access/api';
+import { JwtService } from '@shared/data-access/services';
 
-export const getCurrentUserEffect = createEffect(
+export const getCurrentUser = createEffect(
   (
     actions$ = inject(Actions),
-    authService = inject(AuthService),
+    userService = inject(UserService),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
@@ -21,7 +21,7 @@ export const getCurrentUserEffect = createEffect(
           return of(authActions.getCurrentUserFailure());
         }
 
-        return authService.getCurrentUser().pipe(
+        return userService.getCurrentUser().pipe(
           map(currentUser => authActions.getCurrentUserSuccess({ currentUser })),
           catchError(() => of(authActions.getCurrentUserFailure()))
         );
@@ -31,16 +31,33 @@ export const getCurrentUserEffect = createEffect(
   { functional: true }
 );
 
-export const registerEffect = createEffect(
+export const updateCurrentUser = createEffect(
+  (actions$ = inject(Actions), userService = inject(UserService)) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUser),
+      switchMap(({ user }) => {
+        return userService.update(user).pipe(
+          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
+          )
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const register = createEffect(
   (
     actions$ = inject(Actions),
-    authService = inject(AuthService),
+    userService = inject(UserService),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
-        authService.register(credentials).pipe(
+        userService.register(credentials).pipe(
           tap(currentUser => jwtService.saveToken(currentUser.token)),
           map(currentUser => authActions.registerSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
@@ -53,28 +70,28 @@ export const registerEffect = createEffect(
   { functional: true }
 );
 
-export const redirectAfterRegisterEffect = createEffect(
+export const registerSuccess = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess),
       tap(() => {
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
   { functional: true, dispatch: false }
 );
 
-export const loginEffect = createEffect(
+export const login = createEffect(
   (
     actions$ = inject(Actions),
-    authService = inject(AuthService),
+    userService = inject(UserService),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
       ofType(authActions.login),
       switchMap(({ credentials }) =>
-        authService.login(credentials).pipe(
+        userService.login(credentials).pipe(
           tap(currentUser => jwtService.saveToken(currentUser.token)),
           map(currentUser => authActions.loginSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
@@ -87,42 +104,25 @@ export const loginEffect = createEffect(
   { functional: true }
 );
 
-export const redirectAfterLoginEffect = createEffect(
+export const loginSuccess = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.loginSuccess),
       tap(() => {
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
   { functional: true, dispatch: false }
 );
 
-export const updateCurrentUserEffect = createEffect(
-  (actions$ = inject(Actions), authService = inject(AuthService)) => {
-    return actions$.pipe(
-      ofType(authActions.updateCurrentUser),
-      switchMap(({ user }) => {
-        return authService.update(user).pipe(
-          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
-          )
-        );
-      })
-    );
-  },
-  { functional: true }
-);
-
-export const logoutEffect = createEffect(
+export const logout = createEffect(
   (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
     return actions$.pipe(
       ofType(authActions.logout),
       tap(() => {
         jwtService.removeToken();
-        router.navigateByUrl('/');
+        void router.navigateByUrl('/');
       })
     );
   },
