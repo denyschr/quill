@@ -5,15 +5,16 @@ import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from '@auth/data-access/store/auth.actions';
 import { UserModel } from '@shared/data-access/models';
-import { JwtService } from '@app/shared/data-access/services';
 import { UserService } from '@shared/data-access/api';
+import { JwtService } from '@shared/data-access/services';
 
 describe('AuthEffects', () => {
-  const user = { username: 'username' } as UserModel;
   let userService: jasmine.SpyObj<UserService>;
   let jwtService: jasmine.SpyObj<JwtService>;
   let router: Router;
   let actions$: Observable<unknown>;
+
+  const user = { username: 'username' } as UserModel;
 
   beforeEach(() => {
     userService = jasmine.createSpyObj<UserService>('UserService', [
