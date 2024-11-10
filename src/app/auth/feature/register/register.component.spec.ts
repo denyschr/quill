@@ -131,6 +131,7 @@ describe('RegisterComponent', () => {
       .withContext('You should have an input with the type `text` for the username')
       .not.toBeNull();
     usernameInput.nativeElement.value = 'username';
+    usernameInput.nativeElement.dispatchEvent(new Event('input'));
     usernameInput.nativeElement.dispatchEvent(new Event('blur'));
     usernameInput.nativeElement.value = '';
     usernameInput.nativeElement.dispatchEvent(new Event('input'));
@@ -167,6 +168,7 @@ describe('RegisterComponent', () => {
       .withContext('You should have an input with the type `email` for the email')
       .not.toBeNull();
     emailInput.nativeElement.value = 'email@gmail.com';
+    emailInput.nativeElement.dispatchEvent(new Event('input'));
     emailInput.nativeElement.dispatchEvent(new Event('blur'));
     emailInput.nativeElement.value = '';
     emailInput.nativeElement.dispatchEvent(new Event('input'));
@@ -200,7 +202,8 @@ describe('RegisterComponent', () => {
     expect(passwordInput)
       .withContext('You should have an input with the type `password` for the password')
       .not.toBeNull();
-    passwordInput.nativeElement.value = '12345678';
+    passwordInput.nativeElement.value = '1234';
+    passwordInput.nativeElement.dispatchEvent(new Event('input'));
     passwordInput.nativeElement.dispatchEvent(new Event('blur'));
     passwordInput.nativeElement.value = '';
     passwordInput.nativeElement.dispatchEvent(new Event('input'));
