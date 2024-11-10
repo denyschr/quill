@@ -47,7 +47,6 @@ describe('NavbarComponent', () => {
     const button = element.query(By.css('.navbar-toggler'));
     expect(button).withContext('No `button` element to collapse the menu').not.toBeNull();
     button.nativeElement.click();
-
     fixture.detectChanges();
 
     expect(navbarCollapsed.nativeElement.classList)

@@ -1,51 +1,57 @@
-/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BackendErrorsComponent } from './backend-errors.component';
+import { NgbAlert, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  template: `<ql-backend-errors [errors]="backendErrors" />`,
-  imports: [BackendErrorsComponent]
-})
-class BackendErrorsTestComponent {
-  public backendErrors = {
-    'email or password': ['is invalid']
-  };
-}
+import { BackendErrorsModel } from '@shared/data-access/models';
 
 describe('BackendErrorsComponent', () => {
-  let fixture: ComponentFixture<BackendErrorsTestComponent>;
+  let component: BackendErrorsComponent;
+  let fixture: ComponentFixture<BackendErrorsComponent>;
+
+  const errorMessages: BackendErrorsModel = {
+    email: ['already exists'],
+    'email or password': ['is invalid']
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [BackendErrorsComponent]
+    });
 
-    fixture = TestBed.createComponent(BackendErrorsTestComponent);
+    // turn off the animation for the alert
+    const alertConfig = TestBed.inject(NgbAlertConfig);
+    alertConfig.animation = false;
+
+    fixture = TestBed.createComponent(BackendErrorsComponent);
+    component = fixture.componentInstance;
+    fixture.componentRef.setInput('errors', errorMessages);
     fixture.detectChanges();
   });
 
-  it('shoud use the ngb-alert component', () => {
-    const element = fixture.debugElement;
-    const ngbAlert = element.query(By.directive(NgbAlert));
-    expect(ngbAlert)
-      .withContext('You probably forgot to add `NgbAlert` to the `BackendErrorsComponent` template')
-      .not.toBeNull();
-    expect(ngbAlert.nativeElement.getAttribute('type'))
-      .withContext('The `type` attribute of the `ngb-alert` is not correct')
-      .toBe('danger');
-    expect(ngbAlert.componentInstance.dismissible)
-      .withContext('The `dismissible` property of the `ngb-alert` is not correct')
-      .toBeFalsy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should display an error', () => {
-    const element = fixture.nativeElement as HTMLElement;
-    const li = element.querySelector<HTMLLIElement>('li')!;
-    expect(li).withContext('You should have a `li` element for the error').not.toBeNull();
-    expect(li.textContent)
-      .withContext('The error message is not correct')
-      .toContain('email or password is invalid');
+  it('should use the alert component', () => {
+    const element = fixture.debugElement;
+
+    const alert = element.query(By.directive(NgbAlert));
+    expect(alert)
+      .withContext('You should have an `NgbAlert` to display error messages')
+      .not.toBeNull();
+
+    const alertComponent = alert.componentInstance as NgbAlert;
+    expect(alertComponent.type).withContext('The alert should be a danger one').toBe('danger');
+    expect(alertComponent.dismissible).withContext('The alert should be dismissible').toBe(false);
+  });
+
+  it('should display the content', () => {
+    const element = fixture.debugElement;
+    const errors = element.queryAll(By.css('li'));
+    expect(errors.length)
+      .withContext('You should have two `li` elements for the error messages')
+      .toBe(2);
+    expect(errors[0].nativeElement.textContent).toContain('email already exists');
+    expect(errors[1].nativeElement.textContent).toContain('email or password is invalid');
   });
 });
