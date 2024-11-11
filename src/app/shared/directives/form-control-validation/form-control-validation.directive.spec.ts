@@ -1,11 +1,11 @@
+/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControlValidationDirective } from './form-control-validation.directive';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  selector: 'ql-form',
   standalone: true,
   template: `
     <form [formGroup]="userForm">
@@ -15,8 +15,7 @@ import { By } from '@angular/platform-browser';
       </div>
     </form>
   `,
-  imports: [ReactiveFormsModule, FormControlValidationDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [ReactiveFormsModule, FormControlValidationDirective]
 })
 class FormTestComponent {
   public fb = inject(NonNullableFormBuilder);

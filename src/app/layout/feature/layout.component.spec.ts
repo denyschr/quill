@@ -40,12 +40,12 @@ describe('LayoutComponent', () => {
       .withContext('You should have a `header` element in your template')
       .not.toBeNull();
     expect(header.nativeElement.classList)
-      .withContext('You should make the `header` element fixed at the top of the page')
+      .withContext('The `header` element should be fixed at the top of the page')
       .toContain('fixed-top');
 
     expect(element.query(By.directive(NavbarComponent)))
       .withContext(
-        'You should use the `NavbarComponent` inside the `header` element to display a navbar'
+        'You should have the `NavbarComponent` inside the `header` element to display a navbar'
       )
       .not.toBeNull();
   });
@@ -54,7 +54,7 @@ describe('LayoutComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(RouterOutlet)))
       .withContext(
-        'You should use a `RouterOutlet` component inside a `main` element to display routed components'
+        'You should have a `RouterOutlet` component inside a `main` element to display routed components'
       )
       .not.toBeNull();
   });
