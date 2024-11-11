@@ -8,17 +8,16 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
   template: `
     <button
       type="button"
-      class="btn btn-outline-secondary"
-      placement="bottom"
+      class="btn btn-outline-primary"
       ngbTooltip="Toggle visibility"
-      container="body"
-      [qlIconButton]="visible ? 'bi-eye-slash' : 'bi-eye'"
+      placement="bottom"
+      [qlIconButton]="visible ? 'bi-eye' : 'bi-eye-slash'"
       (click)="toggle()"
     ></button>
   `,
   styles: [
     `
-      .btn {
+      button {
         border-radius: inherit;
         border-top-right-radius: 0.375rem;
         border-bottom-right-radius: 0.375rem;
