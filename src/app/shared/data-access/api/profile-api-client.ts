@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class ProfileApiClient {
   constructor(private readonly _http: HttpClient) {}
 
   public get(username: string): Observable<ProfileModel> {

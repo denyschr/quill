@@ -4,13 +4,13 @@ import { authActions } from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { UserService } from '@shared/data-access/api';
+import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';
 
 export const getCurrentUser = createEffect(
   (
     actions$ = inject(Actions),
-    userService = inject(UserService),
+    userApiClient = inject(UserApiClient),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
@@ -21,26 +21,9 @@ export const getCurrentUser = createEffect(
           return of(authActions.getCurrentUserFailure());
         }
 
-        return userService.getCurrentUser().pipe(
+        return userApiClient.getCurrentUser().pipe(
           map(currentUser => authActions.getCurrentUserSuccess({ currentUser })),
           catchError(() => of(authActions.getCurrentUserFailure()))
-        );
-      })
-    );
-  },
-  { functional: true }
-);
-
-export const updateCurrentUser = createEffect(
-  (actions$ = inject(Actions), userService = inject(UserService)) => {
-    return actions$.pipe(
-      ofType(authActions.updateCurrentUser),
-      switchMap(({ user }) => {
-        return userService.update(user).pipe(
-          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
-          )
         );
       })
     );
@@ -51,13 +34,13 @@ export const updateCurrentUser = createEffect(
 export const register = createEffect(
   (
     actions$ = inject(Actions),
-    userService = inject(UserService),
+    userApiClient = inject(UserApiClient),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
-        userService.register(credentials).pipe(
+        userApiClient.register(credentials).pipe(
           tap(currentUser => jwtService.saveToken(currentUser.token)),
           map(currentUser => authActions.registerSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
@@ -65,6 +48,23 @@ export const register = createEffect(
           )
         )
       )
+    );
+  },
+  { functional: true }
+);
+
+export const updateCurrentUser = createEffect(
+  (actions$ = inject(Actions), userApiClient = inject(UserApiClient)) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUser),
+      switchMap(({ user }) => {
+        return userApiClient.update(user).pipe(
+          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
+          )
+        );
+      })
     );
   },
   { functional: true }
@@ -85,13 +85,13 @@ export const registerSuccess = createEffect(
 export const login = createEffect(
   (
     actions$ = inject(Actions),
-    userService = inject(UserService),
+    userApiClient = inject(UserApiClient),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
       ofType(authActions.login),
       switchMap(({ credentials }) =>
-        userService.login(credentials).pipe(
+        userApiClient.login(credentials).pipe(
           tap(currentUser => jwtService.saveToken(currentUser.token)),
           map(currentUser => authActions.loginSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>

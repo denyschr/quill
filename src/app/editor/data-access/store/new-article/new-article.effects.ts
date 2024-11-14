@@ -4,14 +4,14 @@ import { newArticleActions } from './new-article.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ArticleService } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api';
 
 export const newArticleEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(newArticleActions.newArticle),
       switchMap(({ article }) =>
-        articleService.create(article).pipe(
+        articleApiClient.create(article).pipe(
           map(createdArticle => newArticleActions.newArticleSuccess({ createdArticle })),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(newArticleActions.newArticleFailure({ errors: errorResponse.error.errors }));

@@ -1,25 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { ArticleService } from './article.service';
+import { ArticleApiClient } from './article-api-client';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { ArticleListResponseModel } from '@shared/data-access/models';
 
-describe('ArticleService', () => {
-  let articleService: ArticleService;
+describe('ArticleApiClient', () => {
+  let articleApiClient: ArticleApiClient;
   let http: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-    articleService = TestBed.inject(ArticleService);
+    articleApiClient = TestBed.inject(ArticleApiClient);
     http = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => http.verify());
 
   it('should be created', () => {
-    expect(articleService).toBeTruthy();
+    expect(articleApiClient).toBeTruthy();
   });
 
   it('should get a list of articles', () => {
@@ -36,7 +36,7 @@ describe('ArticleService', () => {
     } as ArticleListResponseModel;
 
     let actualArticles: ArticleListResponseModel | undefined;
-    articleService
+    articleApiClient
       .getAll({ type: 'all', filters: {} })
       .subscribe(articleList => (actualArticles = articleList));
 

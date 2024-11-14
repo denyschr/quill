@@ -3,14 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { profileActions } from './profile.actions';
-import { ProfileService } from '@shared/data-access/api';
+import { ProfileApiClient } from '@shared/data-access/api';
 
 export const getProfileEffect = createEffect(
-  (actions$ = inject(Actions), profileService = inject(ProfileService)) => {
+  (actions$ = inject(Actions), profileApiClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
       ofType(profileActions.getProfile),
       switchMap(({ username }) =>
-        profileService.get(username).pipe(
+        profileApiClient.get(username).pipe(
           map(profile => profileActions.getProfileSuccess({ profile })),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(profileActions.getProfileFailure({ error: errorResponse.error }));

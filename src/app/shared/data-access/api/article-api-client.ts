@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleService {
+export class ArticleApiClient {
   constructor(private readonly _http: HttpClient) {}
 
   public getAll(config: ArticleListConfigModel): Observable<ArticleListResponseModel> {
