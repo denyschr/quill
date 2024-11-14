@@ -7,7 +7,7 @@ import { LoginCredentialsModel, RegisterCredentialsModel } from '@auth/data-acce
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserApiClient {
   constructor(private readonly _http: HttpClient) {}
 
   public getCurrentUser(): Observable<UserModel> {

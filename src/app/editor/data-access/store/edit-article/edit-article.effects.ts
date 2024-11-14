@@ -4,14 +4,14 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { editArticleActions } from './edit-article.actions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ArticleService } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api';
 
 export const getArticleEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(editArticleActions.getArticle),
       switchMap(({ slug }) =>
-        articleService.get(slug).pipe(
+        articleApiClient.get(slug).pipe(
           map(article => editArticleActions.getArticleSuccess({ article })),
           catchError(() => {
             return of(editArticleActions.getArticleFailure());
@@ -39,11 +39,11 @@ export const redirectAfterFailureEffect = createEffect(
 );
 
 export const editArticleEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(editArticleActions.editArticle),
       switchMap(({ slug, article }) =>
-        articleService.update(slug, article).pipe(
+        articleApiClient.update(slug, article).pipe(
           map(updatedArticle => editArticleActions.editArticleSuccess({ updatedArticle })),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(

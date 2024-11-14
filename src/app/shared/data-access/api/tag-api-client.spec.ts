@@ -1,31 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { TagService } from './tag.service';
+import { TagApiClient } from './tag-api-client';
 
-describe('TagService', () => {
-  let tagService: TagService;
+describe('TagApiClient', () => {
+  let tagApiClient: TagApiClient;
   let http: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-    tagService = TestBed.inject(TagService);
+    tagApiClient = TestBed.inject(TagApiClient);
     http = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => http.verify());
 
   it('should be created', () => {
-    expect(tagService).toBeTruthy();
+    expect(tagApiClient).toBeTruthy();
   });
 
   it('should get a list of tags', () => {
     const hardcodedTags = { tags: ['esse', 'at', 'ipsum', 'sunt', 'maiores'] };
 
     let actualTags: string[] | undefined;
-    tagService.getAll().subscribe(tags => (actualTags = tags));
+    tagApiClient.getAll().subscribe(tags => (actualTags = tags));
 
     http.expectOne({ method: 'GET', url: '/tags' }).flush(hardcodedTags);
 

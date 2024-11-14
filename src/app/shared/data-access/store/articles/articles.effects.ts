@@ -3,14 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { articlesActions } from './articles.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ArticleService } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api';
 
 export const getArticlesEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articlesActions.getArticles),
       switchMap(({ config }) =>
-        articleService.getAll(config).pipe(
+        articleApiClient.getAll(config).pipe(
           map(data => articlesActions.getArticlesSuccess({ data })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(articlesActions.getArticlesFailure({ error: errorResponse.error }))
@@ -23,13 +23,13 @@ export const getArticlesEffect = createEffect(
 );
 
 export const addToFavoritesEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articlesActions.addToFavorites),
       switchMap(({ favorited, slug }) => {
         const article$ = favorited
-          ? articleService.unfavorite(slug)
-          : articleService.favorite(slug);
+          ? articleApiClient.unfavorite(slug)
+          : articleApiClient.favorite(slug);
 
         return article$.pipe(
           map(article => articlesActions.addToFavoritesSuccess({ article })),

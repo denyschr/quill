@@ -3,10 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tagsActions } from './tags.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TagService } from '@shared/data-access/api';
+import { TagApiClient } from '@shared/data-access/api';
 
 export const getTagsEffect = createEffect(
-  (actions$ = inject(Actions), tagService = inject(TagService)) => {
+  (actions$ = inject(Actions), tagService = inject(TagApiClient)) => {
     return actions$.pipe(
       ofType(tagsActions.getTags),
       switchMap(() =>
