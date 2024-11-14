@@ -6,15 +6,12 @@ import { UserModel } from '@shared/data-access/models';
 
 describe('UserApiClient', () => {
   let userApiClient: UserApiClient;
-  let http: HttpTestingController;
+  let httpController: HttpTestingController;
 
   const user = {
-    email: 'denys@gmail.com',
-    token: 'eyJ1c9VyIj7ImlkIjoz0DV9LCJpYXQmOjE3MjUxMjk1NzEsImV4cCI6MTczMDMxMzU3MX0',
-    username: 'denys',
-    bio: null,
-    image: 'https://api.realworld.io/images/smiley-cyrus.jpeg'
-  };
+    username: 'username',
+    email: 'email@gmail.com'
+  } as UserModel;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,10 +19,10 @@ describe('UserApiClient', () => {
     });
 
     userApiClient = TestBed.inject(UserApiClient);
-    http = TestBed.inject(HttpTestingController);
+    httpController = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => http.verify());
+  afterEach(() => httpController.verify());
 
   it('should be created', () => {
     expect(userApiClient).toBeTruthy();
@@ -38,18 +35,20 @@ describe('UserApiClient', () => {
       password: '12345678'
     };
 
-    let acutalUser: UserModel | undefined;
+    let actualUser: UserModel | undefined;
     userApiClient.register(credentials).subscribe(fetchedUser => {
-      acutalUser = fetchedUser;
+      actualUser = fetchedUser;
     });
 
-    const req = http.expectOne({ method: 'POST', url: '/users' });
-    expect(req.request.body).toEqual({
-      user: credentials
-    });
-    req.flush({ user: user });
+    const req = httpController.expectOne({ method: 'POST', url: '/users' });
+    expect(req.request.body).toEqual({ user: credentials });
+    req.flush({ user });
 
-    expect(acutalUser).withContext('The observable should emit the registered user').toBe(user);
+    expect(actualUser)
+      .withContext(
+        'The `register` method should return a UserModel object wrapped in an Observable'
+      )
+      .toBe(user);
   });
 
   it('should login a user', () => {
@@ -61,20 +60,44 @@ describe('UserApiClient', () => {
     let actualUser: UserModel | undefined;
     userApiClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = http.expectOne({ method: 'POST', url: '/users/login' });
+    const req = httpController.expectOne({ method: 'POST', url: '/users/login' });
     expect(req.request.body).toEqual({ user: credentials });
-    req.flush({ user: user });
+    req.flush({ user });
 
-    expect(actualUser).withContext('The observable should emit the logged in user').toBe(user);
+    expect(actualUser)
+      .withContext('The `login` method should return a UserModel object wrapped in an Observable')
+      .toBe(user);
   });
 
   it('should return a user', () => {
     let actualUser: UserModel | undefined;
     userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = http.expectOne({ method: 'GET', url: '/user' });
-    req.flush({ user: user });
+    const req = httpController.expectOne({ method: 'GET', url: '/user' });
+    req.flush({ user });
 
-    expect(actualUser).withContext('The observable should emit the user').toBe(user);
+    expect(actualUser)
+      .withContext(
+        'The `getCurrentUser` method should return a UserModel object wrapped in an Observable'
+      )
+      .toBe(user);
+  });
+
+  it('should update a user', () => {
+    const expectedUser = {
+      ...user,
+      bio: 'bio'
+    };
+
+    let actualUser: UserModel | undefined;
+    userApiClient.update({ bio: 'bio' }).subscribe(fetchedUser => (actualUser = fetchedUser));
+
+    const req = httpController.expectOne({ method: 'PUT', url: '/user' });
+    expect(req.request.body).toEqual({ user: { bio: 'bio' } });
+    req.flush({ user: expectedUser });
+
+    expect(actualUser)
+      .withContext('The `update` method should return a UserModel object wrapped in an Observable')
+      .toBe(expectedUser);
   });
 });
