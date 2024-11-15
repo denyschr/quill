@@ -23,7 +23,7 @@ describe('TagApiClient', () => {
   });
 
   it('should return a list of tags', () => {
-    const expectedTags = ['sunt', 'at', 'ipsum'];
+    const expectedTags = ['tag one', 'tag two', 'tag three'];
 
     let actualTags: string[] | undefined;
     tagApiClient.getAll().subscribe(tags => (actualTags = tags));

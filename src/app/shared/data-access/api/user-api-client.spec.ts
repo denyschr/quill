@@ -45,9 +45,7 @@ describe('UserApiClient', () => {
     req.flush({ user });
 
     expect(actualUser)
-      .withContext(
-        'The `register` method should return a UserModel object wrapped in an Observable'
-      )
+      .withContext('The `register` method should return a UserModel wrapped in an Observable')
       .toBe(user);
   });
 
@@ -65,7 +63,7 @@ describe('UserApiClient', () => {
     req.flush({ user });
 
     expect(actualUser)
-      .withContext('The `login` method should return a UserModel object wrapped in an Observable')
+      .withContext('The `login` method should return a UserModel wrapped in an Observable')
       .toBe(user);
   });
 
@@ -73,13 +71,10 @@ describe('UserApiClient', () => {
     let actualUser: UserModel | undefined;
     userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = httpController.expectOne('/user');
-    req.flush({ user });
+    httpController.expectOne('/user').flush({ user });
 
     expect(actualUser)
-      .withContext(
-        'The `getCurrentUser` method should return a UserModel object wrapped in an Observable'
-      )
+      .withContext('The `getCurrentUser` method should return a UserModel wrapped in an Observable')
       .toBe(user);
   });
 
@@ -97,7 +92,7 @@ describe('UserApiClient', () => {
     req.flush({ user: expectedUser });
 
     expect(actualUser)
-      .withContext('The `update` method should return a UserModel object wrapped in an Observable')
+      .withContext('The `update` method should return a UserModel wrapped in an Observable')
       .toBe(expectedUser);
   });
 });

@@ -12,6 +12,6 @@ export class ProfileApiClient {
   public get(username: string): Observable<ProfileModel> {
     return this._http
       .get<{ profile: ProfileModel }>(`/profiles/${username}`)
-      .pipe(map(({ profile }) => profile));
+      .pipe(map(response => response.profile));
   }
 }
