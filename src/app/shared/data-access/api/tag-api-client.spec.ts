@@ -23,15 +23,15 @@ describe('TagApiClient', () => {
   });
 
   it('should return a list of tags', () => {
-    const hardcodedTags = ['sunt', 'at', 'ipsum'];
+    const expectedTags = ['sunt', 'at', 'ipsum'];
 
     let actualTags: string[] | undefined;
     tagApiClient.getAll().subscribe(tags => (actualTags = tags));
 
-    httpController.expectOne('/tags').flush({ tags: hardcodedTags });
+    httpController.expectOne('/tags').flush({ tags: expectedTags });
 
     expect(actualTags)
       .withContext('The `getAll` method should return an array of strings wrapped in an Observable')
-      .toBe(hardcodedTags);
+      .toBe(expectedTags);
   });
 });
