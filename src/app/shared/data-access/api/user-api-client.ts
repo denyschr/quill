@@ -11,22 +11,24 @@ export class UserApiClient {
   constructor(private readonly _http: HttpClient) {}
 
   public getCurrentUser(): Observable<UserModel> {
-    return this._http.get<{ user: UserModel }>(`/user`).pipe(map(({ user }) => user));
+    return this._http.get<{ user: UserModel }>(`/user`).pipe(map(response => response.user));
   }
 
   public register(credentials: RegisterCredentialsModel): Observable<UserModel> {
     return this._http
       .post<{ user: UserModel }>(`/users`, { user: credentials })
-      .pipe(map(({ user }) => user));
+      .pipe(map(response => response.user));
   }
 
   public login(credentials: LoginCredentialsModel): Observable<UserModel> {
     return this._http
       .post<{ user: UserModel }>(`/users/login`, { user: credentials })
-      .pipe(map(({ user }) => user));
+      .pipe(map(response => response.user));
   }
 
   public update(user: Partial<UserModel>): Observable<UserModel> {
-    return this._http.put<{ user: UserModel }>('/user', { user }).pipe(map(({ user }) => user));
+    return this._http
+      .put<{ user: UserModel }>('/user', { user })
+      .pipe(map(response => response.user));
   }
 }

@@ -29,19 +29,19 @@ export class ArticleApiClient {
   public get(slug: string): Observable<ArticleModel> {
     return this._http
       .get<{ article: ArticleModel }>(`/articles/${slug}`)
-      .pipe(map(({ article }) => article));
+      .pipe(map(response => response.article));
   }
 
   public create(article: Partial<ArticleModel>): Observable<ArticleModel> {
     return this._http
-      .post<{ article: ArticleModel }>('/articles', { article: article })
-      .pipe(map(({ article }) => article));
+      .post<{ article: ArticleModel }>('/articles', { article })
+      .pipe(map(response => response.article));
   }
 
   public update(slug: string, article: Partial<ArticleModel>): Observable<ArticleModel> {
     return this._http
-      .put<{ article: ArticleModel }>(`/articles/${slug}`, { article: article })
-      .pipe(map(({ article }) => article));
+      .put<{ article: ArticleModel }>(`/articles/${slug}`, { article })
+      .pipe(map(response => response.article));
   }
 
   public delete(slug: string): Observable<void> {
@@ -51,12 +51,12 @@ export class ArticleApiClient {
   public favorite(slug: string): Observable<ArticleModel> {
     return this._http
       .post<{ article: ArticleModel }>(`/articles/${slug}/favorite`, {})
-      .pipe(map(({ article }) => article));
+      .pipe(map(response => response.article));
   }
 
   public unfavorite(slug: string): Observable<ArticleModel> {
     return this._http
       .delete<{ article: ArticleModel }>(`/articles/${slug}/favorite`)
-      .pipe(map(({ article }) => article));
+      .pipe(map(response => response.article));
   }
 }
