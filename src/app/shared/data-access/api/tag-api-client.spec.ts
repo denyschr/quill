@@ -5,32 +5,33 @@ import { TagApiClient } from './tag-api-client';
 
 describe('TagApiClient', () => {
   let tagApiClient: TagApiClient;
-  let http: HttpTestingController;
+  let httpController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
+
     tagApiClient = TestBed.inject(TagApiClient);
-    http = TestBed.inject(HttpTestingController);
+    httpController = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => http.verify());
+  afterEach(() => httpController.verify());
 
   it('should be created', () => {
     expect(tagApiClient).toBeTruthy();
   });
 
-  it('should get a list of tags', () => {
-    const hardcodedTags = { tags: ['esse', 'at', 'ipsum', 'sunt', 'maiores'] };
+  it('should return a list of tags', () => {
+    const hardcodedTags = ['sunt', 'at', 'ipsum'];
 
     let actualTags: string[] | undefined;
     tagApiClient.getAll().subscribe(tags => (actualTags = tags));
 
-    http.expectOne({ method: 'GET', url: '/tags' }).flush(hardcodedTags);
+    httpController.expectOne('/tags').flush({ tags: hardcodedTags });
 
     expect(actualTags)
-      .withContext('The observable should emit the list of tags')
-      .toBe(hardcodedTags.tags);
+      .withContext('The `getAll` method should return an array of strings wrapped in an Observable')
+      .toBe(hardcodedTags);
   });
 });

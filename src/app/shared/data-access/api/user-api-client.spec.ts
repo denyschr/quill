@@ -73,7 +73,7 @@ describe('UserApiClient', () => {
     let actualUser: UserModel | undefined;
     userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    const req = httpController.expectOne({ method: 'GET', url: '/user' });
+    const req = httpController.expectOne('/user');
     req.flush({ user });
 
     expect(actualUser)
