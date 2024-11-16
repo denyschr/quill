@@ -1,9 +1,16 @@
-import { EditArticleStateModel } from '@editor/data-access/models';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { editArticleActions } from './edit-article.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
+import { Article, BackendErrors } from '@shared/data-access/models';
 
-const initialState: EditArticleStateModel = {
+export interface EditArticleState {
+  article: Article | null;
+  submitting: boolean;
+  loading: boolean;
+  errors: BackendErrors | null;
+}
+
+const initialState: EditArticleState = {
   article: null,
   loading: false,
   submitting: false,
@@ -16,14 +23,14 @@ const editArticleFeature = createFeature({
     initialState,
     on(
       editArticleActions.getArticle,
-      (state): EditArticleStateModel => ({
+      (state): EditArticleState => ({
         ...state,
         loading: true
       })
     ),
     on(
       editArticleActions.getArticleSuccess,
-      (state, { article }): EditArticleStateModel => ({
+      (state, { article }): EditArticleState => ({
         ...state,
         article: article,
         loading: false
@@ -31,34 +38,34 @@ const editArticleFeature = createFeature({
     ),
     on(
       editArticleActions.getArticleFailure,
-      (state): EditArticleStateModel => ({
+      (state): EditArticleState => ({
         ...state,
         loading: false
       })
     ),
     on(
       editArticleActions.editArticle,
-      (state): EditArticleStateModel => ({
+      (state): EditArticleState => ({
         ...state,
         submitting: true
       })
     ),
     on(
       editArticleActions.editArticleSuccess,
-      (state): EditArticleStateModel => ({
+      (state): EditArticleState => ({
         ...state,
         submitting: false
       })
     ),
     on(
       editArticleActions.editArticleFailure,
-      (state, { errors }): EditArticleStateModel => ({
+      (state, { errors }): EditArticleState => ({
         ...state,
         submitting: false,
         errors: errors
       })
     ),
-    on(routerNavigationAction, (): EditArticleStateModel => initialState)
+    on(routerNavigationAction, (): EditArticleState => initialState)
   )
 });
 

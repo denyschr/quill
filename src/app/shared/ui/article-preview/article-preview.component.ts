@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ArticleModel } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
 import { TagListComponent } from '@shared/ui/tag-list';
 import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
@@ -61,5 +61,5 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 })
 export class ArticlePreviewComponent {
   @Input({ required: true })
-  public article!: ArticleModel;
+  public article!: Article;
 }

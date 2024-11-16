@@ -1,9 +1,14 @@
 import { authActions } from '@auth/data-access/store';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SettingsStateModel } from '@settings/data-access/models';
+import { BackendErrors } from '@shared/data-access/models';
 
-const initialState: SettingsStateModel = {
+export interface SettingsState {
+  submitting: boolean;
+  errors: BackendErrors | null;
+}
+
+const initialState: SettingsState = {
   submitting: false,
   errors: null
 };
@@ -14,7 +19,7 @@ const settingsFeature = createFeature({
     initialState,
     on(
       authActions.updateCurrentUser,
-      (state): SettingsStateModel => ({
+      (state): SettingsState => ({
         ...state,
         submitting: true,
         errors: null
@@ -22,20 +27,20 @@ const settingsFeature = createFeature({
     ),
     on(
       authActions.updateCurrentUserSuccess,
-      (state): SettingsStateModel => ({
+      (state): SettingsState => ({
         ...state,
         submitting: false
       })
     ),
     on(
       authActions.updateCurrentUserFailure,
-      (state, { errors }): SettingsStateModel => ({
+      (state, { errors }): SettingsState => ({
         ...state,
         submitting: false,
         errors: errors
       })
     ),
-    on(routerNavigationAction, (): SettingsStateModel => initialState)
+    on(routerNavigationAction, (): SettingsState => initialState)
   )
 });
 

@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { ArticleApiClient } from './article-api-client';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { ArticleListResponseModel, ArticleModel } from '@shared/data-access/models';
+import { Article, ArticleListResponse } from '@shared/data-access/models';
 
 describe('ArticleApiClient', () => {
   let articleApiClient: ArticleApiClient;
   let httpController: HttpTestingController;
 
-  const article = { title: 'title' } as ArticleModel;
+  const article = { title: 'title' } as Article;
   const slug = 'slug';
 
   beforeEach(() => {
@@ -30,13 +30,13 @@ describe('ArticleApiClient', () => {
     const expectedArticles = {
       articles: [{ title: 'title one' }, { title: 'title two' }],
       articlesCount: 2
-    } as ArticleListResponseModel;
+    } as ArticleListResponse;
     const filters = {
       tag: 'tag',
       author: 'author'
     };
 
-    let actualArticles: ArticleListResponseModel | undefined;
+    let actualArticles: ArticleListResponse | undefined;
     articleApiClient
       .getAll({ type: 'feed', filters })
       .subscribe(articles => (actualArticles = articles));
@@ -53,7 +53,7 @@ describe('ArticleApiClient', () => {
   });
 
   it('should return an article', () => {
-    let actualArticle: ArticleModel | undefined;
+    let actualArticle: Article | undefined;
     articleApiClient.get(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     httpController.expectOne(`/articles/${slug}`).flush({ article });
@@ -64,7 +64,7 @@ describe('ArticleApiClient', () => {
   });
 
   it('should create an article', () => {
-    let actualArticle: ArticleModel | undefined;
+    let actualArticle: Article | undefined;
     articleApiClient.create(article).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     const req = httpController.expectOne({ method: 'POST', url: '/articles' });
@@ -77,7 +77,7 @@ describe('ArticleApiClient', () => {
   });
 
   it('should update an article', () => {
-    let actualArticle: ArticleModel | undefined;
+    let actualArticle: Article | undefined;
     articleApiClient
       .update(slug, article)
       .subscribe(fetchedArticle => (actualArticle = fetchedArticle));
@@ -101,7 +101,7 @@ describe('ArticleApiClient', () => {
   });
 
   it('should favorite an article', () => {
-    let actualArticle: ArticleModel | undefined;
+    let actualArticle: Article | undefined;
     articleApiClient.favorite(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     httpController
@@ -114,7 +114,7 @@ describe('ArticleApiClient', () => {
   });
 
   it('should unfavorite an article', () => {
-    let actualArticle: ArticleModel | undefined;
+    let actualArticle: Article | undefined;
     articleApiClient.unfavorite(slug).subscribe(article => (actualArticle = article));
 
     httpController

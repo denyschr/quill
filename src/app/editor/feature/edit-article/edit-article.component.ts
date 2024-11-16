@@ -9,7 +9,7 @@ import {
 import { ArticleFormComponent } from '@editor/ui/article-form';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleFormDataModel } from '@shared/data-access/models';
+import { ArticleFormData } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 import { combineLatest, filter } from 'rxjs';
@@ -64,7 +64,7 @@ export default class EditArticleComponent implements OnInit {
     this.store.dispatch(editArticleActions.getArticle({ slug: this.slug }));
   }
 
-  public submitArticle(article: ArticleFormDataModel): void {
+  public submitArticle(article: ArticleFormData): void {
     this.store.dispatch(editArticleActions.editArticle({ slug: this.slug, article }));
   }
 }

@@ -34,19 +34,16 @@
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
 
-      "@home/data-access/models": ["src/app/home/data-access/models/index.ts"],
       "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
       "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
       "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
 
-      "@article/data-access/models": ["src/app/article/data-access/models/index.ts"],
       "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
       "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
       "@article/feature": ["src/app/article/feature/index.ts"],
 
-      "@editor/data-access/models": ["src/app/editor/data-access/models/index.ts"],
       "@editor/data-access/store/new-article": [
         "src/app/editor/data-access/store/new-article/index.ts"
       ],
@@ -61,12 +58,10 @@
       "@editor/feature/edit-article": ["src/app/editor/feature/edit-article/index.ts"],
       "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
 
-      "@settings/data-access/models": ["src/app/settings/data-access/models/index.ts"],
       "@settings/data-access/store": ["src/app/settings/data-access/store/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],
       "@settings/ui/user-form": ["src/app/settings/ui/user-form/index.ts"],
 
-      "@profile/data-access/models": ["src/app/profile/data-access/models/index.ts"],
       "@profile/data-access/store": ["src/app/profile/data-access/store/index.ts"],
       "@profile/data-access/store/*": ["src/app/profile/data-access/store/*"],
       "@profile/feature": ["src/app/profile/feature/index.ts"],
@@ -79,7 +74,6 @@
       "@shared/data-access/interceptors": ["src/app/shared/data-access/interceptors/index.ts"],
       "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
       "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
-
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
       "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
       "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],
@@ -92,7 +86,6 @@
       "@shared/ui/pagination": ["src/app/shared/ui/pagination/index.ts"],
       "@shared/ui/tag-list": ["src/app/shared/ui/tag-list/index.ts"],
       "@shared/ui/favorite-button": ["src/app/shared/ui/favorite-button/index.ts"],
-
       "@shared/directives/form-control-validation": [
         "src/app/shared/directives/form-control-validation/index.ts"
       ]

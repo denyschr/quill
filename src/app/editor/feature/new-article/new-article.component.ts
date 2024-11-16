@@ -7,7 +7,7 @@ import {
 import { ArticleFormComponent } from '@editor/ui/article-form';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleFormDataModel } from '@shared/data-access/models';
+import { ArticleFormData } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 
@@ -39,7 +39,7 @@ export default class NewArticleComponent {
 
   constructor(private store: Store) {}
 
-  public submitArticle(article: ArticleFormDataModel) {
+  public submitArticle(article: ArticleFormData) {
     this.store.dispatch(newArticleActions.newArticle({ article }));
   }
 }

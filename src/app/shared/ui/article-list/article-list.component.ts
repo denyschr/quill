@@ -3,7 +3,7 @@ import { LetDirective } from '@ngrx/component';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
 import { ErrorComponent } from '@shared/ui/error';
-import { ArticleModel } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-article-list',
@@ -30,7 +30,7 @@ import { ArticleModel } from '@shared/data-access/models';
 })
 export class ArticleListComponent {
   @Input()
-  public articles?: ArticleModel[];
+  public articles?: Article[];
 
   @Input()
   public loading = false;

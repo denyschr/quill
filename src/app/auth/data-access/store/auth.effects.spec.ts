@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from '@auth/data-access/store/auth.actions';
-import { UserModel } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';
 
@@ -14,7 +14,7 @@ describe('AuthEffects', () => {
   let router: Router;
   let actions$: Observable<unknown>;
 
-  const user = { username: 'username' } as UserModel;
+  const user = { username: 'username' } as User;
 
   beforeEach(() => {
     userApiClient = jasmine.createSpyObj<UserApiClient>('UserApiClient', [

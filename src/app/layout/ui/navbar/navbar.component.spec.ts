@@ -3,12 +3,12 @@ import { provideRouter, RouterLink } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
 import { By } from '@angular/platform-browser';
 import { NgbCollapseConfig } from '@ng-bootstrap/ng-bootstrap';
-import { UserModel } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let currentUser: UserModel | null | undefined;
+  let currentUser: User | null | undefined;
 
   beforeEach(() => {
     currentUser = undefined;
@@ -65,7 +65,7 @@ describe('NavbarComponent', () => {
   });
 
   it('should display correct routerLink if authenticated', () => {
-    currentUser = { username: 'username' } as UserModel;
+    currentUser = { username: 'username' } as User;
     fixture.componentRef.setInput('currentUser', currentUser);
     fixture.detectChanges();
 
@@ -97,7 +97,7 @@ describe('NavbarComponent', () => {
   });
 
   it('should display an image of the user if available', () => {
-    currentUser = { username: 'username', image: 'image' } as UserModel;
+    currentUser = { username: 'username', image: 'image' } as User;
     fixture.componentRef.setInput('currentUser', currentUser);
     fixture.detectChanges();
 

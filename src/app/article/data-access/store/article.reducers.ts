@@ -1,9 +1,15 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { articleActions } from './article.actions';
-import { ArticleStateModel } from '@article/data-access/models';
 import { routerNavigationAction } from '@ngrx/router-store';
+import { Article } from '@shared/data-access/models';
 
-const initialState: ArticleStateModel = {
+export interface ArticleState {
+  article: Article | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: ArticleState = {
   article: null,
   loading: false,
   error: null
@@ -15,14 +21,14 @@ const articleFeature = createFeature({
     initialState,
     on(
       articleActions.getArticle,
-      (state): ArticleStateModel => ({
+      (state): ArticleState => ({
         ...state,
         loading: true
       })
     ),
     on(
       articleActions.getArticleSuccess,
-      (state, { article }): ArticleStateModel => ({
+      (state, { article }): ArticleState => ({
         ...state,
         article: article,
         loading: false
@@ -30,13 +36,13 @@ const articleFeature = createFeature({
     ),
     on(
       articleActions.getArticleFailure,
-      (state, { error }): ArticleStateModel => ({
+      (state, { error }): ArticleState => ({
         ...state,
         loading: false,
         error: error
       })
     ),
-    on(routerNavigationAction, (): ArticleStateModel => initialState)
+    on(routerNavigationAction, (): ArticleState => initialState)
   )
 });
 

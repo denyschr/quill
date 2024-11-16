@@ -1,9 +1,14 @@
-import { NewArticleStateModel } from '@editor/data-access/models';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { newArticleActions } from './new-article.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
+import { BackendErrors } from '@shared/data-access/models';
 
-const initialState: NewArticleStateModel = {
+export interface NewArticleState {
+  submitting: boolean;
+  errors: BackendErrors | null;
+}
+
+const initialState: NewArticleState = {
   submitting: false,
   errors: null
 };
@@ -14,27 +19,27 @@ const newArticleFeature = createFeature({
     initialState,
     on(
       newArticleActions.newArticle,
-      (state): NewArticleStateModel => ({
+      (state): NewArticleState => ({
         ...state,
         submitting: true
       })
     ),
     on(
       newArticleActions.newArticleSuccess,
-      (state): NewArticleStateModel => ({
+      (state): NewArticleState => ({
         ...state,
         submitting: false
       })
     ),
     on(
       newArticleActions.newArticleFailure,
-      (state, { errors }): NewArticleStateModel => ({
+      (state, { errors }): NewArticleState => ({
         ...state,
         submitting: false,
         errors: errors
       })
     ),
-    on(routerNavigationAction, (): NewArticleStateModel => initialState)
+    on(routerNavigationAction, (): NewArticleState => initialState)
   )
 });
 
