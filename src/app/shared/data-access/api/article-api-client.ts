@@ -1,11 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import {
-  ArticleListConfigModel,
-  ArticleListResponseModel,
-  ArticleModel
-} from '@shared/data-access/models';
+import { Article, ArticleListConfig, ArticleListResponse } from '@shared/data-access/models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,34 +9,34 @@ import {
 export class ArticleApiClient {
   constructor(private readonly _http: HttpClient) {}
 
-  public getAll(config: ArticleListConfigModel): Observable<ArticleListResponseModel> {
+  public getAll(config: ArticleListConfig): Observable<ArticleListResponse> {
     let params = new HttpParams();
     Object.keys(config.filters).forEach(key => {
       // @ts-expect-error: String keys might not exist
       params = params.set(key, config.filters[key]);
     });
 
-    return this._http.get<ArticleListResponseModel>(
+    return this._http.get<ArticleListResponse>(
       `/articles${config.type === 'feed' ? '/feed' : ''}`,
       { params }
     );
   }
 
-  public get(slug: string): Observable<ArticleModel> {
+  public get(slug: string): Observable<Article> {
     return this._http
-      .get<{ article: ArticleModel }>(`/articles/${slug}`)
+      .get<{ article: Article }>(`/articles/${slug}`)
       .pipe(map(response => response.article));
   }
 
-  public create(article: Partial<ArticleModel>): Observable<ArticleModel> {
+  public create(article: Partial<Article>): Observable<Article> {
     return this._http
-      .post<{ article: ArticleModel }>('/articles', { article })
+      .post<{ article: Article }>('/articles', { article })
       .pipe(map(response => response.article));
   }
 
-  public update(slug: string, article: Partial<ArticleModel>): Observable<ArticleModel> {
+  public update(slug: string, article: Partial<Article>): Observable<Article> {
     return this._http
-      .put<{ article: ArticleModel }>(`/articles/${slug}`, { article })
+      .put<{ article: Article }>(`/articles/${slug}`, { article })
       .pipe(map(response => response.article));
   }
 
@@ -48,15 +44,15 @@ export class ArticleApiClient {
     return this._http.delete<void>(`/articles/${slug}`);
   }
 
-  public favorite(slug: string): Observable<ArticleModel> {
+  public favorite(slug: string): Observable<Article> {
     return this._http
-      .post<{ article: ArticleModel }>(`/articles/${slug}/favorite`, {})
+      .post<{ article: Article }>(`/articles/${slug}/favorite`, {})
       .pipe(map(response => response.article));
   }
 
-  public unfavorite(slug: string): Observable<ArticleModel> {
+  public unfavorite(slug: string): Observable<Article> {
     return this._http
-      .delete<{ article: ArticleModel }>(`/articles/${slug}/favorite`)
+      .delete<{ article: Article }>(`/articles/${slug}/favorite`)
       .pipe(map(response => response.article));
   }
 }

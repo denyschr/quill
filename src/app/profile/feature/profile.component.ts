@@ -12,7 +12,7 @@ import {
 } from '@profile/data-access/store';
 import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
 import { UserInfoComponent } from '@profile/ui/user-info';
-import { ArticleListConfigModel } from '@shared/data-access/models';
+import { ArticleListConfig } from '@shared/data-access/models';
 import {
   articlesActions,
   selectArticlesData,
@@ -74,7 +74,7 @@ export default class ProfileComponent implements OnInit, OnChanges {
 
   public currentPage = 1;
   public readonly limit = environment.limit;
-  public listConfig: ArticleListConfigModel = {
+  public listConfig: ArticleListConfig = {
     type: 'all',
     filters: {
       limit: this.limit

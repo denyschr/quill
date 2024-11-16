@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { ProfileApiClient } from './profile-api-client';
-import { ProfileModel } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/models';
 
 describe('ProfileApiClient', () => {
   let profileApiClient: ProfileApiClient;
@@ -26,9 +26,9 @@ describe('ProfileApiClient', () => {
   it('should return a profile', () => {
     const expectedProfile = {
       username: 'username'
-    } as ProfileModel;
+    } as Profile;
 
-    let actualProfile: ProfileModel | undefined;
+    let actualProfile: Profile | undefined;
     profileApiClient.get(expectedProfile.username).subscribe(profile => (actualProfile = profile));
 
     httpController
@@ -36,7 +36,7 @@ describe('ProfileApiClient', () => {
       .flush({ profile: expectedProfile });
 
     expect(actualProfile)
-      .withContext('The `get` method should return a ProfileModel object wrapped in an Observable')
+      .withContext('The `get` method should return a Profile object wrapped in an Observable')
       .toBe(expectedProfile);
   });
 });

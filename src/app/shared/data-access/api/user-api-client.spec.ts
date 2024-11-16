@@ -2,7 +2,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { UserApiClient } from './user-api-client';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { UserModel } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 
 describe('UserApiClient', () => {
   let userApiClient: UserApiClient;
@@ -11,7 +11,7 @@ describe('UserApiClient', () => {
   const user = {
     username: 'username',
     email: 'email@gmail.com'
-  } as UserModel;
+  } as User;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +35,7 @@ describe('UserApiClient', () => {
       password: '12345678'
     };
 
-    let actualUser: UserModel | undefined;
+    let actualUser: User | undefined;
     userApiClient.register(credentials).subscribe(fetchedUser => {
       actualUser = fetchedUser;
     });
@@ -45,7 +45,7 @@ describe('UserApiClient', () => {
     req.flush({ user });
 
     expect(actualUser)
-      .withContext('The `register` method should return a UserModel wrapped in an Observable')
+      .withContext('The `register` method should return a User wrapped in an Observable')
       .toBe(user);
   });
 
@@ -55,7 +55,7 @@ describe('UserApiClient', () => {
       password: '12345678'
     };
 
-    let actualUser: UserModel | undefined;
+    let actualUser: User | undefined;
     userApiClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'POST', url: '/users/login' });
@@ -63,18 +63,18 @@ describe('UserApiClient', () => {
     req.flush({ user });
 
     expect(actualUser)
-      .withContext('The `login` method should return a UserModel wrapped in an Observable')
+      .withContext('The `login` method should return a User wrapped in an Observable')
       .toBe(user);
   });
 
   it('should return a user', () => {
-    let actualUser: UserModel | undefined;
+    let actualUser: User | undefined;
     userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
     httpController.expectOne('/user').flush({ user });
 
     expect(actualUser)
-      .withContext('The `getCurrentUser` method should return a UserModel wrapped in an Observable')
+      .withContext('The `getCurrentUser` method should return a User wrapped in an Observable')
       .toBe(user);
   });
 
@@ -84,7 +84,7 @@ describe('UserApiClient', () => {
       bio: 'bio'
     };
 
-    let actualUser: UserModel | undefined;
+    let actualUser: User | undefined;
     userApiClient.update({ bio: 'bio' }).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'PUT', url: '/user' });
@@ -92,7 +92,7 @@ describe('UserApiClient', () => {
     req.flush({ user: expectedUser });
 
     expect(actualUser)
-      .withContext('The `update` method should return a UserModel wrapped in an Observable')
+      .withContext('The `update` method should return a User wrapped in an Observable')
       .toBe(expectedUser);
   });
 });

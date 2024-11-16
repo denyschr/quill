@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleListConfigModel, FeedType } from '@shared/data-access/models';
+import { ArticleListConfig, FeedType } from '@shared/data-access/models';
 import {
   articlesActions,
   selectArticlesData,
@@ -14,10 +14,10 @@ import { PaginationComponent } from '@shared/ui/pagination';
 import { environment } from '@environment';
 import { TagsComponent } from '@home/ui/tags';
 import {
-  tagsActions,
-  selectTags,
+  selectError as selectTagsError,
   selectLoading as selectTagsLoading,
-  selectError as selectTagsError
+  selectTags,
+  tagsActions
 } from '@home/data-access/store/tags';
 import { FeedToggleComponent } from '@home/ui/feed-toggle';
 import { selectCurrentUser } from '@auth/data-access/store';
@@ -76,7 +76,7 @@ import { selectCurrentUser } from '@auth/data-access/store';
 export default class HomeComponent implements OnInit {
   public currentPage = 1;
   public readonly limit = environment.limit;
-  public listConfig: ArticleListConfigModel = {
+  public listConfig: ArticleListConfig = {
     type: 'all',
     filters: {
       limit: this.limit

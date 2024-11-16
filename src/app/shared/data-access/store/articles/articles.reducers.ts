@@ -1,8 +1,14 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { articlesActions } from './articles.actions';
-import { ArticlesStateModel } from '@shared/data-access/models';
+import { ArticleListResponse } from '@shared/data-access/models';
 
-export const initialState: ArticlesStateModel = {
+export interface ArticlesState {
+  data: ArticleListResponse | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export const initialState: ArticlesState = {
   data: null,
   loading: false,
   error: null
@@ -14,7 +20,7 @@ const articlesFeature = createFeature({
     initialState,
     on(
       articlesActions.getArticles,
-      (state): ArticlesStateModel => ({
+      (state): ArticlesState => ({
         ...state,
         data: null,
         loading: true,
@@ -23,7 +29,7 @@ const articlesFeature = createFeature({
     ),
     on(
       articlesActions.getArticlesSuccess,
-      (state, { data }): ArticlesStateModel => ({
+      (state, { data }): ArticlesState => ({
         ...state,
         data: data,
         loading: false,
@@ -32,7 +38,7 @@ const articlesFeature = createFeature({
     ),
     on(
       articlesActions.getArticlesFailure,
-      (state, { error }): ArticlesStateModel => ({
+      (state, { error }): ArticlesState => ({
         ...state,
         loading: false,
         error: error

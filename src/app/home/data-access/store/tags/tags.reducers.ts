@@ -1,8 +1,13 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { TagsStateModel } from '@home/data-access/models';
 import { tagsActions } from './tags.actions';
 
-export const initialState: TagsStateModel = {
+export interface TagsState {
+  tags: string[] | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export const initialState: TagsState = {
   tags: null,
   loading: false,
   error: null
@@ -14,14 +19,14 @@ const tagsFeature = createFeature({
     initialState,
     on(
       tagsActions.getTags,
-      (state): TagsStateModel => ({
+      (state): TagsState => ({
         ...state,
         loading: true
       })
     ),
     on(
       tagsActions.getTagsSuccess,
-      (state, { tags }): TagsStateModel => ({
+      (state, { tags }): TagsState => ({
         ...state,
         tags: tags,
         loading: false,
@@ -30,7 +35,7 @@ const tagsFeature = createFeature({
     ),
     on(
       tagsActions.getTagsFailure,
-      (state, { error }): TagsStateModel => ({
+      (state, { error }): TagsState => ({
         ...state,
         loading: false,
         error: error

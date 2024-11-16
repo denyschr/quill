@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProfileModel } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-user-info',
@@ -33,7 +33,7 @@ import { ProfileModel } from '@shared/data-access/models';
 })
 export class UserInfoComponent {
   @Input({ required: true })
-  public profile!: ProfileModel;
+  public profile!: Profile;
 
   @Input()
   public owner = false;

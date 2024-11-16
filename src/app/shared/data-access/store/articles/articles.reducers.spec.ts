@@ -1,4 +1,4 @@
-import { ArticleListResponseModel } from '@shared/data-access/models';
+import { ArticleListResponse } from '@shared/data-access/models';
 import { articlesActions } from './articles.actions';
 import * as fromArticles from './articles.reducers';
 
@@ -42,7 +42,7 @@ describe('ArticlesReducers', () => {
           }
         ],
         articlesCount: 2
-      } as ArticleListResponseModel;
+      } as ArticleListResponse;
 
       const { initialState } = fromArticles;
       const newState = {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserFormDataModel, UserModel } from '@shared/data-access/models';
+import { User, UserFormData } from '@shared/data-access/models';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
@@ -80,10 +80,10 @@ export class UserFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public readonly submitted = new EventEmitter<UserFormDataModel>();
+  public readonly submitted = new EventEmitter<UserFormData>();
 
   @Input()
-  public set user(user: UserModel) {
+  public set user(user: User) {
     this.userForm.patchValue({
       image: user.image || '',
       username: user.username,

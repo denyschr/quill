@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProfileModel } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-article-meta',
@@ -41,7 +41,7 @@ import { ProfileModel } from '@shared/data-access/models';
 })
 export class ArticleMetaComponent {
   @Input({ required: true })
-  public author!: ProfileModel;
+  public author!: Profile;
 
   @Input({ required: true })
   public createdAt!: string;

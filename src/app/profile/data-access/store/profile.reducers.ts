@@ -1,9 +1,15 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { ProfileStateModel } from '@profile/data-access/models';
 import { profileActions } from './profile.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
+import { Profile } from '@shared/data-access/models';
 
-const initialState: ProfileStateModel = {
+export interface ProfileState {
+  profile: Profile | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: ProfileState = {
   profile: null,
   loading: false,
   error: null
@@ -15,14 +21,14 @@ const profileFeature = createFeature({
     initialState,
     on(
       profileActions.getProfile,
-      (state): ProfileStateModel => ({
+      (state): ProfileState => ({
         ...state,
         loading: true
       })
     ),
     on(
       profileActions.getProfileSuccess,
-      (state, { profile }): ProfileStateModel => ({
+      (state, { profile }): ProfileState => ({
         ...state,
         profile: profile,
         loading: false
@@ -30,13 +36,13 @@ const profileFeature = createFeature({
     ),
     on(
       profileActions.getProfileFailure,
-      (state, { error }): ProfileStateModel => ({
+      (state, { error }): ProfileState => ({
         ...state,
         loading: false,
         error: error
       })
     ),
-    on(routerNavigationAction, (): ProfileStateModel => initialState)
+    on(routerNavigationAction, (): ProfileState => initialState)
   )
 });
 

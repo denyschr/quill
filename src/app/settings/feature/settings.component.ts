@@ -3,7 +3,7 @@ import { authActions, selectCurrentUser } from '@auth/data-access/store';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { UserFormComponent } from '@settings/ui/user-form';
-import { UserFormDataModel } from '@shared/data-access/models';
+import { UserFormData } from '@shared/data-access/models';
 import { combineLatest, filter } from 'rxjs';
 import { selectErrors, selectSubmitting } from '@settings/data-access/store';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
@@ -58,7 +58,7 @@ export default class SettingsComponent {
 
   constructor(private readonly store: Store) {}
 
-  public submitUser(user: UserFormDataModel): void {
+  public submitUser(user: UserFormData): void {
     this.store.dispatch(authActions.updateCurrentUser({ user }));
   }
 

@@ -1,6 +1,6 @@
-import { ProfileModel } from './profile.model';
+import { Profile } from './profile';
 
-export interface ArticleModel {
+export interface Article {
   slug: string;
   title: string;
   description: string;
@@ -10,17 +10,17 @@ export interface ArticleModel {
   updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
-  author: ProfileModel;
+  author: Profile;
 }
 
 export type FeedType = 'all' | 'feed';
 
-export interface ArticleListResponseModel {
-  articles: ArticleModel[];
+export interface ArticleListResponse {
+  articles: Article[];
   articlesCount: number;
 }
 
-export interface ArticleListConfigModel {
+export interface ArticleListConfig {
   type: FeedType;
   filters: {
     tag?: string;
@@ -31,7 +31,7 @@ export interface ArticleListConfigModel {
   };
 }
 
-export interface ArticleFormDataModel {
+export interface ArticleFormData {
   title: string;
   description: string;
   body: string;

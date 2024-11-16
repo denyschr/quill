@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { UserModel } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-navbar',
@@ -81,7 +81,7 @@ export class NavbarComponent {
   public navbarCollapsed = true;
 
   @Input({ required: true })
-  public currentUser!: UserModel | null;
+  public currentUser!: User | null;
 
   public toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;

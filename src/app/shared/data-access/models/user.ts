@@ -1,4 +1,4 @@
-export interface UserModel {
+export interface User {
   email: string;
   token: string;
   username: string;
@@ -6,7 +6,7 @@ export interface UserModel {
   image: string;
 }
 
-export interface UserFormDataModel {
+export interface UserFormData {
   image: string;
   username: string;
   bio: string | null;

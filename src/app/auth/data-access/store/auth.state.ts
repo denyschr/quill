@@ -1,9 +1,16 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { authActions } from './auth.actions';
-import { AuthStateModel } from '@auth/data-access/models';
 import { routerNavigatedAction } from '@ngrx/router-store';
+import { BackendErrors, User } from '@shared/data-access/models';
 
-export const initialState: AuthStateModel = {
+export interface AuthState {
+  currentUser: User | null | undefined;
+  submitting: boolean;
+  loading: boolean;
+  errors: BackendErrors | null;
+}
+
+export const initialState: AuthState = {
   currentUser: undefined,
   submitting: false,
   loading: false,
@@ -17,7 +24,7 @@ const authFeature = createFeature({
     on(
       authActions.login,
       authActions.register,
-      (state): AuthStateModel => ({
+      (state): AuthState => ({
         ...state,
         submitting: true,
         errors: null
@@ -26,7 +33,7 @@ const authFeature = createFeature({
     on(
       authActions.loginSuccess,
       authActions.registerSuccess,
-      (state, { currentUser }): AuthStateModel => ({
+      (state, { currentUser }): AuthState => ({
         ...state,
         currentUser: currentUser,
         submitting: false
@@ -35,7 +42,7 @@ const authFeature = createFeature({
     on(
       authActions.loginFailure,
       authActions.registerFailure,
-      (state, { errors }): AuthStateModel => ({
+      (state, { errors }): AuthState => ({
         ...state,
         submitting: false,
         errors: errors
@@ -43,14 +50,14 @@ const authFeature = createFeature({
     ),
     on(
       authActions.getCurrentUser,
-      (state): AuthStateModel => ({
+      (state): AuthState => ({
         ...state,
         loading: true
       })
     ),
     on(
       authActions.getCurrentUserSuccess,
-      (state, { currentUser }): AuthStateModel => ({
+      (state, { currentUser }): AuthState => ({
         ...state,
         currentUser: currentUser,
         loading: false
@@ -58,7 +65,7 @@ const authFeature = createFeature({
     ),
     on(
       authActions.getCurrentUserFailure,
-      (state): AuthStateModel => ({
+      (state): AuthState => ({
         ...state,
         currentUser: null,
         loading: false
@@ -66,21 +73,21 @@ const authFeature = createFeature({
     ),
     on(
       authActions.updateCurrentUserSuccess,
-      (state, { currentUser }): AuthStateModel => ({
+      (state, { currentUser }): AuthState => ({
         ...state,
         currentUser: currentUser
       })
     ),
     on(
       routerNavigatedAction,
-      (state): AuthStateModel => ({
+      (state): AuthState => ({
         ...state,
         errors: null
       })
     ),
     on(
       authActions.logout,
-      (state): AuthStateModel => ({
+      (state): AuthState => ({
         ...state,
         ...initialState,
         currentUser: null
