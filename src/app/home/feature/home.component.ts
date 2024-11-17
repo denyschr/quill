@@ -53,7 +53,13 @@ import { selectCurrentUser } from '@auth/data-access/store';
             }
           </div>
 
-          <ql-tags [tags]="vm.tags" [loading]="vm.tagsLoading" (selectTag)="selectTag($event)" />
+          <div class="col-md-3">
+            <ql-tags
+              [tags]="vm.tags"
+              [loading]="vm.tagsLoading"
+              (tagClicked)="onTagClick($event)"
+            />
+          </div>
         </div>
       </div>
     </ng-container>
@@ -111,7 +117,7 @@ export default class HomeComponent implements OnInit {
     this.fetchFeed();
   }
 
-  public selectTag(tag: string): void {
+  public onTagClick(tag: string): void {
     this.currentPage = 1;
     this.listConfig = {
       type: 'all',
