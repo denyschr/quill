@@ -3,7 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { authActions } from '@auth/data-access/store/auth.actions';
+import { authActions } from './auth.actions';
 import { User } from '@shared/data-access/models';
 import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';

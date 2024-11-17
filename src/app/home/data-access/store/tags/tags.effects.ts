@@ -5,11 +5,11 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { TagApiClient } from '@shared/data-access/api';
 
 export const getTags = createEffect(
-  (actions$ = inject(Actions), tagService = inject(TagApiClient)) => {
+  (actions$ = inject(Actions), tagApiClient = inject(TagApiClient)) => {
     return actions$.pipe(
       ofType(tagsActions.getTags),
       switchMap(() =>
-        tagService.getAll().pipe(
+        tagApiClient.getAll().pipe(
           map(tags => tagsActions.getTagsSuccess({ tags })),
           catchError(() => of(tagsActions.getTagsFailure()))
         )
