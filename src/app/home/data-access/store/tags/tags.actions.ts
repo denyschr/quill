@@ -5,6 +5,6 @@ export const tagsActions = createActionGroup({
   events: {
     'Get Tags': emptyProps(),
     'Get Tags Success': props<{ tags: string[] }>(),
-    'Get Tags Failure': props<{ error: string }>()
+    'Get Tags Failure': emptyProps()
   }
 });

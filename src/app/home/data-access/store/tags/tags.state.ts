@@ -2,13 +2,13 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { tagsActions } from './tags.actions';
 
 export interface TagsState {
-  tags: string[] | null;
+  tags: string[];
   loading: boolean;
   error: string | null;
 }
 
 export const initialState: TagsState = {
-  tags: null,
+  tags: [],
   loading: false,
   error: null
 };
@@ -29,16 +29,14 @@ const tagsFeature = createFeature({
       (state, { tags }): TagsState => ({
         ...state,
         tags: tags,
-        loading: false,
-        error: null
+        loading: false
       })
     ),
     on(
       tagsActions.getTagsFailure,
-      (state, { error }): TagsState => ({
+      (state): TagsState => ({
         ...state,
-        loading: false,
-        error: error
+        loading: false
       })
     )
   )
@@ -48,6 +46,5 @@ export const {
   name: tagsFeatureKey,
   reducer: tagsReducer,
   selectTags,
-  selectLoading,
-  selectError
+  selectLoading
 } = tagsFeature;

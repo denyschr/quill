@@ -1,4 +1,4 @@
-import * as fromTags from './tags.reducers';
+import * as fromTags from './tags.state';
 import { tagsActions } from './tags.actions';
 
 describe('TagsReducers', () => {

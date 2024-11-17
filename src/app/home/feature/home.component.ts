@@ -14,7 +14,6 @@ import { PaginationComponent } from '@shared/ui/pagination';
 import { environment } from '@environment';
 import { TagsComponent } from '@home/ui/tags';
 import {
-  selectError as selectTagsError,
   selectLoading as selectTagsLoading,
   selectTags,
   tagsActions
@@ -54,12 +53,7 @@ import { selectCurrentUser } from '@auth/data-access/store';
             }
           </div>
 
-          <ql-tags
-            [tags]="vm.tags"
-            [loading]="vm.tagsLoading"
-            [error]="vm.tagsError"
-            (selectTag)="selectTag($event)"
-          />
+          <ql-tags [tags]="vm.tags" [loading]="vm.tagsLoading" (selectTag)="selectTag($event)" />
         </div>
       </div>
     </ng-container>
@@ -89,7 +83,6 @@ export default class HomeComponent implements OnInit {
     articlesError: this.store.select(selectArticlesError),
     tags: this.store.select(selectTags),
     tagsLoading: this.store.select(selectTagsLoading),
-    tagsError: this.store.select(selectTagsError),
     authenticated: this.store.select(selectCurrentUser)
   });
 
