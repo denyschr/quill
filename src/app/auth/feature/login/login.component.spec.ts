@@ -47,9 +47,11 @@ describe('LoginComponent', () => {
     const element = fixture.debugElement;
 
     const title = element.query(By.css('h1'));
-    expect(title).withContext('The template should have an `h1` element').not.toBeNull();
+    expect(title)
+      .withContext('The template should have an `h1` element to display the title')
+      .not.toBeNull();
     expect(title.nativeElement.textContent)
-      .withContext('The title should be `Sign in`')
+      .withContext('The title should have a text')
       .toContain('Sign in');
 
     const link = element.query(By.css('a[href="/register"]'));

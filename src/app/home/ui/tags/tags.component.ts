@@ -5,19 +5,17 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   template: `
     <h2 class="mb-3 fs-4 fw-bold">Popular tags</h2>
     @if (!loading) {
-      <ul class="d-flex flex-wrap m-0 gap-2 list-unstyled">
+      <div class="d-flex flex-wrap m-0 gap-2">
         @for (tag of tags; track tag) {
-          <li>
-            <a (click)="tagClicked.emit(tag)">
-              <span class="fs-6 badge rounded-pill text-bg-primary">{{ tag }}</span>
-            </a>
-          </li>
+          <a (click)="tagClicked.emit(tag)">
+            <span class="fs-6 badge rounded-pill text-bg-primary">{{ tag }}</span>
+          </a>
         } @empty {
-          <p>No tags found</p>
+          <p data-test="no-tags">No tags found</p>
         }
-      </ul>
+      </div>
     } @else {
-      <div>Loading tags...</div>
+      <div data-test="loading">Loading tags...</div>
     }
   `,
   styles: [
