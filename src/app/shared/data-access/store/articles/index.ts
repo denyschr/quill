@@ -1,3 +1,3 @@
 export * from './articles.actions';
-export * from './articles.reducers';
+export * from './articles.state';
 export * from './articles.effects';

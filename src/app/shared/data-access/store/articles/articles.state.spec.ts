@@ -1,6 +1,6 @@
 import { ArticleListResponse } from '@shared/data-access/models';
 import { articlesActions } from './articles.actions';
-import * as fromArticles from './articles.reducers';
+import * as fromArticles from './articles.state';
 
 describe('ArticlesReducers', () => {
   describe('unknown action', () => {

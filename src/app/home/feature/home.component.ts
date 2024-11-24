@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleListConfig, FeedType } from '@shared/data-access/models';
 import {
   articlesActions,
-  selectArticlesData,
-  selectError as selectArticlesError,
+  articlesInitialState,
+  selectArticles,
+  selectArticlesCount,
+  selectConfig,
   selectLoading as selectArticlesLoading
 } from '@shared/data-access/store/articles';
 import { ArticleListComponent } from '@shared/ui/article-list';
 import { combineLatest } from 'rxjs';
 import { PaginationComponent } from '@shared/ui/pagination';
-import { environment } from '@environment';
 import { TagsComponent } from '@home/ui/tags';
 import {
   selectLoading as selectTagsLoading,
@@ -20,35 +20,33 @@ import {
 } from '@home/data-access/store/tags';
 import { FeedToggleComponent } from '@home/ui/feed-toggle';
 import { selectCurrentUser } from '@auth/data-access/store';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { FeedType } from '@shared/data-access/models';
 
 @Component({
-  selector: 'ql-home',
-  standalone: true,
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       <div class="container">
-        <div class="row py-3">
+        <div class="row py-4">
           <div class="col-md-9">
             <ql-feed-toggle
-              [feedType]="listConfig.type"
+              [feedType]="vm.config.type"
               [feedDisabled]="!vm.authenticated"
-              [selectedTag]="listConfig.filters.tag"
-              (selectFeed)="selectFeed($event)"
+              [selectedTag]="vm.config.filters.tag"
+              (selectFeed)="setListTo($event)"
             />
 
-            @let articlesData = vm.articlesData;
-            <ql-article-list
-              [articles]="articlesData?.articles"
-              [loading]="vm.articlesLoading"
-              [error]="vm.articlesError"
-            />
+            <div class="mb-4">
+              <ql-article-list [articles]="vm.articles" [loading]="vm.articlesLoading" />
+            </div>
 
-            @if (articlesData) {
-              <ql-pagination
-                [itemCount]="articlesData.articlesCount"
-                [currentPage]="currentPage"
-                [limit]="limit"
-                (selectPage)="selectPage($event)"
+            @if (vm.articlesCount) {
+              <ngb-pagination
+                [collectionSize]="vm.articlesCount"
+                [pageSize]="vm.config.filters.limit ?? 10"
+                [page]="vm.config.currentPage"
+                size="lg"
+                (pageChange)="onPageChanged($event)"
               />
             }
           </div>
@@ -57,89 +55,57 @@ import { selectCurrentUser } from '@auth/data-access/store';
             <ql-tags
               [tags]="vm.tags"
               [loading]="vm.tagsLoading"
-              (tagClicked)="onTagClick($event)"
+              (tagClicked)="onTagClicked($event)"
             />
           </div>
         </div>
       </div>
     </ng-container>
   `,
+  standalone: true,
   imports: [
     LetDirective,
     ArticleListComponent,
     PaginationComponent,
     TagsComponent,
-    FeedToggleComponent
+    FeedToggleComponent,
+    NgbPagination
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class HomeComponent implements OnInit {
-  public currentPage = 1;
-  public readonly limit = environment.limit;
-  public listConfig: ArticleListConfig = {
-    type: 'all',
-    filters: {
-      limit: this.limit
-    }
-  };
-
+export default class HomeComponent {
   public readonly vm$ = combineLatest({
-    articlesData: this.store.select(selectArticlesData),
+    articles: this.store.select(selectArticles),
+    articlesCount: this.store.select(selectArticlesCount),
+    config: this.store.select(selectConfig),
     articlesLoading: this.store.select(selectArticlesLoading),
-    articlesError: this.store.select(selectArticlesError),
     tags: this.store.select(selectTags),
     tagsLoading: this.store.select(selectTagsLoading),
     authenticated: this.store.select(selectCurrentUser)
   });
 
-  constructor(private readonly store: Store) {}
-
-  public ngOnInit(): void {
-    this.fetchFeed();
+  constructor(private readonly store: Store) {
+    this.setListTo('all');
     this.store.dispatch(tagsActions.getTags());
   }
 
-  public selectPage(page: number): void {
-    this.currentPage = page;
-    this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
-    this.fetchFeed();
+  public setListTo(type: FeedType = 'all'): void {
+    const config = { ...articlesInitialState.config, type };
+    this.store.dispatch(articlesActions.setConfig({ config }));
   }
 
-  public selectFeed(type: FeedType): void {
-    this.currentPage = 1;
-    this.listConfig = {
-      type,
+  public onTagClicked(tag: string): void {
+    const config = {
+      ...articlesInitialState.config,
       filters: {
-        limit: this.limit,
-        offset: 0
-      }
-    };
-    this.fetchFeed();
-  }
-
-  public onTagClick(tag: string): void {
-    this.currentPage = 1;
-    this.listConfig = {
-      type: 'all',
-      filters: {
-        limit: this.limit,
-        offset: 0,
+        ...articlesInitialState.config.filters,
         tag
       }
     };
-    this.fetchFeed();
+    this.store.dispatch(articlesActions.setConfig({ config }));
   }
 
-  public fetchFeed(): void {
-    this.store.dispatch(
-      articlesActions.getArticles({
-        config: {
-          ...this.listConfig,
-          filters: {
-            ...this.listConfig.filters
-          }
-        }
-      })
-    );
+  public onPageChanged(page: number): void {
+    this.store.dispatch(articlesActions.setPage({ page }));
   }
 }

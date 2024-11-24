@@ -1,12 +1,15 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Article, ArticleListConfig, ArticleListResponse } from '@shared/data-access/models';
+import { Article, ArticleListConfig } from '@shared/data-access/models';
 
 export const articlesActions = createActionGroup({
   source: 'Articles API',
   events: {
-    'Get Articles': props<{ config: ArticleListConfig }>(),
-    'Get Articles Success': props<{ data: ArticleListResponse }>(),
-    'Get Articles Failure': props<{ error: string }>(),
+    'Set Page': props<{ page: number }>(),
+    'Set Config': props<{ config: ArticleListConfig }>(),
+
+    'Load Articles': emptyProps(),
+    'Load Articles Success': props<{ articles: Article[]; articlesCount: number }>(),
+    'Load Articles Failure': emptyProps(),
 
     'Add To Favorites': props<{ favorited: boolean; slug: string }>(),
     'Add To Favorites Success': props<{ article: Article }>(),

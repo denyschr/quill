@@ -15,20 +15,18 @@ export interface Article {
 
 export type FeedType = 'all' | 'feed';
 
-export interface ArticleListResponse {
-  articles: Article[];
-  articlesCount: number;
+export interface ArticleListFilters {
+  tag?: string;
+  author?: string;
+  favorited?: string;
+  limit?: number;
+  offset?: number;
 }
 
 export interface ArticleListConfig {
   type: FeedType;
-  filters: {
-    tag?: string;
-    author?: string;
-    favorited?: string;
-    limit?: number;
-    offset?: number;
-  };
+  currentPage: number;
+  filters: ArticleListFilters;
 }
 
 export interface ArticleFormData {
