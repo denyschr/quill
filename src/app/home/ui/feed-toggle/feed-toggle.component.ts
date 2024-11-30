@@ -38,6 +38,9 @@ import { FeedType } from '@shared/data-access/models';
     `
       a {
         cursor: pointer;
+        &.active {
+          pointer-events: none;
+        }
       }
     `
   ],
