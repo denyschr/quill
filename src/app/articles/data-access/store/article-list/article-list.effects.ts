@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { articleListActions } from './article-list.actions';
-import { catchError, concatMap, map, of, switchMap } from 'rxjs';
+import { catchError, concatMap, map, of } from 'rxjs';
 import { ArticleApiClient } from '@shared/data-access/api';
 import { Store } from '@ngrx/store';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -52,7 +52,7 @@ export const favorite$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleListActions.favorite),
-      switchMap(({ favorited, slug }) => {
+      concatMap(({ favorited, slug }) => {
         const article$ = favorited ? articleClient.unfavorite(slug) : articleClient.favorite(slug);
 
         return article$.pipe(
