@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { FeedType } from '@shared/data-access/models';
 
 @Component({
-  selector: 'ql-feed-toggle',
+  selector: 'ql-feed-tabs',
   template: `
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
-          id="global-feed"
           class="nav-link"
           [class.active]="feedType === 'global' && !tag"
           (click)="changed.emit('global')"
@@ -18,7 +17,6 @@ import { FeedType } from '@shared/data-access/models';
       @if (!feedDisabled) {
         <li class="nav-item">
           <a
-            id="your-feed"
             class="nav-link"
             [class.active]="feedType === 'feed' && !tag"
             (click)="changed.emit('feed')"
@@ -29,7 +27,7 @@ import { FeedType } from '@shared/data-access/models';
 
       @if (tag) {
         <li class="nav-item">
-          <a id="tag" class="nav-link active">#{{ tag }}</a>
+          <a class="nav-link active">#{{ tag }}</a>
         </li>
       }
     </ul>
@@ -47,7 +45,7 @@ import { FeedType } from '@shared/data-access/models';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeedToggleComponent {
+export class FeedTabsComponent {
   @Input()
   public feedType: FeedType = 'global';
 

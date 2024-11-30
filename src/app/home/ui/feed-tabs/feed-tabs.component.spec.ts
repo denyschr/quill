@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeedToggleComponent } from './feed-toggle.component';
+import { FeedToggleComponent } from './feed-tabs.component';
 
 @Component({
   standalone: true,

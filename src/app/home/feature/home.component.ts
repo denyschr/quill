@@ -8,7 +8,6 @@ import {
   selectTags,
   tagsActions
 } from '@home/data-access/store/tags';
-import { FeedToggleComponent } from '@home/ui/feed-toggle';
 import { selectCurrentUser } from '@auth/data-access/store';
 import {
   articleListActions,
@@ -17,6 +16,7 @@ import {
 } from '@articles/data-access/store/article-list';
 import { ArticleListComponent } from '@articles/feature/article-list';
 import { FeedType } from '@shared/data-access/models';
+import { FeedTabsComponent } from '@home/ui/feed-tabs';
 
 @Component({
   template: `
@@ -24,7 +24,7 @@ import { FeedType } from '@shared/data-access/models';
       <div class="container">
         <div class="row py-4">
           <div class="col-md-9">
-            <ql-feed-toggle
+            <ql-feed-tabs
               [feedType]="vm.config.type"
               [feedDisabled]="!vm.authenticated"
               [tag]="vm.config.filters.tag"
@@ -42,7 +42,7 @@ import { FeedType } from '@shared/data-access/models';
     </ng-container>
   `,
   standalone: true,
-  imports: [LetDirective, TagsComponent, FeedToggleComponent, ArticleListComponent],
+  imports: [LetDirective, FeedTabsComponent, TagsComponent, ArticleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomeComponent {
