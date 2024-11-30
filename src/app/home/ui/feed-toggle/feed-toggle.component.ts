@@ -3,32 +3,33 @@ import { FeedType } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-feed-toggle',
-  standalone: true,
   template: `
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
           id="global-feed"
           class="nav-link"
-          [class.active]="feedType === 'all' && !selectedTag"
-          (click)="selectFeed.emit('all')"
+          [class.active]="feedType === 'global' && !tag"
+          (click)="changed.emit('global')"
           >Global Feed</a
         >
       </li>
+
       @if (!feedDisabled) {
         <li class="nav-item">
           <a
             id="your-feed"
             class="nav-link"
-            [class.active]="feedType === 'feed' && !selectedTag"
-            (click)="selectFeed.emit('feed')"
+            [class.active]="feedType === 'feed' && !tag"
+            (click)="changed.emit('feed')"
             >Your Feed</a
           >
         </li>
       }
-      @if (selectedTag) {
+
+      @if (tag) {
         <li class="nav-item">
-          <a id="tag" class="nav-link active">#{{ selectedTag }}</a>
+          <a id="tag" class="nav-link active">#{{ tag }}</a>
         </li>
       }
     </ul>
@@ -40,18 +41,19 @@ import { FeedType } from '@shared/data-access/models';
       }
     `
   ],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeedToggleComponent {
   @Input()
-  public feedType: FeedType = 'all';
+  public feedType: FeedType = 'global';
 
   @Input()
   public feedDisabled = true;
 
   @Input()
-  public selectedTag?: string;
+  public tag?: string;
 
   @Output()
-  public readonly selectFeed = new EventEmitter<FeedType>();
+  public readonly changed = new EventEmitter<FeedType>();
 }

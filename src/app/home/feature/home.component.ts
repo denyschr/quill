@@ -1,26 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import {
-  articlesActions,
-  articlesInitialState,
-  selectArticles,
-  selectArticlesCount,
-  selectConfig,
-  selectLoading as selectArticlesLoading
-} from '@shared/data-access/store/articles';
-import { ArticleListComponent } from '@shared/ui/article-list';
 import { combineLatest } from 'rxjs';
-import { PaginationComponent } from '@shared/ui/pagination';
 import { TagsComponent } from '@home/ui/tags';
 import {
-  selectLoading as selectTagsLoading,
+  selectLoading as tagsLoading,
   selectTags,
   tagsActions
 } from '@home/data-access/store/tags';
 import { FeedToggleComponent } from '@home/ui/feed-toggle';
 import { selectCurrentUser } from '@auth/data-access/store';
-import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import {
+  articleListActions,
+  articleListInitialState,
+  selectConfig
+} from '@articles/data-access/store/article-list';
+import { ArticleListComponent } from '@articles/feature/article-list';
 import { FeedType } from '@shared/data-access/models';
 
 @Component({
@@ -32,80 +27,59 @@ import { FeedType } from '@shared/data-access/models';
             <ql-feed-toggle
               [feedType]="vm.config.type"
               [feedDisabled]="!vm.authenticated"
-              [selectedTag]="vm.config.filters.tag"
-              (selectFeed)="setListTo($event)"
+              [tag]="vm.config.filters.tag"
+              (changed)="changeFeed($event)"
             />
 
-            <div class="mb-4">
-              <ql-article-list [articles]="vm.articles" [loading]="vm.articlesLoading" />
-            </div>
-
-            @if (vm.articlesCount) {
-              <ngb-pagination
-                [collectionSize]="vm.articlesCount"
-                [pageSize]="vm.config.filters.limit ?? 10"
-                [page]="vm.config.currentPage"
-                size="lg"
-                (pageChange)="onPageChanged($event)"
-              />
-            }
+            <ql-article-list />
           </div>
 
           <div class="col-md-3">
-            <ql-tags
-              [tags]="vm.tags"
-              [loading]="vm.tagsLoading"
-              (tagClicked)="onTagClicked($event)"
-            />
+            <ql-tags [tags]="vm.tags" [loading]="vm.tagsLoading" (clicked)="setTag($event)" />
           </div>
         </div>
       </div>
     </ng-container>
   `,
   standalone: true,
-  imports: [
-    LetDirective,
-    ArticleListComponent,
-    PaginationComponent,
-    TagsComponent,
-    FeedToggleComponent,
-    NgbPagination
-  ],
+  imports: [LetDirective, TagsComponent, FeedToggleComponent, ArticleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomeComponent {
   public readonly vm$ = combineLatest({
-    articles: this.store.select(selectArticles),
-    articlesCount: this.store.select(selectArticlesCount),
     config: this.store.select(selectConfig),
-    articlesLoading: this.store.select(selectArticlesLoading),
     tags: this.store.select(selectTags),
-    tagsLoading: this.store.select(selectTagsLoading),
+    tagsLoading: this.store.select(tagsLoading),
     authenticated: this.store.select(selectCurrentUser)
   });
 
   constructor(private readonly store: Store) {
-    this.setListTo('all');
+    this.changeFeed('global');
     this.store.dispatch(tagsActions.getTags());
   }
 
-  public setListTo(type: FeedType = 'all'): void {
-    const config = { ...articlesInitialState.config, type };
-    this.store.dispatch(articlesActions.setConfig({ config }));
+  public changeFeed(type: FeedType = 'global'): void {
+    this.store.dispatch(
+      articleListActions.setConfig({
+        config: {
+          ...articleListInitialState.config,
+          type
+        }
+      })
+    );
   }
 
-  public onTagClicked(tag: string): void {
-    const config = {
-      ...articlesInitialState.config,
-      filters: {
-        ...articlesInitialState.config.filters,
-        tag
-      }
-    };
-    this.store.dispatch(articlesActions.setConfig({ config }));
-  }
-
-  public onPageChanged(page: number): void {
-    this.store.dispatch(articlesActions.setPage({ page }));
+  public setTag(tag: string): void {
+    this.store.dispatch(
+      articleListActions.setConfig({
+        config: {
+          ...articleListInitialState.config,
+          filters: {
+            ...articleListInitialState.config.filters,
+            tag
+          }
+        }
+      })
+    );
   }
 }

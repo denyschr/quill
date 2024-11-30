@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
     @if (!loading) {
       <div class="d-flex flex-wrap m-0 gap-2">
         @for (tag of tags; track tag) {
-          <a (click)="tagClicked.emit(tag)">
+          <a (click)="clicked.emit(tag)">
             <span class="fs-6 badge rounded-pill text-bg-primary">{{ tag }}</span>
           </a>
         } @empty {
@@ -36,5 +36,5 @@ export class TagsComponent {
   public loading = false;
 
   @Output()
-  public readonly tagClicked = new EventEmitter<string>();
+  public readonly clicked = new EventEmitter<string>();
 }

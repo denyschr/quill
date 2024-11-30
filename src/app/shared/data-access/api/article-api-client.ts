@@ -18,10 +18,10 @@ export class ArticleApiClient {
       params = params.set(key, config.filters[key]);
     });
 
-    return this._http.get<{ articles: Article[]; articlesCount: number }>(
-      `/articles${config.type === 'feed' ? '/feed' : ''}`,
-      { params }
-    );
+    return this._http.get<{
+      articles: Article[];
+      articlesCount: number;
+    }>(`/articles${config.type === 'feed' ? '/feed' : ''}`, { params });
   }
 
   public get(slug: string): Observable<Article> {

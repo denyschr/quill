@@ -1,20 +1,20 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { articlesActions } from './articles.actions';
+import { articleListActions } from './article-list.actions';
 import { Article, ArticleListConfig } from '@shared/data-access/models';
 import { environment } from '@environment';
 
-export interface ArticlesState {
+export interface ArticleListState {
   articles: Article[];
-  articlesCount: number;
+  total: number;
   config: ArticleListConfig;
   loading: boolean;
 }
 
-export const articlesInitialState: ArticlesState = {
+export const articleListInitialState: ArticleListState = {
   articles: [],
-  articlesCount: 0,
+  total: 0,
   config: {
-    type: 'all',
+    type: 'global',
     currentPage: 1,
     filters: {
       limit: environment.limit
@@ -23,11 +23,11 @@ export const articlesInitialState: ArticlesState = {
   loading: false
 };
 
-const articlesFeature = createFeature({
-  name: 'articles',
+const articleListFeature = createFeature({
+  name: 'articleList',
   reducer: createReducer(
-    articlesInitialState,
-    on(articlesActions.setPage, (state, { page }): ArticlesState => {
+    articleListInitialState,
+    on(articleListActions.setPage, (state, { page }): ArticleListState => {
       const filters = {
         ...state.config.filters,
         offset: (state.config.filters?.limit ?? 10) * (page - 1)
@@ -40,31 +40,31 @@ const articlesFeature = createFeature({
       return { ...state, config };
     }),
     on(
-      articlesActions.setConfig,
-      (state, { config }): ArticlesState => ({
+      articleListActions.setConfig,
+      (state, { config }): ArticleListState => ({
         ...state,
         config
       })
     ),
     on(
-      articlesActions.loadArticles,
-      (state): ArticlesState => ({
+      articleListActions.loadArticles,
+      (state): ArticleListState => ({
         ...state,
         loading: true
       })
     ),
     on(
-      articlesActions.loadArticlesSuccess,
-      (state, { articles, articlesCount }): ArticlesState => ({
+      articleListActions.loadArticlesSuccess,
+      (state, { articles, total }): ArticleListState => ({
         ...state,
         articles,
-        articlesCount,
+        total,
         loading: false
       })
     ),
     on(
-      articlesActions.loadArticlesFailure,
-      (state): ArticlesState => ({
+      articleListActions.loadArticlesFailure,
+      (state): ArticleListState => ({
         ...state,
         loading: false
       })
@@ -73,10 +73,10 @@ const articlesFeature = createFeature({
 });
 
 export const {
-  name: articlesFeatureKey,
-  reducer: articlesReducer,
+  name: articleListFeatureKey,
+  reducer: articleListReducer,
   selectArticles,
-  selectArticlesCount,
+  selectTotal,
   selectConfig,
   selectLoading
-} = articlesFeature;
+} = articleListFeature;

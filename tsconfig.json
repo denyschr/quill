@@ -40,6 +40,11 @@
       "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
 
+      "@articles/data-access/store/article-list": [
+        "src/app/articles/data-access/store/article-list/index.ts"
+      ],
+      "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
+
       "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
       "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
       "@article/feature": ["src/app/article/feature/index.ts"],
@@ -72,8 +77,6 @@
       "@shared/data-access/api": ["src/app/shared/data-access/api/index.ts"],
       "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],
       "@shared/data-access/interceptors": ["src/app/shared/data-access/interceptors/index.ts"],
-      "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
-      "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
       "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
       "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],

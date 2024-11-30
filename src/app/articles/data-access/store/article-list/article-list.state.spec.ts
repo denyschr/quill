@@ -1,6 +1,6 @@
 import { ArticleListResponse } from '@shared/data-access/models';
-import { articlesActions } from './articles.actions';
-import * as fromArticles from './articles.state';
+import { articleListActions } from './article-list.actions';
+import * as fromArticles from './article-list.state';
 
 describe('ArticlesReducers', () => {
   describe('unknown action', () => {
@@ -24,7 +24,7 @@ describe('ArticlesReducers', () => {
         loading: true,
         error: null
       };
-      const action = articlesActions.getArticles({ config: { type: 'all', filters: {} } });
+      const action = articleListActions.getArticles({ config: { type: 'all', filters: {} } });
       const state = fromArticles.articlesReducer(initialState, action);
 
       expect(state).toEqual(newState);
@@ -50,7 +50,7 @@ describe('ArticlesReducers', () => {
         data: hardcodedArticles,
         loading: false
       };
-      const action = articlesActions.getArticlesSuccess({ data: hardcodedArticles });
+      const action = articleListActions.getArticlesSuccess({ data: hardcodedArticles });
       const state = fromArticles.articlesReducer(initialState, action);
 
       expect(state).toEqual(newState);
@@ -65,7 +65,7 @@ describe('ArticlesReducers', () => {
         loading: false,
         error: 'Some error'
       };
-      const action = articlesActions.getArticlesFailure({ error: 'Some error' });
+      const action = articleListActions.getArticlesFailure({ error: 'Some error' });
       const state = fromArticles.articlesReducer(initialState, action);
 
       expect(state).toEqual(newState);

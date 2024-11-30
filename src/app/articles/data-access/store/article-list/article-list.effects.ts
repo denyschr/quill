@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { articlesActions } from './articles.actions';
+import { articleListActions } from './article-list.actions';
 import { catchError, concatMap, map, of, switchMap } from 'rxjs';
 import { ArticleApiClient } from '@shared/data-access/api';
 import { Store } from '@ngrx/store';
-import { selectConfig } from '@shared/data-access/store/articles/articles.state';
 import { concatLatestFrom } from '@ngrx/operators';
+import { selectConfig } from './article-list.state';
 
 export const setPage$ = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(articlesActions.setPage),
-      map(() => articlesActions.loadArticles())
+      ofType(articleListActions.setPage),
+      map(() => articleListActions.loadArticles())
     );
   },
   { functional: true }
@@ -20,8 +20,8 @@ export const setPage$ = createEffect(
 export const setConfig$ = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(articlesActions.setConfig),
-      map(() => articlesActions.loadArticles())
+      ofType(articleListActions.setConfig),
+      map(() => articleListActions.loadArticles())
     );
   },
   { functional: true }
@@ -30,34 +30,34 @@ export const setConfig$ = createEffect(
 export const loadArticles$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
-      ofType(articlesActions.loadArticles),
+      ofType(articleListActions.loadArticles),
       concatLatestFrom(() => store.select(selectConfig)),
       concatMap(([_, config]) =>
         articleClient.getAll(config).pipe(
           map(({ articles, articlesCount }) =>
-            articlesActions.loadArticlesSuccess({
+            articleListActions.loadArticlesSuccess({
               articles,
-              articlesCount
+              total: articlesCount
             })
           )
         )
       ),
-      catchError(() => of(articlesActions.loadArticlesFailure()))
+      catchError(() => of(articleListActions.loadArticlesFailure()))
     );
   },
   { functional: true }
 );
 
-export const addToFavorites$ = createEffect(
+export const favorite$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
-      ofType(articlesActions.addToFavorites),
+      ofType(articleListActions.favorite),
       switchMap(({ favorited, slug }) => {
         const article$ = favorited ? articleClient.unfavorite(slug) : articleClient.favorite(slug);
 
         return article$.pipe(
-          map(article => articlesActions.addToFavoritesSuccess({ article })),
-          catchError(() => of(articlesActions.addToFavoritesFailure()))
+          map(article => articleListActions.favoriteSuccess({ article })),
+          catchError(() => of(articleListActions.favoriteFailure()))
         );
       })
     );
