@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Article, ArticleListConfig } from '@shared/data-access/models';
+import { Article, ArticleListConfig, ArticleListResponse } from '@shared/data-access/models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,7 @@ import { Article, ArticleListConfig } from '@shared/data-access/models';
 export class ArticleApiClient {
   constructor(private readonly _http: HttpClient) {}
 
-  public getAll(
-    config: ArticleListConfig
-  ): Observable<{ articles: Article[]; articlesCount: number }> {
+  public getAll(config: ArticleListConfig): Observable<ArticleListResponse> {
     let params = new HttpParams();
     Object.keys(config.filters).forEach(key => {
       // @ts-expect-error: String keys might not exist

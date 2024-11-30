@@ -38,7 +38,7 @@ describe('ArticleApiClient', () => {
 
     let actualArticles: ArticleListResponse | undefined;
     articleApiClient
-      .getAll({ type: 'feed', filters })
+      .getAll({ type: 'feed', currentPage: 1, filters })
       .subscribe(articles => (actualArticles = articles));
 
     httpController

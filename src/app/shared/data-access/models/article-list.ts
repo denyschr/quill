@@ -1,3 +1,10 @@
+import { Article } from './article';
+
+export interface ArticleListResponse {
+  articles: Article[];
+  articlesCount: number;
+}
+
 export type FeedType = 'global' | 'feed';
 
 export interface ArticleListFilters {
