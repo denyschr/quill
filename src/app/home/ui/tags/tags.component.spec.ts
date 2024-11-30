@@ -68,7 +68,7 @@ describe('TagsComponent', () => {
   });
 
   it('should emit an event on click', () => {
-    spyOn(component.tagClicked, 'emit');
+    spyOn(component.clicked, 'emit');
     fixture.componentRef.setInput('tags', tags);
     fixture.detectChanges();
 
@@ -78,7 +78,7 @@ describe('TagsComponent', () => {
 
     tagNames.forEach((tagName, index) => {
       tagName.nativeElement.click();
-      expect(component.tagClicked.emit)
+      expect(component.clicked.emit)
         .withContext('You may have forgot the click handler on the `a` element')
         .toHaveBeenCalledWith(tags[index]);
     });
