@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/store';
+import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';

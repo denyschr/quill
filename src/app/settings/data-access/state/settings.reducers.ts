@@ -1,4 +1,4 @@
-import { authActions } from '@auth/data-access/store';
+import { authActions } from '@auth/data-access/state';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { BackendErrors } from '@shared/data-access/models';

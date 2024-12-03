@@ -4,7 +4,7 @@ import { provideRouter, RouterOutlet } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { authActions } from '@auth/data-access/store';
+import { authActions } from '@auth/data-access/state';
 
 describe('AppComponent', () => {
   let component: AppComponent;

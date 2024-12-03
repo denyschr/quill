@@ -1,9 +1,8 @@
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import * as articleEffects from '@article/data-access/store/article.effects';
 import { provideState } from '@ngrx/store';
-import { articleFeatureKey, articleReducer } from '@article/data-access/store';
-import { settingsFeatureKey, settingsReducer } from '@settings/data-access/store';
+import { articleEffects, articleFeatureKey, articleReducer } from '@article/data-access/state';
+import { settingsFeatureKey, settingsReducer } from '@settings/data-access/state';
 
 export const LAYOUT_ROUTES: Route[] = [
   {

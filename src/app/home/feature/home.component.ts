@@ -7,13 +7,13 @@ import {
   selectLoading as tagsLoading,
   selectTags,
   tagsActions
-} from '@home/data-access/store/tags';
-import { selectCurrentUser } from '@auth/data-access/store';
+} from '@home/data-access/state/tags';
+import { selectCurrentUser } from '@auth/data-access/state';
 import {
   articleListActions,
   articleListInitialState,
   selectConfig
-} from '@articles/data-access/store/article-list';
+} from '@articles/data-access/state/article-list';
 import { ArticleListComponent } from '@articles/feature/article-list';
 import { FeedType } from '@shared/data-access/models';
 import { FeedTabsComponent } from '@home/ui/feed-tabs';

@@ -9,7 +9,7 @@ import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';
 
 describe('AuthEffects', () => {
-  let userApiClient: jasmine.SpyObj<UserApiClient>;
+  let userClient: jasmine.SpyObj<UserApiClient>;
   let jwtService: jasmine.SpyObj<JwtService>;
   let router: Router;
   let actions$: Observable<unknown>;
@@ -17,7 +17,7 @@ describe('AuthEffects', () => {
   const user = { username: 'username' } as User;
 
   beforeEach(() => {
-    userApiClient = jasmine.createSpyObj<UserApiClient>('UserApiClient', [
+    userClient = jasmine.createSpyObj<UserApiClient>('UserApiClient', [
       'getCurrentUser',
       'login',
       'register',
@@ -33,7 +33,7 @@ describe('AuthEffects', () => {
       providers: [
         provideRouter([]),
         provideMockActions(() => actions$),
-        { provide: UserApiClient, useValue: userApiClient },
+        { provide: UserApiClient, useValue: userClient },
         { provide: JwtService, useValue: jwtService }
       ]
     });
@@ -48,11 +48,11 @@ describe('AuthEffects', () => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue('token');
-      userApiClient.getCurrentUser.and.returnValue(of(user));
+      userClient.getCurrentUser.and.returnValue(of(user));
 
-      authEffects.getCurrentUser(actions$, userApiClient, jwtService).subscribe(action => {
+      authEffects.getCurrentUser(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.getToken).toHaveBeenCalled();
-        expect(userApiClient.getCurrentUser).toHaveBeenCalled();
+        expect(userClient.getCurrentUser).toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserSuccess({ currentUser: user }));
         done();
       });
@@ -63,9 +63,9 @@ describe('AuthEffects', () => {
 
       jwtService.getToken.and.returnValue(null);
 
-      authEffects.getCurrentUser(actions$, userApiClient, jwtService).subscribe(action => {
+      authEffects.getCurrentUser(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.getToken).toHaveBeenCalled();
-        expect(userApiClient.getCurrentUser).not.toHaveBeenCalled();
+        expect(userClient.getCurrentUser).not.toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
       });
@@ -76,10 +76,10 @@ describe('AuthEffects', () => {
     it('should return an updateCurrentUserSuccess action with the updated user information if success', done => {
       actions$ = of(authActions.updateCurrentUser);
 
-      userApiClient.update.and.returnValue(of(user));
+      userClient.update.and.returnValue(of(user));
 
-      authEffects.updateCurrentUser(actions$, userApiClient).subscribe(action => {
-        expect(userApiClient.update).toHaveBeenCalled();
+      authEffects.updateCurrentUser(actions$, userClient).subscribe(action => {
+        expect(userClient.update).toHaveBeenCalled();
         expect(action).toEqual(authActions.updateCurrentUserSuccess({ currentUser: user }));
         done();
       });
@@ -90,11 +90,11 @@ describe('AuthEffects', () => {
     it('should return a registerSuccess action with the user information if success', done => {
       actions$ = of(authActions.register);
 
-      userApiClient.register.and.returnValue(of(user));
+      userClient.register.and.returnValue(of(user));
 
-      authEffects.register(actions$, userApiClient, jwtService).subscribe(action => {
+      authEffects.register(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.saveToken).toHaveBeenCalled();
-        expect(userApiClient.register).toHaveBeenCalled();
+        expect(userClient.register).toHaveBeenCalled();
         expect(action).toEqual(authActions.registerSuccess({ currentUser: user }));
         done();
       });
@@ -118,11 +118,11 @@ describe('AuthEffects', () => {
     it('should return a loginSuccess action with the user information if success', done => {
       actions$ = of(authActions.login);
 
-      userApiClient.login.and.returnValue(of(user));
+      userClient.login.and.returnValue(of(user));
 
-      authEffects.login(actions$, userApiClient, jwtService).subscribe(action => {
+      authEffects.login(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.saveToken).toHaveBeenCalled();
-        expect(userApiClient.login).toHaveBeenCalled();
+        expect(userClient.login).toHaveBeenCalled();
         expect(action).toEqual(authActions.loginSuccess({ currentUser: user }));
         done();
       });

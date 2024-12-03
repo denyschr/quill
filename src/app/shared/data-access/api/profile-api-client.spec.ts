@@ -5,7 +5,7 @@ import { ProfileApiClient } from './profile-api-client';
 import { Profile } from '@shared/data-access/models';
 
 describe('ProfileApiClient', () => {
-  let profileApiClient: ProfileApiClient;
+  let profileClient: ProfileApiClient;
   let httpController: HttpTestingController;
 
   beforeEach(() => {
@@ -13,14 +13,14 @@ describe('ProfileApiClient', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    profileApiClient = TestBed.inject(ProfileApiClient);
+    profileClient = TestBed.inject(ProfileApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should be created', () => {
-    expect(profileApiClient).toBeTruthy();
+    expect(profileClient).toBeTruthy();
   });
 
   it('should return a profile', () => {
@@ -29,7 +29,7 @@ describe('ProfileApiClient', () => {
     } as Profile;
 
     let actualProfile: Profile | undefined;
-    profileApiClient.get(expectedProfile.username).subscribe(profile => (actualProfile = profile));
+    profileClient.get(expectedProfile.username).subscribe(profile => (actualProfile = profile));
 
     httpController
       .expectOne(`/profiles/${expectedProfile.username}`)

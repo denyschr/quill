@@ -7,14 +7,14 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
-import { authEffects, authFeatureKey, authReducer } from '@auth/data-access/store';
-import { tagsEffects, tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
+import { authEffects, authFeatureKey, authReducer } from '@auth/data-access/state';
+import { tagsEffects, tagsFeatureKey, tagsReducer } from '@home/data-access/state/tags';
 import { apiInterceptor, tokenInterceptor } from '@shared/data-access/interceptors';
 import {
   articleListEffects,
   articleListFeatureKey,
   articleListReducer
-} from '@articles/data-access/store/article-list';
+} from '@articles/data-access/state/article-list';
 
 export const appConfig: ApplicationConfig = {
   providers: [

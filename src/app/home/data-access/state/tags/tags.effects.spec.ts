@@ -6,18 +6,18 @@ import { tagsActions } from './tags.actions';
 import * as tagsEffects from './tags.effects';
 
 describe('TagsEffects', () => {
-  let tagApiClient: jasmine.SpyObj<TagApiClient>;
+  let tagClient: jasmine.SpyObj<TagApiClient>;
   let actions$: Observable<unknown>;
 
   const tags = ['tag one', 'tag two'];
 
   beforeEach(() => {
-    tagApiClient = jasmine.createSpyObj<TagApiClient>('TagApiClient', ['getAll']);
+    tagClient = jasmine.createSpyObj<TagApiClient>('TagApiClient', ['getAll']);
 
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
-        { provide: TagApiClient, useValue: tagApiClient }
+        { provide: TagApiClient, useValue: tagClient }
       ]
     });
   });
@@ -26,10 +26,10 @@ describe('TagsEffects', () => {
     it('should return a getTagsSuccess action with an array of tags if success', done => {
       actions$ = of(tagsActions.loadTags);
 
-      tagApiClient.getAll.and.returnValue(of(tags));
+      tagClient.getAll.and.returnValue(of(tags));
 
-      tagsEffects.getTags(actions$, tagApiClient).subscribe(action => {
-        expect(tagApiClient.getAll).toHaveBeenCalled();
+      tagsEffects.getTags(actions$, tagClient).subscribe(action => {
+        expect(tagClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(tagsActions.loadTagsSuccess({ tags }));
         done();
       });

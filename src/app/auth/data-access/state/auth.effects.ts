@@ -10,7 +10,7 @@ import { JwtService } from '@shared/data-access/services';
 export const getCurrentUser = createEffect(
   (
     actions$ = inject(Actions),
-    userApiClient = inject(UserApiClient),
+    userClient = inject(UserApiClient),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
@@ -21,7 +21,7 @@ export const getCurrentUser = createEffect(
           return of(authActions.getCurrentUserFailure());
         }
 
-        return userApiClient.getCurrentUser().pipe(
+        return userClient.getCurrentUser().pipe(
           map(currentUser => authActions.getCurrentUserSuccess({ currentUser })),
           catchError(() => of(authActions.getCurrentUserFailure()))
         );
@@ -34,13 +34,13 @@ export const getCurrentUser = createEffect(
 export const register = createEffect(
   (
     actions$ = inject(Actions),
-    userApiClient = inject(UserApiClient),
+    userClient = inject(UserApiClient),
     jwtService = inject(JwtService)
   ) => {
     return actions$.pipe(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
-        userApiClient.register(credentials).pipe(
+        userClient.register(credentials).pipe(
           tap(currentUser => jwtService.saveToken(currentUser.token)),
           map(currentUser => authActions.registerSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
@@ -54,11 +54,11 @@ export const register = createEffect(
 );
 
 export const updateCurrentUser = createEffect(
-  (actions$ = inject(Actions), userApiClient = inject(UserApiClient)) => {
+  (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
     return actions$.pipe(
       ofType(authActions.updateCurrentUser),
       switchMap(({ user }) => {
-        return userApiClient.update(user).pipe(
+        return userClient.update(user).pipe(
           map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
           catchError((errorResponse: HttpErrorResponse) =>
             of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))

@@ -3,7 +3,7 @@ import {
   newArticleActions,
   selectErrors,
   selectSubmitting
-} from '@editor/data-access/store/new-article';
+} from '@editor/data-access/state/new-article';
 import { ArticleFormComponent } from '@editor/ui/article-form';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';

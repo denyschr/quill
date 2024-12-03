@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { articleListActions } from '@articles/data-access/store/article-list';
+import { articleListActions } from '@articles/data-access/state/article-list';
 
 @Component({
   selector: 'ql-favorite-button',

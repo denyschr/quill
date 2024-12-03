@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { authActions } from '@auth/data-access/store';
+import { authActions } from '@auth/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 
 describe('LoginComponent', () => {

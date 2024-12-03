@@ -7,7 +7,7 @@ import {
   selectConfig,
   selectLoading,
   selectTotal
-} from '@articles/data-access/store/article-list';
+} from '@articles/data-access/state/article-list';
 import { combineLatest } from 'rxjs';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { LetDirective } from '@ngrx/component';
