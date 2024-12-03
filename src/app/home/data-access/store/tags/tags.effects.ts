@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tagsActions } from './tags.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { TagApiClient } from '@shared/data-access/api';
 
 export const getTags = createEffect(
-  (actions$ = inject(Actions), tagApiClient = inject(TagApiClient)) => {
+  (actions$ = inject(Actions), tagClient = inject(TagApiClient)) => {
     return actions$.pipe(
-      ofType(tagsActions.getTags),
-      switchMap(() =>
-        tagApiClient.getAll().pipe(
-          map(tags => tagsActions.getTagsSuccess({ tags })),
-          catchError(() => of(tagsActions.getTagsFailure()))
+      ofType(tagsActions.loadTags),
+      exhaustMap(() =>
+        tagClient.getAll().pipe(
+          map(tags => tagsActions.loadTagsSuccess({ tags })),
+          catchError(() => of(tagsActions.loadTagsFailure()))
         )
       )
     );

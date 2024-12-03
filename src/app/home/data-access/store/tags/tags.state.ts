@@ -7,7 +7,7 @@ export interface TagsState {
   error: string | null;
 }
 
-export const initialState: TagsState = {
+export const tagsInitialState: TagsState = {
   tags: [],
   loading: false,
   error: null
@@ -16,16 +16,16 @@ export const initialState: TagsState = {
 const tagsFeature = createFeature({
   name: 'tags',
   reducer: createReducer(
-    initialState,
+    tagsInitialState,
     on(
-      tagsActions.getTags,
+      tagsActions.loadTags,
       (state): TagsState => ({
         ...state,
         loading: true
       })
     ),
     on(
-      tagsActions.getTagsSuccess,
+      tagsActions.loadTagsSuccess,
       (state, { tags }): TagsState => ({
         ...state,
         tags: tags,
@@ -33,7 +33,7 @@ const tagsFeature = createFeature({
       })
     ),
     on(
-      tagsActions.getTagsFailure,
+      tagsActions.loadTagsFailure,
       (state): TagsState => ({
         ...state,
         loading: false

@@ -22,15 +22,15 @@ describe('TagsEffects', () => {
     });
   });
 
-  describe('getTags', () => {
+  describe('loadTags', () => {
     it('should return a getTagsSuccess action with an array of tags if success', done => {
-      actions$ = of(tagsActions.getTags);
+      actions$ = of(tagsActions.loadTags);
 
       tagApiClient.getAll.and.returnValue(of(tags));
 
       tagsEffects.getTags(actions$, tagApiClient).subscribe(action => {
         expect(tagApiClient.getAll).toHaveBeenCalled();
-        expect(action).toEqual(tagsActions.getTagsSuccess({ tags }));
+        expect(action).toEqual(tagsActions.loadTagsSuccess({ tags }));
         done();
       });
     });

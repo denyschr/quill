@@ -55,7 +55,7 @@ export default class HomeComponent {
 
   constructor(private readonly store: Store) {
     this.changeFeed('global');
-    this.store.dispatch(tagsActions.getTags());
+    this.store.dispatch(tagsActions.loadTags());
   }
 
   public changeFeed(type: FeedType = 'global'): void {

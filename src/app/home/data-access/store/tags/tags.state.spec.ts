@@ -5,56 +5,56 @@ describe('TagsState', () => {
   describe('Reducers', () => {
     describe('unknown action', () => {
       it('should return the default state', () => {
-        const { initialState } = fromTags;
+        const { tagsInitialState } = fromTags;
         const action = {
           type: 'Unknown'
         };
-        const state = fromTags.tagsReducer(initialState, action);
+        const state = fromTags.tagsReducer(tagsInitialState, action);
 
-        expect(state).toBe(initialState);
+        expect(state).toBe(tagsInitialState);
       });
     });
 
-    describe('getTags action', () => {
+    describe('loadTags action', () => {
       it('should set loading to true', () => {
-        const { initialState } = fromTags;
+        const { tagsInitialState } = fromTags;
         const newState = {
-          ...initialState,
+          ...tagsInitialState,
           loading: true
         };
-        const action = tagsActions.getTags();
-        const state = fromTags.tagsReducer(initialState, action);
+        const action = tagsActions.loadTags();
+        const state = fromTags.tagsReducer(tagsInitialState, action);
 
         expect(state).toEqual(newState);
-        expect(state).not.toBe(initialState);
+        expect(state).not.toBe(tagsInitialState);
       });
 
       it('should have no error and no loading state if success', () => {
-        const { initialState } = fromTags;
+        const { tagsInitialState } = fromTags;
         const tags = ['tag one', 'tag two'];
         const newState = {
-          ...initialState,
+          ...tagsInitialState,
           tags: tags,
           loading: false
         };
-        const action = tagsActions.getTagsSuccess({ tags });
-        const state = fromTags.tagsReducer(initialState, action);
+        const action = tagsActions.loadTagsSuccess({ tags });
+        const state = fromTags.tagsReducer(tagsInitialState, action);
 
         expect(state).toEqual(newState);
-        expect(state).not.toBe(initialState);
+        expect(state).not.toBe(tagsInitialState);
       });
 
       it('should have no loading state if failed', () => {
-        const { initialState } = fromTags;
+        const { tagsInitialState } = fromTags;
         const newState = {
-          ...initialState,
+          ...tagsInitialState,
           loading: false
         };
-        const action = tagsActions.getTagsFailure();
-        const state = fromTags.tagsReducer(initialState, action);
+        const action = tagsActions.loadTagsFailure();
+        const state = fromTags.tagsReducer(tagsInitialState, action);
 
         expect(state).toEqual(newState);
-        expect(state).not.toBe(initialState);
+        expect(state).not.toBe(tagsInitialState);
       });
     });
   });
