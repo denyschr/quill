@@ -27,7 +27,6 @@
 
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/store": ["src/app/auth/data-access/store/index.ts"],
-      "@auth/data-access/store/*": ["src/app/auth/data-access/store/*"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
 
@@ -35,7 +34,6 @@
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
 
       "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
-      "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
       "@home/feature": ["src/app/home/feature/index.ts"],
       "@home/ui/feed-tabs": ["src/app/home/ui/feed-tabs/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],

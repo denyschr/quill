@@ -7,10 +7,8 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
-import { authFeatureKey, authReducer } from '@auth/data-access/store';
-import * as authEffects from '@auth/data-access/store/auth.effects';
-import * as tagsEffects from '@home/data-access/store/tags/tags.effects';
-import { tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
+import { authEffects, authFeatureKey, authReducer } from '@auth/data-access/store';
+import { tagsEffects, tagsFeatureKey, tagsReducer } from '@home/data-access/store/tags';
 import { apiInterceptor, tokenInterceptor } from '@shared/data-access/interceptors';
 import {
   articleListEffects,
