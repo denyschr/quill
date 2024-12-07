@@ -4,7 +4,7 @@ import { tagsActions } from './tags.actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
 import { TagApiClient } from '@shared/data-access/api';
 
-export const getTags = createEffect(
+export const loadTags$ = createEffect(
   (actions$ = inject(Actions), tagClient = inject(TagApiClient)) => {
     return actions$.pipe(
       ofType(tagsActions.loadTags),

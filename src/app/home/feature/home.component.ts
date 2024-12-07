@@ -30,7 +30,6 @@ import { FeedTabsComponent } from '@home/ui/feed-tabs';
               [tag]="vm.config.filters.tag"
               (changed)="changeFeed($event)"
             />
-
             <ql-article-list />
           </div>
 

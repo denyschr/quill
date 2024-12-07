@@ -1,101 +1,102 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import HomeComponent from './home.component';
-import { provideMockStore } from '@ngrx/store/testing';
-import { provideRouter } from '@angular/router';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { ArticleListComponent } from '@shared/ui/article-list';
-import { PaginationComponent } from '@shared/ui/pagination';
+import { FeedTabsComponent } from '@home/ui/feed-tabs';
+import { articleListActions } from '@articles/data-access/state/article-list';
+import { ArticleListComponent } from '@articles/feature/article-list';
 import { TagsComponent } from '@home/ui/tags';
+import { ArticleListConfig } from '@shared/data-access/models';
+import { environment } from '@environment';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let store: MockStore;
   const initialState = {
-    articles: {
-      data: {
-        articles: [
-          {
-            slug: 'how-to-train-your-dragon',
-            title: 'How to train your dragon',
-            description: 'Ever wonder how?',
-            tagList: ['dragons', 'training'],
-            createdAt: '2016-02-18T03:22:56.637Z',
-            updatedAt: '2016-02-18T03:48:35.824Z',
-            favorited: false,
-            favoritesCount: 0,
-            author: {
-              username: 'jake',
-              bio: 'I work at statefarm',
-              image: 'https://i.stack.imgur.com/xHWG8.jpg',
-              following: false
-            }
-          },
-          {
-            slug: 'how-to-train-your-dragon-2',
-            title: 'How to train your dragon 2',
-            description: 'So toothless',
-            tagList: ['dragons', 'training'],
-            createdAt: '2016-02-18T03:22:56.637Z',
-            updatedAt: '2016-02-18T03:48:35.824Z',
-            favorited: false,
-            favoritesCount: 0,
-            author: {
-              username: 'jake',
-              bio: 'I work at statefarm',
-              image: 'https://i.stack.imgur.com/xHWG8.jpg',
-              following: false
-            }
-          }
-        ],
-        articlesCount: 2
-      },
-      loading: false,
-      error: null
-    },
-    popularTags: {
-      tags: ['esse', 'at', 'ipsum', 'sunt', 'maiores'],
-      loading: false,
-      error: null
+    articleList: {
+      articles: [],
+      total: 0,
+      config: {
+        type: 'global',
+        currentPage: 1,
+        filters: {
+          limit: environment.limit
+        }
+      } as ArticleListConfig
     }
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HomeComponent],
-      providers: [provideRouter([]), provideMockStore({ initialState })]
+      providers: [provideMockStore({ initialState })]
     });
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should use the article-list component', () => {
+  it('should show feed tabs', () => {
+    const element = fixture.debugElement;
+    expect(element.query(By.directive(FeedTabsComponent)))
+      .withContext('You should use the `FeedTabsComponent` in your template to display the tabs')
+      .not.toBeNull();
+  });
+
+  it('should dispatch a setConfig action on feed change', () => {
+    const element = fixture.debugElement;
+    const feedTabsComponent = element.query(By.directive(FeedTabsComponent));
+    feedTabsComponent.componentInstance.changed.emit('global');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.setConfig({
+        config: {
+          ...initialState.articleList.config,
+          type: 'global'
+        }
+      })
+    );
+  });
+
+  it('should display a list of articles', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ArticleListComponent)))
       .withContext(
-        'You probably forgot to add `ArticleListComponent` to the `HomeComponent` template'
+        'You should use the `ArticleListComponent` in your template to display a list of articles'
       )
       .not.toBeNull();
   });
 
-  it('should use the pagination component', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(PaginationComponent)))
-      .withContext(
-        'You probably forgot to add `PaginationComponent` to the `HomeComponent` template'
-      )
-      .not.toBeNull();
-  });
-
-  it('should use the tags component', () => {
+  it('should display tags', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(TagsComponent)))
-      .withContext('You probably forgot to add `TagsComponent` to the `HomeComponent` template')
+      .withContext('You should use the `TagsComponent` in your template to display tags')
       .not.toBeNull();
+  });
+
+  it('should dispatch a setConfig action on tag click', () => {
+    const element = fixture.debugElement;
+    const tagsComponent = element.query(By.directive(TagsComponent));
+    tagsComponent.componentInstance.clicked.emit('tag');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.setConfig({
+        config: {
+          ...initialState.articleList.config,
+          filters: {
+            ...initialState.articleList.config.filters,
+            tag: 'tag'
+          }
+        }
+      })
+    );
   });
 });
