@@ -1,75 +1,111 @@
-import { ArticleListResponse } from '@shared/data-access/models';
+import * as fromArticleList from './article-list.state';
 import { articleListActions } from './article-list.actions';
-import * as fromArticles from './article-list.state';
+import { ArticleListConfig, ArticleListResponse } from '@shared/data-access/models';
 
-describe('ArticlesReducers', () => {
+describe('ArticleListState', () => {
   describe('unknown action', () => {
     it('should return the default state', () => {
-      const { initialState } = fromArticles;
+      const { articleListInitialState } = fromArticleList;
       const action = {
         type: 'Unknown'
       };
-      const state = fromArticles.articlesReducer(initialState, action);
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
-      expect(state).toBe(initialState);
+      expect(state).toBe(articleListInitialState);
     });
   });
 
-  describe('getArticles action', () => {
-    it('should retrieve a list of articles', () => {
-      const { initialState } = fromArticles;
-      const newState = {
-        ...initialState,
-        data: null,
-        loading: true,
-        error: null
+  describe('setPage action', () => {
+    it('should set page', () => {
+      const { articleListInitialState } = fromArticleList;
+      const page = 2;
+      const filters = {
+        ...articleListInitialState.config.filters,
+        offset: (articleListInitialState.config.filters?.limit ?? 10) * (page - 1)
       };
-      const action = articleListActions.getArticles({ config: { type: 'all', filters: {} } });
-      const state = fromArticles.articlesReducer(initialState, action);
+      const config = {
+        ...articleListInitialState.config,
+        currentPage: page,
+        filters
+      };
+      const newState = {
+        ...articleListInitialState,
+        config
+      };
+      const action = articleListActions.setPage({ page });
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
       expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+      expect(state).not.toBe(articleListInitialState);
+    });
+  });
+
+  describe('setConfig action', () => {
+    it('should set config', () => {
+      const { articleListInitialState } = fromArticleList;
+      const config = {
+        ...articleListInitialState.config,
+        type: 'feed'
+      } as ArticleListConfig;
+      const newState = {
+        ...articleListInitialState,
+        config
+      };
+      const action = articleListActions.setConfig({ config });
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(articleListInitialState);
+    });
+  });
+
+  describe('loadArticles action', () => {
+    it('should set loading to true', () => {
+      const { articleListInitialState } = fromArticleList;
+      const newState = {
+        ...articleListInitialState,
+        loading: true
+      };
+      const action = articleListActions.loadArticles();
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(articleListInitialState);
     });
 
-    it('should update the state after successful retrieval of articles', () => {
-      const hardcodedArticles = {
-        articles: [
-          {
-            title: 'How to train your dragon'
-          },
-          {
-            title: 'How to train your dragon 2'
-          }
-        ],
+    it('should have no error and no loading state if success', () => {
+      const { articleListInitialState } = fromArticleList;
+      const articleList = {
+        articles: [{ title: 'title one' }, { title: 'title two' }],
         articlesCount: 2
       } as ArticleListResponse;
-
-      const { initialState } = fromArticles;
       const newState = {
-        ...initialState,
-        data: hardcodedArticles,
+        ...articleListInitialState,
+        articles: articleList.articles,
+        total: articleList.articlesCount,
         loading: false
       };
-      const action = articleListActions.getArticlesSuccess({ data: hardcodedArticles });
-      const state = fromArticles.articlesReducer(initialState, action);
+      const action = articleListActions.loadArticlesSuccess({
+        articles: articleList.articles,
+        total: articleList.articlesCount
+      });
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
       expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+      expect(state).not.toBe(articleListInitialState);
     });
 
-    it('should update the state if the retrieval of articles fails', () => {
-      const { initialState } = fromArticles;
+    it('should have no loading state if failed', () => {
+      const { articleListInitialState } = fromArticleList;
       const newState = {
-        ...initialState,
-        data: null,
-        loading: false,
-        error: 'Some error'
+        ...articleListInitialState,
+        loading: false
       };
-      const action = articleListActions.getArticlesFailure({ error: 'Some error' });
-      const state = fromArticles.articlesReducer(initialState, action);
+      const action = articleListActions.loadArticlesFailure();
+      const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
       expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
+      expect(state).not.toBe(articleListInitialState);
     });
   });
 });
