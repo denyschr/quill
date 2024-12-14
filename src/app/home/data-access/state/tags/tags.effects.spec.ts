@@ -1,5 +1,5 @@
 import { TagApiClient } from '@shared/data-access/api';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { tagsActions } from './tags.actions';
@@ -31,6 +31,18 @@ describe('TagsEffects', () => {
       tagsEffects.loadTags$(actions$, tagClient).subscribe(action => {
         expect(tagClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(tagsActions.loadTagsSuccess({ tags }));
+        done();
+      });
+    });
+
+    it('should return a loadTagsFailure action if failed', done => {
+      actions$ = of(tagsActions.loadTags);
+
+      tagClient.getAll.and.returnValue(throwError(() => new Error('error')));
+
+      tagsEffects.loadTags$(actions$, tagClient).subscribe(action => {
+        expect(tagClient.getAll).toHaveBeenCalled();
+        expect(action).toEqual(tagsActions.loadTagsFailure());
         done();
       });
     });
