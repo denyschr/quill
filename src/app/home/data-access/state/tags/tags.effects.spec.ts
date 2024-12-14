@@ -22,7 +22,7 @@ describe('TagsEffects', () => {
     });
   });
 
-  describe('loadTags', () => {
+  describe('loadTags$', () => {
     it('should return a loadTagsSuccess action with an array of tags if success', done => {
       actions$ = of(tagsActions.loadTags);
 

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { articleListActions } from './article-list.actions';
-import { catchError, concatMap, map, of } from 'rxjs';
+import { catchError, concatMap, exhaustMap, map, of } from 'rxjs';
 import { ArticleApiClient } from '@shared/data-access/api';
 import { Store } from '@ngrx/store';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -32,7 +32,7 @@ export const loadArticles$ = createEffect(
     return actions$.pipe(
       ofType(articleListActions.loadArticles),
       concatLatestFrom(() => store.select(selectConfig)),
-      concatMap(([_, config]) =>
+      exhaustMap(([_, config]) =>
         articleClient.getAll(config).pipe(
           map(({ articles, articlesCount }) =>
             articleListActions.loadArticlesSuccess({
