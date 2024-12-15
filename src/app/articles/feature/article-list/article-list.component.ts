@@ -21,7 +21,7 @@ import { LetDirective } from '@ngrx/component';
           @for (article of vm.articles; track article.slug) {
             <ql-article-preview [article]="article" />
           } @empty {
-            <p>No articles found</p>
+            <div data-test="no-articles">No articles found</div>
           }
         </div>
 
@@ -35,7 +35,7 @@ import { LetDirective } from '@ngrx/component';
           />
         }
       } @else {
-        <div>Loading articles...</div>
+        <div data-test="loading">Loading articles...</div>
       }
     </ng-container>
   `,

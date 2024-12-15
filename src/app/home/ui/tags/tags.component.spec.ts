@@ -33,7 +33,7 @@ describe('TagsComponent', () => {
       .toContain('Popular tags');
   });
 
-  it('should display a loading message', () => {
+  it('should display a loading message if status is loading', () => {
     fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
@@ -58,11 +58,11 @@ describe('TagsComponent', () => {
     expect(tagNames[1].nativeElement.textContent).toContain('tag two');
   });
 
-  it('should display a message if there is no tags and status is not loading', () => {
+  it('should display an empty message if there is no tags and status is not loading', () => {
     const element = fixture.debugElement;
-    const message = element.query(By.css('p[data-test="no-tags"]'));
+    const message = element.query(By.css('div[data-test="no-tags"]'));
     expect(message)
-      .withContext('The template should have a `p` element to display an empty message')
+      .withContext('The template should have a `div` element to display an empty message')
       .not.toBeNull();
     expect(message.nativeElement.textContent).toContain('No tags found');
   });
