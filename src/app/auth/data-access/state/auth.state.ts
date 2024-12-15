@@ -32,7 +32,7 @@ const authFeature = createFeature({
       authActions.getCurrentUserSuccess,
       (state, { currentUser }): AuthState => ({
         ...state,
-        currentUser: currentUser,
+        currentUser,
         loading: false
       })
     ),
@@ -48,7 +48,7 @@ const authFeature = createFeature({
       authActions.updateCurrentUserSuccess,
       (state, { currentUser }): AuthState => ({
         ...state,
-        currentUser: currentUser
+        currentUser
       })
     ),
     on(
@@ -65,7 +65,7 @@ const authFeature = createFeature({
       authActions.registerSuccess,
       (state, { currentUser }): AuthState => ({
         ...state,
-        currentUser: currentUser,
+        currentUser,
         submitting: false
       })
     ),
@@ -75,7 +75,7 @@ const authFeature = createFeature({
       (state, { errors }): AuthState => ({
         ...state,
         submitting: false,
-        errors: errors
+        errors
       })
     ),
     on(
