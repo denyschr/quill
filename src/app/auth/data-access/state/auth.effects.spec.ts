@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from './auth.actions';
-import { User } from '@shared/data-access/models';
+import { BackendErrors, User } from '@shared/data-access/models';
 import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';
 
@@ -15,6 +15,10 @@ describe('AuthEffects', () => {
   let actions$: Observable<unknown>;
 
   const user = { username: 'username' } as User;
+  const errors: BackendErrors = {
+    email: ['already exists'],
+    'email or password': ['is invalid']
+  };
 
   beforeEach(() => {
     userClient = jasmine.createSpyObj<UserApiClient>('UserApiClient', [
@@ -43,14 +47,14 @@ describe('AuthEffects', () => {
     spyOn(router, 'navigateByUrl');
   });
 
-  describe('getCurrentUser', () => {
-    it('should return a getCurrentUserSuccess action with the user information if the token is stored', done => {
+  describe('getCurrentUser$', () => {
+    it('should return a getCurrentUserSuccess action with user information if the token is stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue('token');
       userClient.getCurrentUser.and.returnValue(of(user));
 
-      authEffects.getCurrentUser(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.getToken).toHaveBeenCalled();
         expect(userClient.getCurrentUser).toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserSuccess({ currentUser: user }));
@@ -63,78 +67,89 @@ describe('AuthEffects', () => {
 
       jwtService.getToken.and.returnValue(null);
 
-      authEffects.getCurrentUser(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.getToken).toHaveBeenCalled();
         expect(userClient.getCurrentUser).not.toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
       });
     });
-  });
 
-  describe('updateCurrentUser', () => {
-    it('should return an updateCurrentUserSuccess action with the updated user information if success', done => {
-      actions$ = of(authActions.updateCurrentUser);
+    it('should return a getCurrentUserFailure action if failed', done => {
+      actions$ = of(authActions.getCurrentUser);
 
-      userClient.update.and.returnValue(of(user));
+      jwtService.getToken.and.returnValue('token');
+      userClient.getCurrentUser.and.returnValue(throwError(() => new Error('error')));
 
-      authEffects.updateCurrentUser(actions$, userClient).subscribe(action => {
-        expect(userClient.update).toHaveBeenCalled();
-        expect(action).toEqual(authActions.updateCurrentUserSuccess({ currentUser: user }));
+      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
+        expect(jwtService.getToken).toHaveBeenCalled();
+        expect(userClient.getCurrentUser).toHaveBeenCalled();
+        expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
       });
     });
   });
 
-  describe('register', () => {
-    it('should return a registerSuccess action with the user information if success', done => {
+  describe('updateCurrentUser$', () => {
+    it('should return an updateCurrentUserSuccess action with new user information if success', done => {
+      actions$ = of(authActions.updateCurrentUser);
+
+      userClient.update.and.returnValue(of(user));
+
+      authEffects.updateCurrentUser$(actions$, userClient).subscribe(action => {
+        expect(userClient.update).toHaveBeenCalled();
+        expect(action).toEqual(authActions.updateCurrentUserSuccess({ currentUser: user }));
+        done();
+      });
+    });
+
+    it('should return an updateCurrentUserFailure action if failed', done => {
+      actions$ = of(authActions.updateCurrentUser);
+
+      userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
+
+      authEffects.updateCurrentUser$(actions$, userClient).subscribe(action => {
+        expect(userClient.update).toHaveBeenCalled();
+        expect(action).toEqual(authActions.updateCurrentUserFailure({ errors }));
+        done();
+      });
+    });
+  });
+
+  describe('register$', () => {
+    it('should return a registerSuccess action with user information if success', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(of(user));
 
-      authEffects.register(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.register$(actions$, userClient, jwtService).subscribe(action => {
         expect(jwtService.saveToken).toHaveBeenCalled();
         expect(userClient.register).toHaveBeenCalled();
         expect(action).toEqual(authActions.registerSuccess({ currentUser: user }));
         done();
       });
     });
-  });
 
-  describe('registerSuccess', () => {
-    it('should dispatch a RouterNavigation action', done => {
-      actions$ = of(authActions.registerSuccess);
+    it('should return a registerFailure action if failed', done => {
+      actions$ = of(authActions.register);
 
-      TestBed.runInInjectionContext(() => {
-        authEffects.registerSuccess(actions$).subscribe(() => {
-          expect(router.navigateByUrl).toHaveBeenCalledWith('/');
-          done();
-        });
-      });
-    });
-  });
+      userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
 
-  describe('login', () => {
-    it('should return a loginSuccess action with the user information if success', done => {
-      actions$ = of(authActions.login);
-
-      userClient.login.and.returnValue(of(user));
-
-      authEffects.login(actions$, userClient, jwtService).subscribe(action => {
-        expect(jwtService.saveToken).toHaveBeenCalled();
-        expect(userClient.login).toHaveBeenCalled();
-        expect(action).toEqual(authActions.loginSuccess({ currentUser: user }));
+      authEffects.register$(actions$, userClient, jwtService).subscribe(action => {
+        expect(userClient.register).toHaveBeenCalled();
+        expect(jwtService.saveToken).not.toHaveBeenCalled();
+        expect(action).toEqual(authActions.registerFailure({ errors }));
         done();
       });
     });
   });
 
-  describe('loginSuccess', () => {
+  describe('registerSuccess$', () => {
     it('should dispatch a routerNavigation action', done => {
-      actions$ = of(authActions.loginSuccess);
+      actions$ = of(authActions.registerSuccess);
 
       TestBed.runInInjectionContext(() => {
-        authEffects.loginSuccess(actions$).subscribe(() => {
+        authEffects.registerSuccess$(actions$).subscribe(() => {
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
@@ -142,12 +157,53 @@ describe('AuthEffects', () => {
     });
   });
 
-  describe('logout', () => {
-    it('should call the jwt service and dispatch a routerNavigation action', done => {
+  describe('login$', () => {
+    it('should return a loginSuccess action with user information if success', done => {
+      actions$ = of(authActions.login);
+
+      userClient.login.and.returnValue(of(user));
+
+      authEffects.login$(actions$, userClient, jwtService).subscribe(action => {
+        expect(userClient.login).toHaveBeenCalled();
+        expect(jwtService.saveToken).toHaveBeenCalled();
+        expect(action).toEqual(authActions.loginSuccess({ currentUser: user }));
+        done();
+      });
+    });
+
+    it('should return a loginFailure action if failed', done => {
+      actions$ = of(authActions.login);
+
+      userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
+
+      authEffects.login$(actions$, userClient, jwtService).subscribe(action => {
+        expect(userClient.login).toHaveBeenCalled();
+        expect(jwtService.saveToken).not.toHaveBeenCalled();
+        expect(action).toEqual(authActions.loginFailure({ errors }));
+        done();
+      });
+    });
+  });
+
+  describe('loginSuccess$', () => {
+    it('should dispatch a routerNavigation action', done => {
+      actions$ = of(authActions.loginSuccess);
+
+      TestBed.runInInjectionContext(() => {
+        authEffects.loginSuccess$(actions$).subscribe(() => {
+          expect(router.navigateByUrl).toHaveBeenCalledWith('/');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('logout$', () => {
+    it('should remove the token and dispatch a routerNavigation action', done => {
       actions$ = of(authActions.logout);
 
       TestBed.runInInjectionContext(() => {
-        authEffects.logout(actions$).subscribe(() => {
+        authEffects.logout$(actions$).subscribe(() => {
           expect(jwtService.removeToken).toHaveBeenCalled();
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
