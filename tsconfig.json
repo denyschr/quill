@@ -26,44 +26,41 @@
       "@environment": ["src/environments/environment"],
 
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
-      "@auth/data-access/store": ["src/app/auth/data-access/store/index.ts"],
-      "@auth/data-access/store/*": ["src/app/auth/data-access/store/*"],
+      "@auth/data-access/state": ["src/app/auth/data-access/state/index.ts"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
 
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
 
-      "@home/data-access/store/tags": ["src/app/home/data-access/store/tags/index.ts"],
-      "@home/data-access/store/tags/*": ["src/app/home/data-access/store/tags/*"],
+      "@home/data-access/state/tags": ["src/app/home/data-access/state/tags/index.ts"],
       "@home/feature": ["src/app/home/feature/index.ts"],
-      "@home/ui/feed-toggle": ["src/app/home/ui/feed-toggle/index.ts"],
+      "@home/ui/feed-tabs": ["src/app/home/ui/feed-tabs/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
 
-      "@article/data-access/store": ["src/app/article/data-access/store/index.ts"],
-      "@article/data-access/store/*": ["src/app/article/data-access/store/*"],
+      "@articles/data-access/state/article-list": [
+        "src/app/articles/data-access/state/article-list/index.ts"
+      ],
+      "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
+
+      "@article/data-access/state": ["src/app/article/data-access/state/index.ts"],
       "@article/feature": ["src/app/article/feature/index.ts"],
 
-      "@editor/data-access/store/new-article": [
-        "src/app/editor/data-access/store/new-article/index.ts"
+      "@editor/data-access/state/new-article": [
+        "src/app/editor/data-access/state/new-article/index.ts"
       ],
-      "@editor/data-access/store/new-article/*": ["src/app/editor/data-access/store/new-article/*"],
-      "@editor/data-access/store/edit-article": [
-        "src/app/editor/data-access/store/edit-article/index.ts"
-      ],
-      "@editor/data-access/store/edit-article/*": [
-        "src/app/editor/data-access/store/edit-article/*"
+      "@editor/data-access/state/edit-article": [
+        "src/app/editor/data-access/state/edit-article/index.ts"
       ],
       "@editor/feature/new-article": ["src/app/editor/feature/new-article/index.ts"],
       "@editor/feature/edit-article": ["src/app/editor/feature/edit-article/index.ts"],
       "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
 
-      "@settings/data-access/store": ["src/app/settings/data-access/store/index.ts"],
+      "@settings/data-access/state": ["src/app/settings/data-access/state/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],
       "@settings/ui/user-form": ["src/app/settings/ui/user-form/index.ts"],
 
-      "@profile/data-access/store": ["src/app/profile/data-access/store/index.ts"],
-      "@profile/data-access/store/*": ["src/app/profile/data-access/store/*"],
+      "@profile/data-access/state": ["src/app/profile/data-access/state/index.ts"],
       "@profile/feature": ["src/app/profile/feature/index.ts"],
       "@profile/ui/user-info": ["src/app/profile/ui/user-info/index.ts"],
       "@profile/ui/articles-toggle": ["src/app/profile/ui/articles-toggle/index.ts"],
@@ -72,8 +69,6 @@
       "@shared/data-access/api": ["src/app/shared/data-access/api/index.ts"],
       "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],
       "@shared/data-access/interceptors": ["src/app/shared/data-access/interceptors/index.ts"],
-      "@shared/data-access/store/articles": ["src/app/shared/data-access/store/articles/index.ts"],
-      "@shared/data-access/store/articles/*": ["src/app/shared/data-access/store/articles/*"],
       "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
       "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
       "@shared/ui/icon-button": ["src/app/shared/ui/icon-button/index.ts"],

@@ -49,7 +49,7 @@ describe('BackendErrorsComponent', () => {
     const element = fixture.debugElement;
     const errors = element.queryAll(By.css('li'));
     expect(errors.length)
-      .withContext('You should have two `li` elements for the error messages')
+      .withContext('You should have a `li` element for each error message')
       .toBe(2);
     expect(errors[0].nativeElement.textContent).toContain('email already exists');
     expect(errors[1].nativeElement.textContent).toContain('email or password is invalid');

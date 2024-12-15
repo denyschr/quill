@@ -1,11 +1,8 @@
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import * as articleEffects from '@article/data-access/store/article.effects';
 import { provideState } from '@ngrx/store';
-import { articleFeatureKey, articleReducer } from '@article/data-access/store';
-import { settingsFeatureKey, settingsReducer } from '@settings/data-access/store';
-import * as profileEffects from '@profile/data-access/store/profile.effects';
-import { profileFeatureKey, profileReducer } from '@profile/data-access/store';
+import { articleEffects, articleFeatureKey, articleReducer } from '@article/data-access/state';
+import { settingsFeatureKey, settingsReducer } from '@settings/data-access/state';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -33,10 +30,10 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'settings',
     loadComponent: () => import('../../settings/feature/settings.component'),
     providers: [provideState(settingsFeatureKey, settingsReducer)]
-  },
-  {
-    path: 'profile/:username',
-    loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.profileRoutes),
-    providers: [provideState(profileFeatureKey, profileReducer), provideEffects(profileEffects)]
   }
+  // {
+  //   path: 'profile/:username',
+  //   loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.profileRoutes),
+  //   providers: [provideState(profileFeatureKey, profileReducer), provideEffects(profileEffects)]
+  // }
 ];

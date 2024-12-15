@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { authActions, selectCurrentUser } from '@auth/data-access/store';
+import { authActions, selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { UserFormComponent } from '@settings/ui/user-form';
 import { UserFormData } from '@shared/data-access/models';
 import { combineLatest, filter } from 'rxjs';
-import { selectErrors, selectSubmitting } from '@settings/data-access/store';
+import { selectErrors, selectSubmitting } from '@settings/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 
 @Component({

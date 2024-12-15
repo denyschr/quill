@@ -1,91 +1,86 @@
-/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { LoadingSpinnerComponent } from '@shared/ui/loading-spinner';
-import { provideRouter } from '@angular/router';
-import { ErrorComponent } from '@shared/ui/error';
 import { TagsComponent } from './tags.component';
-
-@Component({
-  standalone: true,
-  template: `<ql-tags
-    [tags]="tags"
-    [loading]="loading"
-    [error]="error"
-    (selectTag)="selectedTag = true"
-  />`,
-  imports: [TagsComponent]
-})
-class TagsTestComponent {
-  public tags: string[] | null = null;
-  public loading = true;
-  public error: string | null = null;
-  public selectedTag = false;
-}
+import { By } from '@angular/platform-browser';
 
 describe('TagsComponent', () => {
-  let fixture: ComponentFixture<TagsTestComponent>;
+  let component: TagsComponent;
+  let fixture: ComponentFixture<TagsComponent>;
 
-  const tags = ['esse', 'at', 'ipsum', 'sunt', 'maiores'];
+  const tags = ['tag one', 'tag two'];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([])]
+      imports: [TagsComponent]
     });
 
-    fixture = TestBed.createComponent(TagsTestComponent);
+    fixture = TestBed.createComponent(TagsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should display a loading indicator', () => {
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display a title', () => {
     const element = fixture.debugElement;
-    expect(element.query(By.directive(LoadingSpinnerComponent)))
-      .withContext(
-        'You probably forgot to add `LoadingSpinnerComponent` to the `TagsComponent` template'
-      )
+    const title = element.query(By.css('h2'));
+    expect(title)
+      .withContext('The template should have an `h2` element to display the title')
       .not.toBeNull();
+    expect(title.nativeElement.textContent)
+      .withContext('The title should have a text')
+      .toContain('Popular tags');
   });
 
-  it('should display a correct number of tags', () => {
-    fixture.componentInstance.loading = false;
-    fixture.componentInstance.tags = tags;
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.directive(LoadingSpinnerComponent)))
-      .withContext('You should NOT have the loading indicator if tags are retrieved')
-      .toBeNull();
-
-    const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelectorAll('li').length)
-      .withContext('You should have 5 tags displayed')
-      .toBe(5);
-  });
-
-  it('should display an error if the retrieval of tags fails', () => {
-    fixture.componentInstance.loading = false;
-    fixture.componentInstance.error = 'Something went wrong';
+  it('should display a loading message if status is loading', () => {
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
     const element = fixture.debugElement;
-    expect(element.query(By.directive(LoadingSpinnerComponent)))
-      .withContext('You should NOT have a loading indicator if the retrieval of tags fails')
-      .toBeNull();
-    expect(element.query(By.directive(ErrorComponent)))
-      .withContext('You probably forgot to add `ErrorComponent` to the `TagsComponent` template')
+    const message = element.query(By.css('div[data-test="loading"]'));
+    expect(message)
+      .withContext('The template should have a `div` element to display a loading message')
       .not.toBeNull();
+    expect(message.nativeElement.textContent).toContain('Loading tags...');
+  });
+
+  it('should display every tag', () => {
+    fixture.componentRef.setInput('tags', tags);
+    fixture.detectChanges();
+
+    const element = fixture.debugElement;
+    const tagNames = element.queryAll(By.css('a span.badge.rounded-pill'));
+    expect(tagNames.length)
+      .withContext('You should have a `span` element inside each `a` element for each tag')
+      .toBe(2);
+    expect(tagNames[0].nativeElement.textContent).toContain('tag one');
+    expect(tagNames[1].nativeElement.textContent).toContain('tag two');
+  });
+
+  it('should display an empty message if there is no tags and status is not loading', () => {
+    const element = fixture.debugElement;
+    const message = element.query(By.css('div[data-test="no-tags"]'));
+    expect(message)
+      .withContext('The template should have a `div` element to display an empty message')
+      .not.toBeNull();
+    expect(message.nativeElement.textContent).toContain('No tags found');
   });
 
   it('should emit an event on click', () => {
-    fixture.componentInstance.loading = false;
-    fixture.componentInstance.tags = tags;
+    spyOn(component.clicked, 'emit');
+    fixture.componentRef.setInput('tags', tags);
     fixture.detectChanges();
 
-    const element = fixture.nativeElement as HTMLElement;
-    const link = element.querySelectorAll<HTMLAnchorElement>('a')[1];
-    link.click();
-    expect(fixture.componentInstance.selectedTag)
-      .withContext('You may have forgot the click handler on the `a` element')
-      .toBeTruthy();
+    const element = fixture.debugElement;
+    const tagNames = element.queryAll(By.css('a'));
+    expect(tagNames.length).withContext('You should have an `a` element for each tag').toBe(2);
+
+    tagNames.forEach((tagName, index) => {
+      tagName.nativeElement.click();
+      expect(component.clicked.emit)
+        .withContext('You may have forgot the click handler on the `a` element')
+        .toHaveBeenCalledWith(tags[index]);
+    });
   });
 });

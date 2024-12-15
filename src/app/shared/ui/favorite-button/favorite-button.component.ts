@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { articlesActions } from '@shared/data-access/store/articles';
+import { articleListActions } from '@articles/data-access/state/article-list';
 
 @Component({
   selector: 'ql-favorite-button',
@@ -34,7 +34,7 @@ export class FavoriteButtonComponent {
 
   public toggleFavorite(): void {
     this.store.dispatch(
-      articlesActions.addToFavorites({
+      articleListActions.favorite({
         favorited: this.favorited,
         slug: this.slug
       })

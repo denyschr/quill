@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { authActions } from '@auth/data-access/store';
+import { authActions } from '@auth/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import RegisterComponent from './register.component';
 
@@ -34,9 +34,9 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch');
-
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
@@ -47,9 +47,11 @@ describe('RegisterComponent', () => {
     const element = fixture.debugElement;
 
     const title = element.query(By.css('h1'));
-    expect(title).withContext('The template should have an `h1` element').not.toBeNull();
+    expect(title)
+      .withContext('The template should have an `h1` element to display the title')
+      .not.toBeNull();
     expect(title.nativeElement.textContent)
-      .withContext('The title should be `Sign up`')
+      .withContext('The title should have a text')
       .toContain('Sign up');
 
     const link = element.query(By.css('a[href="/login"]'));

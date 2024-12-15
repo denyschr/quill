@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { Article, ArticleListResponse } from '@shared/data-access/models';
 
 describe('ArticleApiClient', () => {
-  let articleApiClient: ArticleApiClient;
+  let articleClient: ArticleApiClient;
   let httpController: HttpTestingController;
 
   const article = { title: 'title' } as Article;
@@ -16,14 +16,14 @@ describe('ArticleApiClient', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    articleApiClient = TestBed.inject(ArticleApiClient);
+    articleClient = TestBed.inject(ArticleApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should be created', () => {
-    expect(articleApiClient).toBeTruthy();
+    expect(articleClient).toBeTruthy();
   });
 
   it('should return a list of articles', () => {
@@ -37,8 +37,8 @@ describe('ArticleApiClient', () => {
     };
 
     let actualArticles: ArticleListResponse | undefined;
-    articleApiClient
-      .getAll({ type: 'feed', filters })
+    articleClient
+      .getAll({ type: 'feed', currentPage: 1, filters })
       .subscribe(articles => (actualArticles = articles));
 
     httpController
@@ -54,7 +54,7 @@ describe('ArticleApiClient', () => {
 
   it('should return an article', () => {
     let actualArticle: Article | undefined;
-    articleApiClient.get(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleClient.get(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     httpController.expectOne(`/articles/${slug}`).flush({ article });
 
@@ -65,7 +65,7 @@ describe('ArticleApiClient', () => {
 
   it('should create an article', () => {
     let actualArticle: Article | undefined;
-    articleApiClient.create(article).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleClient.create(article).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     const req = httpController.expectOne({ method: 'POST', url: '/articles' });
     expect(req.request.body).toEqual({ article });
@@ -78,7 +78,7 @@ describe('ArticleApiClient', () => {
 
   it('should update an article', () => {
     let actualArticle: Article | undefined;
-    articleApiClient
+    articleClient
       .update(slug, article)
       .subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
@@ -93,7 +93,7 @@ describe('ArticleApiClient', () => {
 
   it('should delete an article', () => {
     let called = false;
-    articleApiClient.delete(slug).subscribe(() => (called = true));
+    articleClient.delete(slug).subscribe(() => (called = true));
 
     httpController.expectOne({ method: 'DELETE', url: `/articles/${slug}` }).flush(null);
 
@@ -102,7 +102,7 @@ describe('ArticleApiClient', () => {
 
   it('should favorite an article', () => {
     let actualArticle: Article | undefined;
-    articleApiClient.favorite(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleClient.favorite(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     httpController
       .expectOne({ method: 'POST', url: `/articles/${slug}/favorite` })
@@ -115,7 +115,7 @@ describe('ArticleApiClient', () => {
 
   it('should unfavorite an article', () => {
     let actualArticle: Article | undefined;
-    articleApiClient.unfavorite(slug).subscribe(article => (actualArticle = article));
+    articleClient.unfavorite(slug).subscribe(article => (actualArticle = article));
 
     httpController
       .expectOne({ method: 'DELETE', url: `/articles/${slug}/favorite` })

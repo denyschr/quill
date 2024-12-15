@@ -1,143 +1,81 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleListConfig, FeedType } from '@shared/data-access/models';
-import {
-  articlesActions,
-  selectArticlesData,
-  selectError as selectArticlesError,
-  selectLoading as selectArticlesLoading
-} from '@shared/data-access/store/articles';
-import { ArticleListComponent } from '@shared/ui/article-list';
 import { combineLatest } from 'rxjs';
-import { PaginationComponent } from '@shared/ui/pagination';
-import { environment } from '@environment';
 import { TagsComponent } from '@home/ui/tags';
 import {
-  selectError as selectTagsError,
-  selectLoading as selectTagsLoading,
+  selectLoading as tagsLoading,
   selectTags,
   tagsActions
-} from '@home/data-access/store/tags';
-import { FeedToggleComponent } from '@home/ui/feed-toggle';
-import { selectCurrentUser } from '@auth/data-access/store';
+} from '@home/data-access/state/tags';
+import { selectCurrentUser } from '@auth/data-access/state';
+import {
+  articleListActions,
+  articleListInitialState,
+  selectConfig
+} from '@articles/data-access/state/article-list';
+import { ArticleListComponent } from '@articles/feature/article-list';
+import { FeedType } from '@shared/data-access/models';
+import { FeedTabsComponent } from '@home/ui/feed-tabs';
 
 @Component({
-  selector: 'ql-home',
-  standalone: true,
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       <div class="container">
-        <div class="row py-3">
+        <div class="row py-4">
           <div class="col-md-9">
-            <ql-feed-toggle
-              [feedType]="listConfig.type"
+            <ql-feed-tabs
+              [feedType]="vm.config.type"
               [feedDisabled]="!vm.authenticated"
-              [selectedTag]="listConfig.filters.tag"
-              (selectFeed)="selectFeed($event)"
+              [tag]="vm.config.filters.tag"
+              (changed)="changeFeed($event)"
             />
-
-            @let articlesData = vm.articlesData;
-            <ql-article-list
-              [articles]="articlesData?.articles"
-              [loading]="vm.articlesLoading"
-              [error]="vm.articlesError"
-            />
-
-            @if (articlesData) {
-              <ql-pagination
-                [itemCount]="articlesData.articlesCount"
-                [currentPage]="currentPage"
-                [limit]="limit"
-                (selectPage)="selectPage($event)"
-              />
-            }
+            <ql-article-list />
           </div>
 
-          <ql-tags
-            [tags]="vm.tags"
-            [loading]="vm.tagsLoading"
-            [error]="vm.tagsError"
-            (selectTag)="selectTag($event)"
-          />
+          <div class="col-md-3">
+            <ql-tags [tags]="vm.tags" [loading]="vm.tagsLoading" (clicked)="setTag($event)" />
+          </div>
         </div>
       </div>
     </ng-container>
   `,
-  imports: [
-    LetDirective,
-    ArticleListComponent,
-    PaginationComponent,
-    TagsComponent,
-    FeedToggleComponent
-  ],
+  standalone: true,
+  imports: [LetDirective, FeedTabsComponent, TagsComponent, ArticleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class HomeComponent implements OnInit {
-  public currentPage = 1;
-  public readonly limit = environment.limit;
-  public listConfig: ArticleListConfig = {
-    type: 'all',
-    filters: {
-      limit: this.limit
-    }
-  };
-
+export default class HomeComponent {
   public readonly vm$ = combineLatest({
-    articlesData: this.store.select(selectArticlesData),
-    articlesLoading: this.store.select(selectArticlesLoading),
-    articlesError: this.store.select(selectArticlesError),
+    config: this.store.select(selectConfig),
     tags: this.store.select(selectTags),
-    tagsLoading: this.store.select(selectTagsLoading),
-    tagsError: this.store.select(selectTagsError),
+    tagsLoading: this.store.select(tagsLoading),
     authenticated: this.store.select(selectCurrentUser)
   });
 
-  constructor(private readonly store: Store) {}
-
-  public ngOnInit(): void {
-    this.fetchFeed();
-    this.store.dispatch(tagsActions.getTags());
+  constructor(private readonly store: Store) {
+    this.changeFeed('global');
+    this.store.dispatch(tagsActions.loadTags());
   }
 
-  public selectPage(page: number): void {
-    this.currentPage = page;
-    this.listConfig.filters.offset = this.currentPage * this.limit - this.limit;
-    this.fetchFeed();
-  }
-
-  public selectFeed(type: FeedType): void {
-    this.currentPage = 1;
-    this.listConfig = {
-      type,
-      filters: {
-        limit: this.limit,
-        offset: 0
-      }
-    };
-    this.fetchFeed();
-  }
-
-  public selectTag(tag: string): void {
-    this.currentPage = 1;
-    this.listConfig = {
-      type: 'all',
-      filters: {
-        limit: this.limit,
-        offset: 0,
-        tag
-      }
-    };
-    this.fetchFeed();
-  }
-
-  public fetchFeed(): void {
+  public changeFeed(type: FeedType = 'global'): void {
     this.store.dispatch(
-      articlesActions.getArticles({
+      articleListActions.setConfig({
         config: {
-          ...this.listConfig,
+          ...articleListInitialState.config,
+          type
+        }
+      })
+    );
+  }
+
+  public setTag(tag: string): void {
+    this.store.dispatch(
+      articleListActions.setConfig({
+        config: {
+          ...articleListInitialState.config,
           filters: {
-            ...this.listConfig.filters
+            ...articleListInitialState.config.filters,
+            tag
           }
         }
       })

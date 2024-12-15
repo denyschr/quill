@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { selectCurrentUser } from '@auth/data-access/store';
+import { selectCurrentUser } from '@auth/data-access/state';
 import { environment } from '@environment';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import {
   selectError,
   selectLoading,
   selectProfile
-} from '@profile/data-access/store';
+} from '@profile/data-access/state';
 import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
 import { UserInfoComponent } from '@profile/ui/user-info';
 import { ArticleListConfig } from '@shared/data-access/models';
@@ -18,7 +18,7 @@ import {
   selectArticlesData,
   selectError as selectArticlesError,
   selectLoading as selectArticlesLoading
-} from '@shared/data-access/store/articles';
+} from '@shared/data-access/state/articles';
 import { ArticleListComponent } from '@shared/ui/article-list';
 import { PaginationComponent } from '@shared/ui/pagination';
 import { combineLatest, filter, map } from 'rxjs';

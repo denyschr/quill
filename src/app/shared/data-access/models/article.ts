@@ -13,24 +13,6 @@ export interface Article {
   author: Profile;
 }
 
-export type FeedType = 'all' | 'feed';
-
-export interface ArticleListResponse {
-  articles: Article[];
-  articlesCount: number;
-}
-
-export interface ArticleListConfig {
-  type: FeedType;
-  filters: {
-    tag?: string;
-    author?: string;
-    favorited?: string;
-    limit?: number;
-    offset?: number;
-  };
-}
-
 export interface ArticleFormData {
   title: string;
   description: string;

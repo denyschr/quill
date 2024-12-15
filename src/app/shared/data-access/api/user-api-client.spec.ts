@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { User } from '@shared/data-access/models';
 
 describe('UserApiClient', () => {
-  let userApiClient: UserApiClient;
+  let userClient: UserApiClient;
   let httpController: HttpTestingController;
 
   const user = {
@@ -18,14 +18,14 @@ describe('UserApiClient', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    userApiClient = TestBed.inject(UserApiClient);
+    userClient = TestBed.inject(UserApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should be created', () => {
-    expect(userApiClient).toBeTruthy();
+    expect(userClient).toBeTruthy();
   });
 
   it('should register a user', () => {
@@ -36,7 +36,7 @@ describe('UserApiClient', () => {
     };
 
     let actualUser: User | undefined;
-    userApiClient.register(credentials).subscribe(fetchedUser => {
+    userClient.register(credentials).subscribe(fetchedUser => {
       actualUser = fetchedUser;
     });
 
@@ -56,7 +56,7 @@ describe('UserApiClient', () => {
     };
 
     let actualUser: User | undefined;
-    userApiClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
+    userClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'POST', url: '/users/login' });
     expect(req.request.body).toEqual({ user: credentials });
@@ -69,7 +69,7 @@ describe('UserApiClient', () => {
 
   it('should return a user', () => {
     let actualUser: User | undefined;
-    userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
+    userClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
     httpController.expectOne('/user').flush({ user });
 
@@ -85,7 +85,7 @@ describe('UserApiClient', () => {
     };
 
     let actualUser: User | undefined;
-    userApiClient.update({ bio: 'bio' }).subscribe(fetchedUser => (actualUser = fetchedUser));
+    userClient.update({ bio: 'bio' }).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'PUT', url: '/user' });
     expect(req.request.body).toEqual({ user: { bio: 'bio' } });

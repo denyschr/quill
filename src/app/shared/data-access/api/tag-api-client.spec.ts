@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { TagApiClient } from './tag-api-client';
 
 describe('TagApiClient', () => {
-  let tagApiClient: TagApiClient;
+  let tagClient: TagApiClient;
   let httpController: HttpTestingController;
 
   beforeEach(() => {
@@ -12,21 +12,21 @@ describe('TagApiClient', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    tagApiClient = TestBed.inject(TagApiClient);
+    tagClient = TestBed.inject(TagApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should be created', () => {
-    expect(tagApiClient).toBeTruthy();
+    expect(tagClient).toBeTruthy();
   });
 
   it('should return a list of tags', () => {
     const expectedTags = ['tag one', 'tag two', 'tag three'];
 
     let actualTags: string[] | undefined;
-    tagApiClient.getAll().subscribe(tags => (actualTags = tags));
+    tagClient.getAll().subscribe(tags => (actualTags = tags));
 
     httpController.expectOne('/tags').flush({ tags: expectedTags });
 

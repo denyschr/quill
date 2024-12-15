@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { articleActions, selectArticle } from '@article/data-access/store';
-import { selectCurrentUser } from '@auth/data-access/store';
+import { articleActions, selectArticle } from '@article/data-access/state';
+import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { ArticleMetaComponent } from '@shared/ui/article-meta';
