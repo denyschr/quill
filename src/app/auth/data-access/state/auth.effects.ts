@@ -31,6 +31,23 @@ export const getCurrentUser = createEffect(
   { functional: true }
 );
 
+export const updateCurrentUser = createEffect(
+  (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUser),
+      switchMap(({ user }) => {
+        return userClient.update(user).pipe(
+          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
+          )
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
 export const register = createEffect(
   (
     actions$ = inject(Actions),
@@ -48,23 +65,6 @@ export const register = createEffect(
           )
         )
       )
-    );
-  },
-  { functional: true }
-);
-
-export const updateCurrentUser = createEffect(
-  (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
-    return actions$.pipe(
-      ofType(authActions.updateCurrentUser),
-      switchMap(({ user }) => {
-        return userClient.update(user).pipe(
-          map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
-          )
-        );
-      })
     );
   },
   { functional: true }

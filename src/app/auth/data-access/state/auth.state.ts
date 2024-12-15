@@ -22,33 +22,6 @@ const authFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      authActions.login,
-      authActions.register,
-      (state): AuthState => ({
-        ...state,
-        submitting: true,
-        errors: null
-      })
-    ),
-    on(
-      authActions.loginSuccess,
-      authActions.registerSuccess,
-      (state, { currentUser }): AuthState => ({
-        ...state,
-        currentUser: currentUser,
-        submitting: false
-      })
-    ),
-    on(
-      authActions.loginFailure,
-      authActions.registerFailure,
-      (state, { errors }): AuthState => ({
-        ...state,
-        submitting: false,
-        errors: errors
-      })
-    ),
-    on(
       authActions.getCurrentUser,
       (state): AuthState => ({
         ...state,
@@ -79,10 +52,30 @@ const authFeature = createFeature({
       })
     ),
     on(
-      routerNavigatedAction,
+      authActions.login,
+      authActions.register,
       (state): AuthState => ({
         ...state,
+        submitting: true,
         errors: null
+      })
+    ),
+    on(
+      authActions.loginSuccess,
+      authActions.registerSuccess,
+      (state, { currentUser }): AuthState => ({
+        ...state,
+        currentUser: currentUser,
+        submitting: false
+      })
+    ),
+    on(
+      authActions.loginFailure,
+      authActions.registerFailure,
+      (state, { errors }): AuthState => ({
+        ...state,
+        submitting: false,
+        errors: errors
       })
     ),
     on(
@@ -91,6 +84,13 @@ const authFeature = createFeature({
         ...state,
         ...initialState,
         currentUser: null
+      })
+    ),
+    on(
+      routerNavigatedAction,
+      (state): AuthState => ({
+        ...state,
+        errors: null
       })
     )
   )

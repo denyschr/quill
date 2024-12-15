@@ -5,22 +5,22 @@ import { BackendErrors, User } from '@shared/data-access/models';
 export const authActions = createActionGroup({
   source: 'Auth API',
   events: {
-    Register: props<{ credentials: RegisterCredentials }>(),
-    'Register Success': props<{ currentUser: User }>(),
-    'Register Failure': props<{ errors: BackendErrors }>(),
+    getCurrentUser: emptyProps(),
+    getCurrentUserSuccess: props<{ currentUser: User }>(),
+    getCurrentUserFailure: emptyProps(),
 
-    Login: props<{ credentials: LoginCredentials }>(),
-    'Login Success': props<{ currentUser: User }>(),
-    'Login Failure': props<{ errors: BackendErrors }>(),
+    updateCurrentUser: props<{ user: Partial<User> }>(),
+    updateCurrentUserSuccess: props<{ currentUser: User }>(),
+    updateCurrentUserFailure: props<{ errors: BackendErrors }>(),
 
-    'Get Current User': emptyProps(),
-    'Get Current User Success': props<{ currentUser: User }>(),
-    'Get Current User Failure': emptyProps(),
+    register: props<{ credentials: RegisterCredentials }>(),
+    registerSuccess: props<{ currentUser: User }>(),
+    registerFailure: props<{ errors: BackendErrors }>(),
 
-    'Update Current User': props<{ user: Partial<User> }>(),
-    'Update Current User Success': props<{ currentUser: User }>(),
-    'Update Current User Failure': props<{ errors: BackendErrors }>(),
+    login: props<{ credentials: LoginCredentials }>(),
+    loginSuccess: props<{ currentUser: User }>(),
+    loginFailure: props<{ errors: BackendErrors }>(),
 
-    Logout: emptyProps()
+    logout: emptyProps()
   }
 });
