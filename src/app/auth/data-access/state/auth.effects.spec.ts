@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from './auth.actions';
-import { BackendErrors, User } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 import { UserApiClient } from '@shared/data-access/api';
 import { JwtService } from '@shared/data-access/services';
 
@@ -15,7 +15,7 @@ describe('AuthEffects', () => {
   let actions$: Observable<unknown>;
 
   const user = { username: 'username' } as User;
-  const errors: BackendErrors = {
+  const errors = {
     email: ['already exists'],
     'email or password': ['is invalid']
   };
@@ -103,7 +103,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return an updateCurrentUserFailure action if failed', done => {
+    it('should return an updateCurrentUserFailure action with errors if failed', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -130,7 +130,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a registerFailure action if failed', done => {
+    it('should return a registerFailure action with errors if failed', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -171,7 +171,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a loginFailure action if failed', done => {
+    it('should return a loginFailure action with errors if failed', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
