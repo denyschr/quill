@@ -22,33 +22,6 @@ const authFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      authActions.login,
-      authActions.register,
-      (state): AuthState => ({
-        ...state,
-        submitting: true,
-        errors: null
-      })
-    ),
-    on(
-      authActions.loginSuccess,
-      authActions.registerSuccess,
-      (state, { currentUser }): AuthState => ({
-        ...state,
-        currentUser: currentUser,
-        submitting: false
-      })
-    ),
-    on(
-      authActions.loginFailure,
-      authActions.registerFailure,
-      (state, { errors }): AuthState => ({
-        ...state,
-        submitting: false,
-        errors: errors
-      })
-    ),
-    on(
       authActions.getCurrentUser,
       (state): AuthState => ({
         ...state,
@@ -59,7 +32,7 @@ const authFeature = createFeature({
       authActions.getCurrentUserSuccess,
       (state, { currentUser }): AuthState => ({
         ...state,
-        currentUser: currentUser,
+        currentUser,
         loading: false
       })
     ),
@@ -75,14 +48,34 @@ const authFeature = createFeature({
       authActions.updateCurrentUserSuccess,
       (state, { currentUser }): AuthState => ({
         ...state,
-        currentUser: currentUser
+        currentUser
       })
     ),
     on(
-      routerNavigatedAction,
+      authActions.login,
+      authActions.register,
       (state): AuthState => ({
         ...state,
+        submitting: true,
         errors: null
+      })
+    ),
+    on(
+      authActions.loginSuccess,
+      authActions.registerSuccess,
+      (state, { currentUser }): AuthState => ({
+        ...state,
+        currentUser,
+        submitting: false
+      })
+    ),
+    on(
+      authActions.loginFailure,
+      authActions.registerFailure,
+      (state, { errors }): AuthState => ({
+        ...state,
+        submitting: false,
+        errors
       })
     ),
     on(
@@ -91,6 +84,13 @@ const authFeature = createFeature({
         ...state,
         ...initialState,
         currentUser: null
+      })
+    ),
+    on(
+      routerNavigatedAction,
+      (state): AuthState => ({
+        ...state,
+        errors: null
       })
     )
   )

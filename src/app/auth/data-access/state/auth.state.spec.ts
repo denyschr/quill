@@ -5,6 +5,10 @@ import { User } from '@shared/data-access/models';
 
 describe('AuthState', () => {
   const user = { username: 'username', email: 'email@gmail.com' } as User;
+  const errors = {
+    email: ['already exists'],
+    'email or password': ['is invalid']
+  };
 
   describe('unknown action', () => {
     it('should return the default state', () => {
@@ -15,103 +19,6 @@ describe('AuthState', () => {
       const state = fromAuth.authReducer(initialState, action);
 
       expect(state).toBe(initialState);
-    });
-  });
-
-  describe('register action', () => {
-    it('should set submitting to true', () => {
-      const { initialState } = fromAuth;
-      const credentials = {
-        username: user.username,
-        email: user.email,
-        password: '12345678'
-      };
-      const newState = {
-        ...initialState,
-        submitting: true
-      };
-      const action = authActions.register({ credentials });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-
-    it('should have no error and no submitting state if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user,
-        submitting: false
-      };
-      const action = authActions.registerSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-
-    it('should have an error and no submitting state if failed', () => {
-      const { initialState } = fromAuth;
-      const errors = { username: ['has already been taken'] };
-      const newState = {
-        ...initialState,
-        submitting: false,
-        errors: errors
-      };
-      const action = authActions.registerFailure({ errors });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-  });
-
-  describe('login action', () => {
-    it('should set submitting to true', () => {
-      const { initialState } = fromAuth;
-      const credentials = {
-        email: user.email,
-        password: '12345678'
-      };
-      const newState = {
-        ...initialState,
-        submitting: true
-      };
-      const action = authActions.login({ credentials });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-
-    it('should have no error and no submitting state if success', () => {
-      const { initialState } = fromAuth;
-      const newState = {
-        ...initialState,
-        currentUser: user,
-        submitting: false
-      };
-      const action = authActions.loginSuccess({ currentUser: user });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
-    });
-
-    it('should have an error and no submitting state', () => {
-      const { initialState } = fromAuth;
-      const errors = { 'email or password': ['is invalid'] };
-      const newState = {
-        ...initialState,
-        submitting: false,
-        errors: errors
-      };
-      const action = authActions.loginFailure({ errors });
-      const state = fromAuth.authReducer(initialState, action);
-
-      expect(state).toEqual(newState);
-      expect(state).not.toBe(initialState);
     });
   });
 
@@ -129,7 +36,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should add the user and have no error or loading state if success', () => {
+    it('should add the user and have no errors or loading state if success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -173,11 +80,98 @@ describe('AuthState', () => {
     });
   });
 
-  describe('routerNavigatedAction', () => {
-    it('should clean up errors after navigation', () => {
+  describe('register action', () => {
+    it('should set submitting to true', () => {
       const { initialState } = fromAuth;
-      const state = fromAuth.authReducer(initialState, routerNavigatedAction);
-      expect(state).toEqual(initialState);
+      const credentials = {
+        username: user.username,
+        email: user.email,
+        password: '12345678'
+      };
+      const newState = {
+        ...initialState,
+        submitting: true
+      };
+      const action = authActions.register({ credentials });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+
+    it('should have no errors and no submitting state if success', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        currentUser: user,
+        submitting: false
+      };
+      const action = authActions.registerSuccess({ currentUser: user });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+
+    it('should have errors and no submitting state if failed', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        submitting: false,
+        errors
+      };
+      const action = authActions.registerFailure({ errors });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+  });
+
+  describe('login action', () => {
+    it('should set submitting to true', () => {
+      const { initialState } = fromAuth;
+      const credentials = {
+        email: user.email,
+        password: '12345678'
+      };
+      const newState = {
+        ...initialState,
+        submitting: true
+      };
+      const action = authActions.login({ credentials });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+
+    it('should have no errors and no submitting state if success', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        currentUser: user,
+        submitting: false
+      };
+      const action = authActions.loginSuccess({ currentUser: user });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
+    });
+
+    it('should have errors and no submitting state', () => {
+      const { initialState } = fromAuth;
+      const newState = {
+        ...initialState,
+        submitting: false,
+        errors
+      };
+      const action = authActions.loginFailure({ errors });
+      const state = fromAuth.authReducer(initialState, action);
+
+      expect(state).toEqual(newState);
+      expect(state).not.toBe(initialState);
     });
   });
 
@@ -193,6 +187,14 @@ describe('AuthState', () => {
 
       expect(state).toEqual(newState);
       expect(state).not.toBe(initialState);
+    });
+  });
+
+  describe('routerNavigated action', () => {
+    it('should clean up errors after navigation', () => {
+      const { initialState } = fromAuth;
+      const state = fromAuth.authReducer(initialState, routerNavigatedAction);
+      expect(state).toEqual(initialState);
     });
   });
 });
