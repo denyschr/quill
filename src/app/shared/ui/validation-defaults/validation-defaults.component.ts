@@ -11,18 +11,13 @@ import {
   standalone: true,
   template: `
     <val-default-errors>
-      <ng-template valError="required" let-label>
-        <i class="bi bi-x-circle"></i>
-        {{ label || 'Input' }} is required.</ng-template
-      >
+      <ng-template valError="required" let-label>{{ label || 'Input' }} is required.</ng-template>
 
       <ng-template valError="email" let-label>
-        <i class="bi bi-x-circle"></i>
         {{ label || 'Input' }} must be a valid email address.
       </ng-template>
 
       <ng-template valError="minlength" let-error="error" let-label>
-        <i class="bi bi-x-circle"></i>
         {{ label || 'Input' }} must be at least {{ error.requiredLength | number }} characters long.
       </ng-template>
     </val-default-errors>
