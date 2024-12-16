@@ -14,7 +14,7 @@ describe('AuthEffects', () => {
   let router: Router;
   let actions$: Observable<unknown>;
 
-  const user = { username: 'username' } as User;
+  const user = { username: 'username', token: 'token' } as User;
   const errors = {
     email: ['already exists'],
     'email or password': ['is invalid']
@@ -75,7 +75,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a getCurrentUserFailure action if failed', done => {
+    it('should return a getCurrentUserFailure action on failure', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue('token');
@@ -91,7 +91,7 @@ describe('AuthEffects', () => {
   });
 
   describe('updateCurrentUser$', () => {
-    it('should return an updateCurrentUserSuccess action with new user information if success', done => {
+    it('should return an updateCurrentUserSuccess action with new user information on success', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(of(user));
@@ -103,7 +103,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return an updateCurrentUserFailure action with errors if failed', done => {
+    it('should return an updateCurrentUserFailure action with errors on failure', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -117,80 +117,76 @@ describe('AuthEffects', () => {
   });
 
   describe('register$', () => {
-    it('should return a registerSuccess action with user information if success', done => {
+    it('should return a registerSuccess action with user information on success', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(of(user));
 
-      authEffects.register$(actions$, userClient, jwtService).subscribe(action => {
-        expect(jwtService.saveToken).toHaveBeenCalled();
+      authEffects.register$(actions$, userClient).subscribe(action => {
         expect(userClient.register).toHaveBeenCalled();
         expect(action).toEqual(authActions.registerSuccess({ currentUser: user }));
         done();
       });
     });
 
-    it('should return a registerFailure action with errors if failed', done => {
+    it('should return a registerFailure action with errors on failure', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
 
-      authEffects.register$(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.register$(actions$, userClient).subscribe(action => {
         expect(userClient.register).toHaveBeenCalled();
-        expect(jwtService.saveToken).not.toHaveBeenCalled();
         expect(action).toEqual(authActions.registerFailure({ errors }));
         done();
       });
     });
   });
 
-  describe('registerSuccess$', () => {
-    it('should dispatch a routerNavigation action', done => {
-      actions$ = of(authActions.registerSuccess);
-
-      TestBed.runInInjectionContext(() => {
-        authEffects.registerSuccess$(actions$).subscribe(() => {
-          expect(router.navigateByUrl).toHaveBeenCalledWith('/');
-          done();
-        });
-      });
-    });
-  });
-
   describe('login$', () => {
-    it('should return a loginSuccess action with user information if success', done => {
+    it('should return a loginSuccess action with user information on success', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(of(user));
 
-      authEffects.login$(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.login$(actions$, userClient).subscribe(action => {
         expect(userClient.login).toHaveBeenCalled();
-        expect(jwtService.saveToken).toHaveBeenCalled();
         expect(action).toEqual(authActions.loginSuccess({ currentUser: user }));
         done();
       });
     });
 
-    it('should return a loginFailure action with errors if failed', done => {
+    it('should return a loginFailure action with errors on failure', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
 
-      authEffects.login$(actions$, userClient, jwtService).subscribe(action => {
+      authEffects.login$(actions$, userClient).subscribe(action => {
         expect(userClient.login).toHaveBeenCalled();
-        expect(jwtService.saveToken).not.toHaveBeenCalled();
         expect(action).toEqual(authActions.loginFailure({ errors }));
         done();
       });
     });
   });
 
-  describe('loginSuccess$', () => {
-    it('should dispatch a routerNavigation action', done => {
-      actions$ = of(authActions.loginSuccess);
+  describe('registerOrLoginSuccess$', () => {
+    it('should dispatch a routerNavigation action on registration success', done => {
+      actions$ = of(authActions.registerSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
-        authEffects.loginSuccess$(actions$).subscribe(() => {
+        authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
+          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
+          expect(router.navigateByUrl).toHaveBeenCalledWith('/');
+          done();
+        });
+      });
+    });
+
+    it('should dispatch a routerNavigation action on login success', done => {
+      actions$ = of(authActions.loginSuccess({ currentUser: user }));
+
+      TestBed.runInInjectionContext(() => {
+        authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
+          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
