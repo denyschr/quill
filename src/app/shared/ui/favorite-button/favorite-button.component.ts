@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { articleListActions } from '@articles/data-access/state/article-list';
+import { User } from '@shared/data-access/models';
+import { selectCurrentUser } from '@auth/data-access/state';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ql-favorite-button',
@@ -21,7 +25,7 @@ import { articleListActions } from '@articles/data-access/state/article-list';
 })
 export class FavoriteButtonComponent {
   @Input()
-  public favorited = true;
+  public favorited = false;
 
   @Input()
   public favoritesCount = 0;
@@ -29,22 +33,30 @@ export class FavoriteButtonComponent {
   @Input()
   public slug = '';
 
-  constructor(private store: Store) {}
+  public authenticated: User | null | undefined;
+
+  constructor(
+    private _router: Router,
+    private store: Store
+  ) {
+    this.store
+      .select(selectCurrentUser)
+      .pipe(takeUntilDestroyed())
+      .subscribe(user => (this.authenticated = user));
+  }
 
   public toggleFavorite(): void {
-    this.store.dispatch(
-      articleListActions.favorite({
-        favorited: this.favorited,
-        slug: this.slug
-      })
-    );
-
-    if (this.favorited) {
-      this.favoritesCount -= 1;
+    if (!this.authenticated) {
+      void this._router.navigateByUrl('/login');
     } else {
-      this.favoritesCount += 1;
+      if (this.favorited) {
+        --this.favoritesCount;
+        this.store.dispatch(articleListActions.unfavorite({ slug: this.slug }));
+      } else {
+        ++this.favoritesCount;
+        this.store.dispatch(articleListActions.favorite({ slug: this.slug }));
+      }
+      this.favorited = !this.favorited;
     }
-
-    this.favorited = !this.favorited;
   }
 }

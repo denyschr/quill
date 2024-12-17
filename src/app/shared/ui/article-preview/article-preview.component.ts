@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/models';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { TagListComponent } from '@shared/ui/tag-list';
 import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
-import { DatePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'ql-article-preview',
@@ -28,8 +28,8 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
         </div>
         <ql-favorite-button
           [favorited]="article.favorited"
-          [slug]="article.slug"
           [favoritesCount]="article.favoritesCount"
+          [slug]="article.slug"
         />
       </div>
       <h3 class="mb-1">

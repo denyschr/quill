@@ -52,12 +52,25 @@ export const favorite$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleListActions.favorite),
-      concatMap(({ favorited, slug }) => {
-        const article$ = favorited ? articleClient.unfavorite(slug) : articleClient.favorite(slug);
-
-        return article$.pipe(
+      concatMap(({ slug }) => {
+        return articleClient.favorite(slug).pipe(
           map(article => articleListActions.favoriteSuccess({ article })),
           catchError(() => of(articleListActions.favoriteFailure()))
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const unfavorite$ = createEffect(
+  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+    return actions$.pipe(
+      ofType(articleListActions.unfavorite),
+      concatMap(({ slug }) => {
+        return articleClient.unfavorite(slug).pipe(
+          map(article => articleListActions.unfavoriteSuccess({ article })),
+          catchError(() => of(articleListActions.unfavoriteFailure()))
         );
       })
     );
