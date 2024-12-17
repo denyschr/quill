@@ -17,7 +17,7 @@ import { LetDirective } from '@ngrx/component';
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       @if (!vm.loading) {
-        <div class="mb-4">
+        <div class="row gap-3 mb-4">
           @for (article of vm.articles; track article.slug) {
             <ql-article-preview [article]="article" />
           } @empty {

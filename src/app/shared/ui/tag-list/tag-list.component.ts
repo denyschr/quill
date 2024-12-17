@@ -2,16 +2,18 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ql-tag-list',
-  standalone: true,
   template: `
     @if (tags.length) {
-      <ul class="d-flex flex-wrap list-unstyled m-0 gap-2">
+      <ul class="d-flex flex-wrap gap-2 list-unstyled m-0">
         @for (tag of tags; track tag) {
-          <li class="p-1 badge text-dark border border-secondary">{{ tag }}</li>
+          <li>
+            <span class="badge border fw-normal text-secondary rounded-pill">{{ tag }}</span>
+          </li>
         }
       </ul>
     }
   `,
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagListComponent {

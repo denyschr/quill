@@ -1,23 +1,22 @@
-import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { articleListActions } from '@articles/data-access/state/article-list';
 
 @Component({
   selector: 'ql-favorite-button',
-  standalone: true,
   template: `
     <button
       type="button"
       class="btn btn-sm"
-      [ngClass]="{ 'btn-outline-success': !favorited, 'btn-success': favorited }"
+      [class.btn-danger]="favorited"
+      [class.btn-outline-danger]="!favorited"
       (click)="toggleFavorite()"
     >
       <i class="bi bi-heart-fill"></i>
       {{ favoritesCount }}
     </button>
   `,
-  imports: [NgClass],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FavoriteButtonComponent {
