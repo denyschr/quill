@@ -12,13 +12,23 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
       <div class="d-flex justify-content-between align-items-center mb-2">
         <div class="d-flex align-items-center gap-2">
           <a [routerLink]="['/profile', article.author.username]">
-            <img class="rounded-circle" [ngSrc]="article.author.image" width="32" height="32" alt />
+            <img
+              class="rounded-circle"
+              [ngSrc]="article.author.image"
+              width="32"
+              height="32"
+              [alt]="article.author.username"
+            />
           </a>
           <div>
-            <a class="text-decoration-none" [routerLink]="['/profile', article.author.username]">
+            <a
+              data-test="author-name"
+              class="text-decoration-none"
+              [routerLink]="['/profile', article.author.username]"
+            >
               {{ article.author.username }}
             </a>
-            <p class="mb-0 text-muted">
+            <p data-test="article-date" class="mb-0 text-muted">
               Published on
               <time [attr.datetime]="article.createdAt">
                 {{ article.createdAt | date: 'MMM d, y' }}
@@ -39,9 +49,12 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
           >{{ article.title }}</a
         >
       </h3>
-      <p class="text-secondary">{{ article.description }}</p>
+      <p data-test="article-description" class="text-secondary">{{ article.description }}</p>
       <div class="d-flex justify-content-between align-items-center gap-2">
-        <a class="btn btn-primary flex-shrink-0" [routerLink]="['/article', article.slug]"
+        <a
+          data-test="article-read-more"
+          class="btn btn-primary flex-shrink-0"
+          [routerLink]="['/article', article.slug]"
           >Read more</a
         >
         @if (article.tagList.length) {
