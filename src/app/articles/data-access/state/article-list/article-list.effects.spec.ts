@@ -56,7 +56,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('loadArticles$', () => {
-    it('should return a loadArticlesSuccess action with a list of articles if success', done => {
+    it('should return a loadArticlesSuccess action with a list of articles on success', done => {
       actions$ = of(articleListActions.loadArticles);
 
       articleClient.getAll.and.returnValue(of(articleList));
@@ -73,7 +73,7 @@ describe('ArticleListEffects', () => {
       });
     });
 
-    it('should return a loadArticlesFailure action if failed', done => {
+    it('should return a loadArticlesFailure action on failure', done => {
       actions$ = of(articleListActions.loadArticles);
 
       articleClient.getAll.and.returnValue(throwError(() => new Error('error')));
@@ -81,6 +81,62 @@ describe('ArticleListEffects', () => {
       articleListEffects.loadArticles$(actions$, store, articleClient).subscribe(action => {
         expect(articleClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(articleListActions.loadArticlesFailure());
+        done();
+      });
+    });
+  });
+
+  describe('favorite$', () => {
+    it('should return a favoriteSuccess action with a favorited article on success', done => {
+      actions$ = of(articleListActions.favorite);
+
+      articleClient.favorite.and.returnValue(of(articleList.articles[0]));
+
+      articleListEffects.favorite$(actions$, articleClient).subscribe(action => {
+        expect(articleClient.favorite).toHaveBeenCalled();
+        expect(action).toEqual(
+          articleListActions.favoriteSuccess({ article: articleList.articles[0] })
+        );
+        done();
+      });
+    });
+
+    it('should return a favoriteFailure action on failure', done => {
+      actions$ = of(articleListActions.favorite);
+
+      articleClient.favorite.and.returnValue(throwError(() => new Error('error')));
+
+      articleListEffects.favorite$(actions$, articleClient).subscribe(action => {
+        expect(articleClient.favorite).toHaveBeenCalled();
+        expect(action).toEqual(articleListActions.favoriteFailure());
+        done();
+      });
+    });
+  });
+
+  describe('unfavorite$', () => {
+    it('should return an unfavoriteSuccess action with an unfavorited article on success', done => {
+      actions$ = of(articleListActions.unfavorite);
+
+      articleClient.unfavorite.and.returnValue(of(articleList.articles[0]));
+
+      articleListEffects.unfavorite$(actions$, articleClient).subscribe(action => {
+        expect(articleClient.unfavorite).toHaveBeenCalled();
+        expect(action).toEqual(
+          articleListActions.unfavoriteSuccess({ article: articleList.articles[0] })
+        );
+        done();
+      });
+    });
+
+    it('should return an unfavoriteFailure action on failure', done => {
+      actions$ = of(articleListActions.unfavorite);
+
+      articleClient.unfavorite.and.returnValue(throwError(() => new Error('error')));
+
+      articleListEffects.unfavorite$(actions$, articleClient).subscribe(action => {
+        expect(articleClient.unfavorite).toHaveBeenCalled();
+        expect(action).toEqual(articleListActions.unfavoriteFailure());
         done();
       });
     });

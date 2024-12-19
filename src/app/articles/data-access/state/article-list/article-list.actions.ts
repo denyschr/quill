@@ -11,8 +11,12 @@ export const articleListActions = createActionGroup({
     loadArticlesSuccess: props<{ articles: Article[]; total: number }>(),
     loadArticlesFailure: emptyProps(),
 
-    favorite: props<{ favorited: boolean; slug: string }>(),
+    favorite: props<{ slug: string }>(),
     favoriteSuccess: props<{ article: Article }>(),
-    favoriteFailure: emptyProps()
+    favoriteFailure: emptyProps(),
+
+    unfavorite: props<{ slug: string }>(),
+    unfavoriteSuccess: props<{ article: Article }>(),
+    unfavoriteFailure: emptyProps()
   }
 });
