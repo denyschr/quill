@@ -1,6 +1,6 @@
 describe('Register', () => {
   const user = {
-    email: 'email',
+    email: 'email@gmail.com',
     token: 'token',
     username: 'username',
     bio: 'bio',
