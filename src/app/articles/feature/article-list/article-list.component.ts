@@ -35,7 +35,7 @@ import { LetDirective } from '@ngrx/component';
           />
         }
       } @else {
-        <div data-test="loading">Loading articles...</div>
+        <div data-test="articles-loading">Loading articles...</div>
       }
     </ng-container>
   `,

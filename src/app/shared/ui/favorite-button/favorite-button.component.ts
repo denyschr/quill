@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   selector: 'ql-favorite-button',
   template: `
     <button
+      data-test="favorite-button"
       type="button"
       class="btn btn-sm"
       [class.btn-danger]="favorited"
