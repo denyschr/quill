@@ -62,9 +62,7 @@ describe('LoginComponent', () => {
   it('should use PasswordInputToggleComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(PasswordInputToggleComponent)))
-      .withContext(
-        'You probably forgot to add `PasswordInputToggleComponent` to the `LoginComponent` template'
-      )
+      .withContext('You need `PasswordInputToggleComponent` for toggling password visibility')
       .not.toBeNull();
   });
 
@@ -224,7 +222,7 @@ describe('LoginComponent', () => {
 
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
-      .withContext('You need `BackendErrorsComponent` to display error messages')
+      .withContext('You need `BackendErrorsComponent` for error messages')
       .not.toBeNull();
 
     const errors = element.querySelectorAll('li')!;
