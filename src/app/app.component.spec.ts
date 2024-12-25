@@ -15,7 +15,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [provideRouter([]), provideMockStore()]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
@@ -41,11 +41,11 @@ describe('AppComponent', () => {
       .not.toBeNull();
   });
 
-  it('should use the ValidationDefaultsComponent', () => {
+  it('should use ValidationDefaultsComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ValidationDefaultsComponent)))
       .withContext(
-        'You probably forgot to add the `ValidationDefaultsComponent` to the `AppComponent` template'
+        'You probably forgot to add `ValidationDefaultsComponent` to the `AppComponent` template'
       )
       .not.toBeNull();
   });

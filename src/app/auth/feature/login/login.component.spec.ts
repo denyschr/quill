@@ -25,7 +25,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       imports: [LoginComponent],
       providers: [provideRouter([]), provideMockStore({ initialState })]
-    }).compileComponents();
+    });
 
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
@@ -44,43 +44,35 @@ describe('LoginComponent', () => {
   });
 
   it('should have a title and a link to the register page', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const title = element.query(By.css('h1'));
-    expect(title)
-      .withContext('The template should have an `h1` element to display the title')
-      .not.toBeNull();
-    expect(title.nativeElement.textContent)
-      .withContext('The title should have a text')
-      .toContain('Sign in');
+    const title = element.querySelector('h1')!;
+    expect(title).withContext('You need an `h1` element for the title').not.toBeNull();
+    expect(title.textContent).withContext('The title should have a text').toContain('Sign in');
 
-    const link = element.query(By.css('a[href="/register"]'));
+    const link = element.querySelector('a[href="/register"]')!;
     expect(link)
-      .withContext(
-        'The template should have an `a` element to display the link to the register page'
-      )
+      .withContext('You need an `a` element for the link to the register page')
       .not.toBeNull();
-    expect(link.nativeElement.textContent)
+    expect(link.textContent)
       .withContext('The link should have a text')
       .toContain("Don't have an account?");
   });
 
-  it('should use the PasswordInputToggleComponent', () => {
+  it('should use PasswordInputToggleComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(PasswordInputToggleComponent)))
       .withContext(
-        'You probably forgot to add the `PasswordInputToggleComponent` to the `LoginComponent` template'
+        'You probably forgot to add `PasswordInputToggleComponent` to the `LoginComponent` template'
       )
       .not.toBeNull();
   });
 
   it('should have a disabled button if the form is incomplete', () => {
-    const element = fixture.debugElement;
-    const button = element.query(By.css('button[type="submit"]'));
-    expect(button)
-      .withContext('The template should have a button to submit the form')
-      .not.toBeNull();
-    expect(button.nativeElement.hasAttribute('disabled'))
+    const element: HTMLElement = fixture.nativeElement;
+    const button = element.querySelector('button[type="submit"]')!;
+    expect(button).withContext('You need a `button` element to submit the form').not.toBeNull();
+    expect(button.hasAttribute('disabled'))
       .withContext('The button should be disabled if the form is invalid')
       .toBe(true);
   });
@@ -90,139 +82,137 @@ describe('LoginComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
-    expect(element.query(By.css('button[type="submit"]')).nativeElement.hasAttribute('disabled'))
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
       .withContext('The button should be disabled after submitting')
       .toBe(true);
   });
 
   it('should be possible to log in if the form is complete', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const emailInput = element.query(By.css('input[type="email"]'));
+    const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
     expect(emailInput)
-      .withContext('You should have an input with the type `email` for the email')
+      .withContext('You need an input with the type `email` for the email')
       .not.toBeNull();
-    emailInput.nativeElement.value = 'email@gmail.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
+    emailInput.value = 'email@gmail.com';
+    emailInput.dispatchEvent(new Event('input'));
 
-    const passwordInput = element.query(By.css('input[type="password"]'));
+    const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
     expect(passwordInput)
-      .withContext('You should have an input with the type `password` for the password')
-      .not.toBeNull();
-    passwordInput.nativeElement.value = '12345678';
-    passwordInput.nativeElement.dispatchEvent(new Event('input'));
-
-    fixture.detectChanges();
-
-    expect(element.query(By.css('button[type="submit"]')).nativeElement.hasAttribute('disabled'))
-      .withContext('The button should be enabled if the form is valid')
-      .toBe(false);
-  });
-
-  it('should display error messages if fields are touched and invalid', () => {
-    const element = fixture.debugElement;
-
-    const emailInput = element.query(By.css('input[type="email"]'));
-    expect(emailInput)
-      .withContext('You should have an input with the type `email` for the email')
-      .not.toBeNull();
-    emailInput.nativeElement.value = 'email@gmail.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-    emailInput.nativeElement.dispatchEvent(new Event('blur'));
-    emailInput.nativeElement.value = '';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const emailRequiredError = element.query(By.css('div.mb-3 div'));
-    expect(emailRequiredError)
-      .withContext('You should have an error message if the email field is required and touched')
-      .not.toBeNull();
-    expect(emailRequiredError.nativeElement.textContent)
-      .withContext('The error message for the email field is incorrect')
-      .toContain('The email is required');
-
-    emailInput.nativeElement.value = 'email.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const emailError = element.query(By.css('div.mb-3 div'));
-    expect(emailError)
-      .withContext('You should have an error message if the email field is incorrect and touched')
-      .not.toBeNull();
-    expect(emailError.nativeElement.textContent)
-      .withContext('The error message for the email field is incorrect')
-      .toContain('The email must be a valid email address');
-
-    emailInput.nativeElement.value = 'email@gmail.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const passwordInput = element.query(By.css('input[type="password"]'));
-    expect(passwordInput)
-      .withContext('You should have an input with the type `password` for the password')
-      .not.toBeNull();
-    passwordInput.nativeElement.value = '1234';
-    passwordInput.nativeElement.dispatchEvent(new Event('input'));
-    passwordInput.nativeElement.dispatchEvent(new Event('blur'));
-    passwordInput.nativeElement.value = '';
-    passwordInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const passwordRequiredError = element.query(By.css('div.mb-3 div:not(.input-group)'));
-    expect(passwordRequiredError)
-      .withContext('You should have an error message if the password field is required and touched')
-      .not.toBeNull();
-    expect(passwordRequiredError.nativeElement.textContent)
-      .withContext('The error message for the password field is incorrect')
-      .toContain('The password is required');
-
-    passwordInput.nativeElement.value = '1234';
-    passwordInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const passwordLengthError = element.query(By.css('div.mb-3 div:not(.input-group)'));
-    expect(passwordLengthError)
-      .withContext(
-        'You should have an error message if the password field is too short and touched'
-      )
-      .not.toBeNull();
-    expect(passwordLengthError.nativeElement.textContent)
-      .withContext('The error message for the password field is incorrect')
-      .toContain('The password must be at least 8 characters long');
-  });
-
-  it('should dispatch a login action on submit', () => {
-    const element = fixture.debugElement;
-
-    const emailInput = element.query(By.css('input[type="email"]'));
-    expect(emailInput)
-      .withContext('You should have an input with the type `email` for the email')
-      .not.toBeNull();
-    emailInput.nativeElement.value = 'email@gmail.com';
-    emailInput.nativeElement.dispatchEvent(new Event('input'));
-
-    const passwordInput = element.query(By.css('input[type="password"]')).nativeElement;
-    expect(passwordInput)
-      .withContext('You should have an input with the type `password` for the password')
+      .withContext('You need an input with the type `password` for the password')
       .not.toBeNull();
     passwordInput.value = '12345678';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    element.query(By.css('button[type="submit"]')).nativeElement.click();
+    expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
+      .withContext('The button should be enabled if the form is valid')
+      .toBe(false);
+  });
+
+  it('should display error messages if fields are touched and invalid', () => {
+    const element: HTMLElement = fixture.nativeElement;
+
+    const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
+    expect(emailInput)
+      .withContext('You need an input with the type `email` for the email')
+      .not.toBeNull();
+    emailInput.value = 'email@gmail.com';
+    emailInput.dispatchEvent(new Event('input'));
+    emailInput.dispatchEvent(new Event('blur'));
+    emailInput.value = '';
+    emailInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const emailRequiredError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    expect(emailRequiredError)
+      .withContext('You need an error message if the email field is required and touched')
+      .not.toBeNull();
+    expect(emailRequiredError.textContent)
+      .withContext('The error message for the email field is incorrect')
+      .toContain('The email is required');
+
+    emailInput.value = 'email.com';
+    emailInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const emailError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    expect(emailError)
+      .withContext('You need an error message if the email field is incorrect and touched')
+      .not.toBeNull();
+    expect(emailError.textContent)
+      .withContext('The error message for the email field is incorrect')
+      .toContain('The email must be a valid email address');
+
+    emailInput.value = 'email@gmail.com';
+    emailInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
+    expect(passwordInput)
+      .withContext('You need an input with the type `password` for the password')
+      .not.toBeNull();
+    passwordInput.value = '1234';
+    passwordInput.dispatchEvent(new Event('input'));
+    passwordInput.dispatchEvent(new Event('blur'));
+    passwordInput.value = '';
+    passwordInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const passwordRequiredError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    expect(passwordRequiredError)
+      .withContext('You need an error message if the password field is required and touched')
+      .not.toBeNull();
+    expect(passwordRequiredError.textContent)
+      .withContext('The error message for the password field is incorrect')
+      .toContain('The password is required');
+
+    passwordInput.value = '1234';
+    passwordInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const passwordLengthError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    expect(passwordLengthError)
+      .withContext('You need an error message if the password field is too short and touched')
+      .not.toBeNull();
+    expect(passwordLengthError.textContent)
+      .withContext('The error message for the password field is incorrect')
+      .toContain('The password must be at least 8 characters long');
+  });
+
+  it('should dispatch a login action on submit', () => {
+    const element: HTMLElement = fixture.nativeElement;
+
+    const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
+    expect(emailInput)
+      .withContext('You need an input with the type `email` for the email')
+      .not.toBeNull();
+    emailInput.value = 'email@gmail.com';
+    emailInput.dispatchEvent(new Event('input'));
+
+    const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
+    expect(passwordInput)
+      .withContext('You need an input with the type `password` for the password')
+      .not.toBeNull();
+    passwordInput.value = '12345678';
+    passwordInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       authActions.login({ credentials: { email: 'email@gmail.com', password: '12345678' } })
     );
   });
 
-  it('should display login errors if failed', () => {
+  it('should display login errors on failure', () => {
     store.setState({
       ...initialState,
       auth: {
         ...initialState.auth,
         errors: {
+          email: ['already exists'],
           'email or password': ['is invalid']
         }
       }
@@ -230,16 +220,16 @@ describe('LoginComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const backendErrors = element.query(By.directive(BackendErrorsComponent));
+    const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
-      .withContext('You should have the `BackendErrorsComponent` to display an error message')
+      .withContext('You need `BackendErrorsComponent` to display error messages')
       .not.toBeNull();
 
-    const error = element.query(By.css('li'));
-    expect(error.nativeElement.textContent)
-      .withContext('The backend error message is incorrect')
-      .toContain('email or password is invalid');
+    const errors = element.querySelectorAll('li')!;
+    expect(errors.length).withContext('You need two `li` elements for error messages').toBe(2);
+    expect(errors[0].textContent).toContain('email already exists');
+    expect(errors[1].textContent).toContain('email or password is invalid');
   });
 });
