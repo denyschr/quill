@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   template: `
     <h2 class="mb-3 fs-4 fw-bold">Popular tags</h2>
     @if (!loading) {
-      <div class="d-flex flex-wrap m-0 gap-2">
+      <div data-test="tags" class="d-flex flex-wrap m-0 gap-2">
         @for (tag of tags; track tag) {
           <a (click)="clicked.emit(tag)">
             <span class="fs-6 badge rounded-pill text-bg-secondary">{{ tag }}</span>
@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
         }
       </div>
     } @else {
-      <div data-test="loading">Loading tags...</div>
+      <div data-test="tags-loading">Loading tags...</div>
     }
   `,
   styles: [

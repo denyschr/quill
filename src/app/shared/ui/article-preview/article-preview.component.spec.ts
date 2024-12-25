@@ -15,12 +15,12 @@ describe('ArticlePreviewComponent', () => {
     slug: 'title-one',
     title: 'title',
     description: 'description',
-    createdAt: '2024-09-24T22:23:15.662Z',
+    createdAt: new Date('10/8/2024').toString(),
     author: {
       image: 'image',
       username: 'username'
     },
-    tagList: ['ipsum', 'lorem']
+    tagList: ['tag one', 'tag two']
   } as Article;
 
   beforeEach(() => {
@@ -62,7 +62,7 @@ describe('ArticlePreviewComponent', () => {
   it('should display an article info', () => {
     const element = fixture.debugElement;
 
-    const authorName = element.query(By.css('a[data-test="author-name"]'));
+    const authorName = element.query(By.css('a[data-test="article-author-name"]'));
     expect(authorName)
       .withContext('You should have an `a` element for the author name')
       .not.toBeNull();
@@ -73,17 +73,19 @@ describe('ArticlePreviewComponent', () => {
       .withContext('The `a` element should contain the author name')
       .toContain(article.author.username);
 
-    const date = element.query(By.css('p[data-test="article-date"]'));
-    expect(date).withContext('You should have a `p` element for the article date').not.toBeNull();
-    expect(date.nativeElement.textContent).toContain('Published on');
-
-    const time = element.query(By.css('p[data-test="article-date"] > time'));
-    expect(time)
-      .withContext('You should have a `time` element inside the `p` element')
+    const date = element.query(By.css('p[data-test="article-created-date"]'));
+    expect(date)
+      .withContext('You should have a `p` element for the article created date')
       .not.toBeNull();
+    expect(date.nativeElement.textContent)
+      .withContext('You should have a `time` element inside the `p` element')
+      .toContain('Published on Oct 8, 2024');
+
+    const time = element.query(By.css('p[data-test="article-created-date"] > time'));
+    expect(time).withContext('You should have a `time` element to display the date').not.toBeNull();
     expect(time.nativeElement.textContent)
       .withContext('You should use `DatePipe` to format the date')
-      .toContain('Sep 25, 2024');
+      .toContain('Oct 8, 2024');
   });
 
   it('should use FavoriteButtonComponent', () => {
@@ -112,7 +114,7 @@ describe('ArticlePreviewComponent', () => {
       .withContext('The description should have a text')
       .toContain(article.description);
 
-    const readMoreLink = element.query(By.css('a[data-test="article-read-more"]'));
+    const readMoreLink = element.query(By.css('a[data-test="article-details-link"]'));
     expect(readMoreLink)
       .withContext('You should have an `a` element that links to the full article')
       .not.toBeNull();

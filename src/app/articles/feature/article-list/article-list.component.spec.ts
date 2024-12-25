@@ -68,7 +68,7 @@ describe('ArticleListComponent', () => {
 
   it('should display a loading message if status is loading', () => {
     const element = fixture.debugElement;
-    const message = element.query(By.css('div[data-test="loading"]'));
+    const message = element.query(By.css('div[data-test="articles-loading"]'));
     expect(message)
       .withContext('The template should have a `div` element to display a loading message')
       .not.toBeNull();
