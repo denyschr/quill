@@ -5,7 +5,6 @@ import { User } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-navbar',
-  standalone: true,
   template: `
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container">
@@ -56,15 +55,6 @@ import { User } from '@shared/data-access/models';
                   [routerLink]="['/profile', currentUser.username]"
                   routerLinkActive="active"
                 >
-                  @if (currentUser.image) {
-                    <img
-                      class="rounded-circle me-1"
-                      width="26"
-                      height="26"
-                      [src]="currentUser.image"
-                      [alt]="currentUser.username"
-                    />
-                  }
                   {{ currentUser.username }}
                 </a>
               </li>
@@ -74,6 +64,7 @@ import { User } from '@shared/data-access/models';
       </div>
     </nav>
   `,
+  standalone: true,
   imports: [RouterLink, RouterLinkActive, NgbCollapse],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

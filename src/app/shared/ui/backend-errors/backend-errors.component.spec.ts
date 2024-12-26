@@ -32,26 +32,21 @@ describe('BackendErrorsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should use the alert component', () => {
-    const element = fixture.debugElement;
+  it('should display error messages', () => {
+    const element: HTMLElement = fixture.nativeElement;
 
-    const alert = element.query(By.directive(NgbAlert));
-    expect(alert)
-      .withContext('You should have an `NgbAlert` to display error messages')
-      .not.toBeNull();
+    const alert = fixture.debugElement.query(By.directive(NgbAlert));
+    expect(alert).withContext('You need `NgbAlert` for error messages').not.toBeNull();
 
     const alertComponent = alert.componentInstance as NgbAlert;
     expect(alertComponent.type).withContext('The alert should be a danger one').toBe('danger');
     expect(alertComponent.dismissible).withContext('The alert should be dismissible').toBe(false);
-  });
 
-  it('should display the content', () => {
-    const element = fixture.debugElement;
-    const errors = element.queryAll(By.css('li'));
+    const errors = element.querySelectorAll('li');
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
-    expect(errors[0].nativeElement.textContent).toContain('email already exists');
-    expect(errors[1].nativeElement.textContent).toContain('email or password is invalid');
+    expect(errors[0].textContent).toContain('email already exists');
+    expect(errors[1].textContent).toContain('email or password is invalid');
   });
 });

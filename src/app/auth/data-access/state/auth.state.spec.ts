@@ -4,7 +4,7 @@ import { routerNavigatedAction } from '@ngrx/router-store';
 import { User } from '@shared/data-access/models';
 
 describe('AuthState', () => {
-  const user = { username: 'username', email: 'email@gmail.com' } as User;
+  const user = { username: 'username', email: 'email' } as User;
   const errors = {
     email: ['already exists'],
     'email or password': ['is invalid']

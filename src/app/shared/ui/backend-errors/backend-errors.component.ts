@@ -5,7 +5,6 @@ import { BackendErrors } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-backend-errors',
-  standalone: true,
   template: `
     <ngb-alert type="danger" [dismissible]="false">
       <ul class="m-0">
@@ -15,6 +14,7 @@ import { BackendErrors } from '@shared/data-access/models';
       </ul>
     </ngb-alert>
   `,
+  standalone: true,
   imports: [NgbAlert, KeyValuePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

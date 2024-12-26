@@ -10,7 +10,7 @@ describe('UserApiClient', () => {
 
   const user = {
     username: 'username',
-    email: 'email@gmail.com'
+    email: 'email'
   } as User;
 
   beforeEach(() => {

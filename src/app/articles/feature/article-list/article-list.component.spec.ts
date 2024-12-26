@@ -67,12 +67,10 @@ describe('ArticleListComponent', () => {
   });
 
   it('should display a loading message if status is loading', () => {
-    const element = fixture.debugElement;
-    const message = element.query(By.css('div[data-test="articles-loading"]'));
-    expect(message)
-      .withContext('The template should have a `div` element to display a loading message')
-      .not.toBeNull();
-    expect(message.nativeElement.textContent).toContain('Loading articles...');
+    const element: HTMLElement = fixture.nativeElement;
+    const message = element.querySelector('div[data-test=articles-loading]')!;
+    expect(message).withContext('You need a `div` element for a loading message').not.toBeNull();
+    expect(message.textContent).toContain('Loading articles...');
   });
 
   it('should display every article', () => {
@@ -91,22 +89,21 @@ describe('ArticleListComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
-    const articles = element.queryAll(By.directive(ArticlePreviewStubComponent));
-    expect(articles.length)
-      .withContext('You should have 2 `ArticlePreviewComponent` displayed')
-      .toBe(2);
+    const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
+    expect(articles.length).withContext('You need two `ArticlePreviewComponent` displayed').toBe(2);
 
-    const pagination = element.query(By.directive(NgbPagination));
-    expect(pagination).withContext('You should have a pagination').not.toBeNull();
+    const pagination = fixture.debugElement.query(By.directive(NgbPagination));
+    expect(pagination).withContext('You need a pagination').not.toBeNull();
 
-    const pageLinks = element.queryAll(By.css('a.page-link'));
+    const element: HTMLElement = fixture.nativeElement;
+
+    const pageLinks = element.querySelectorAll('a.page-link');
     expect(pageLinks.length)
-      .withContext('You should have 2 pages, as the total number of articles is 12')
+      .withContext('You need 2 pages, as the total number of articles is 12')
       .toBe(4); // including 2 arrow buttons
 
-    const activePageLink = element.query(By.css('.page-item.active a'));
-    expect(activePageLink.nativeElement.textContent.trim())
+    const activePageLink = element.querySelector('.page-item.active a')!;
+    expect(activePageLink.textContent!.trim())
       .withContext('The active page link should be 1')
       .toBe('1');
   });
@@ -127,17 +124,17 @@ describe('ArticleListComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const pageLinks = element.queryAll(By.css('a.page-link'));
-    expect(pageLinks[2].nativeElement.textContent.trim()).toBe('2');
-    pageLinks[2].nativeElement.dispatchEvent(new Event('click'));
+    const pageLinks = element.querySelectorAll('a.page-link');
+    expect(pageLinks[2].textContent!.trim()).toBe('2');
+    pageLinks[2].dispatchEvent(new Event('click'));
     tick();
     expect(store.dispatch).toHaveBeenCalledWith(articleListActions.setPage({ page: 2 }));
     fixture.detectChanges();
 
-    const activePageLink = element.query(By.css('.page-item.active a'));
-    expect(activePageLink.nativeElement.textContent.trim())
+    const activePageLink = element.querySelector('.page-item.active a')!;
+    expect(activePageLink.textContent!.trim())
       .withContext('The active page link should be 2')
       .toBe('2');
   }));
@@ -153,12 +150,10 @@ describe('ArticleListComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
-    const message = element.query(By.css('div[data-test="no-articles"]'));
-    expect(message)
-      .withContext('The template should have a `div` element to display an empty message')
-      .not.toBeNull();
-    expect(message.nativeElement.textContent).toContain('No articles found');
+    const element: HTMLElement = fixture.nativeElement;
+    const message = element.querySelector('div[data-test=no-articles]')!;
+    expect(message).withContext('You need a `div` element for an empty message').not.toBeNull();
+    expect(message.textContent).toContain('No articles found');
   });
 
   it('should not display a pagination if there is no articles', () => {
@@ -172,8 +167,8 @@ describe('ArticleListComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element = fixture.debugElement;
-    const pagination = element.query(By.directive(NgbPagination));
-    expect(pagination).withContext('You should NOT have a pagination').toBeNull();
+    expect(fixture.debugElement.query(By.directive(NgbPagination)))
+      .withContext('You do NOT need a pagination')
+      .toBeNull();
   });
 });

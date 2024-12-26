@@ -1,6 +1,6 @@
 describe('Login', () => {
   const user = {
-    email: 'email@gmail.com',
+    email: 'email',
     token: 'token',
     username: 'username',
     bio: 'bio',

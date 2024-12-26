@@ -40,50 +40,46 @@ describe('ArticlePreviewComponent', () => {
   });
 
   it('should display a link with an image', () => {
-    const element = fixture.debugElement;
-    const image = element.query(By.css(`a[href="/profile/${article.author.username}"] > img`));
+    const element: HTMLElement = fixture.nativeElement;
+    const image = element.querySelector(`a[href="/profile/${article.author.username}"] > img`)!;
     expect(image)
-      .withContext('You should have an image for the author inside an `a` element')
+      .withContext('You need an image for the author inside an `a` element')
       .not.toBeNull();
-    expect(image.nativeElement.getAttribute('src'))
+    expect(image.getAttribute('src'))
       .withContext('The `src` attribute of the image is not correct')
       .toBe(article.author.image);
-    expect(image.nativeElement.getAttribute('width'))
+    expect(image.getAttribute('width'))
       .withContext('The `width` attribute of the image is not correct')
       .toBe('32');
-    expect(image.nativeElement.getAttribute('height'))
+    expect(image.getAttribute('height'))
       .withContext('The `height` attribute of the image is not correct')
       .toBe('32');
-    expect(image.nativeElement.getAttribute('alt'))
+    expect(image.getAttribute('alt'))
       .withContext('The `alt` attribute of the image is not correct')
       .toBe(article.author.username);
   });
 
   it('should display an article info', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const authorName = element.query(By.css('a[data-test="article-author-name"]'));
-    expect(authorName)
-      .withContext('You should have an `a` element for the author name')
-      .not.toBeNull();
-    expect(authorName.nativeElement.getAttribute('href'))
+    const authorName = element.querySelector('a[data-test=article-author-name]')!;
+    expect(authorName).withContext('You need an `a` element for the author name').not.toBeNull();
+    expect(authorName.getAttribute('href'))
       .withContext('The `href` attribute of the `a` element is not correct')
       .toBe(`/profile/${article.author.username}`);
-    expect(authorName.nativeElement.textContent)
+    expect(authorName.textContent)
       .withContext('The `a` element should contain the author name')
       .toContain(article.author.username);
 
-    const date = element.query(By.css('p[data-test="article-created-date"]'));
-    expect(date)
-      .withContext('You should have a `p` element for the article created date')
-      .not.toBeNull();
-    expect(date.nativeElement.textContent)
-      .withContext('You should have a `time` element inside the `p` element')
+    const date = element.querySelector('p[data-test=article-created-date]')!;
+    expect(date).withContext('You need a `p` element for the article created date').not.toBeNull();
+    expect(date.textContent)
+      .withContext('You need a `time` element inside the `p` element')
       .toContain('Published on Oct 8, 2024');
 
-    const time = element.query(By.css('p[data-test="article-created-date"] > time'));
-    expect(time).withContext('You should have a `time` element to display the date').not.toBeNull();
-    expect(time.nativeElement.textContent)
+    const time = element.querySelector('p[data-test=article-created-date] > time')!;
+    expect(time).withContext('You need a `time` element for the date').not.toBeNull();
+    expect(time.textContent)
       .withContext('You should use `DatePipe` to format the date')
       .toContain('Oct 8, 2024');
   });
@@ -91,46 +87,40 @@ describe('ArticlePreviewComponent', () => {
   it('should use FavoriteButtonComponent', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(FavoriteButtonComponent)))
-      .withContext('You should have `FavoriteButtonComponent` to display a favorite button')
+      .withContext('You need `FavoriteButtonComponent` for a favorite button')
       .not.toBeNull();
   });
 
   it('should display an article preview', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const title = element.query(By.css(`h3 > a[href="/article/${article.slug}"]`));
+    const title = element.querySelector(`h3 > a[href="/article/${article.slug}"]`)!;
     expect(title)
-      .withContext('You should have an `a` element inside an `h3` element for the title')
+      .withContext('You need an `a` element inside an `h3` element for the title')
       .not.toBeNull();
-    expect(title.nativeElement.textContent)
-      .withContext('The title should have a text')
-      .toContain(article.title);
+    expect(title.textContent).withContext('The title should have a text').toContain(article.title);
 
-    const description = element.query(By.css('p[data-test="article-description"]'));
-    expect(description)
-      .withContext('You should have a `p` element for the description')
-      .not.toBeNull();
-    expect(description.nativeElement.textContent)
+    const description = element.querySelector('p[data-test=article-description]')!;
+    expect(description).withContext('You need a `p` element for the description').not.toBeNull();
+    expect(description.textContent)
       .withContext('The description should have a text')
       .toContain(article.description);
 
-    const readMoreLink = element.query(By.css('a[data-test="article-details-link"]'));
+    const readMoreLink = element.querySelector('a[data-test=article-details-link]')!;
     expect(readMoreLink)
-      .withContext('You should have an `a` element that links to the full article')
+      .withContext('You need an `a` element that links to the full article')
       .not.toBeNull();
-    expect(readMoreLink.nativeElement.getAttribute('href'))
+    expect(readMoreLink.getAttribute('href'))
       .withContext('The `href` attribute of the `a` element is not correct')
       .toBe(`/article/${article.slug}`);
-    expect(readMoreLink.nativeElement.textContent).toContain('Read more');
+    expect(readMoreLink.textContent).toContain('Read more');
 
-    const tagList = element.query(By.directive(TagListComponent));
-    expect(tagList)
-      .withContext('You should have `TagListComponent` to display the list of tags')
-      .not.toBeNull();
+    const tagList = fixture.debugElement.query(By.directive(TagListComponent));
+    expect(tagList).withContext('You need `TagListComponent` for the list of tags').not.toBeNull();
 
-    const tagNames = element.queryAll(By.css('li'));
-    expect(tagNames.length).withContext('You should have two tags displayed').toBe(2);
-    expect(tagNames[0].nativeElement.textContent).toContain(article.tagList[0]);
-    expect(tagNames[1].nativeElement.textContent).toContain(article.tagList[1]);
+    const tagNames = element.querySelectorAll('li');
+    expect(tagNames.length).withContext('You need two tags displayed').toBe(2);
+    expect(tagNames[0].textContent).toContain(article.tagList[0]);
+    expect(tagNames[1].textContent).toContain(article.tagList[1]);
   });
 });

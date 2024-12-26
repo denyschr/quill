@@ -6,7 +6,6 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { By } from '@angular/platform-browser';
 
 @Component({
-  standalone: true,
   template: `
     <form [formGroup]="userForm">
       <div class="mb-3">
@@ -15,7 +14,8 @@ import { By } from '@angular/platform-browser';
       </div>
     </form>
   `,
-  imports: [ReactiveFormsModule, FormControlValidationDirective]
+  standalone: true,
+  imports: [ReactiveFormsModule]
 })
 class FormTestComponent {
   public fb = inject(NonNullableFormBuilder);
@@ -35,33 +35,33 @@ describe('FormControlValidationDirective', () => {
   });
 
   it('should add the is-invalid CSS class', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const directive = element.query(By.directive(FormControlValidationDirective));
+    const directive = fixture.debugElement.query(By.directive(FormControlValidationDirective));
     expect(directive)
       .withContext('The directive should be applied to an element with a class `form-control`')
       .not.toBeNull();
 
-    const lastName = element.query(By.css('#lastName'));
-    expect(lastName.nativeElement.classList).not.toContain('is-invalid');
+    const lastName = element.querySelector<HTMLInputElement>('#lastName')!;
+    expect(lastName.classList).not.toContain('is-invalid');
 
-    lastName.nativeElement.value = 'Whatever';
-    lastName.nativeElement.dispatchEvent(new Event('input'));
-    lastName.nativeElement.dispatchEvent(new Event('blur'));
+    lastName.value = 'Whatever';
+    lastName.dispatchEvent(new Event('input'));
+    lastName.dispatchEvent(new Event('blur'));
     fixture.detectChanges();
 
-    expect(lastName.nativeElement.classList).not.toContain('is-invalid');
+    expect(lastName.classList).not.toContain('is-invalid');
 
-    lastName.nativeElement.value = '';
-    lastName.nativeElement.dispatchEvent(new Event('input'));
+    lastName.value = '';
+    lastName.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(lastName.nativeElement.classList).toContain('is-invalid');
+    expect(lastName.classList).toContain('is-invalid');
 
-    lastName.nativeElement.value = 'Whatever';
-    lastName.nativeElement.dispatchEvent(new Event('input'));
+    lastName.value = 'Whatever';
+    lastName.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(lastName.nativeElement.classList).not.toContain('is-invalid');
+    expect(lastName.classList).not.toContain('is-invalid');
   });
 });

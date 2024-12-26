@@ -49,7 +49,7 @@ describe('HomeComponent', () => {
   it('should show feed tabs', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(FeedTabsComponent)))
-      .withContext('You should use the `FeedTabsComponent` in your template to display the tabs')
+      .withContext('You need `FeedTabsComponent` for the tabs')
       .not.toBeNull();
   });
 
@@ -70,16 +70,14 @@ describe('HomeComponent', () => {
   it('should display a list of articles', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(ArticleListComponent)))
-      .withContext(
-        'You should use the `ArticleListComponent` in your template to display a list of articles'
-      )
+      .withContext('You need `ArticleListComponent` for a list of articles')
       .not.toBeNull();
   });
 
   it('should display tags', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(TagsComponent)))
-      .withContext('You should use the `TagsComponent` in your template to display tags')
+      .withContext('You need `TagsComponent` for tags')
       .not.toBeNull();
   });
 

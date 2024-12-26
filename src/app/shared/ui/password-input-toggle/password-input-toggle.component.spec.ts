@@ -7,7 +7,6 @@ import { NgbTooltip, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { IconButtonComponent } from '@shared/ui/icon-button';
 
 @Component({
-  standalone: true,
   template: `
     <form>
       <label>Password</label>
@@ -15,6 +14,7 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
       <ql-password-input-toggle [input]="inputElement" />
     </form>
   `,
+  standalone: true,
   imports: [PasswordInputToggleComponent]
 })
 class PasswordInputToggleTestComponent {}
@@ -33,13 +33,13 @@ describe('PasswordInputToggleComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should display a button with a tooltip and icon', () => {
-    const element = fixture.debugElement;
+  it('should display a button with a tooltip and an icon', () => {
+    const element: HTMLElement = fixture.nativeElement;
 
-    const button = element.query(By.css('button'));
+    const button = element.querySelector('button');
     expect(button).withContext('No `button` element to toggle the password').not.toBeNull();
 
-    const tooltip = element.query(By.directive(NgbTooltip));
+    const tooltip = fixture.debugElement.query(By.directive(NgbTooltip));
     expect(tooltip)
       .withContext('The `button` element should use the `ngbTooltip` directive')
       .not.toBeNull();
@@ -52,43 +52,39 @@ describe('PasswordInputToggleComponent', () => {
       .withContext('The tooltip should be placed at the bottom')
       .toBe('bottom');
 
-    const iconButton = element.query(By.directive(IconButtonComponent));
+    const iconButton = fixture.debugElement.query(By.directive(IconButtonComponent));
     expect(iconButton)
-      .withContext(
-        'You should have the `IconButtonComponent` inside the `button` element to display an icon'
-      )
+      .withContext('You need `IconButtonComponent` inside the `button` element for an icon')
       .not.toBeNull();
   });
 
   it('should toggle password visibility on click', () => {
-    const element = fixture.debugElement;
+    const element: HTMLElement = fixture.nativeElement;
 
-    const input = element.query(By.css('input'));
-    expect(input.nativeElement.type)
+    const input = element.querySelector<HTMLInputElement>('input')!;
+    expect(input.type)
       .withContext('The input should be of type `password` by default')
       .toBe('password');
 
-    const iconButtonComponent = element.query(By.directive(IconButtonComponent))
+    const iconButtonComponent = fixture.debugElement.query(By.directive(IconButtonComponent))
       .componentInstance as IconButtonComponent;
     expect(iconButtonComponent.icon).withContext(
       'The icon should have the `bi-eye-slash` class by default'
     );
 
-    const button = element.query(By.css('button'));
-    button.nativeElement.click();
+    const button = element.querySelector('button')!;
+    button.click();
     fixture.detectChanges();
 
-    expect(input.nativeElement.type)
-      .withContext('The input should be of type `text` if toggled')
-      .toBe('text');
+    expect(input.type).withContext('The input should be of type `text` if toggled').toBe('text');
     expect(iconButtonComponent.icon)
       .withContext('The icon should have the `bi-eye` class if toggled')
       .toContain('bi-eye');
 
-    button.nativeElement.click();
+    button.click();
     fixture.detectChanges();
 
-    expect(input.nativeElement.type)
+    expect(input.type)
       .withContext('The input should be of type `password` if toggled twice')
       .toBe('password');
     expect(iconButtonComponent.icon)
