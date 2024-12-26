@@ -7,7 +7,6 @@ import { LetDirective } from '@ngrx/component';
 
 @Component({
   selector: 'ql-layout',
-  standalone: true,
   template: `
     <ng-container *ngrxLet="currentUser$ as currentUser">
       @if (currentUser !== undefined) {
@@ -20,6 +19,7 @@ import { LetDirective } from '@ngrx/component';
       }
     </ng-container>
   `,
+  standalone: true,
   imports: [RouterOutlet, LetDirective, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

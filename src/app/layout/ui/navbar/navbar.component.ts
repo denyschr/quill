@@ -5,7 +5,6 @@ import { User } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-navbar',
-  standalone: true,
   template: `
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container">
@@ -65,6 +64,7 @@ import { User } from '@shared/data-access/models';
       </div>
     </nav>
   `,
+  standalone: true,
   imports: [RouterLink, RouterLinkActive, NgbCollapse],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

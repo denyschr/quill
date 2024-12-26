@@ -32,7 +32,7 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display a navbar', () => {
+  it('should display the navbar component', () => {
     const element: HTMLElement = fixture.nativeElement;
 
     const header = element.querySelector('header')!;
