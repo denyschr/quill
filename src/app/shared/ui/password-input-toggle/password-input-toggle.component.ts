@@ -4,7 +4,6 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
 
 @Component({
   selector: 'ql-password-input-toggle',
-  standalone: true,
   template: `
     <button
       type="button"
@@ -15,6 +14,7 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
       (click)="toggle()"
     ></button>
   `,
+  standalone: true,
   styles: [
     `
       button {
