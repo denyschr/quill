@@ -21,7 +21,7 @@ describe('LayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [LayoutComponent],
       providers: [provideRouter([]), provideMockStore({ initialState })]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
@@ -32,30 +32,23 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a header and navbar', () => {
-    const element = fixture.debugElement;
+  it('should display a navbar', () => {
+    const element: HTMLElement = fixture.nativeElement;
 
-    const header = element.query(By.css('header'));
-    expect(header)
-      .withContext('You should have a `header` element in your template')
-      .not.toBeNull();
-    expect(header.nativeElement.classList)
+    const header = element.querySelector('header')!;
+    expect(header).withContext('You need a `header` element for the navbar').not.toBeNull();
+    expect(header.classList)
       .withContext('The `header` element should be fixed at the top of the page')
       .toContain('fixed-top');
-
-    expect(element.query(By.directive(NavbarComponent)))
-      .withContext(
-        'You should have the `NavbarComponent` inside the `header` element to display a navbar'
-      )
+    expect(fixture.debugElement.query(By.directive(NavbarComponent)))
+      .withContext('You need `NavbarComponent` inside the `header` element for the navbar')
       .not.toBeNull();
   });
 
   it('should have a router outlet', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(RouterOutlet)))
-      .withContext(
-        'You should have a `RouterOutlet` component inside a `main` element to display routed components'
-      )
+      .withContext('You need a `RouterOutlet` component in your template')
       .not.toBeNull();
   });
 });

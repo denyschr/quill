@@ -56,15 +56,6 @@ import { User } from '@shared/data-access/models';
                   [routerLink]="['/profile', currentUser.username]"
                   routerLinkActive="active"
                 >
-                  @if (currentUser.image) {
-                    <img
-                      class="rounded-circle me-1"
-                      width="26"
-                      height="26"
-                      [src]="currentUser.image"
-                      [alt]="currentUser.username"
-                    />
-                  }
                   {{ currentUser.username }}
                 </a>
               </li>

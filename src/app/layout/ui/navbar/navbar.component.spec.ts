@@ -96,22 +96,6 @@ describe('NavbarComponent', () => {
       .toContain(currentUser.username);
   });
 
-  it('should display an image of the user if available', () => {
-    currentUser = { username: 'username', image: 'image' } as User;
-    fixture.componentRef.setInput('currentUser', currentUser);
-    fixture.detectChanges();
-
-    const element = fixture.debugElement;
-
-    const userImage = element.query(By.css(`img[src="${currentUser.image}"]`));
-    expect(userImage)
-      .withContext('You should have an `img` element to display the image of the user')
-      .not.toBeNull();
-    expect(userImage.nativeElement.getAttribute('alt'))
-      .withContext('The `alt` attribute of the image is not correct')
-      .toBe(currentUser.username);
-  });
-
   it('should display correct routerLink if not authenticated', () => {
     currentUser = null;
     fixture.componentRef.setInput('currentUser', currentUser);

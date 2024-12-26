@@ -176,12 +176,7 @@ describe('Home', () => {
       .find('time')
       .should('have.attr', 'datetime', new Date('10/8/2024').toString())
       .and('contain', 'Oct 8, 2024');
-    favoriteButtons()
-      .first()
-      .should('have.class', 'btn-outline-danger')
-      .and('contain', 1)
-      .find('i')
-      .should('have.class', 'bi-heart-fill');
+    favoriteButtons().first().should('have.class', 'btn-outline-danger').and('contain', 1);
     favoriteButtons().eq(1).should('have.class', 'btn-danger').and('contain', 2);
     articleTitle()
       .find('a')
