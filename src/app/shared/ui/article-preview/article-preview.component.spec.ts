@@ -62,7 +62,7 @@ describe('ArticlePreviewComponent', () => {
   it('should display an article info', () => {
     const element: HTMLElement = fixture.nativeElement;
 
-    const authorName = element.querySelector('a[data-test="article-author-name"]')!;
+    const authorName = element.querySelector('a[data-test=article-author-name]')!;
     expect(authorName).withContext('You need an `a` element for the author name').not.toBeNull();
     expect(authorName.getAttribute('href'))
       .withContext('The `href` attribute of the `a` element is not correct')
@@ -71,13 +71,13 @@ describe('ArticlePreviewComponent', () => {
       .withContext('The `a` element should contain the author name')
       .toContain(article.author.username);
 
-    const date = element.querySelector('p[data-test="article-created-date"]')!;
+    const date = element.querySelector('p[data-test=article-created-date]')!;
     expect(date).withContext('You need a `p` element for the article created date').not.toBeNull();
     expect(date.textContent)
       .withContext('You need a `time` element inside the `p` element')
       .toContain('Published on Oct 8, 2024');
 
-    const time = element.querySelector('p[data-test="article-created-date"] > time')!;
+    const time = element.querySelector('p[data-test=article-created-date] > time')!;
     expect(time).withContext('You need a `time` element for the date').not.toBeNull();
     expect(time.textContent)
       .withContext('You should use `DatePipe` to format the date')
@@ -100,13 +100,13 @@ describe('ArticlePreviewComponent', () => {
       .not.toBeNull();
     expect(title.textContent).withContext('The title should have a text').toContain(article.title);
 
-    const description = element.querySelector('p[data-test="article-description"]')!;
+    const description = element.querySelector('p[data-test=article-description]')!;
     expect(description).withContext('You need a `p` element for the description').not.toBeNull();
     expect(description.textContent)
       .withContext('The description should have a text')
       .toContain(article.description);
 
-    const readMoreLink = element.querySelector('a[data-test="article-details-link"]')!;
+    const readMoreLink = element.querySelector('a[data-test=article-details-link]')!;
     expect(readMoreLink)
       .withContext('You need an `a` element that links to the full article')
       .not.toBeNull();

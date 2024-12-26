@@ -34,13 +34,13 @@ describe('NavbarComponent', () => {
   it('should toggle the class on click', () => {
     const element: HTMLElement = fixture.nativeElement;
 
-    const navbarCollapsed = element.querySelector('[data-test="navbar"]')!;
+    const navbarCollapsed = element.querySelector('[data-test=navbar]')!;
     expect(navbarCollapsed)
-      .withContext('No element with the attribute `data-test="navbar"`')
+      .withContext('No element with the attribute `data-test=navbar`')
       .not.toBeNull();
     expect(navbarCollapsed.classList)
       .withContext(
-        'The element with the attribute `data-test="navbar"` should use the `ngbCollapse` directive'
+        'The element with the attribute `data-test=navbar` should use the `ngbCollapse` directive'
       )
       .not.toContain('show');
 
@@ -51,7 +51,7 @@ describe('NavbarComponent', () => {
 
     expect(navbarCollapsed.classList)
       .withContext(
-        'The element with the attribute `data-test="navbar"` should use the `ngbCollapse` directive'
+        'The element with the attribute `data-test=navbar` should use the `ngbCollapse` directive'
       )
       .toContain('show');
   });

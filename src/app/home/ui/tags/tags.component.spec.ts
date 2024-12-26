@@ -33,7 +33,7 @@ describe('TagsComponent', () => {
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('div[data-test="tags-loading"]')!;
+    const message = element.querySelector('div[data-test=tags-loading]')!;
     expect(message).withContext('You need a `div` element for a loading message').not.toBeNull();
     expect(message.textContent).toContain('Loading tags...');
   });
@@ -53,7 +53,7 @@ describe('TagsComponent', () => {
 
   it('should display an empty message if there is no tags and status is not loading', () => {
     const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('div[data-test="no-tags"]')!;
+    const message = element.querySelector('div[data-test=no-tags]')!;
     expect(message).withContext('You need a `div` element for an empty message').not.toBeNull();
     expect(message.textContent).toContain('No tags found');
   });
