@@ -1,30 +1,30 @@
-/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TagListComponent } from './tag-list.component';
 
-@Component({
-  standalone: true,
-  template: `<ql-tag-list [tags]="tags" />`,
-  imports: [TagListComponent]
-})
-class TagListTestComponent {
-  public tags = ['foo', 'bar', 'ipsum'];
-}
-
 describe('TagListComponent', () => {
-  let fixture: ComponentFixture<TagListTestComponent>;
+  let component: TagListComponent;
+  let fixture: ComponentFixture<TagListComponent>;
+
+  const tags = ['tag one', 'tag two'];
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
 
-    fixture = TestBed.createComponent(TagListTestComponent);
+    fixture = TestBed.createComponent(TagListComponent);
+    component = fixture.componentInstance;
+    fixture.componentRef.setInput('tags', tags);
     fixture.detectChanges();
   });
 
-  it('should render a list of tags', () => {
-    const element = fixture.nativeElement as HTMLElement;
-    const tags = element.querySelectorAll<HTMLLIElement>('li');
-    expect(tags.length).withContext('You should have 3 `li` elements displayed').toBe(3);
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display a list of tags', () => {
+    const element: HTMLElement = fixture.nativeElement;
+    const tagNames = element.querySelectorAll('li');
+    expect(tagNames.length).withContext('You need three `li` elements for tag names').toBe(2);
+    expect(tagNames[0].textContent).toContain('tag one');
+    expect(tagNames[1].textContent).toContain('tag two');
   });
 });
