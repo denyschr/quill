@@ -7,11 +7,11 @@ import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
 
 @Component({
   selector: 'ql-root',
-  standalone: true,
   template: `
     <router-outlet />
     <ql-validation-defaults />
   `,
+  standalone: true,
   imports: [RouterOutlet, ValidationDefaultsComponent]
 })
 export class AppComponent implements OnInit {
