@@ -6,13 +6,11 @@ import { Article } from '@shared/data-access/models';
 export interface ArticleState {
   article: Article | null;
   loading: boolean;
-  error: string | null;
 }
 
 const initialState: ArticleState = {
   article: null,
-  loading: false,
-  error: null
+  loading: false
 };
 
 const articleFeature = createFeature({
@@ -20,14 +18,14 @@ const articleFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      articleActions.getArticle,
+      articleActions.loadArticle,
       (state): ArticleState => ({
         ...state,
         loading: true
       })
     ),
     on(
-      articleActions.getArticleSuccess,
+      articleActions.loadArticleSuccess,
       (state, { article }): ArticleState => ({
         ...state,
         article: article,
@@ -35,11 +33,10 @@ const articleFeature = createFeature({
       })
     ),
     on(
-      articleActions.getArticleFailure,
-      (state, { error }): ArticleState => ({
+      articleActions.loadArticleFailure,
+      (state): ArticleState => ({
         ...state,
-        loading: false,
-        error: error
+        loading: false
       })
     ),
     on(routerNavigationAction, (): ArticleState => initialState)
@@ -50,6 +47,5 @@ export const {
   name: articleFeatureKey,
   reducer: articleReducer,
   selectArticle,
-  selectLoading,
-  selectError
+  selectLoading
 } = articleFeature;

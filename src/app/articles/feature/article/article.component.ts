@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { articleActions, selectArticle } from '@article/data-access/state';
+import { articleActions, selectArticle } from '@articles/data-access/state/article';
 import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -85,7 +85,7 @@ export default class ArticleComponent implements OnInit {
   constructor(private store: Store) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(articleActions.getArticle({ slug: this.slug }));
+    this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
   }
 
   public deleteArticle(): void {

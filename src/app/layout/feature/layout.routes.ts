@@ -1,7 +1,11 @@
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
-import { articleEffects, articleFeatureKey, articleReducer } from '@article/data-access/state';
+import {
+  articleEffects,
+  articleFeatureKey,
+  articleReducer
+} from '@articles/data-access/state/article';
 import { settingsFeatureKey, settingsReducer } from '@settings/data-access/state';
 
 export const LAYOUT_ROUTES: Route[] = [
@@ -19,7 +23,7 @@ export const LAYOUT_ROUTES: Route[] = [
   },
   {
     path: 'article/:slug',
-    loadComponent: () => import('../../article/feature/article.component'),
+    loadComponent: () => import('../../articles/feature/article/article.component'),
     providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
   },
   {

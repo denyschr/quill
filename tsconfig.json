@@ -41,10 +41,11 @@
       "@articles/data-access/state/article-list": [
         "src/app/articles/data-access/state/article-list/index.ts"
       ],
+      "@articles/data-access/state/article": [
+        "src/app/articles/data-access/state/article/index.ts"
+      ],
       "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
-
-      "@article/data-access/state": ["src/app/article/data-access/state/index.ts"],
-      "@article/feature": ["src/app/article/feature/index.ts"],
+      "@articles/feature/article": ["src/app/articles/feature/article/index.ts"],
 
       "@editor/data-access/state/new-article": [
         "src/app/editor/data-access/state/new-article/index.ts"
