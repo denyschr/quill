@@ -8,7 +8,7 @@ export interface ArticleState {
   loading: boolean;
 }
 
-const initialState: ArticleState = {
+export const articleInitialState: ArticleState = {
   article: null,
   loading: false
 };
@@ -16,7 +16,7 @@ const initialState: ArticleState = {
 const articleFeature = createFeature({
   name: 'article',
   reducer: createReducer(
-    initialState,
+    articleInitialState,
     on(
       articleActions.loadArticle,
       (state): ArticleState => ({
@@ -39,7 +39,7 @@ const articleFeature = createFeature({
         loading: false
       })
     ),
-    on(routerNavigationAction, (): ArticleState => initialState)
+    on(routerNavigationAction, (): ArticleState => articleInitialState)
   )
 });
 
