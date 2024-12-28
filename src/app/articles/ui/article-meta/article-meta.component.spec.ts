@@ -1,35 +1,28 @@
+import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArticlePreviewComponent } from './article-preview.component';
 import { Article } from '@shared/data-access/models';
 import { provideRouter } from '@angular/router';
-import { provideMockStore } from '@ngrx/store/testing';
-import { By } from '@angular/platform-browser';
-import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
-import { TagListComponent } from '@shared/ui/tag-list';
+import { ArticleMetaComponent } from './article-meta.component';
 
-describe('ArticlePreviewComponent', () => {
-  let component: ArticlePreviewComponent;
+describe('ArticleMetaComponent', () => {
+  let component: ArticleMetaComponent;
   let fixture: ComponentFixture<ArticlePreviewComponent>;
 
   const article = {
-    slug: 'title-one',
-    title: 'title',
-    description: 'description',
     createdAt: new Date('10/8/2024').toString(),
     author: {
       image: 'image',
       username: 'username'
-    },
-    tagList: ['tag one', 'tag two']
+    }
   } as Article;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ArticlePreviewComponent],
-      providers: [provideRouter([]), provideMockStore()]
+      imports: [ArticleMetaComponent],
+      providers: [provideRouter([])]
     });
 
-    fixture = TestBed.createComponent(ArticlePreviewComponent);
+    fixture = TestBed.createComponent(ArticleMetaComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('article', article);
     fixture.detectChanges();
@@ -82,45 +75,5 @@ describe('ArticlePreviewComponent', () => {
     expect(time.textContent)
       .withContext('You need the `date` pipe to format the date')
       .toContain('Oct 8, 2024');
-  });
-
-  it('should use FavoriteButtonComponent', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(FavoriteButtonComponent)))
-      .withContext('You need `FavoriteButtonComponent` for a favorite button')
-      .not.toBeNull();
-  });
-
-  it('should display an article preview', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    const title = element.querySelector(`h3 > a[href="/article/${article.slug}"]`)!;
-    expect(title)
-      .withContext('You need an `a` element inside an `h3` element for the title')
-      .not.toBeNull();
-    expect(title.textContent).withContext('The title should have a text').toContain(article.title);
-
-    const description = element.querySelector('p[data-test=article-description]')!;
-    expect(description).withContext('You need a `p` element for the description').not.toBeNull();
-    expect(description.textContent)
-      .withContext('The description should have a text')
-      .toContain(article.description);
-
-    const readMoreLink = element.querySelector('a[data-test=article-details-link]')!;
-    expect(readMoreLink)
-      .withContext('You need an `a` element that links to the full article')
-      .not.toBeNull();
-    expect(readMoreLink.getAttribute('href'))
-      .withContext('The `href` attribute of the `a` element is not correct')
-      .toBe(`/article/${article.slug}`);
-    expect(readMoreLink.textContent).toContain('Read more');
-
-    const tagList = fixture.debugElement.query(By.directive(TagListComponent));
-    expect(tagList).withContext('You need `TagListComponent` for the list of tags').not.toBeNull();
-
-    const tagNames = element.querySelectorAll('li');
-    expect(tagNames.length).withContext('You need two tags displayed').toBe(2);
-    expect(tagNames[0].textContent).toContain(article.tagList[0]);
-    expect(tagNames[1].textContent).toContain(article.tagList[1]);
   });
 });
