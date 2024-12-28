@@ -6,10 +6,10 @@ import { Store } from '@ngrx/store';
 import { TagListComponent } from '@shared/ui/tag-list';
 import { combineLatest, filter, map } from 'rxjs';
 import { RouterLink } from '@angular/router';
-import { DatePipe, NgOptimizedImage } from '@angular/common';
+import { ArticleMetaComponent } from '@articles/ui/article-meta';
+import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 
 @Component({
-  selector: 'ql-article',
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       @let article = vm.article;
@@ -17,13 +17,12 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
       @if (article) {
         <div class="bg-dark">
           <div class="container py-4">
-            @if (vm.owner) {
-              <div class="d-flex justify-content-end column-gap-2">
+            <div class="d-flex justify-content-end column-gap-2">
+              @if (vm.owner) {
                 <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
                   <i class="bi bi-pencil-square"></i>
                   Edit
                 </a>
-
                 <button
                   type="button"
                   class="btn btn-sm btn-danger"
@@ -33,39 +32,13 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
                   <i class="bi bi-trash3"></i>
                   Delete
                 </button>
-              </div>
-            }
-
-            <h1 class="text-white text-center">{{ article.title }}</h1>
-            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-              <a
-                data-test="article-author-image"
-                [routerLink]="['/profile', article.author.username]"
-              >
-                <img
-                  class="rounded-circle"
-                  [ngSrc]="article.author.image"
-                  width="32"
-                  height="32"
-                  [alt]="article.author.username"
-                />
-              </a>
-              <div>
-                <a
-                  data-test="article-author-name"
-                  class="fs-5 link-light text-decoration-none"
-                  [routerLink]="['/profile', article.author.username]"
-                >
-                  {{ article.author.username }}
-                </a>
-                <p data-test="article-created-date" class="mb-0 text-white">
-                  Published on
-                  <time [attr.datetime]="article.createdAt">{{
-                    article.createdAt | date: 'MMM d, y'
-                  }}</time>
-                </p>
-              </div>
+              } @else {
+                <ql-favorite-button />
+              }
             </div>
+            <h1 class="text-white text-center">{{ article.title }}</h1>
+
+            <ql-article-meta [article]="article" />
           </div>
         </div>
 
@@ -82,15 +55,14 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
       }
     </ng-container>
   `,
-  styles: [
-    `
-      p:has(time) {
-        font-size: 0.875rem;
-      }
-    `
-  ],
   standalone: true,
-  imports: [RouterLink, LetDirective, DatePipe, TagListComponent, NgOptimizedImage],
+  imports: [
+    RouterLink,
+    LetDirective,
+    ArticleMetaComponent,
+    TagListComponent,
+    FavoriteButtonComponent
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleComponent implements OnInit {

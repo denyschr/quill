@@ -169,7 +169,7 @@ describe('AuthEffects', () => {
   });
 
   describe('registerOrLoginSuccess$', () => {
-    it('should redirect to the home page on registration success', done => {
+    it('should navigate to the home page on registration success', done => {
       actions$ = of(authActions.registerSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
@@ -181,7 +181,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should redirect to the home page on login success', done => {
+    it('should navigate to the home page on login success', done => {
       actions$ = of(authActions.loginSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
@@ -195,7 +195,7 @@ describe('AuthEffects', () => {
   });
 
   describe('logout$', () => {
-    it('should remove the token and redirect to the home page on logout', done => {
+    it('should remove the token and navigate to the home page on logout', done => {
       actions$ = of(authActions.logout);
 
       TestBed.runInInjectionContext(() => {

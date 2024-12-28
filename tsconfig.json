@@ -46,6 +46,7 @@
       ],
       "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
       "@articles/feature/article": ["src/app/articles/feature/article/index.ts"],
+      "@articles/ui/article-meta": ["src/app/articles/ui/article-meta/index.ts"],
 
       "@editor/data-access/state/new-article": [
         "src/app/editor/data-access/state/new-article/index.ts"

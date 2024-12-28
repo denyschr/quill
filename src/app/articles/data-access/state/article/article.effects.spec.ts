@@ -60,7 +60,7 @@ describe('ArticleEffects', () => {
   });
 
   describe('loadArticleFailure$', () => {
-    it('should redirect to the home page on article loading failure', done => {
+    it('should navigate to the home page on article loading failure', done => {
       actions$ = of(articleActions.loadArticleFailure);
 
       TestBed.runInInjectionContext(() => {
@@ -99,7 +99,7 @@ describe('ArticleEffects', () => {
   });
 
   describe('deleteArticleSuccess$', () => {
-    it('should redirect to the home page on article deleting success', done => {
+    it('should navigate to the home page on article deleting success', done => {
       actions$ = of(articleActions.deleteArticleSuccess);
 
       TestBed.runInInjectionContext(() => {
