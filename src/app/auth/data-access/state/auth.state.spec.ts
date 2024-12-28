@@ -36,7 +36,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should add the user and have no errors or loading state if success', () => {
+    it('should retrieve the user and set loading to false on success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -50,7 +50,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should set currentUser to null and have no loading state if failed', () => {
+    it('should set currentUser to null and loading to false on failure', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -66,7 +66,7 @@ describe('AuthState', () => {
   });
 
   describe('updateCurrentUser action', () => {
-    it('should update the user if success', () => {
+    it('should update the user on success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -99,7 +99,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should have no errors and no submitting state if success', () => {
+    it('should register the user and set submitting to false on success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -113,7 +113,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should have errors and no submitting state if failed', () => {
+    it('should have errors and set submitting to false on failure', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -146,7 +146,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should have no errors and no submitting state if success', () => {
+    it('should login the user and set submitting to false on success', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -160,7 +160,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(initialState);
     });
 
-    it('should have errors and no submitting state', () => {
+    it('should have errors and set submitting to false on failure', () => {
       const { initialState } = fromAuth;
       const newState = {
         ...initialState,
@@ -191,7 +191,7 @@ describe('AuthState', () => {
   });
 
   describe('routerNavigated action', () => {
-    it('should clean up errors after navigation', () => {
+    it('should reset the error state to null on navigation', () => {
       const { initialState } = fromAuth;
       const state = fromAuth.authReducer(initialState, routerNavigatedAction);
       expect(state).toEqual(initialState);
