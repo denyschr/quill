@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { articleActions, selectArticle } from '@articles/data-access/state/article';
 import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleMetaComponent } from '@shared/ui/article-meta';
 import { TagListComponent } from '@shared/ui/tag-list';
 import { combineLatest, filter, map } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'ql-article',
-  standalone: true,
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       @let article = vm.article;
@@ -18,48 +17,83 @@ import { combineLatest, filter, map } from 'rxjs';
       @if (article) {
         <div class="bg-dark">
           <div class="container py-4">
-            <h1 class="text-white">{{ article.title }}</h1>
+            @if (vm.owner) {
+              <div class="d-flex justify-content-end column-gap-2">
+                <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
+                  <i class="bi bi-pencil-square"></i>
+                  Edit
+                </a>
 
-            <ql-article-meta [author]="article.author" [createdAt]="article.createdAt">
-              @if (vm.owner) {
-                <div class="d-flex column-gap-2">
-                  <a class="btn btn-secondary btn-sm" [routerLink]="['/editor', article.slug]">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit
-                  </a>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  [disabled]="deleting"
+                  (click)="deleteArticle()"
+                >
+                  <i class="bi bi-trash3"></i>
+                  Delete
+                </button>
+              </div>
+            }
 
-                  <button
-                    type="button"
-                    class="btn btn-danger btn-sm"
-                    [disabled]="deleting"
-                    (click)="deleteArticle()"
-                  >
-                    <i class="bi bi-trash3"></i>
-                    Delete
-                  </button>
-                </div>
+            <h1 class="text-white text-center">{{ article.title }}</h1>
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+              <a
+                data-test="article-author-image"
+                [routerLink]="['/profile', article.author.username]"
+              >
+                <img
+                  class="rounded-circle"
+                  [ngSrc]="article.author.image"
+                  width="32"
+                  height="32"
+                  [alt]="article.author.username"
+                />
+              </a>
+              <div>
+                <a
+                  data-test="article-author-name"
+                  class="fs-5 link-light text-decoration-none"
+                  [routerLink]="['/profile', article.author.username]"
+                >
+                  {{ article.author.username }}
+                </a>
+                <p data-test="article-created-date" class="mb-0 text-white">
+                  Published on
+                  <time [attr.datetime]="article.createdAt">{{
+                    article.createdAt | date: 'MMM d, y'
+                  }}</time>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container py-3">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <p class="lead">{{ article.body }}</p>
+              @if (article.tagList.length) {
+                <ql-tag-list [tags]="article.tagList" />
               }
-            </ql-article-meta>
+            </div>
           </div>
         </div>
       }
-
-      <div class="container py-3">
-        @if (article) {
-          <div class="pb-4 border-bottom">
-            <p class="mb-4 fs-5">{{ article.body }}</p>
-            <ql-tag-list [tags]="article.tagList" />
-          </div>
-        }
-      </div>
     </ng-container>
   `,
-  imports: [RouterLink, LetDirective, ArticleMetaComponent, TagListComponent],
+  styles: [
+    `
+      p:has(time) {
+        font-size: 0.875rem;
+      }
+    `
+  ],
+  standalone: true,
+  imports: [RouterLink, LetDirective, DatePipe, TagListComponent, NgOptimizedImage],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleComponent implements OnInit {
-  public deleting = false;
-
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store
@@ -78,6 +112,8 @@ export default class ArticleComponent implements OnInit {
     article: this.store.select(selectArticle),
     owner: this.owner$
   });
+
+  public deleting = false;
 
   @Input()
   public slug!: string;

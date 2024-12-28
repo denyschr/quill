@@ -69,7 +69,7 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
         font-size: 0.875rem;
       }
 
-      h3 a:hover {
+      h3 > a:hover {
         color: var(--bs-primary) !important;
       }
     `
