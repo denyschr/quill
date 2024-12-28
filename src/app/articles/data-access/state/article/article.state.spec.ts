@@ -60,7 +60,7 @@ describe('ArticleState', () => {
   });
 
   describe('routerNavigationAction', () => {
-    it('should reset the state to the initial state on navigation', () => {
+    it('should reset the state to its initial values on navigation', () => {
       const { articleInitialState } = fromArticle;
       const state = fromArticle.articleReducer(articleInitialState, routerNavigationAction);
       expect(state).toEqual(articleInitialState);
