@@ -23,7 +23,7 @@ describe('TagsEffects', () => {
   });
 
   describe('loadTags$', () => {
-    it('should return a loadTagsSuccess action with an array of tags if success', done => {
+    it('should return a `loadTagsSuccess` action with an array of tags on success', done => {
       actions$ = of(tagsActions.loadTags);
 
       tagClient.getAll.and.returnValue(of(tags));
@@ -35,7 +35,7 @@ describe('TagsEffects', () => {
       });
     });
 
-    it('should return a loadTagsFailure action if failed', done => {
+    it('should return a `loadTagsFailure` action on failure', done => {
       actions$ = of(tagsActions.loadTags);
 
       tagClient.getAll.and.returnValue(throwError(() => new Error('error')));

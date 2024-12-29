@@ -28,7 +28,7 @@ describe('TagsState', () => {
       expect(state).not.toBe(tagsInitialState);
     });
 
-    it('should have no error and no loading state if success', () => {
+    it('should retrieve an array of tags and set loading to false on success', () => {
       const { tagsInitialState } = fromTags;
       const tags = ['tag one', 'tag two'];
       const newState = {
@@ -43,7 +43,7 @@ describe('TagsState', () => {
       expect(state).not.toBe(tagsInitialState);
     });
 
-    it('should have no loading state if failed', () => {
+    it('should set loading to false on failure', () => {
       const { tagsInitialState } = fromTags;
       const newState = {
         ...tagsInitialState,

@@ -82,7 +82,7 @@ describe('LoginComponent', () => {
 
     const element: HTMLElement = fixture.nativeElement;
     expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
-      .withContext('The button should be disabled after submitting')
+      .withContext('The button should be disabled on submit')
       .toBe(true);
   });
 

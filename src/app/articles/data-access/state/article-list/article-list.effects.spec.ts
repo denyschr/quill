@@ -36,7 +36,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('setPage$', () => {
-    it('should trigger a loadArticles action', done => {
+    it('should trigger a `loadArticles` action', done => {
       actions$ = of(articleListActions.setPage);
       articleListEffects.setPage$(actions$).subscribe(action => {
         expect(action).toEqual(articleListActions.loadArticles());
@@ -46,7 +46,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('setConfig$', () => {
-    it('should trigger a loadArticles action', done => {
+    it('should trigger a `loadArticles` action', done => {
       actions$ = of(articleListActions.setConfig);
       articleListEffects.setConfig$(actions$).subscribe(action => {
         expect(action).toEqual(articleListActions.loadArticles());
@@ -56,7 +56,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('loadArticles$', () => {
-    it('should return a loadArticlesSuccess action with a list of articles on success', done => {
+    it('should return a `loadArticlesSuccess` action with a list of articles on success', done => {
       actions$ = of(articleListActions.loadArticles);
 
       articleClient.getAll.and.returnValue(of(articleList));
@@ -73,7 +73,7 @@ describe('ArticleListEffects', () => {
       });
     });
 
-    it('should return a loadArticlesFailure action on failure', done => {
+    it('should return a `loadArticlesFailure` action on failure', done => {
       actions$ = of(articleListActions.loadArticles);
 
       articleClient.getAll.and.returnValue(throwError(() => new Error('error')));
@@ -87,7 +87,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('favorite$', () => {
-    it('should return a favoriteSuccess action with a favorited article on success', done => {
+    it('should return a `favoriteSuccess` action with a favorited article on success', done => {
       actions$ = of(articleListActions.favorite);
 
       articleClient.favorite.and.returnValue(of(articleList.articles[0]));
@@ -101,7 +101,7 @@ describe('ArticleListEffects', () => {
       });
     });
 
-    it('should return a favoriteFailure action on failure', done => {
+    it('should return a `favoriteFailure` action on failure', done => {
       actions$ = of(articleListActions.favorite);
 
       articleClient.favorite.and.returnValue(throwError(() => new Error('error')));
@@ -115,7 +115,7 @@ describe('ArticleListEffects', () => {
   });
 
   describe('unfavorite$', () => {
-    it('should return an unfavoriteSuccess action with an unfavorited article on success', done => {
+    it('should return an `unfavoriteSuccess` action with an unfavorited article on success', done => {
       actions$ = of(articleListActions.unfavorite);
 
       articleClient.unfavorite.and.returnValue(of(articleList.articles[0]));
@@ -129,7 +129,7 @@ describe('ArticleListEffects', () => {
       });
     });
 
-    it('should return an unfavoriteFailure action on failure', done => {
+    it('should return an `unfavoriteFailure` action on failure', done => {
       actions$ = of(articleListActions.unfavorite);
 
       articleClient.unfavorite.and.returnValue(throwError(() => new Error('error')));

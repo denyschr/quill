@@ -16,7 +16,7 @@ describe('ArticleListState', () => {
   });
 
   describe('setPage action', () => {
-    it('should set page', () => {
+    it('should update the page', () => {
       const { articleListInitialState } = fromArticleList;
       const page = 2;
       const filters = {
@@ -41,7 +41,7 @@ describe('ArticleListState', () => {
   });
 
   describe('setConfig action', () => {
-    it('should set config', () => {
+    it('should update the config', () => {
       const { articleListInitialState } = fromArticleList;
       const config = {
         ...articleListInitialState.config,
@@ -73,7 +73,7 @@ describe('ArticleListState', () => {
       expect(state).not.toBe(articleListInitialState);
     });
 
-    it('should have no error and no loading state if success', () => {
+    it('should retrieve a list of articles and set loading to false on success', () => {
       const { articleListInitialState } = fromArticleList;
       const articleList = {
         articles: [{ title: 'title one' }, { title: 'title two' }],
@@ -95,7 +95,7 @@ describe('ArticleListState', () => {
       expect(state).not.toBe(articleListInitialState);
     });
 
-    it('should have no loading state if failed', () => {
+    it('should set loading to false on failure', () => {
       const { articleListInitialState } = fromArticleList;
       const newState = {
         ...articleListInitialState,

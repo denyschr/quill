@@ -48,7 +48,7 @@ describe('AuthEffects', () => {
   });
 
   describe('getCurrentUser$', () => {
-    it('should return a getCurrentUserSuccess action with user information if the token is stored', done => {
+    it('should return a `getCurrentUserSuccess` action with user information if the token is stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue('token');
@@ -62,7 +62,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a getCurrentUserFailure action if the token is not stored', done => {
+    it('should return a `getCurrentUserFailure` action if the token is not stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue(null);
@@ -75,7 +75,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a getCurrentUserFailure action on failure', done => {
+    it('should return a `getCurrentUserFailure` action on failure', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue('token');
@@ -91,7 +91,7 @@ describe('AuthEffects', () => {
   });
 
   describe('updateCurrentUser$', () => {
-    it('should return an updateCurrentUserSuccess action with new user information on success', done => {
+    it('should return an `updateCurrentUserSuccess` action with new user information on success', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(of(user));
@@ -103,7 +103,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return an updateCurrentUserFailure action with errors on failure', done => {
+    it('should return an `updateCurrentUserFailure` action with errors on failure', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -117,7 +117,7 @@ describe('AuthEffects', () => {
   });
 
   describe('register$', () => {
-    it('should return a registerSuccess action with user information on success', done => {
+    it('should return a `registerSuccess` action with user information on success', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(of(user));
@@ -129,7 +129,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a registerFailure action with errors on failure', done => {
+    it('should return a `registerFailure` action with errors on failure', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -143,7 +143,7 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return a loginSuccess action with user information on success', done => {
+    it('should return a `loginSuccess` action with user information on success', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(of(user));
@@ -155,7 +155,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a loginFailure action with errors on failure', done => {
+    it('should return a `loginFailure` action with errors on failure', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -169,7 +169,7 @@ describe('AuthEffects', () => {
   });
 
   describe('registerOrLoginSuccess$', () => {
-    it('should dispatch a routerNavigation action on registration success', done => {
+    it('should navigate to the home page on registration success', done => {
       actions$ = of(authActions.registerSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
@@ -181,7 +181,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should dispatch a routerNavigation action on login success', done => {
+    it('should navigate to the home page on login success', done => {
       actions$ = of(authActions.loginSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
@@ -195,7 +195,7 @@ describe('AuthEffects', () => {
   });
 
   describe('logout$', () => {
-    it('should remove the token and dispatch a routerNavigation action', done => {
+    it('should remove the token and navigate to the home page on logout', done => {
       actions$ = of(authActions.logout);
 
       TestBed.runInInjectionContext(() => {
