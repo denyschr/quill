@@ -34,7 +34,11 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
                     Delete
                   </button>
                 } @else {
-                  <ql-favorite-button />
+                  <ql-favorite-button
+                    [favorited]="article.favorited"
+                    [favoritesCount]="article.favoritesCount"
+                    [slug]="article.slug"
+                  />
                 }
               </div>
               <h1 class="text-white text-center">{{ article.title }}</h1>
