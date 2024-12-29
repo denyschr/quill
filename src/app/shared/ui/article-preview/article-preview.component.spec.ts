@@ -84,7 +84,7 @@ describe('ArticlePreviewComponent', () => {
       .toContain('Oct 8, 2024');
   });
 
-  it('should use FavoriteButtonComponent', () => {
+  it('should display a favorite button', () => {
     const element = fixture.debugElement;
     expect(element.query(By.directive(FavoriteButtonComponent)))
       .withContext('You need `FavoriteButtonComponent` for a favorite button')

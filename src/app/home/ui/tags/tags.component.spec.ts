@@ -35,7 +35,9 @@ describe('TagsComponent', () => {
     const element: HTMLElement = fixture.nativeElement;
     const message = element.querySelector('div[data-test=tags-loading]')!;
     expect(message).withContext('You need a `div` element for a loading message').not.toBeNull();
-    expect(message.textContent).toContain('Loading tags...');
+    expect(message.textContent)
+      .withContext('The message should have a text')
+      .toContain('Loading tags...');
   });
 
   it('should display every tag', () => {
@@ -55,7 +57,9 @@ describe('TagsComponent', () => {
     const element: HTMLElement = fixture.nativeElement;
     const message = element.querySelector('div[data-test=no-tags]')!;
     expect(message).withContext('You need a `div` element for an empty message').not.toBeNull();
-    expect(message.textContent).toContain('No tags found');
+    expect(message.textContent)
+      .withContext('The message should have a text')
+      .toContain('No tags found');
   });
 
   it('should emit an event on click', () => {
