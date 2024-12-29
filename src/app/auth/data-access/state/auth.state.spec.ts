@@ -81,7 +81,7 @@ describe('AuthState', () => {
   });
 
   describe('register action', () => {
-    it('should set submitting to true', () => {
+    it('should set submitting to true and reset the error state to null', () => {
       const { initialState } = fromAuth;
       const credentials = {
         username: user.username,
@@ -90,7 +90,8 @@ describe('AuthState', () => {
       };
       const newState = {
         ...initialState,
-        submitting: true
+        submitting: true,
+        errors: null
       };
       const action = authActions.register({ credentials });
       const state = fromAuth.authReducer(initialState, action);
@@ -129,7 +130,7 @@ describe('AuthState', () => {
   });
 
   describe('login action', () => {
-    it('should set submitting to true', () => {
+    it('should set submitting to true and reset the error state to null', () => {
       const { initialState } = fromAuth;
       const credentials = {
         email: user.email,
@@ -137,7 +138,8 @@ describe('AuthState', () => {
       };
       const newState = {
         ...initialState,
-        submitting: true
+        submitting: true,
+        errors: null
       };
       const action = authActions.login({ credentials });
       const state = fromAuth.authReducer(initialState, action);
