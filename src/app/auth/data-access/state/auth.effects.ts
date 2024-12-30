@@ -48,6 +48,18 @@ export const updateCurrentUser$ = createEffect(
   { functional: true }
 );
 
+export const updateCurrentUserSuccess$ = createEffect(
+  (actions$ = inject(Actions), jwtService = inject(JwtService)) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUserSuccess),
+      tap(action => {
+        jwtService.saveToken(action.currentUser.token);
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
 export const register$ = createEffect(
   (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
     return actions$.pipe(

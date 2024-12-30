@@ -116,6 +116,19 @@ describe('AuthEffects', () => {
     });
   });
 
+  describe('updateCurrentUserSuccess$', () => {
+    it('should save the token on current user update success', done => {
+      actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
+
+      TestBed.runInInjectionContext(() => {
+        authEffects.updateCurrentUserSuccess$(actions$, jwtService).subscribe(() => {
+          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
+          done();
+        });
+      });
+    });
+  });
+
   describe('register$', () => {
     it('should return a `registerSuccess` action with user information on success', done => {
       actions$ = of(authActions.register);
@@ -169,7 +182,7 @@ describe('AuthEffects', () => {
   });
 
   describe('registerOrLoginSuccess$', () => {
-    it('should navigate to the home page on registration success', done => {
+    it('should save the token and navigate to the home page on registration success', done => {
       actions$ = of(authActions.registerSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
@@ -181,7 +194,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should navigate to the home page on login success', done => {
+    it('should save the token navigate to the home page on login success', done => {
       actions$ = of(authActions.loginSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
