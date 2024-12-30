@@ -60,7 +60,6 @@
 
       "@settings/data-access/state": ["src/app/settings/data-access/state/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],
-      "@settings/ui/user-form": ["src/app/settings/ui/user-form/index.ts"],
 
       "@profile/data-access/state": ["src/app/profile/data-access/state/index.ts"],
       "@profile/feature": ["src/app/profile/feature/index.ts"],

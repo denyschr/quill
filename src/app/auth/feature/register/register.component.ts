@@ -8,17 +8,15 @@ import { LetDirective } from '@ngrx/component';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { NgClass } from '@angular/common';
-import { FormControlValidationDirective } from '@shared/directives/form-control-validation';
 
 @Component({
   selector: 'ql-register',
   standalone: true,
   template: `
     <div class="container">
-      <div class="row">
+      <div class="row py-5">
         <div class="col-md-6 offset-md-3">
-          <div class="mb-3 pt-5 text-center">
+          <div class="mb-3 text-center">
             <h1>Sign up</h1>
             <a class="link-opacity-100" routerLink="/login">Have an account?</a>
           </div>
@@ -74,10 +72,8 @@ import { FormControlValidationDirective } from '@shared/directives/form-control-
   `,
   imports: [
     RouterLink,
-    NgClass,
     ReactiveFormsModule,
     LetDirective,
-    FormControlValidationDirective,
     ValidationErrorsComponent,
     BackendErrorsComponent,
     PasswordInputToggleComponent
