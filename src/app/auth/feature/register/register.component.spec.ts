@@ -66,21 +66,19 @@ describe('RegisterComponent', () => {
       .not.toBeNull();
   });
 
-  it('should have a disabled button if the form is incomplete', () => {
+  it('should have a disabled button if the form is incomplete or submitted', () => {
     const element: HTMLElement = fixture.nativeElement;
+
     const button = element.querySelector('button[type="submit"]')!;
     expect(button).withContext('You need a `button` element to submit the form').not.toBeNull();
     expect(button.hasAttribute('disabled'))
       .withContext('The button should be disabled if the form is invalid')
       .toBe(true);
-  });
 
-  it('should have a disabled button after the form is submitted', () => {
     store.setState({ ...initialState, auth: { ...initialState.auth, submitting: true } });
     store.refreshState();
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
     expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
       .withContext('The button should be disabled on submit')
       .toBe(true);
@@ -130,7 +128,7 @@ describe('RegisterComponent', () => {
     usernameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const usernameRequiredError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const usernameRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(usernameRequiredError)
       .withContext('You need an error message if the username field is required and touched')
       .not.toBeNull();
@@ -142,7 +140,7 @@ describe('RegisterComponent', () => {
     usernameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const usernameLengthError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const usernameLengthError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(usernameLengthError)
       .withContext('You need an error message if the username field is too short and touched')
       .not.toBeNull();
@@ -165,7 +163,7 @@ describe('RegisterComponent', () => {
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const emailRequiredError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const emailRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(emailRequiredError)
       .withContext('You need an error message if the email field is required and touched')
       .not.toBeNull();
@@ -177,9 +175,9 @@ describe('RegisterComponent', () => {
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const emailError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const emailError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(emailError)
-      .withContext('You need an error message if the email field is incorrect and touched')
+      .withContext('You need an error message if the email field is invalid and touched')
       .not.toBeNull();
     expect(emailError.textContent)
       .withContext('The error message for the email field is incorrect')
@@ -200,7 +198,7 @@ describe('RegisterComponent', () => {
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const passwordRequiredError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const passwordRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(passwordRequiredError)
       .withContext('You need an error message if the password field is required and touched')
       .not.toBeNull();
@@ -212,7 +210,7 @@ describe('RegisterComponent', () => {
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const passwordLengthError = element.querySelector('div.mb-3 .invalid-feedback > div')!;
+    const passwordLengthError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(passwordLengthError)
       .withContext('You need an error message if the password field is too short and touched')
       .not.toBeNull();
@@ -223,39 +221,40 @@ describe('RegisterComponent', () => {
 
   it('should dispatch a register action on submit', () => {
     const element: HTMLElement = fixture.nativeElement;
+    const credentials = {
+      username: 'username',
+      email: 'email@gmail.com',
+      password: '12345678'
+    };
 
     const usernameInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
     expect(usernameInput)
       .withContext('You need an input with the type `text` for the username')
       .not.toBeNull();
-    usernameInput.value = 'username';
+    usernameInput.value = credentials.username;
     usernameInput.dispatchEvent(new Event('input'));
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
     expect(emailInput)
       .withContext('You need an input with the type `email` for the email')
       .not.toBeNull();
-    emailInput.value = 'email@gmail.com';
+    emailInput.value = credentials.email;
     emailInput.dispatchEvent(new Event('input'));
 
     const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
     expect(passwordInput)
       .withContext('You need an input with the type `password` for the password')
       .not.toBeNull();
-    passwordInput.value = '12345678';
+    passwordInput.value = credentials.password;
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      authActions.register({
-        credentials: { username: 'username', email: 'email@gmail.com', password: '12345678' }
-      })
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(authActions.register({ credentials }));
   });
 
-  it('should display register errors if failed', () => {
+  it('should display backend errors on registration failure', () => {
     store.setState({
       ...initialState,
       auth: {
