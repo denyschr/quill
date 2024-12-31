@@ -10,7 +10,7 @@ describe('Register', () => {
   const usernameInput = () => cy.get('#username');
   const emailInput = () => cy.get('#email');
   const passwordInput = () => cy.get('#password');
-  const errorMessage = () => cy.get('div.mb-3 .invalid-feedback > div');
+  const errorMessage = () => cy.get('div.mb-3 > .invalid-feedback > div');
   const passwordToggleButton = () => cy.get('button[type="button"].btn-outline-primary');
   const submitButton = () => cy.get('button[type="submit"]');
 
@@ -25,8 +25,7 @@ describe('Register', () => {
     cy.contains('a', 'Have an account?').should('have.attr', 'href', '/login');
 
     submitButton().should('be.visible').and('be.disabled');
-    usernameInput().focus();
-    usernameInput().blur();
+    usernameInput().focus().blur();
     errorMessage().should('be.visible').and('contain', 'The username is required');
     usernameInput().type('us');
     errorMessage()
@@ -36,8 +35,7 @@ describe('Register', () => {
     usernameInput().type('username');
     errorMessage().should('not.exist');
 
-    emailInput().focus();
-    emailInput().blur();
+    emailInput().focus().blur();
     errorMessage().should('be.visible').and('contain', 'The email is required');
     emailInput().type('email@');
     errorMessage().should('be.visible').and('contain', 'The email must be a valid email address');
@@ -45,8 +43,7 @@ describe('Register', () => {
     emailInput().type('email@gmail.com');
     errorMessage().should('not.exist');
 
-    passwordInput().focus();
-    passwordInput().blur();
+    passwordInput().focus().blur();
     errorMessage().should('be.visible').and('contain', 'The password is required');
     passwordInput().type('1234');
     errorMessage()
@@ -65,7 +62,7 @@ describe('Register', () => {
     cy.location('pathname').should('eq', '/');
   });
 
-  it('should display errors if registration fails', () => {
+  it('should display backend errors if registration fails', () => {
     cy.intercept('POST', 'api/users', {
       statusCode: 404,
       body: {

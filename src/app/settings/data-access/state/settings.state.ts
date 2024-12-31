@@ -8,7 +8,7 @@ export interface SettingsState {
   errors: BackendErrors | null;
 }
 
-const initialState: SettingsState = {
+export const settingsInitialState: SettingsState = {
   submitting: false,
   errors: null
 };
@@ -16,7 +16,7 @@ const initialState: SettingsState = {
 const settingsFeature = createFeature({
   name: 'settings',
   reducer: createReducer(
-    initialState,
+    settingsInitialState,
     on(
       authActions.updateCurrentUser,
       (state): SettingsState => ({
@@ -40,7 +40,7 @@ const settingsFeature = createFeature({
         errors: errors
       })
     ),
-    on(routerNavigationAction, (): SettingsState => initialState)
+    on(routerNavigationAction, (): SettingsState => settingsInitialState)
   )
 });
 

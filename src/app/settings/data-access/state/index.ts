@@ -1,1 +1,1 @@
-export * from './settings.reducers';
+export * from './settings.state';
