@@ -283,7 +283,7 @@ describe('SettingsComponent', () => {
     );
   });
 
-  it('should display backend errors on update current user failure', () => {
+  it('should display backend errors on settings update failure', () => {
     store.setState({
       ...initialState,
       settings: {
