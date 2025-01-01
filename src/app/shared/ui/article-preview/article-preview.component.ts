@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/models';
-import { DatePipe, NgOptimizedImage } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { TagListComponent } from '@shared/ui/tag-list';
 import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 
@@ -14,7 +14,7 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
           <a data-test="article-author-image" [routerLink]="['/profile', article.author.username]">
             <img
               class="rounded-circle"
-              [ngSrc]="article.author.image"
+              [src]="article.author.image"
               width="32"
               height="32"
               [alt]="article.author.username"
@@ -75,7 +75,7 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
     `
   ],
   standalone: true,
-  imports: [RouterLink, NgOptimizedImage, DatePipe, FavoriteButtonComponent, TagListComponent],
+  imports: [RouterLink, DatePipe, FavoriteButtonComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {

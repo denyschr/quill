@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DatePipe, NgOptimizedImage } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/models';
 
@@ -10,7 +10,7 @@ import { Article } from '@shared/data-access/models';
       <a data-test="article-author-image" [routerLink]="['/profile', article.author.username]">
         <img
           class="rounded-circle"
-          [ngSrc]="article.author.image"
+          [src]="article.author.image"
           width="32"
           height="32"
           [alt]="article.author.username"
@@ -41,7 +41,7 @@ import { Article } from '@shared/data-access/models';
     `
   ],
   standalone: true,
-  imports: [RouterLink, DatePipe, NgOptimizedImage],
+  imports: [RouterLink, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleMetaComponent {
