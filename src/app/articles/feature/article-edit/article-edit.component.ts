@@ -30,7 +30,7 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
               <ql-article-form
                 [article]="vm.article"
                 [submitting]="vm.submitting"
-                (submitted)="submitArticle($event)"
+                (published)="submitArticle($event)"
               />
             }
           </ng-container>

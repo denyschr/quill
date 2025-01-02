@@ -30,18 +30,18 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input id="username" type="text" class="form-control" formControlName="username" />
-                <val-errors controlName="username" label="The username"></val-errors>
+                <val-errors controlName="username" label="The username" />
               </div>
 
               <div class="mb-3">
                 <label for="bio" class="form-label">Bio</label>
-                <textarea id="bio" class="form-control" rows="3" formControlName="bio"></textarea>
+                <textarea id="bio" class="form-control" rows="8" formControlName="bio"></textarea>
               </div>
 
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input id="email" type="email" class="form-control" formControlName="email" />
-                <val-errors controlName="email" label="The email"></val-errors>
+                <val-errors controlName="email" label="The email" />
               </div>
 
               <div class="mb-3">
@@ -52,11 +52,11 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
                     type="password"
                     class="form-control"
                     formControlName="password"
-                    #inputElement
+                    #passwordInput
                   />
-                  <ql-password-input-toggle [input]="inputElement" />
+                  <ql-password-input-toggle [input]="passwordInput" />
                 </div>
-                <val-errors controlName="password" label="The password"></val-errors>
+                <val-errors controlName="password" label="The password" />
               </div>
 
               <button

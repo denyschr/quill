@@ -14,14 +14,14 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
 @Component({
   template: `
     <div class="container">
-      <div class="row py-3">
+      <div class="row py-5">
         <div class="col-md-6 offset-md-3">
           <ng-container *ngrxLet="vm$; let vm">
             @if (vm.backendErrors) {
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <ql-article-form [submitting]="vm.submitting" (submitted)="submitArticle($event)" />
+            <ql-article-form [submitting]="vm.submitting" (published)="submitArticle($event)" />
           </ng-container>
         </div>
       </div>

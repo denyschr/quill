@@ -109,7 +109,7 @@ describe('SettingsComponent', () => {
     expect(bioInput).withContext('You need a textarea for the bio').not.toBeNull();
     expect(bioInput.getAttribute('rows'))
       .withContext('The `rows` attribute of the textarea is not correct')
-      .toBe('3');
+      .toBe('8');
     expect(bioInput.value).withContext('The initial value of the textarea is not correct').toBe('');
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
