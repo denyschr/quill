@@ -21,7 +21,8 @@ const articleEditFeature = createFeature({
       articleEditActions.editArticle,
       (state): ArticleEditState => ({
         ...state,
-        submitting: true
+        submitting: true,
+        errors: null
       })
     ),
     on(

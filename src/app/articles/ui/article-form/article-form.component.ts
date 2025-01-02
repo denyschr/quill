@@ -66,7 +66,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
 export class ArticleFormComponent {
   public readonly titleControl = this._fb.control('', [Validators.required]);
   public readonly descriptionControl = this._fb.control('', [Validators.required]);
-  public readonly bodyControl = this._fb.control('');
+  public readonly bodyControl = this._fb.control('', [Validators.required]);
   public readonly tagListControl = this._fb.control(<string[]>[]);
 
   public readonly articleForm = this._fb.group({

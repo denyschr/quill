@@ -8,7 +8,7 @@ export interface ArticleNewState {
   errors: BackendErrors | null;
 }
 
-const articleNewInitialState: ArticleNewState = {
+export const articleNewInitialState: ArticleNewState = {
   submitting: false,
   errors: null
 };
