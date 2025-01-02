@@ -22,6 +22,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
       <div class="mb-3">
         <label for="body" class="form-label">Write your article (in markdown)</label>
         <textarea id="body" rows="8" class="form-control" formControlName="body"></textarea>
+        <val-errors controlName="body" label="The body" />
       </div>
 
       <div class="mb-3">

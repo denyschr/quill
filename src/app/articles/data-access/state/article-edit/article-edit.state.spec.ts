@@ -1,6 +1,7 @@
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
 import { Article } from '@shared/data-access/models';
+import { routerNavigationAction } from '@ngrx/router-store';
 
 describe('ArticleEditState', () => {
   const article = { title: 'title one' } as Article;
@@ -58,6 +59,17 @@ describe('ArticleEditState', () => {
 
       expect(state).toEqual(newState);
       expect(state).not.toBe(articleEditInitialState);
+    });
+  });
+
+  describe('routerNavigationAction', () => {
+    it('should reset the state to its initial values on navigation', () => {
+      const { articleEditInitialState } = fromArticleEdit;
+      const state = fromArticleEdit.articleEditReducer(
+        articleEditInitialState,
+        routerNavigationAction
+      );
+      expect(state).toEqual(articleEditInitialState);
     });
   });
 });

@@ -21,7 +21,8 @@ const articleNewFeature = createFeature({
       articleNewActions.newArticle,
       (state): ArticleNewState => ({
         ...state,
-        submitting: true
+        submitting: true,
+        errors: null
       })
     ),
     on(
