@@ -31,7 +31,7 @@ describe('ArticleEditEffects', () => {
   });
 
   describe('editArticle$', () => {
-    it('should return an `editArticleSuccess` action with an edited article on success', done => {
+    it('should return an `editArticleSuccess` action with an updated article on success', done => {
       actions$ = of(articleEditActions.editArticle);
 
       articleClient.update.and.returnValue(of(article));
@@ -62,7 +62,7 @@ describe('ArticleEditEffects', () => {
   });
 
   describe('editArticleSuccess$', () => {
-    it('should navigate to a new article page on article editing success', done => {
+    it('should navigate to an updated article on article editing success', done => {
       actions$ = of(articleEditActions.editArticleSuccess({ article }));
 
       TestBed.runInInjectionContext(() => {
