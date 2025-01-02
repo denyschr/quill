@@ -31,8 +31,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
           id="tag-list"
           type="text"
           class="form-control mb-2"
-          #tagInput
-          (keydown.enter)="addTag(tagInput)"
+          (keydown.enter)="addTag($event)"
         />
         @let tagList = tagListControl.value;
         @if (tagList.length) {
@@ -99,11 +98,15 @@ export class ArticleFormComponent {
     this.published.emit(this.articleForm.getRawValue());
   }
 
-  public addTag(tagInput: HTMLInputElement): void {
+  public addTag(event: Event): void {
+    event.preventDefault();
+
+    const tagInput = event.target as HTMLInputElement;
     const tag = tagInput.value.trim();
     if (!tag || ~this.tagListControl.value.indexOf(tag)) {
       return;
     }
+
     this.tagListControl.patchValue([...this.tagListControl.value, tag]);
     tagInput.value = '';
   }

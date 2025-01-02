@@ -21,7 +21,7 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <ql-article-form [submitting]="vm.submitting" (published)="submitArticle($event)" />
+            <ql-article-form [submitting]="vm.submitting" (published)="publishArticle($event)" />
           </ng-container>
         </div>
       </div>
@@ -39,7 +39,7 @@ export default class ArticleNewComponent {
 
   constructor(private store: Store) {}
 
-  public submitArticle(article: ArticleFormData) {
+  public publishArticle(article: ArticleFormData) {
     this.store.dispatch(articleNewActions.newArticle({ article }));
   }
 }

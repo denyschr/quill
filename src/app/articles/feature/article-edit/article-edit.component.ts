@@ -18,20 +18,20 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
       <div class="row py-3">
         <div class="col-md-6 offset-md-3">
           <ng-container *ngrxLet="vm$; let vm">
-            @if (vm.loading) {
-              <div>Loading...</div>
-            }
-
             @if (vm.backendErrors) {
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            @if (vm.article) {
-              <ql-article-form
-                [article]="vm.article"
-                [submitting]="vm.submitting"
-                (published)="submitArticle($event)"
-              />
+            @if (!vm.loading) {
+              @if (vm.article) {
+                <ql-article-form
+                  [article]="vm.article"
+                  [submitting]="vm.submitting"
+                  (published)="publishArticle($event)"
+                />
+              }
+            } @else {
+              <div data-test="article-edit-loading">Loading...</div>
             }
           </ng-container>
         </div>
@@ -43,10 +43,8 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleEditComponent implements OnInit {
-  public readonly article$ = this.store.select(selectArticle).pipe(filter(Boolean));
-
   public readonly vm$ = combineLatest({
-    article: this.article$,
+    article: this.store.select(selectArticle).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
     loading: this.store.select(selectLoading),
     backendErrors: this.store.select(selectErrors)
@@ -61,7 +59,7 @@ export default class ArticleEditComponent implements OnInit {
     this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
   }
 
-  public submitArticle(article: ArticleFormData): void {
+  public publishArticle(article: ArticleFormData): void {
     this.store.dispatch(articleEditActions.editArticle({ slug: this.slug, article }));
   }
 }
