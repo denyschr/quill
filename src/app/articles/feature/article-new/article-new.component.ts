@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleFormData } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 import {
@@ -39,7 +39,7 @@ export default class ArticleNewComponent {
 
   constructor(private store: Store) {}
 
-  public publishArticle(article: ArticleFormData) {
+  public publishArticle(article: Partial<Article>) {
     this.store.dispatch(articleNewActions.newArticle({ article }));
   }
 }

@@ -12,10 +12,3 @@ export interface Article {
   favoritesCount: number;
   author: Profile;
 }
-
-export interface ArticleFormData {
-  title: string;
-  description: string;
-  body: string;
-  tagList: string[];
-}

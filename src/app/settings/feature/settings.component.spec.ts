@@ -64,7 +64,7 @@ describe('SettingsComponent', () => {
       .not.toBeNull();
   });
 
-  it('should have a disabled button if the form is incomplete or submitted', () => {
+  it('should have a disabled button if the form is incomplete or has a submitting status', () => {
     const element: HTMLElement = fixture.nativeElement;
 
     const button = element.querySelector('button[type="submit"]')!;

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ArticleFormData } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { combineLatest, filter } from 'rxjs';
 import {
@@ -11,6 +10,7 @@ import {
 } from '@articles/data-access/state/article-edit';
 import { articleActions, selectArticle, selectLoading } from '@articles/data-access/state/article';
 import { ArticleFormComponent } from '@articles/ui/article-form';
+import { Article } from '@shared/data-access/models';
 
 @Component({
   template: `
@@ -59,7 +59,7 @@ export default class ArticleEditComponent implements OnInit {
     this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
   }
 
-  public publishArticle(article: ArticleFormData): void {
+  public publishArticle(article: Partial<Article>): void {
     this.store.dispatch(articleEditActions.editArticle({ slug: this.slug, article }));
   }
 }

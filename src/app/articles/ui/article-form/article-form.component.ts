@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Article, ArticleFormData } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
 @Component({
@@ -80,7 +80,7 @@ export class ArticleFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public readonly published = new EventEmitter<ArticleFormData>();
+  public readonly published = new EventEmitter<Partial<Article>>();
 
   @Input()
   public set article(article: Article) {
