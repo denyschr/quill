@@ -3,7 +3,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'ql-articles-toggle',
-  standalone: true,
   template: `
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
@@ -28,6 +27,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       </li>
     </ul>
   `,
+  standalone: true,
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

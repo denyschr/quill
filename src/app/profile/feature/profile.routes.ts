@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-export const profileRoutes: Route[] = [
+export const PROFILE_ROUTES: Route[] = [
   {
     path: '',
     loadComponent: () => import('./profile.component')
