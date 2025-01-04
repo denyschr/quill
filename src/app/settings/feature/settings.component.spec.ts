@@ -39,9 +39,9 @@ describe('SettingsComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch');
-
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
