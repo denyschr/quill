@@ -7,6 +7,16 @@ import {
   articleReducer
 } from '@articles/data-access/state/article';
 import { settingsFeatureKey, settingsReducer } from '@settings/data-access/state';
+import {
+  articleNewEffects,
+  articleNewFeatureKey,
+  articleNewReducer
+} from '@articles/data-access/state/article-new';
+import {
+  articleEditEffects,
+  articleEditFeatureKey,
+  articleEditReducer
+} from '@articles/data-access/state/article-edit';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -28,7 +38,25 @@ export const LAYOUT_ROUTES: Route[] = [
   },
   {
     path: 'editor',
-    loadChildren: () => import('../../editor/feature/editor.routes').then(m => m.editorRoutes)
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../../articles/feature/article-new/article-new.component'),
+        providers: [
+          provideEffects(articleNewEffects),
+          provideState(articleNewFeatureKey, articleNewReducer)
+        ]
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('../../articles/feature/article-edit/article-edit.component'),
+        providers: [
+          provideEffects(articleEditEffects, articleEffects),
+          provideState(articleFeatureKey, articleReducer),
+          provideState(articleEditFeatureKey, articleEditReducer)
+        ]
+      }
+    ]
   },
   {
     path: 'settings',

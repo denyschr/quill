@@ -10,8 +10,8 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
   template: `
     <form>
       <label>Password</label>
-      <input type="password" #inputElement />
-      <ql-password-input-toggle [input]="inputElement" />
+      <input type="password" #passwordInput />
+      <ql-password-input-toggle [input]="passwordInput" />
     </form>
   `,
   standalone: true,

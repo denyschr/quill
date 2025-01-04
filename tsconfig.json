@@ -44,19 +44,18 @@
       "@articles/data-access/state/article": [
         "src/app/articles/data-access/state/article/index.ts"
       ],
+      "@articles/data-access/state/article-edit": [
+        "src/app/articles/data-access/state/article-edit/index.ts"
+      ],
+      "@articles/data-access/state/article-new": [
+        "src/app/articles/data-access/state/article-new/index.ts"
+      ],
       "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
       "@articles/feature/article": ["src/app/articles/feature/article/index.ts"],
+      "@articles/feature/article-edit": ["src/app/articles/feature/article-edit/index.ts"],
+      "@articles/feature/article-new": ["src/app/articles/feature/article-new/index.ts"],
       "@articles/ui/article-meta": ["src/app/articles/ui/article-meta/index.ts"],
-
-      "@editor/data-access/state/new-article": [
-        "src/app/editor/data-access/state/new-article/index.ts"
-      ],
-      "@editor/data-access/state/edit-article": [
-        "src/app/editor/data-access/state/edit-article/index.ts"
-      ],
-      "@editor/feature/new-article": ["src/app/editor/feature/new-article/index.ts"],
-      "@editor/feature/edit-article": ["src/app/editor/feature/edit-article/index.ts"],
-      "@editor/ui/article-form": ["src/app/editor/ui/article-form/index.ts"],
+      "@articles/ui/article-form": ["src/app/articles/ui/article-form/index.ts"],
 
       "@settings/data-access/state": ["src/app/settings/data-access/state/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],

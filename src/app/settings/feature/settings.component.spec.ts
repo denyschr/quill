@@ -39,9 +39,9 @@ describe('SettingsComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch');
-
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
@@ -64,7 +64,7 @@ describe('SettingsComponent', () => {
       .not.toBeNull();
   });
 
-  it('should have a disabled button if the form is incomplete or submitted', () => {
+  it('should have a disabled button if the form is incomplete or has a submitting status', () => {
     const element: HTMLElement = fixture.nativeElement;
 
     const button = element.querySelector('button[type="submit"]')!;
@@ -109,7 +109,7 @@ describe('SettingsComponent', () => {
     expect(bioInput).withContext('You need a textarea for the bio').not.toBeNull();
     expect(bioInput.getAttribute('rows'))
       .withContext('The `rows` attribute of the textarea is not correct')
-      .toBe('3');
+      .toBe('8');
     expect(bioInput.value).withContext('The initial value of the textarea is not correct').toBe('');
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
