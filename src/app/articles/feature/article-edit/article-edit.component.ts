@@ -22,17 +22,11 @@ import { Article } from '@shared/data-access/models';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            @if (!vm.loading) {
-              @if (vm.article) {
-                <ql-article-form
-                  [article]="vm.article"
-                  [submitting]="vm.submitting"
-                  (published)="publishArticle($event)"
-                />
-              }
-            } @else {
-              <div data-test="article-edit-loading">Loading...</div>
-            }
+            <ql-article-form
+              [article]="vm.article"
+              [submitting]="vm.submitting"
+              (published)="publishArticle($event)"
+            />
           </ng-container>
         </div>
       </div>
