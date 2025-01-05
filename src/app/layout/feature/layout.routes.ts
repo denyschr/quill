@@ -17,7 +17,6 @@ import {
   articleEditFeatureKey,
   articleEditReducer
 } from '@articles/data-access/state/article-edit';
-import { profileEffects, profileFeatureKey, profileReducer } from '@profile/data-access/state';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -65,8 +64,7 @@ export const LAYOUT_ROUTES: Route[] = [
     providers: [provideState(settingsFeatureKey, settingsReducer)]
   },
   {
-    path: 'profile/:username',
-    loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.PROFILE_ROUTES),
-    providers: [provideEffects(profileEffects), provideState(profileFeatureKey, profileReducer)]
+    path: 'profile',
+    loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.PROFILE_ROUTES)
   }
 ];

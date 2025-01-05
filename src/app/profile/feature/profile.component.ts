@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { profileActions, selectLoading, selectProfile } from '@profile/data-access/state';
+import { selectLoading, selectProfile } from '@profile/data-access/state';
 import { combineLatest, filter, map } from 'rxjs';
 import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { UserInfoComponent } from '@profile/ui/user-info';
 import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   template: `
@@ -19,6 +20,8 @@ import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
             <div class="row py-4">
               <div class="col-md-10 offset-md-1">
                 <ql-articles-toggle [username]="profile.username" />
+
+                <router-outlet />
               </div>
             </div>
           </div>
@@ -29,10 +32,10 @@ import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
     </ng-container>
   `,
   standalone: true,
-  imports: [LetDirective, UserInfoComponent, ArticlesToggleComponent],
+  imports: [LetDirective, RouterOutlet, UserInfoComponent, ArticlesToggleComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ProfileComponent implements OnInit {
+export default class ProfileComponent {
   public readonly owner$ = combineLatest({
     currentUser: this.store.select(selectCurrentUser).pipe(filter(Boolean)),
     profile: this.store.select(selectProfile).pipe(filter(Boolean))
@@ -44,12 +47,5 @@ export default class ProfileComponent implements OnInit {
     owner: this.owner$
   });
 
-  @Input()
-  public username!: string;
-
   constructor(private readonly store: Store) {}
-
-  public ngOnInit() {
-    this.store.dispatch(profileActions.getProfile({ username: this.username }));
-  }
 }

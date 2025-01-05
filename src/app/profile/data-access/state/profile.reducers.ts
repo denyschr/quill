@@ -1,6 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { profileActions } from './profile.actions';
-import { routerNavigationAction } from '@ngrx/router-store';
 import { Profile } from '@shared/data-access/models';
 
 export interface ProfileState {
@@ -41,8 +40,7 @@ const profileFeature = createFeature({
         loading: false,
         error: error
       })
-    ),
-    on(routerNavigationAction, (): ProfileState => initialState)
+    )
   )
 });
 

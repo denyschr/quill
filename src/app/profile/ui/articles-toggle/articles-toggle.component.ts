@@ -27,6 +27,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       </li>
     </ul>
   `,
+  styles: [
+    `
+      a.active {
+        pointer-events: none;
+      }
+    `
+  ],
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush
