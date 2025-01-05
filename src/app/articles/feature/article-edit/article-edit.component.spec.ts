@@ -80,7 +80,6 @@ describe('ArticleEditComponent', () => {
       .not.toBeNull();
 
     const errors = element.querySelectorAll('li');
-    console.log(errors);
     expect(errors.length).withContext('You need two `li` elements for error messages').toBe(2);
     expect(errors[0].textContent).toContain('body is a required field');
     expect(errors[1].textContent).toContain('title is a required field');
