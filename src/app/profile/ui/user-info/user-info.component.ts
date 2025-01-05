@@ -4,30 +4,27 @@ import { Profile } from '@shared/data-access/models';
 
 @Component({
   selector: 'ql-user-info',
-  standalone: true,
   template: `
-    <div class="bg-dark-subtle">
+    <div class="bg-body-secondary">
       <div class="container py-4">
-        <div class="row">
-          <div class="text-center col-md-10 offset-md-1">
-            <img [src]="'user-avatar.png'" width="120" height="120" [alt]="profile.username" />
-            <h1 class="fs-3 fw-bold">{{ profile.username }}</h1>
-            @if (profile.bio) {
-              <p class="text-secondary">{{ profile.bio }}</p>
-            }
-            <div>
-              <!-- TODO: FOLLOW USER BUTTON -->
-              @if (owner) {
-                <a class="btn btn-sm btn-outline-secondary" routerLink="/settings"
-                  >Edit profile settings</a
-                >
-              }
-            </div>
-          </div>
+        <div class="d-flex justify-content-end column-gap-2">
+          @if (owner) {
+            <a class="btn btn-sm btn-outline-secondary" routerLink="/settings"
+              >Edit profile settings</a
+            >
+          } @else {
+            TODO: FOLLOW USER BUTTON
+          }
+        </div>
+        <div class="col-md-10 offset-md-1 text-center">
+          <img [src]="profile.image" width="120" height="120" [alt]="profile.username" />
+          <h1>{{ profile.username }}</h1>
+          <p class="text-body-tertiary">{{ profile.bio }}</p>
         </div>
       </div>
     </div>
   `,
+  standalone: true,
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

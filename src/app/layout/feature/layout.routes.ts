@@ -62,10 +62,9 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'settings',
     loadComponent: () => import('../../settings/feature/settings.component'),
     providers: [provideState(settingsFeatureKey, settingsReducer)]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.PROFILE_ROUTES)
   }
-  // {
-  //   path: 'profile/:username',
-  //   loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.profileRoutes),
-  //   providers: [provideState(profileFeatureKey, profileReducer), provideEffects(profileEffects)]
-  // }
 ];
