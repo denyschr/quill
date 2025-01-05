@@ -7,7 +7,7 @@ export const profileResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapsho
   const username = route.paramMap.get('username')!;
   const store = inject(Store);
 
-  store.dispatch(profileActions.getProfile({ username }));
+  store.dispatch(profileActions.loadProfile({ username }));
 
   return true;
 };
