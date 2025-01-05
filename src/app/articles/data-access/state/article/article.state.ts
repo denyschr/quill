@@ -2,6 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { articleActions } from './article.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { Article } from '@shared/data-access/models';
+import { articleListActions } from '@articles/data-access/state/article-list';
 
 export interface ArticleState {
   article: Article | null;
@@ -37,6 +38,14 @@ const articleFeature = createFeature({
       (state): ArticleState => ({
         ...state,
         loading: false
+      })
+    ),
+    on(
+      articleListActions.favoriteSuccess,
+      articleListActions.unfavoriteSuccess,
+      (state, { article }): ArticleState => ({
+        ...state,
+        article
       })
     ),
     on(routerNavigationAction, (): ArticleState => articleInitialState)

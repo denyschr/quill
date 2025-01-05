@@ -81,7 +81,6 @@
       "@shared/ui/error": ["src/app/shared/ui/error/index.ts"],
       "@shared/ui/pagination": ["src/app/shared/ui/pagination/index.ts"],
       "@shared/ui/tag-list": ["src/app/shared/ui/tag-list/index.ts"],
-      "@shared/ui/favorite-button": ["src/app/shared/ui/favorite-button/index.ts"],
       "@shared/directives/form-control-validation": [
         "src/app/shared/directives/form-control-validation/index.ts"
       ]

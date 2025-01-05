@@ -68,6 +68,14 @@ const articleListFeature = createFeature({
         ...state,
         loading: false
       })
+    ),
+    on(
+      articleListActions.favoriteSuccess,
+      articleListActions.unfavoriteSuccess,
+      (state, { article }): ArticleListState => {
+        const articles = state.articles.map(a => (a.slug === article.slug ? article : a));
+        return { ...state, articles };
+      }
     )
   )
 });
