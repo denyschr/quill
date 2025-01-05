@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/models';
 import { DatePipe } from '@angular/common';
 import { TagListComponent } from '@shared/ui/tag-list';
-import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 
 @Component({
   selector: 'ql-article-preview',
@@ -36,11 +35,17 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
             </p>
           </div>
         </div>
-        <ql-favorite-button
-          [favorited]="article.favorited"
-          [favoritesCount]="article.favoritesCount"
-          [slug]="article.slug"
-        />
+        <button
+          data-test="favorite-button"
+          type="button"
+          class="btn btn-sm"
+          [class.btn-success]="article.favorited"
+          [class.btn-outline-success]="!article.favorited"
+          (click)="toggleFavorite()"
+        >
+          <i class="bi bi-heart-fill"></i>
+          {{ article.favoritesCount }}
+        </button>
       </div>
       <h3 data-test="article-title" class="mb-1">
         <a
@@ -75,10 +80,24 @@ import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
     `
   ],
   standalone: true,
-  imports: [RouterLink, DatePipe, FavoriteButtonComponent, TagListComponent],
+  imports: [RouterLink, DatePipe, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {
   @Input({ required: true })
   public article!: Article;
+
+  @Output()
+  public readonly favorited = new EventEmitter<string>();
+
+  @Output()
+  public readonly unfavorited = new EventEmitter<string>();
+
+  public toggleFavorite(): void {
+    if (this.article.favorited) {
+      this.unfavorited.emit(this.article.slug);
+    } else {
+      this.favorited.emit(this.article.slug);
+    }
+  }
 }

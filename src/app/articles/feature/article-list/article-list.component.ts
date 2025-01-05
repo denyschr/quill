@@ -19,7 +19,11 @@ import { LetDirective } from '@ngrx/component';
       @if (!vm.loading) {
         <div class="row gap-3 mb-4">
           @for (article of vm.articles; track article.slug) {
-            <ql-article-preview [article]="article" />
+            <ql-article-preview
+              [article]="article"
+              (favorited)="favorite($event)"
+              (unfavorited)="unfavorite($event)"
+            />
           } @empty {
             <div data-test="no-articles">No articles found</div>
           }
@@ -52,6 +56,14 @@ export class ArticleListComponent {
   });
 
   constructor(private readonly store: Store) {}
+
+  public favorite(slug: string): void {
+    this.store.dispatch(articleListActions.favorite({ slug }));
+  }
+
+  public unfavorite(slug: string): void {
+    this.store.dispatch(articleListActions.unfavorite({ slug }));
+  }
 
   public changePage(page: number): void {
     this.store.dispatch(articleListActions.setPage({ page }));
