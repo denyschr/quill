@@ -6,11 +6,11 @@ import { ProfileApiClient } from '@shared/data-access/api';
 import { Router } from '@angular/router';
 
 export const loadProfile$ = createEffect(
-  (actions$ = inject(Actions), profileApiClient = inject(ProfileApiClient)) => {
+  (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
       ofType(profileActions.loadProfile),
       switchMap(({ username }) =>
-        profileApiClient.get(username).pipe(
+        profileClient.get(username).pipe(
           map(profile => profileActions.loadProfileSuccess({ profile })),
           catchError(() => of(profileActions.loadProfileFailure()))
         )

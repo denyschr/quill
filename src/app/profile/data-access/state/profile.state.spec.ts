@@ -29,7 +29,7 @@ describe('ProfileState', () => {
       expect(state).not.toBe(profileInitialState);
     });
 
-    it('should retrieve a profile and set loading to false on success', () => {
+    it('should retrieve a user profile and set loading to false on success', () => {
       const { profileInitialState } = fromProfile;
       const profile = { username: 'username' } as Profile;
       const newState = {
