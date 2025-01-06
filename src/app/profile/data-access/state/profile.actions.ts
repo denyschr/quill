@@ -6,6 +6,14 @@ export const profileActions = createActionGroup({
   events: {
     loadProfile: props<{ username: string }>(),
     loadProfileSuccess: props<{ profile: Profile }>(),
-    loadProfileFailure: emptyProps()
+    loadProfileFailure: emptyProps(),
+
+    follow: props<{ username: string }>(),
+    followSuccess: props<{ profile: Profile }>(),
+    followFailure: emptyProps(),
+
+    unfollow: props<{ username: string }>(),
+    unfollowSuccess: props<{ profile: Profile }>(),
+    unfollowFailure: emptyProps()
   }
 });

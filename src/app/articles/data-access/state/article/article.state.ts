@@ -41,6 +41,17 @@ const articleFeature = createFeature({
       })
     ),
     on(
+      articleActions.followSuccess,
+      articleActions.unfollowSuccess,
+      (state, { profile }): ArticleState => {
+        if (!state.article) {
+          return state;
+        }
+        const article = { ...state.article, author: profile };
+        return { ...state, article };
+      }
+    ),
+    on(
       articleListActions.favoriteSuccess,
       articleListActions.unfavoriteSuccess,
       (state, { article }): ArticleState => ({

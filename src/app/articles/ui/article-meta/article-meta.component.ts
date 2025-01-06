@@ -33,8 +33,9 @@ import { Article } from '@shared/data-access/models';
           </p>
         </div>
       </div>
-      <div class="d-flex align-items-center gap-2">
-        @if (owner) {
+
+      <div class="d-flex align-self-end align-items-center gap-2">
+        @if (canModify) {
           <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
             <i class="bi bi-pencil-square"></i>
             Edit
@@ -50,15 +51,27 @@ import { Article } from '@shared/data-access/models';
           </button>
         } @else {
           <button
+            data-test="follow-button"
+            type="button"
+            class="btn btn-sm"
+            [class.btn-secondary]="article.author.following"
+            [class.btn-outline-secondary]="!article.author.following"
+            (click)="toggledFollow.emit()"
+          >
+            <i class="bi bi-plus-lg"></i>
+            {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
+          </button>
+          <button
             data-test="favorite-button"
             type="button"
             class="btn btn-sm"
             [class.btn-success]="article.favorited"
             [class.btn-outline-success]="!article.favorited"
-            (click)="toggleFavorite()"
+            (click)="toggledFavorite.emit()"
           >
             <i class="bi bi-heart-fill"></i>
-            Add to Favorites ({{ article.favoritesCount }})
+            {{ article.favorited ? 'Remove from Favorites' : 'Add to Favorites' }}
+            ({{ article.favoritesCount }})
           </button>
         }
       </div>
@@ -82,24 +95,16 @@ export class ArticleMetaComponent {
   public article!: Article;
 
   @Input()
-  public owner = false;
+  public canModify = false;
 
   @Output()
-  public readonly favorited = new EventEmitter<string>();
+  public readonly toggledFollow = new EventEmitter<void>();
 
   @Output()
-  public readonly unfavorited = new EventEmitter<string>();
+  public readonly toggledFavorite = new EventEmitter<void>();
 
   @Output()
   public readonly deleted = new EventEmitter<string>();
-
-  public toggleFavorite(): void {
-    if (this.article.favorited) {
-      this.unfavorited.emit(this.article.slug);
-    } else {
-      this.favorited.emit(this.article.slug);
-    }
-  }
 
   public deleteArticle(): void {
     this.deleting = true;
