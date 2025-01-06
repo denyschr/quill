@@ -25,7 +25,6 @@ import { User } from '@shared/data-access/models';
               >
             </li>
 
-            <!-- Show this if the user is not logged in -->
             @if (currentUser === null) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
@@ -35,7 +34,6 @@ import { User } from '@shared/data-access/models';
               </li>
             }
 
-            <!-- Show this if the user is logged in -->
             @if (currentUser) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/editor" routerLinkActive="active">
