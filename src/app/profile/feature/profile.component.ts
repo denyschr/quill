@@ -39,7 +39,7 @@ import { Profile } from '@shared/data-access/models';
   imports: [LetDirective, RouterOutlet, UserInfoComponent, ArticlesToggleComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ProfileComponent {
+export class ProfileComponent {
   public readonly owner$ = combineLatest({
     currentUser: this.store.select(selectCurrentUser).pipe(filter(Boolean)),
     profile: this.store.select(selectProfile).pipe(filter(Boolean))

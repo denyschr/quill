@@ -31,7 +31,7 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
   imports: [LetDirective, ArticleFormComponent, BackendErrorsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleNewComponent {
+export class ArticleNewComponent {
   public readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
     backendErrors: this.store.select(selectErrors)

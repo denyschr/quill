@@ -36,7 +36,7 @@ import { Article } from '@shared/data-access/models';
   imports: [LetDirective, ArticleFormComponent, BackendErrorsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleEditComponent implements OnInit {
+export class ArticleEditComponent implements OnInit {
   public readonly vm$ = combineLatest({
     article: this.store.select(selectArticle).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),

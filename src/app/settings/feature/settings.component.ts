@@ -86,7 +86,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class SettingsComponent {
+export class SettingsComponent {
   public readonly imageControl = this._fb.control('');
   public readonly usernameControl = this._fb.control('', [
     Validators.required,
