@@ -14,4 +14,16 @@ export class ProfileApiClient {
       .get<{ profile: Profile }>(`/profiles/${username}`)
       .pipe(map(response => response.profile));
   }
+
+  public follow(username: string): Observable<Profile> {
+    return this._http
+      .post<{ profile: Profile }>(`/profiles/${username}/follow`, {})
+      .pipe(map(response => response.profile));
+  }
+
+  public unfollow(username: string): Observable<Profile> {
+    return this._http
+      .delete<{ profile: Profile }>(`/profiles/${username}/follow`, {})
+      .pipe(map(response => response.profile));
+  }
 }

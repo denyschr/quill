@@ -37,6 +37,14 @@ const profileFeature = createFeature({
         ...state,
         loading: false
       })
+    ),
+    on(
+      profileActions.followSuccess,
+      profileActions.unfollowSuccess,
+      (state, { profile }): ProfileState => ({
+        ...state,
+        profile
+      })
     )
   )
 });

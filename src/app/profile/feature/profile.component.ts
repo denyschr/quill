@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectLoading, selectProfile } from '@profile/data-access/state';
+import { profileActions, selectLoading, selectProfile } from '@profile/data-access/state';
 import { combineLatest, filter, map } from 'rxjs';
 import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { UserInfoComponent } from '@profile/ui/user-info';
 import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
 import { RouterOutlet } from '@angular/router';
+import { Profile } from '@shared/data-access/models';
 
 @Component({
   template: `
@@ -14,13 +15,16 @@ import { RouterOutlet } from '@angular/router';
       @if (!vm.loading) {
         @if (vm.profile) {
           @let profile = vm.profile;
-          <ql-user-info [profile]="profile" [owner]="vm.owner" />
+          <ql-user-info
+            [profile]="profile"
+            [owner]="vm.owner"
+            (toggledFollow)="toggleFollow(profile)"
+          />
 
           <div class="container">
             <div class="row py-4">
               <div class="col-md-10 offset-md-1">
                 <ql-articles-toggle [username]="profile.username" />
-
                 <router-outlet />
               </div>
             </div>
@@ -48,4 +52,12 @@ export default class ProfileComponent {
   });
 
   constructor(private readonly store: Store) {}
+
+  public toggleFollow(author: Profile): void {
+    if (author.following) {
+      this.store.dispatch(profileActions.unfollow({ username: author.username }));
+    } else {
+      this.store.dispatch(profileActions.follow({ username: author.username }));
+    }
+  }
 }

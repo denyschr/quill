@@ -7,6 +7,7 @@ import { TagListComponent } from '@shared/ui/tag-list';
 import { combineLatest, filter, map } from 'rxjs';
 import { ArticleMetaComponent } from '@articles/ui/article-meta';
 import { articleListActions } from '@articles/data-access/state/article-list';
+import { Article, Profile } from '@shared/data-access/models';
 
 @Component({
   template: `
@@ -21,9 +22,9 @@ import { articleListActions } from '@articles/data-access/state/article-list';
 
               <ql-article-meta
                 [article]="article"
-                [owner]="vm.owner"
-                (favorited)="favorite($event)"
-                (unfavorited)="unfavorite($event)"
+                [canModify]="vm.owner"
+                (toggledFollow)="toggleFollow(article.author)"
+                (toggledFavorite)="toggleFavorite(article)"
                 (deleted)="delete($event)"
               />
             </div>
@@ -77,12 +78,20 @@ export default class ArticleComponent implements OnInit {
     this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
   }
 
-  public favorite(slug: string): void {
-    this.store.dispatch(articleListActions.favorite({ slug }));
+  public toggleFollow(author: Profile): void {
+    if (author.following) {
+      this.store.dispatch(articleActions.unfollow({ username: author.username }));
+    } else {
+      this.store.dispatch(articleActions.follow({ username: author.username }));
+    }
   }
 
-  public unfavorite(slug: string): void {
-    this.store.dispatch(articleListActions.unfavorite({ slug }));
+  public toggleFavorite(article: Article): void {
+    if (article.favorited) {
+      this.store.dispatch(articleListActions.unfavorite({ slug: article.slug }));
+    } else {
+      this.store.dispatch(articleListActions.favorite({ slug: article.slug }));
+    }
   }
 
   public delete(slug: string): void {
