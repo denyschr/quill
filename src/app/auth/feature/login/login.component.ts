@@ -10,8 +10,6 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
 @Component({
-  selector: 'ql-login',
-  standalone: true,
   template: `
     <div class="container">
       <div class="row py-5">
@@ -64,6 +62,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
       </div>
     </div>
   `,
+  standalone: true,
   imports: [
     RouterLink,
     ReactiveFormsModule,
@@ -74,7 +73,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class LoginComponent {
+export class LoginComponent {
   public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
   public readonly passwordControl = this._fb.control('', [
     Validators.required,

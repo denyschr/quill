@@ -21,19 +21,19 @@ import {
 export const LAYOUT_ROUTES: Route[] = [
   {
     path: '',
-    loadComponent: () => import('../../home/feature/home.component')
+    loadComponent: () => import('@home/feature').then(m => m.HomeComponent)
   },
   {
     path: 'register',
-    loadComponent: () => import('../../auth/feature/register/register.component')
+    loadComponent: () => import('@auth/feature/register').then(m => m.RegisterComponent)
   },
   {
     path: 'login',
-    loadComponent: () => import('../../auth/feature/login/login.component')
+    loadComponent: () => import('@auth/feature/login').then(m => m.LoginComponent)
   },
   {
     path: 'article/:slug',
-    loadComponent: () => import('../../articles/feature/article/article.component'),
+    loadComponent: () => import('@articles/feature/article').then(m => m.ArticleComponent),
     providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
   },
   {
@@ -41,7 +41,8 @@ export const LAYOUT_ROUTES: Route[] = [
     children: [
       {
         path: '',
-        loadComponent: () => import('../../articles/feature/article-new/article-new.component'),
+        loadComponent: () =>
+          import('@articles/feature/article-new').then(m => m.ArticleNewComponent),
         providers: [
           provideEffects(articleNewEffects),
           provideState(articleNewFeatureKey, articleNewReducer)
@@ -49,7 +50,8 @@ export const LAYOUT_ROUTES: Route[] = [
       },
       {
         path: ':slug',
-        loadComponent: () => import('../../articles/feature/article-edit/article-edit.component'),
+        loadComponent: () =>
+          import('@articles/feature/article-edit').then(m => m.ArticleEditComponent),
         providers: [
           provideEffects(articleEditEffects, articleEffects),
           provideState(articleFeatureKey, articleReducer),
@@ -60,11 +62,11 @@ export const LAYOUT_ROUTES: Route[] = [
   },
   {
     path: 'settings',
-    loadComponent: () => import('../../settings/feature/settings.component'),
+    loadComponent: () => import('@settings/feature').then(m => m.SettingsComponent),
     providers: [provideState(settingsFeatureKey, settingsReducer)]
   },
   {
     path: 'profile',
-    loadChildren: () => import('../../profile/feature/profile.routes').then(m => m.PROFILE_ROUTES)
+    loadChildren: () => import('@profile/feature').then(m => m.PROFILE_ROUTES)
   }
 ];

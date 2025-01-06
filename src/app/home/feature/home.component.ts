@@ -44,7 +44,7 @@ import { FeedTabsComponent } from '@home/ui/feed-tabs';
   imports: [LetDirective, FeedTabsComponent, TagsComponent, ArticleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class HomeComponent {
+export class HomeComponent {
   public readonly vm$ = combineLatest({
     config: this.store.select(selectConfig),
     tags: this.store.select(selectTags),

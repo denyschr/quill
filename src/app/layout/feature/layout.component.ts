@@ -21,7 +21,7 @@ import { filter } from 'rxjs';
   imports: [RouterOutlet, LetDirective, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class LayoutComponent {
+export class LayoutComponent {
   public readonly currentUser$ = this.store
     .select(selectCurrentUser)
     .pipe(filter(currentUser => currentUser !== undefined));

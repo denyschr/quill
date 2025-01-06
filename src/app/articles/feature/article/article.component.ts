@@ -48,7 +48,7 @@ import { Article, Profile } from '@shared/data-access/models';
   imports: [LetDirective, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit {
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store

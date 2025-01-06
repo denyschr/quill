@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import ProfileComponent from './profile.component';
+import { ProfileComponent } from './profile.component';
 import { provideState } from '@ngrx/store';
 import { profileEffects, profileFeatureKey, profileReducer } from '@profile/data-access/state';
 import { provideEffects } from '@ngrx/effects';
@@ -19,17 +19,13 @@ export const PROFILE_ROUTES: Route[] = [
       {
         path: '',
         loadComponent: () =>
-          import('../../articles/feature/article-list/article-list.component').then(
-            m => m.ArticleListComponent
-          ),
+          import('@articles/feature/article-list').then(m => m.ArticleListComponent),
         resolve: { profileArticlesResolver }
       },
       {
         path: 'favorites',
         loadComponent: () =>
-          import('../../articles/feature/article-list/article-list.component').then(
-            m => m.ArticleListComponent
-          ),
+          import('@articles/feature/article-list').then(m => m.ArticleListComponent),
         resolve: { profileFavoritesResolver }
       }
     ]

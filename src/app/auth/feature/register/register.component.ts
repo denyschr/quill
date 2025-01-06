@@ -10,8 +10,6 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
 @Component({
-  selector: 'ql-register',
-  standalone: true,
   template: `
     <div class="container">
       <div class="row py-5">
@@ -70,6 +68,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
       </div>
     </div>
   `,
+  standalone: true,
   imports: [
     RouterLink,
     ReactiveFormsModule,
@@ -80,7 +79,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class RegisterComponent {
+export class RegisterComponent {
   public readonly usernameControl = this._fb.control('', [
     Validators.required,
     Validators.minLength(3)
