@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
@@ -10,7 +10,7 @@ import {
 } from '@articles/data-access/state/article-edit';
 import { articleActions, selectArticle, selectLoading } from '@articles/data-access/state/article';
 import { ArticleFormComponent } from '@articles/ui/article-form';
-import { Article } from '@shared/data-access/models';
+import { Article, UnsavedChanges } from '@shared/data-access/models';
 
 @Component({
   template: `
@@ -25,7 +25,7 @@ import { Article } from '@shared/data-access/models';
             <ql-article-form
               [article]="vm.article"
               [submitting]="vm.submitting"
-              (published)="publishArticle($event)"
+              (published)="publish($event)"
             />
           </ng-container>
         </div>
@@ -36,7 +36,7 @@ import { Article } from '@shared/data-access/models';
   imports: [LetDirective, ArticleFormComponent, BackendErrorsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleEditComponent implements OnInit {
+export class ArticleEditComponent implements OnInit, UnsavedChanges {
   public readonly vm$ = combineLatest({
     article: this.store.select(selectArticle).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
@@ -47,13 +47,20 @@ export class ArticleEditComponent implements OnInit {
   @Input()
   public slug!: string;
 
+  @ViewChild(ArticleFormComponent)
+  public readonly articleForm!: ArticleFormComponent;
+
   constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
   }
 
-  public publishArticle(article: Partial<Article>): void {
+  public hasUnsavedChanges(): boolean {
+    return this.articleForm.articleForm.dirty;
+  }
+
+  public publish(article: Partial<Article>): void {
     this.store.dispatch(articleEditActions.editArticle({ slug: this.slug, article }));
   }
 }

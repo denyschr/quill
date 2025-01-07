@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { Article } from '@shared/data-access/models';
+import { Article, UnsavedChanges } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 import {
@@ -21,7 +21,7 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <ql-article-form [submitting]="vm.submitting" (published)="publishArticle($event)" />
+            <ql-article-form [submitting]="vm.submitting" (published)="publish($event)" />
           </ng-container>
         </div>
       </div>
@@ -31,15 +31,22 @@ import { ArticleFormComponent } from '@articles/ui/article-form';
   imports: [LetDirective, ArticleFormComponent, BackendErrorsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleNewComponent {
+export class ArticleNewComponent implements UnsavedChanges {
   public readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
     backendErrors: this.store.select(selectErrors)
   });
 
+  @ViewChild(ArticleFormComponent)
+  public readonly articleForm!: ArticleFormComponent;
+
   constructor(private store: Store) {}
 
-  public publishArticle(article: Partial<Article>) {
+  public hasUnsavedChanges(): boolean {
+    return this.articleForm.articleForm.dirty;
+  }
+
+  public publish(article: Partial<Article>) {
     this.store.dispatch(articleNewActions.newArticle({ article }));
   }
 }
