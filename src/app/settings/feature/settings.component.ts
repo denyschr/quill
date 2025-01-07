@@ -7,7 +7,7 @@ import { selectErrors, selectSubmitting } from '@settings/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { User } from '@shared/data-access/models';
+import { UnsavedChanges, User } from '@shared/data-access/models';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 
 @Component({
@@ -21,7 +21,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <form [formGroup]="userForm" (ngSubmit)="save()">
+            <form [formGroup]="userForm" (ngSubmit)="update()">
               <div class="mb-3">
                 <label for="image" class="form-label">URL of profile picture</label>
                 <input id="image" type="text" class="form-control" formControlName="image" />
@@ -64,7 +64,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
                 class="btn btn-primary"
                 [disabled]="vm.submitting || userForm.invalid"
               >
-                Save Changes
+                Update Settings
               </button>
             </form>
 
@@ -86,7 +86,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsComponent {
+export class SettingsComponent implements UnsavedChanges {
   public readonly imageControl = this._fb.control('');
   public readonly usernameControl = this._fb.control('', [
     Validators.required,
@@ -123,6 +123,10 @@ export class SettingsComponent {
     private readonly store: Store
   ) {}
 
+  public hasUnsavedChanges(): boolean {
+    return this.userForm.dirty;
+  }
+
   public initUserForm(currentUser: User): void {
     this.userForm.patchValue({
       image: currentUser.image,
@@ -132,7 +136,7 @@ export class SettingsComponent {
     });
   }
 
-  public save(): void {
+  public update(): void {
     this.store.dispatch(authActions.updateCurrentUser({ user: this.userForm.getRawValue() }));
   }
 

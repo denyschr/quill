@@ -1,6 +1,6 @@
-import { CanActivateFn, Route, Router } from '@angular/router';
+import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import { provideState, Store } from '@ngrx/store';
+import { provideState } from '@ngrx/store';
 import {
   articleEffects,
   articleFeatureKey,
@@ -17,24 +17,8 @@ import {
   articleEditFeatureKey,
   articleEditReducer
 } from '@articles/data-access/state/article-edit';
-import { inject } from '@angular/core';
-import { selectCurrentUser } from '@auth/data-access/state';
-import { filter, map } from 'rxjs';
-
-export const authenticationGuard = (options: {
-  readonly authenticated: boolean;
-  readonly otherwise: string;
-}): CanActivateFn => {
-  const { authenticated, otherwise } = options;
-  return () => {
-    const router = inject(Router);
-    const store = inject(Store);
-    return store.select(selectCurrentUser).pipe(
-      filter(currentUser => currentUser !== undefined),
-      map(currentUser => !!currentUser === authenticated || router.parseUrl(otherwise))
-    );
-  };
-};
+import { authGuard } from '@auth/data-access/guards';
+import { formGuard } from '@shared/data-access/guards';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -44,12 +28,12 @@ export const LAYOUT_ROUTES: Route[] = [
   {
     path: 'register',
     loadComponent: () => import('@auth/feature/register').then(m => m.RegisterComponent),
-    canActivate: [authenticationGuard({ authenticated: false, otherwise: '' })]
+    canActivate: [authGuard({ authenticated: false, otherwise: '' })]
   },
   {
     path: 'login',
     loadComponent: () => import('@auth/feature/login').then(m => m.LoginComponent),
-    canActivate: [authenticationGuard({ authenticated: false, otherwise: '' })]
+    canActivate: [authGuard({ authenticated: false, otherwise: '' })]
   },
   {
     path: 'article/:slug',
@@ -58,7 +42,7 @@ export const LAYOUT_ROUTES: Route[] = [
   },
   {
     path: 'editor',
-    canActivate: [authenticationGuard({ authenticated: true, otherwise: '/login' })],
+    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })],
     children: [
       {
         path: '',
@@ -67,7 +51,8 @@ export const LAYOUT_ROUTES: Route[] = [
         providers: [
           provideEffects(articleNewEffects),
           provideState(articleNewFeatureKey, articleNewReducer)
-        ]
+        ],
+        canDeactivate: [formGuard]
       },
       {
         path: ':slug',
@@ -77,7 +62,8 @@ export const LAYOUT_ROUTES: Route[] = [
           provideEffects(articleEditEffects, articleEffects),
           provideState(articleFeatureKey, articleReducer),
           provideState(articleEditFeatureKey, articleEditReducer)
-        ]
+        ],
+        canDeactivate: [formGuard]
       }
     ]
   },
@@ -85,12 +71,13 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'settings',
     loadComponent: () => import('@settings/feature').then(m => m.SettingsComponent),
     providers: [provideState(settingsFeatureKey, settingsReducer)],
-    canActivate: [authenticationGuard({ authenticated: true, otherwise: '/login' })]
+    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })],
+    canDeactivate: [formGuard]
   },
   {
     path: 'profile',
     loadChildren: () => import('@profile/feature').then(m => m.PROFILE_ROUTES),
-    canActivate: [authenticationGuard({ authenticated: true, otherwise: '/login' })]
+    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })]
   },
   {
     path: '**',
