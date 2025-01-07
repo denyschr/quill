@@ -59,6 +59,7 @@
       "@profile/feature": ["src/app/profile/feature/index.ts"],
       "@profile/ui/user-info": ["src/app/profile/ui/user-info/index.ts"],
       "@profile/ui/articles-toggle": ["src/app/profile/ui/articles-toggle/index.ts"],
+      "@not-found/feature": ["src/app/not-found/feature/index.ts"],
       "@shared/data-access/models": ["src/app/shared/data-access/models/index.ts"],
       "@shared/data-access/api": ["src/app/shared/data-access/api/index.ts"],
       "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],

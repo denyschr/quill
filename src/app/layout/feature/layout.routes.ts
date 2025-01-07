@@ -91,5 +91,9 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'profile',
     loadChildren: () => import('@profile/feature').then(m => m.PROFILE_ROUTES),
     canActivate: [authenticationGuard({ authenticated: true, otherwise: '/login' })]
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@not-found/feature').then(m => m.NotFoundComponent)
   }
 ];
