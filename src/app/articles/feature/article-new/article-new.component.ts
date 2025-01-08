@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { Article, UnsavedChanges } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 import {
@@ -10,6 +10,7 @@ import {
   selectSubmitting
 } from '@articles/data-access/state/article-new';
 import { ArticleFormComponent } from '@articles/ui/article-form';
+import { UnsavedChanges } from '@shared/data-access/guards';
 
 @Component({
   template: `

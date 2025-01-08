@@ -1,16 +1,20 @@
 import { CanDeactivateFn } from '@angular/router';
 import { inject } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '@shared/ui/confirm-modal';
-import { from, of } from 'rxjs';
-import { UnsavedChanges } from '@shared/data-access/models';
+import { of } from 'rxjs';
+import { ConfirmService } from '@shared/data-access/services';
+
+export interface UnsavedChanges {
+  hasUnsavedChanges(): boolean;
+}
 
 export const formGuard: CanDeactivateFn<UnsavedChanges> = (component: UnsavedChanges) => {
-  const modal = inject(NgbModal);
+  const confirmService = inject(ConfirmService);
 
   if (component.hasUnsavedChanges()) {
-    const modalRef = modal.open(ConfirmModalComponent);
-    return from(modalRef.result);
+    return confirmService.confirm({
+      title: 'You have unsaved changes!',
+      message: 'Are you sure you want to leave this page?'
+    });
   }
 
   return of(true);

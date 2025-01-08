@@ -10,7 +10,8 @@ import {
 } from '@articles/data-access/state/article-edit';
 import { articleActions, selectArticle, selectLoading } from '@articles/data-access/state/article';
 import { ArticleFormComponent } from '@articles/ui/article-form';
-import { Article, UnsavedChanges } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/models';
+import { UnsavedChanges } from '@shared/data-access/guards';
 
 @Component({
   template: `
