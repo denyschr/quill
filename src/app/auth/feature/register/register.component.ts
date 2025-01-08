@@ -18,7 +18,6 @@ import { RegisterFormComponent } from '@auth/ui/register-form';
             <h1>Sign up</h1>
             <a class="link-opacity-100" routerLink="/login">Have an account?</a>
           </div>
-
           <ng-container *ngrxLet="vm$; let vm">
             @let errors = vm.errors;
 
