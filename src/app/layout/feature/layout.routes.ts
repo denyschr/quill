@@ -19,6 +19,7 @@ import {
 } from '@articles/data-access/state/article-edit';
 import { authGuard } from '@auth/data-access/guards';
 import { formGuard } from '@shared/data-access/guards';
+import { articleResolver } from '@articles/data-access/resolvers';
 
 export const LAYOUT_ROUTES: Route[] = [
   {
@@ -38,7 +39,8 @@ export const LAYOUT_ROUTES: Route[] = [
   {
     path: 'article/:slug',
     loadComponent: () => import('@articles/feature/article').then(m => m.ArticleComponent),
-    providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)]
+    providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)],
+    resolve: { articleResolver }
   },
   {
     path: 'editor',
@@ -63,6 +65,7 @@ export const LAYOUT_ROUTES: Route[] = [
           provideState(articleFeatureKey, articleReducer),
           provideState(articleEditFeatureKey, articleEditReducer)
         ],
+        resolve: { articleResolver },
         canDeactivate: [formGuard]
       }
     ]

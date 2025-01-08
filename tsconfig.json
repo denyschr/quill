@@ -24,17 +24,18 @@
     "lib": ["ES2022", "dom"],
     "paths": {
       "@environment": ["src/environments/environment"],
+      "@layout/feature": ["src/app/layout/feature/index.ts"],
+      "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/guards": ["src/app/auth/data-access/guards/index.ts"],
       "@auth/data-access/state": ["src/app/auth/data-access/state/index.ts"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
-      "@layout/feature": ["src/app/layout/feature/index.ts"],
-      "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@home/data-access/state/tags": ["src/app/home/data-access/state/tags/index.ts"],
       "@home/feature": ["src/app/home/feature/index.ts"],
       "@home/ui/feed-tabs": ["src/app/home/ui/feed-tabs/index.ts"],
       "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
+      "@articles/data-access/resolvers": ["src/app/articles/data-access/resolvers/index.ts"],
       "@articles/data-access/state/article-list": [
         "src/app/articles/data-access/state/article-list/index.ts"
       ],

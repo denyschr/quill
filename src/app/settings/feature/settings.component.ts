@@ -22,7 +22,7 @@ import { UnsavedChanges } from '@shared/data-access/guards';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <form [formGroup]="userForm" (ngSubmit)="update()">
+            <form [formGroup]="form" (ngSubmit)="update()">
               <div class="mb-3">
                 <label for="image" class="form-label">URL of profile picture</label>
                 <input id="image" type="text" class="form-control" formControlName="image" />
@@ -63,7 +63,7 @@ import { UnsavedChanges } from '@shared/data-access/guards';
               <button
                 type="submit"
                 class="btn btn-primary"
-                [disabled]="vm.submitting || userForm.invalid"
+                [disabled]="vm.submitting || form.invalid"
               >
                 Update Settings
               </button>
@@ -100,7 +100,7 @@ export class SettingsComponent implements UnsavedChanges {
     Validators.minLength(8)
   ]);
 
-  public readonly userForm = this._fb.group({
+  public readonly form = this._fb.group({
     image: this.imageControl,
     username: this.usernameControl,
     bio: this.bioControl,
@@ -114,7 +114,7 @@ export class SettingsComponent implements UnsavedChanges {
     currentUser: this.store.select(selectCurrentUser).pipe(
       filter(Boolean),
       tap(currentUser => {
-        this.initUserForm(currentUser);
+        this.initForm(currentUser);
       })
     )
   });
@@ -125,11 +125,11 @@ export class SettingsComponent implements UnsavedChanges {
   ) {}
 
   public hasUnsavedChanges(): boolean {
-    return this.userForm.dirty;
+    return this.form.dirty;
   }
 
-  public initUserForm(currentUser: User): void {
-    this.userForm.patchValue({
+  public initForm(currentUser: User): void {
+    this.form.patchValue({
       image: currentUser.image,
       username: currentUser.username,
       bio: currentUser.bio,
@@ -138,7 +138,7 @@ export class SettingsComponent implements UnsavedChanges {
   }
 
   public update(): void {
-    this.store.dispatch(authActions.updateCurrentUser({ user: this.userForm.getRawValue() }));
+    this.store.dispatch(authActions.updateCurrentUser({ user: this.form.getRawValue() }));
   }
 
   public logout(): void {
