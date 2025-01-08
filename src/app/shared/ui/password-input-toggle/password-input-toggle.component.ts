@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { IconButtonComponent } from '@shared/ui/icon-button';
 
 @Component({
   selector: 'ql-password-input-toggle',
@@ -10,9 +9,10 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
       class="btn btn-outline-primary"
       ngbTooltip="Toggle visibility"
       placement="bottom"
-      [qlIconButton]="visible ? 'bi-eye' : 'bi-eye-slash'"
       (click)="toggle()"
-    ></button>
+    >
+      <i [class]="visible ? 'bi-eye' : 'bi-eye-slash'"></i>
+    </button>
   `,
   standalone: true,
   styles: [
@@ -24,7 +24,7 @@ import { IconButtonComponent } from '@shared/ui/icon-button';
       }
     `
   ],
-  imports: [NgbTooltip, IconButtonComponent],
+  imports: [NgbTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordInputToggleComponent {
