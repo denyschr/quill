@@ -31,6 +31,7 @@
       "@auth/data-access/state": ["src/app/auth/data-access/state/index.ts"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
+      "@auth/ui/login-form": ["src/app/auth/ui/login-form/index.ts"],
       "@home/data-access/state/tags": ["src/app/home/data-access/state/tags/index.ts"],
       "@home/feature": ["src/app/home/feature/index.ts"],
       "@home/ui/feed-tabs": ["src/app/home/ui/feed-tabs/index.ts"],

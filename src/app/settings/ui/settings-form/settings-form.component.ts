@@ -7,7 +7,7 @@ import { User } from '@shared/data-access/models';
 @Component({
   selector: 'ql-settings-form',
   template: `
-    <form [formGroup]="form" (ngSubmit)="update()">
+    <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="image" class="form-label">URL of profile picture</label>
         <input id="image" type="text" class="form-control" formControlName="image" />
@@ -79,7 +79,7 @@ export class SettingsFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public readonly updated = new EventEmitter<Partial<User>>();
+  public readonly submitted = new EventEmitter<Partial<User>>();
 
   @Input()
   public set user(currentUser: User) {
@@ -93,7 +93,7 @@ export class SettingsFormComponent {
 
   constructor(private readonly _fb: NonNullableFormBuilder) {}
 
-  public update(): void {
-    this.updated.emit(this.form.getRawValue());
+  public submit(): void {
+    this.submitted.emit(this.form.getRawValue());
   }
 }
