@@ -1,15 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { authActions, selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { combineLatest, filter, tap } from 'rxjs';
+import { combineLatest, filter } from 'rxjs';
 import { selectErrors, selectSubmitting } from '@settings/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { User } from '@shared/data-access/models';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { UnsavedChanges } from '@shared/data-access/guards';
+import { SettingsFormComponent } from '@settings/ui/settings-form';
 
 @Component({
   template: `
@@ -22,52 +20,11 @@ import { UnsavedChanges } from '@shared/data-access/guards';
               <ql-backend-errors [errors]="vm.backendErrors" />
             }
 
-            <form [formGroup]="form" (ngSubmit)="update()">
-              <div class="mb-3">
-                <label for="image" class="form-label">URL of profile picture</label>
-                <input id="image" type="text" class="form-control" formControlName="image" />
-              </div>
-
-              <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input id="username" type="text" class="form-control" formControlName="username" />
-                <val-errors controlName="username" label="The username" />
-              </div>
-
-              <div class="mb-3">
-                <label for="bio" class="form-label">Bio</label>
-                <textarea id="bio" class="form-control" rows="8" formControlName="bio"></textarea>
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input id="email" type="email" class="form-control" formControlName="email" />
-                <val-errors controlName="email" label="The email" />
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <input
-                    id="password"
-                    type="password"
-                    class="form-control"
-                    formControlName="password"
-                    #passwordInput
-                  />
-                  <ql-password-input-toggle [input]="passwordInput" />
-                </div>
-                <val-errors controlName="password" label="The password" />
-              </div>
-
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="vm.submitting || form.invalid"
-              >
-                Update Settings
-              </button>
-            </form>
+            <ql-settings-form
+              [user]="vm.currentUser"
+              [submitting]="vm.submitting"
+              (updated)="update($event)"
+            />
 
             <hr />
 
@@ -78,67 +35,27 @@ import { UnsavedChanges } from '@shared/data-access/guards';
     </div>
   `,
   standalone: true,
-  imports: [
-    LetDirective,
-    BackendErrorsComponent,
-    ReactiveFormsModule,
-    ValidationErrorsComponent,
-    PasswordInputToggleComponent
-  ],
+  imports: [LetDirective, BackendErrorsComponent, SettingsFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent implements UnsavedChanges {
-  public readonly imageControl = this._fb.control('');
-  public readonly usernameControl = this._fb.control('', [
-    Validators.required,
-    Validators.minLength(3)
-  ]);
-  public readonly bioControl = this._fb.control('');
-  public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this._fb.control('', [
-    Validators.required,
-    Validators.minLength(8)
-  ]);
-
-  public readonly form = this._fb.group({
-    image: this.imageControl,
-    username: this.usernameControl,
-    bio: this.bioControl,
-    email: this.emailControl,
-    password: this.passwordControl
-  });
-
   public readonly vm$ = combineLatest({
+    currentUser: this.store.select(selectCurrentUser).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
-    backendErrors: this.store.select(selectErrors),
-    currentUser: this.store.select(selectCurrentUser).pipe(
-      filter(Boolean),
-      tap(currentUser => {
-        this.initForm(currentUser);
-      })
-    )
+    backendErrors: this.store.select(selectErrors)
   });
 
-  constructor(
-    private readonly _fb: NonNullableFormBuilder,
-    private readonly store: Store
-  ) {}
+  @ViewChild(SettingsFormComponent)
+  public readonly settingsForm!: SettingsFormComponent;
+
+  constructor(private readonly store: Store) {}
 
   public hasUnsavedChanges(): boolean {
-    return this.form.dirty;
+    return !this.settingsForm.submitting && this.settingsForm.form.dirty;
   }
 
-  public initForm(currentUser: User): void {
-    this.form.patchValue({
-      image: currentUser.image,
-      username: currentUser.username,
-      bio: currentUser.bio,
-      email: currentUser.email
-    });
-  }
-
-  public update(): void {
-    this.store.dispatch(authActions.updateCurrentUser({ user: this.form.getRawValue() }));
+  public update(user: Partial<User>): void {
+    this.store.dispatch(authActions.updateCurrentUser({ user }));
   }
 
   public logout(): void {
