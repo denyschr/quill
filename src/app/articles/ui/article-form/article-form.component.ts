@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Article } from '@shared/data-access/models';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
+import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-article-form',
@@ -46,7 +47,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
                   class="btn btn-secondary p-0 border-0"
                   (click)="removeTag(tag)"
                 >
-                  <i class="bi bi-x"></i>
+                  <ql-icon [icon]="icons.cancel" />
                 </button>
               </li>
             }
@@ -60,7 +61,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     </form>
   `,
   standalone: true,
-  imports: [ReactiveFormsModule, ValidationErrorsComponent],
+  imports: [ReactiveFormsModule, ValidationErrorsComponent, IconDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleFormComponent {
@@ -75,6 +76,8 @@ export class ArticleFormComponent {
     body: this.bodyControl,
     tagList: this.tagListControl
   });
+
+  public icons = icons;
 
   @Input({ required: true })
   public submitting!: boolean;

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/models';
+import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-article-meta',
@@ -37,7 +38,7 @@ import { Article } from '@shared/data-access/models';
       <div class="d-flex align-self-end align-items-center gap-2">
         @if (canModify) {
           <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
-            <i class="bi bi-pencil-square"></i>
+            <ql-icon [icon]="icons.edit" />
             Edit
           </a>
           <button
@@ -46,7 +47,7 @@ import { Article } from '@shared/data-access/models';
             [disabled]="deleting"
             (click)="deleteArticle()"
           >
-            <i class="bi bi-trash3"></i>
+            <ql-icon [icon]="icons.trash" />
             Delete
           </button>
         } @else {
@@ -58,7 +59,7 @@ import { Article } from '@shared/data-access/models';
             [class.btn-outline-secondary]="!article.author.following"
             (click)="toggledFollow.emit()"
           >
-            <i class="bi bi-plus-lg"></i>
+            <ql-icon [icon]="icons.follow" />
             {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
           </button>
           <button
@@ -69,7 +70,7 @@ import { Article } from '@shared/data-access/models';
             [class.btn-outline-success]="!article.favorited"
             (click)="toggledFavorite.emit()"
           >
-            <i class="bi bi-heart-fill"></i>
+            <ql-icon [icon]="icons.favorite" />
             {{ article.favorited ? 'Remove from Favorites' : 'Add to Favorites' }}
             ({{ article.favoritesCount }})
           </button>
@@ -85,11 +86,12 @@ import { Article } from '@shared/data-access/models';
     `
   ],
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, IconDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleMetaComponent {
   public deleting = false;
+  public icons = icons;
 
   @Input({ required: true })
   public article!: Article;

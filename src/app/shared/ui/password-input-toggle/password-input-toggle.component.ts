@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-password-input-toggle',
@@ -11,7 +12,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
       placement="bottom"
       (click)="toggle()"
     >
-      <i [class]="visible ? 'bi-eye' : 'bi-eye-slash'"></i>
+      <ql-icon [icon]="visible ? icons.showPassword : icons.hidePassword" />
     </button>
   `,
   standalone: true,
@@ -24,11 +25,12 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
       }
     `
   ],
-  imports: [NgbTooltip],
+  imports: [NgbTooltip, IconDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordInputToggleComponent {
   public visible = false;
+  public icons = icons;
 
   @Input({ required: true })
   public input!: HTMLInputElement;
