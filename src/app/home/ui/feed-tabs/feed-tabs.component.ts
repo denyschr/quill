@@ -8,7 +8,7 @@ import { FeedType } from '@shared/data-access/models';
       <li class="nav-item">
         <a
           class="nav-link"
-          [class.active]="feedType === 'global' && !tag"
+          [class]="feedType === 'global' && !tag ? 'active pe-none' : ''"
           (click)="changed.emit('global')"
           >Global Feed</a
         >
@@ -18,7 +18,7 @@ import { FeedType } from '@shared/data-access/models';
         <li class="nav-item">
           <a
             class="nav-link"
-            [class.active]="feedType === 'feed' && !tag"
+            [class]="feedType === 'feed' && !tag ? 'active pe-none' : ''"
             (click)="changed.emit('feed')"
             >Your Feed</a
           >
@@ -27,7 +27,7 @@ import { FeedType } from '@shared/data-access/models';
 
       @if (tag) {
         <li class="nav-item">
-          <a class="nav-link active">#{{ tag }}</a>
+          <a class="nav-link active pe-none">#{{ tag }}</a>
         </li>
       }
     </ul>
@@ -36,9 +36,6 @@ import { FeedType } from '@shared/data-access/models';
     `
       a {
         cursor: pointer;
-        &.active {
-          pointer-events: none;
-        }
       }
     `
   ],

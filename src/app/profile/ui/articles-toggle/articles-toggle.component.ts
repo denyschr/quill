@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         <a
           class="nav-link"
           [routerLink]="['/profile', username]"
-          routerLinkActive="active"
+          routerLinkActive="active pe-none"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           My Articles
@@ -19,7 +19,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         <a
           class="nav-link"
           [routerLink]="['/profile', username, 'favorites']"
-          routerLinkActive="active"
+          routerLinkActive="active pe-none"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           Favorited Articles
@@ -27,13 +27,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       </li>
     </ul>
   `,
-  styles: [
-    `
-      a.active {
-        pointer-events: none;
-      }
-    `
-  ],
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush
