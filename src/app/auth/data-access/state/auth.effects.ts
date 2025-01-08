@@ -49,11 +49,12 @@ export const updateCurrentUser$ = createEffect(
 );
 
 export const updateCurrentUserSuccess$ = createEffect(
-  (actions$ = inject(Actions), jwtService = inject(JwtService)) => {
+  (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
     return actions$.pipe(
       ofType(authActions.updateCurrentUserSuccess),
-      tap(action => {
-        jwtService.saveToken(action.currentUser.token);
+      tap(({ currentUser }) => {
+        jwtService.saveToken(currentUser.token);
+        void router.navigate(['/profile', currentUser.username]);
       })
     );
   },
@@ -98,8 +99,8 @@ export const registerOrLoginSuccess$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess, authActions.loginSuccess),
-      tap(action => {
-        jwtService.saveToken(action.currentUser.token);
+      tap(({ currentUser }) => {
+        jwtService.saveToken(currentUser.token);
         void router.navigateByUrl('/');
       })
     );

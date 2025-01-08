@@ -56,6 +56,7 @@
       "@articles/ui/article-form": ["src/app/articles/ui/article-form/index.ts"],
       "@settings/data-access/state": ["src/app/settings/data-access/state/index.ts"],
       "@settings/feature": ["src/app/settings/feature/index.ts"],
+      "@settings/ui/settings-form": ["src/app/settings/ui/settings-form/index.ts"],
       "@profile/data-access/resolvers": ["src/app/profile/data-access/resolvers/index.ts"],
       "@profile/data-access/state": ["src/app/profile/data-access/state/index.ts"],
       "@profile/feature": ["src/app/profile/feature/index.ts"],
