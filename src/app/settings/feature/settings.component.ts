@@ -7,8 +7,9 @@ import { selectErrors, selectSubmitting } from '@settings/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { UnsavedChanges, User } from '@shared/data-access/models';
+import { User } from '@shared/data-access/models';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
+import { UnsavedChanges } from '@shared/data-access/guards';
 
 @Component({
   template: `
