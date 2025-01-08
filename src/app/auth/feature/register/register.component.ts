@@ -5,9 +5,9 @@ import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/s
 import { combineLatest } from 'rxjs';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
 import { LetDirective } from '@ngrx/component';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ValidationErrorsComponent } from 'ngx-valdemort';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterCredentials } from '@auth/data-access/models';
+import { RegisterFormComponent } from '@auth/ui/register-form';
 
 @Component({
   template: `
@@ -20,45 +20,13 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
           </div>
 
           <ng-container *ngrxLet="vm$; let vm">
-            @let submitting = vm.submitting;
             @let errors = vm.errors;
 
             @if (errors) {
               <ql-backend-errors [errors]="errors" />
             }
 
-            <form [formGroup]="form" (ngSubmit)="register()">
-              <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input id="username" type="text" class="form-control" formControlName="username" />
-                <val-errors controlName="username" label="The username" />
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input id="email" type="email" class="form-control" formControlName="email" />
-                <val-errors controlName="email" label="The email" />
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <input
-                    id="password"
-                    type="password"
-                    class="form-control"
-                    formControlName="password"
-                    #passwordInput
-                  />
-                  <ql-password-input-toggle [input]="passwordInput" />
-                </div>
-                <val-errors controlName="password" label="The password" />
-              </div>
-
-              <button type="submit" class="btn btn-primary" [disabled]="submitting || form.invalid">
-                Sign up
-              </button>
-            </form>
+            <ql-register-form [submitting]="vm.submitting" (submitted)="register($event)" />
           </ng-container>
         </div>
       </div>
@@ -69,41 +37,20 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     RouterLink,
     ReactiveFormsModule,
     LetDirective,
-    ValidationErrorsComponent,
     BackendErrorsComponent,
-    PasswordInputToggleComponent
+    RegisterFormComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
-  public readonly usernameControl = this._fb.control('', [
-    Validators.required,
-    Validators.minLength(3)
-  ]);
-  public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this._fb.control('', [
-    Validators.required,
-    Validators.minLength(8)
-  ]);
-
-  public readonly form = this._fb.group({
-    username: this.usernameControl,
-    email: this.emailControl,
-    password: this.passwordControl
-  });
-
   public readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
     errors: this.store.select(selectErrors)
   });
 
-  constructor(
-    private readonly _fb: NonNullableFormBuilder,
-    private readonly store: Store
-  ) {}
+  constructor(private readonly store: Store) {}
 
-  public register(): void {
-    const credentials = this.form.getRawValue();
+  public register(credentials: RegisterCredentials): void {
     this.store.dispatch(authActions.register({ credentials }));
   }
 }
