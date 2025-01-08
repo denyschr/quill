@@ -6,7 +6,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
 @Component({
   selector: 'ql-article-form',
   template: `
-    <form [formGroup]="form" (ngSubmit)="publish()">
+    <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="title" class="form-label">Article title</label>
         <input id="title" type="text" class="form-control" formControlName="title" />
@@ -80,7 +80,7 @@ export class ArticleFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public readonly published = new EventEmitter<Partial<Article>>();
+  public readonly submitted = new EventEmitter<Partial<Article>>();
 
   @Input()
   public set article(article: Article) {
@@ -94,8 +94,8 @@ export class ArticleFormComponent {
 
   constructor(private readonly _fb: NonNullableFormBuilder) {}
 
-  public publish(): void {
-    this.published.emit(this.form.getRawValue());
+  public submit(): void {
+    this.submitted.emit(this.form.getRawValue());
   }
 
   public addTag(event: Event): void {

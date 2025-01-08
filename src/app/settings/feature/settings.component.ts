@@ -23,7 +23,7 @@ import { SettingsFormComponent } from '@settings/ui/settings-form';
             <ql-settings-form
               [user]="vm.currentUser"
               [submitting]="vm.submitting"
-              (updated)="update($event)"
+              (submitted)="update($event)"
             />
 
             <hr />

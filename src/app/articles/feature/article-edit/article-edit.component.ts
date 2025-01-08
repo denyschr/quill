@@ -26,7 +26,7 @@ import { UnsavedChanges } from '@shared/data-access/guards';
             <ql-article-form
               [article]="vm.article"
               [submitting]="vm.submitting"
-              (published)="publish($event)"
+              (submitted)="publish($event)"
             />
           </ng-container>
         </div>
