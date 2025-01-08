@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { profileActions } from '@profile/data-access/state';
 
 export const profileResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
-  const username = route.paramMap.get('username')!;
   const store = inject(Store);
+  const username = route.paramMap.get('username')!;
 
   store.dispatch(profileActions.loadProfile({ username }));
 

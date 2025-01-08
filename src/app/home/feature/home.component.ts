@@ -53,8 +53,8 @@ export class HomeComponent {
   });
 
   constructor(private readonly store: Store) {
-    this.changeFeed('global');
     this.store.dispatch(tagsActions.loadTags());
+    this.changeFeed('global');
   }
 
   public changeFeed(type: FeedType = 'global'): void {

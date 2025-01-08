@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
@@ -8,7 +8,7 @@ import {
   selectErrors,
   selectSubmitting
 } from '@articles/data-access/state/article-edit';
-import { articleActions, selectArticle, selectLoading } from '@articles/data-access/state/article';
+import { selectArticle, selectLoading } from '@articles/data-access/state/article';
 import { ArticleFormComponent } from '@articles/ui/article-form';
 import { Article } from '@shared/data-access/models';
 import { UnsavedChanges } from '@shared/data-access/guards';
@@ -37,7 +37,7 @@ import { UnsavedChanges } from '@shared/data-access/guards';
   imports: [LetDirective, ArticleFormComponent, BackendErrorsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleEditComponent implements OnInit, UnsavedChanges {
+export class ArticleEditComponent implements UnsavedChanges {
   public readonly vm$ = combineLatest({
     article: this.store.select(selectArticle).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
@@ -52,10 +52,6 @@ export class ArticleEditComponent implements OnInit, UnsavedChanges {
   public readonly articleForm!: ArticleFormComponent;
 
   constructor(private readonly store: Store) {}
-
-  public ngOnInit(): void {
-    this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
-  }
 
   public hasUnsavedChanges(): boolean {
     return !this.articleForm.submitting && this.articleForm.form.dirty;

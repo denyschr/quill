@@ -27,7 +27,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
               <ql-backend-errors [errors]="errors" />
             }
 
-            <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <form [formGroup]="form" (ngSubmit)="login()">
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input id="email" type="email" class="form-control" formControlName="email" />
@@ -49,11 +49,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
                 <val-errors controlName="password" label="The password" />
               </div>
 
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="submitting || loginForm.invalid"
-              >
+              <button type="submit" class="btn btn-primary" [disabled]="submitting || form.invalid">
                 Sign in
               </button>
             </form>
@@ -80,7 +76,7 @@ export class LoginComponent {
     Validators.minLength(8)
   ]);
 
-  public readonly loginForm = this._fb.group({
+  public readonly form = this._fb.group({
     email: this.emailControl,
     password: this.passwordControl
   });
@@ -96,7 +92,7 @@ export class LoginComponent {
   ) {}
 
   public login(): void {
-    const credentials = this.loginForm.getRawValue();
+    const credentials = this.form.getRawValue();
     this.store.dispatch(authActions.login({ credentials }));
   }
 }

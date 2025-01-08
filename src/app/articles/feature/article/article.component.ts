@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { articleActions, selectArticle, selectLoading } from '@articles/data-access/state/article';
 import { selectCurrentUser } from '@auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
@@ -48,7 +48,7 @@ import { Article, Profile } from '@shared/data-access/models';
   imports: [LetDirective, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent {
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store
@@ -69,14 +69,7 @@ export class ArticleComponent implements OnInit {
     owner: this.owner$
   });
 
-  @Input()
-  public slug!: string;
-
-  constructor(private store: Store) {}
-
-  public ngOnInit(): void {
-    this.store.dispatch(articleActions.loadArticle({ slug: this.slug }));
-  }
+  constructor(private readonly store: Store) {}
 
   public toggleFollow(author: Profile): void {
     if (author.following) {
