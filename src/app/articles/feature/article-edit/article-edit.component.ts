@@ -58,7 +58,7 @@ export class ArticleEditComponent implements OnInit, UnsavedChanges {
   }
 
   public hasUnsavedChanges(): boolean {
-    return this.articleForm.articleForm.dirty;
+    return !this.articleForm.submitting && this.articleForm.form.dirty;
   }
 
   public publish(article: Partial<Article>): void {

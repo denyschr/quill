@@ -6,7 +6,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
 @Component({
   selector: 'ql-article-form',
   template: `
-    <form [formGroup]="articleForm" (ngSubmit)="publish()">
+    <form [formGroup]="form" (ngSubmit)="publish()">
       <div class="mb-3">
         <label for="title" class="form-label">Article title</label>
         <input id="title" type="text" class="form-control" formControlName="title" />
@@ -54,7 +54,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
         }
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="articleForm.invalid || submitting">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitting">
         Publish
       </button>
     </form>
@@ -69,7 +69,7 @@ export class ArticleFormComponent {
   public readonly bodyControl = this._fb.control('', [Validators.required]);
   public readonly tagListControl = this._fb.control(<string[]>[]);
 
-  public readonly articleForm = this._fb.group({
+  public readonly form = this._fb.group({
     title: this.titleControl,
     description: this.descriptionControl,
     body: this.bodyControl,
@@ -84,7 +84,7 @@ export class ArticleFormComponent {
 
   @Input()
   public set article(article: Article) {
-    this.articleForm.setValue({
+    this.form.setValue({
       title: article.title,
       description: article.description,
       body: article.body,
@@ -95,7 +95,7 @@ export class ArticleFormComponent {
   constructor(private readonly _fb: NonNullableFormBuilder) {}
 
   public publish(): void {
-    this.published.emit(this.articleForm.getRawValue());
+    this.published.emit(this.form.getRawValue());
   }
 
   public addTag(event: Event): void {
