@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { IconDirective, icons } from '@shared/directives/icon';
 

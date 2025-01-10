@@ -1,6 +1,6 @@
 import * as fromProfile from './profile.state';
 import { profileActions } from './profile.actions';
-import { Profile } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/api/models';
 
 describe('ProfileState', () => {
   describe('unknown action', () => {

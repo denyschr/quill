@@ -15,7 +15,7 @@ import {
   selectConfig
 } from '@articles/data-access/state/article-list';
 import { ArticleListComponent } from '@articles/feature/article-list';
-import { FeedType } from '@shared/data-access/models';
+import { FeedType } from '@shared/data-access/api/models';
 import { FeedTabsComponent } from '@home/ui/feed-tabs';
 
 @Component({

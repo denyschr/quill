@@ -1,6 +1,6 @@
 import * as fromSettings from './settings.state';
 import { authActions } from '@auth/data-access/state';
-import { User } from '@shared/data-access/models';
+import { User } from '@shared/data-access/api/models';
 
 describe('SettingsState', () => {
   const user = { username: 'username' } as User;

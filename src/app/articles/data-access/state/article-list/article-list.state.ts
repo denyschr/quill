@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { articleListActions } from './article-list.actions';
-import { Article, ArticleListConfig } from '@shared/data-access/models';
+import { Article, ArticleListConfig } from '@shared/data-access/api/models';
 import { environment } from '@environment';
 
 export interface ArticleListState {

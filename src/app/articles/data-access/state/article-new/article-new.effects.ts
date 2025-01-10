@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ArticleApiClient } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api/services';
 import { articleNewActions } from './article-new.actions';
 
 export const newArticle$ = createEffect(

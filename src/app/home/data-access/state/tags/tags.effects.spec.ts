@@ -1,4 +1,4 @@
-import { TagApiClient } from '@shared/data-access/api';
+import { TagApiClient } from '@shared/data-access/api/services';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';

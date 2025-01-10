@@ -1,6 +1,6 @@
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { routerNavigationAction } from '@ngrx/router-store';
 
 describe('ArticleEditState', () => {

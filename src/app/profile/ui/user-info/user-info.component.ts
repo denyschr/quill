@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Profile } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/api/models';
 import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({

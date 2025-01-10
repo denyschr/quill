@@ -1,9 +1,9 @@
-import { ArticleApiClient } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api/services';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleActions } from './article.actions';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import * as articleEffects from './article.effects';
 import { provideRouter, Router } from '@angular/router';
 

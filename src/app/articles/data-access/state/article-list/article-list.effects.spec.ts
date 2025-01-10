@@ -1,11 +1,11 @@
-import { ArticleApiClient } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api/services';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleListActions } from './article-list.actions';
 import * as articleListEffects from './article-list.effects';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ArticleListResponse } from '@shared/data-access/models';
+import { ArticleListResponse } from '@shared/data-access/api/models';
 
 describe('ArticleListEffects', () => {
   let articleClient: jasmine.SpyObj<ArticleApiClient>;

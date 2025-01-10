@@ -1,10 +1,10 @@
-import { ArticleApiClient } from '@shared/data-access/api';
+import { ArticleApiClient } from '@shared/data-access/api/services';
 import { provideRouter, Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleNewActions } from './article-new.actions';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import * as articleNewEffects from './article-new.effects';
 
 describe('ArticleNewEffects', () => {

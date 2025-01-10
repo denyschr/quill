@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest, filter } from 'rxjs';
 import { selectErrors, selectSubmitting } from '@settings/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import { User } from '@shared/data-access/models';
+import { User } from '@shared/data-access/api/models';
 import { UnsavedChanges } from '@shared/data-access/guards';
 import { SettingsFormComponent } from '@settings/ui/settings-form';
 

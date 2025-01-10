@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BackendErrorsComponent } from './backend-errors.component';
 import { NgbAlert, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
-import { BackendErrors } from '@shared/data-access/models';
+import { BackendErrors } from '@shared/data-access/api/models';
 
 describe('BackendErrorsComponent', () => {
   let component: BackendErrorsComponent;

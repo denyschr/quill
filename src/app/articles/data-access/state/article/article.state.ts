@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { articleActions } from './article.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { articleListActions } from '@articles/data-access/state/article-list';
 
 export interface ArticleState {

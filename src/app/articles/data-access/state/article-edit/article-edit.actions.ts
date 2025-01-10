@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { Article, BackendErrors } from '@shared/data-access/models';
+import { Article, BackendErrors } from '@shared/data-access/api/models';
 
 export const articleEditActions = createActionGroup({
   source: 'Article Edit API',

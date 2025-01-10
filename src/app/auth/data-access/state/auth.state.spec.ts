@@ -1,7 +1,7 @@
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
 import { routerNavigatedAction } from '@ngrx/router-store';
-import { User } from '@shared/data-access/models';
+import { User } from '@shared/data-access/api/models';
 
 describe('AuthState', () => {
   const user = { username: 'username', email: 'email' } as User;

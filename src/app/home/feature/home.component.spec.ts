@@ -6,7 +6,7 @@ import { FeedTabsComponent } from '@home/ui/feed-tabs';
 import { articleListActions } from '@articles/data-access/state/article-list';
 import { ArticleListComponent } from '@articles/feature/article-list';
 import { TagsComponent } from '@home/ui/tags';
-import { ArticleListConfig } from '@shared/data-access/models';
+import { ArticleListConfig } from '@shared/data-access/api/models';
 import { environment } from '@environment';
 
 describe('HomeComponent', () => {

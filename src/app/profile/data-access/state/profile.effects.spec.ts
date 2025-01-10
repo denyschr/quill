@@ -1,10 +1,10 @@
-import { ProfileApiClient } from '@shared/data-access/api';
+import { ProfileApiClient } from '@shared/data-access/api/services';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as profileEffects from './profile.effects';
 import { provideRouter, Router } from '@angular/router';
-import { Profile } from '@shared/data-access/models';
+import { Profile } from '@shared/data-access/api/models';
 import { profileActions } from './profile.actions';
 
 describe('ProfileEffects', () => {
