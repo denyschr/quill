@@ -28,6 +28,7 @@
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
       "@auth/data-access/guards": ["src/app/auth/data-access/guards/index.ts"],
+      "@auth/data-access/interceptors": ["src/app/auth/data-access/interceptors/index.ts"],
       "@auth/data-access/state": ["src/app/auth/data-access/state/index.ts"],
       "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
       "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
