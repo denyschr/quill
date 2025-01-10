@@ -17,7 +17,7 @@ import {
   articleEditFeatureKey,
   articleEditReducer
 } from '@articles/data-access/state/article-edit';
-import { authGuard } from '@auth/data-access/guards';
+import { loggedInGuard } from '@auth/data-access/guards';
 import { formGuard } from '@shared/data-access/guards';
 import { articleResolver } from '@articles/data-access/resolvers';
 
@@ -29,12 +29,12 @@ export const LAYOUT_ROUTES: Route[] = [
   {
     path: 'register',
     loadComponent: () => import('@auth/feature/register').then(m => m.RegisterComponent),
-    canActivate: [authGuard({ authenticated: false, otherwise: '' })]
+    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '' })]
   },
   {
     path: 'login',
     loadComponent: () => import('@auth/feature/login').then(m => m.LoginComponent),
-    canActivate: [authGuard({ authenticated: false, otherwise: '' })]
+    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '' })]
   },
   {
     path: 'article/:slug',
@@ -44,7 +44,7 @@ export const LAYOUT_ROUTES: Route[] = [
   },
   {
     path: 'editor',
-    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })],
+    canActivate: [loggedInGuard({ loggedIn: true, otherwise: '/login' })],
     children: [
       {
         path: '',
@@ -74,13 +74,13 @@ export const LAYOUT_ROUTES: Route[] = [
     path: 'settings',
     loadComponent: () => import('@settings/feature').then(m => m.SettingsComponent),
     providers: [provideState(settingsFeatureKey, settingsReducer)],
-    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })],
+    canActivate: [loggedInGuard({ loggedIn: true, otherwise: '/login' })],
     canDeactivate: [formGuard]
   },
   {
     path: 'profile',
     loadChildren: () => import('@profile/feature').then(m => m.PROFILE_ROUTES),
-    canActivate: [authGuard({ authenticated: true, otherwise: '/login' })]
+    canActivate: [loggedInGuard({ loggedIn: true, otherwise: '/login' })]
   },
   {
     path: '**',
