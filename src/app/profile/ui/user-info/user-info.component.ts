@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Profile } from '@shared/data-access/api/models';
-import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-user-info',
@@ -26,7 +25,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
                 [class.btn-outline-secondary]="!profile.following"
                 (click)="toggledFollow.emit()"
               >
-                <ql-icon [icon]="icons.follow" />
+                <i class="bi bi-plus-lg"></i>
                 {{ profile.following ? 'Unfollow' : 'Follow' }} {{ profile.username }}
               </button>
             }
@@ -36,12 +35,10 @@ import { IconDirective, icons } from '@shared/directives/icon';
     </div>
   `,
   standalone: true,
-  imports: [RouterLink, IconDirective],
+  imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserInfoComponent {
-  public icons = icons;
-
   @Input({ required: true })
   public profile!: Profile;
 

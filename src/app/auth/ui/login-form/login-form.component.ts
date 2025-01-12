@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormsModule,
   NonNullableFormBuilder,
@@ -45,7 +45,8 @@ import { LoginCredentials } from '@auth/data-access/models';
     ReactiveFormsModule,
     ValidationErrorsComponent
   ],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginFormComponent {
   public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);

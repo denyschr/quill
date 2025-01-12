@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/api/models';
-import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-article-meta',
@@ -38,7 +37,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
       <div class="d-flex align-self-end align-items-center gap-2">
         @if (canModify) {
           <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
-            <ql-icon [icon]="icons.edit" />
+            <i class="bi bi-pencil-square"></i>
             Edit
           </a>
           <button
@@ -47,7 +46,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
             [disabled]="deleting"
             (click)="deleteArticle()"
           >
-            <ql-icon [icon]="icons.trash" />
+            <i class="bi bi-trash3"></i>
             Delete
           </button>
         } @else {
@@ -59,7 +58,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
             [class.btn-outline-secondary]="!article.author.following"
             (click)="toggledFollow.emit()"
           >
-            <ql-icon [icon]="icons.follow" />
+            <i class="bi bi-plus-lg"></i>
             {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
           </button>
           <button
@@ -70,7 +69,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
             [class.btn-outline-success]="!article.favorited"
             (click)="toggledFavorite.emit()"
           >
-            <ql-icon [icon]="icons.favorite" />
+            <i class="bi bi-heart-fill"></i>
             {{ article.favorited ? 'Remove from Favorites' : 'Add to Favorites' }}
             ({{ article.favoritesCount }})
           </button>
@@ -86,12 +85,11 @@ import { IconDirective, icons } from '@shared/directives/icon';
     `
   ],
   standalone: true,
-  imports: [RouterLink, DatePipe, IconDirective],
+  imports: [RouterLink, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleMetaComponent {
   public deleting = false;
-  public icons = icons;
 
   @Input({ required: true })
   public article!: Article;

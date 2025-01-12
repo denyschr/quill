@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '@shared/data-access/api/models';
-import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-navbar',
@@ -38,13 +37,13 @@ import { IconDirective, icons } from '@shared/directives/icon';
             @if (currentUser) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/editor" routerLinkActive="active">
-                  <ql-icon [icon]="icons.edit" />
+                  <i class="bi bi-pencil-square"></i>
                   New Article
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" routerLink="/settings" routerLinkActive="active">
-                  <ql-icon [icon]="icons.settings" />
+                  <i class="bi bi-gear-wide-connected"></i>
                   Settings
                 </a>
               </li>
@@ -64,12 +63,11 @@ import { IconDirective, icons } from '@shared/directives/icon';
     </nav>
   `,
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgbCollapse, IconDirective],
+  imports: [RouterLink, RouterLinkActive, NgbCollapse],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
   public navbarCollapsed = true;
-  public icons = icons;
 
   @Input({ required: true })
   public currentUser!: User | null;

@@ -79,8 +79,7 @@
       "@shared/ui/confirm-modal": ["src/app/shared/ui/confirm-modal/index.ts"],
       "@shared/directives/form-control-validation": [
         "src/app/shared/directives/form-control-validation/index.ts"
-      ],
-      "@shared/directives/icon": ["src/app/shared/directives/icon/index.ts"]
+      ]
     }
   },
   "angularCompilerOptions": {

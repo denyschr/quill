@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 import { Article } from '@shared/data-access/api/models';
 import { DatePipe } from '@angular/common';
 import { TagListComponent } from '@shared/ui/tag-list';
-import { IconDirective, icons } from '@shared/directives/icon';
 
 @Component({
   selector: 'ql-article-preview',
@@ -44,7 +43,7 @@ import { IconDirective, icons } from '@shared/directives/icon';
           [class.btn-outline-success]="!article.favorited"
           (click)="toggleFavorite()"
         >
-          <ql-icon [icon]="icons.favorite" />
+          <i class="bi bi-heart-fill"></i>
           {{ article.favoritesCount }}
         </button>
       </div>
@@ -81,12 +80,10 @@ import { IconDirective, icons } from '@shared/directives/icon';
     `
   ],
   standalone: true,
-  imports: [RouterLink, DatePipe, IconDirective, TagListComponent],
+  imports: [RouterLink, DatePipe, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {
-  public icons = icons;
-
   @Input({ required: true })
   public article!: Article;
 

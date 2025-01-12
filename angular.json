@@ -30,10 +30,7 @@
               }
             ],
             "styles": ["src/styles.scss"],
-            "scripts": [],
-            "loader": {
-              ".svg": "text"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -92,12 +89,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "codeCoverageExclude": [
-              "src/app/app.config.ts",
-              "src/app/app.routes.ts",
-              "src/app/app.tokens.ts",
-              "src/i18n-test.ts"
-            ],
+            "codeCoverageExclude": ["src/app/app.config.ts", "src/app/app.routes.ts"],
             "assets": [
               {
                 "glob": "**/*",
