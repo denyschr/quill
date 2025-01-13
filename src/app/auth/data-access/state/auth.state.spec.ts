@@ -1,13 +1,17 @@
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
 import { routerNavigatedAction } from '@ngrx/router-store';
-import { User } from '@shared/data-access/api/models';
+import {
+  getMockedLoginCredentials,
+  getMockedRegisterCredentials,
+  getMockedUser
+} from '../../../testing.spec';
 
 describe('AuthState', () => {
-  const user = { username: 'username', email: 'email' } as User;
+  const user = getMockedUser();
   const errors = {
     email: ['already exists'],
-    'email or password': ['is invalid']
+    password: ['is invalid']
   };
 
   describe('unknown action', () => {
@@ -81,13 +85,9 @@ describe('AuthState', () => {
   });
 
   describe('register action', () => {
-    it('should set submitting to true and reset the error state to null', () => {
+    it('should set submitting to true and reset errors to null', () => {
       const { authInitialState } = fromAuth;
-      const credentials = {
-        username: user.username,
-        email: user.email,
-        password: '12345678'
-      };
+      const credentials = getMockedRegisterCredentials();
       const newState = {
         ...authInitialState,
         submitting: true,
@@ -100,7 +100,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(authInitialState);
     });
 
-    it('should register the user and set submitting to false on success', () => {
+    it('should register a user and set submitting to false on success', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
@@ -130,12 +130,9 @@ describe('AuthState', () => {
   });
 
   describe('login action', () => {
-    it('should set submitting to true and reset the error state to null', () => {
+    it('should set submitting to true and reset errors to null', () => {
       const { authInitialState } = fromAuth;
-      const credentials = {
-        email: user.email,
-        password: '12345678'
-      };
+      const credentials = getMockedLoginCredentials();
       const newState = {
         ...authInitialState,
         submitting: true,
@@ -148,7 +145,7 @@ describe('AuthState', () => {
       expect(state).not.toBe(authInitialState);
     });
 
-    it('should login the user and set submitting to false on success', () => {
+    it('should log in a user and set submitting to false on success', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
@@ -193,7 +190,7 @@ describe('AuthState', () => {
   });
 
   describe('routerNavigated action', () => {
-    it('should reset the error state to null on navigation', () => {
+    it('should reset errors to null on navigation', () => {
       const { authInitialState } = fromAuth;
       const state = fromAuth.authReducer(authInitialState, routerNavigatedAction);
       expect(state).toEqual(authInitialState);
