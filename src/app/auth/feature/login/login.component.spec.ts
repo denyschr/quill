@@ -18,7 +18,6 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       providers: [provideRouter([]), provideMockStore({ initialState })]
     });
-
     store = TestBed.inject(MockStore);
   });
 
@@ -57,7 +56,7 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(authActions.login({ credentials }));
   });
 
-  it('should display backend error messages on login failure', () => {
+  it('should display backend error messages if login fails', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     const element: HTMLElement = fixture.nativeElement;
     store.setState({

@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { LoginFormComponent } from './login-form.component';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
-import { getMockedLoginCredentials } from '../../../testing.spec';
+import { getMockedRegisterCredentials } from '../../../testing.spec';
+import { RegisterFormComponent } from './register-form.component';
 
-describe('LoginFormComponent', () => {
-  const credentials = getMockedLoginCredentials();
+describe('RegisterFormComponent', () => {
+  const credentials = getMockedRegisterCredentials();
 
   beforeEach(() => {
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
   });
 
-  it('should display a form to log in', () => {
-    const fixture = TestBed.createComponent(LoginFormComponent);
+  it('should display a form to register', () => {
+    const fixture = TestBed.createComponent(RegisterFormComponent);
     const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
@@ -23,6 +23,40 @@ describe('LoginFormComponent', () => {
     expect(submitButton.hasAttribute('disabled'))
       .withContext('Your submit button should be disabled if the form is invalid')
       .toBe(true);
+
+    const usernameInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
+    expect(usernameInput)
+      .withContext('You should have an input with the type `text` for the username')
+      .not.toBeNull();
+    usernameInput.dispatchEvent(new Event('focus'));
+    usernameInput.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+
+    const usernameRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
+    expect(usernameRequiredError)
+      .withContext('You should have an error message if the username field is required and touched')
+      .not.toBeNull();
+    expect(usernameRequiredError.textContent)
+      .withContext('The error message for the username field is incorrect')
+      .toContain('The username is required');
+
+    usernameInput.value = 'ja';
+    usernameInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const usernameLengthError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
+    expect(usernameLengthError)
+      .withContext(
+        'You should have an error message if the username field is too short and touched'
+      )
+      .not.toBeNull();
+    expect(usernameLengthError.textContent)
+      .withContext('The error message for the username field is incorrect')
+      .toContain('The username must be at least 3 characters long');
+
+    usernameInput.value = credentials.username;
+    usernameInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
     expect(emailInput)
@@ -103,7 +137,7 @@ describe('LoginFormComponent', () => {
   });
 
   it('should use PasswordInputToggleComponent', () => {
-    const fixture = TestBed.createComponent(LoginFormComponent);
+    const fixture = TestBed.createComponent(RegisterFormComponent);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.directive(PasswordInputToggleComponent)))
@@ -112,11 +146,15 @@ describe('LoginFormComponent', () => {
   });
 
   it('should emit an event on submit', () => {
-    const fixture = TestBed.createComponent(LoginFormComponent);
+    const fixture = TestBed.createComponent(RegisterFormComponent);
     const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
     spyOn(fixture.componentInstance.submitted, 'emit');
+
+    const usernameInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
+    usernameInput.value = credentials.username;
+    usernameInput.dispatchEvent(new Event('input'));
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
     emailInput.value = credentials.email;

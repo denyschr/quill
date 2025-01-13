@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormsModule,
   NonNullableFormBuilder,
@@ -51,7 +51,8 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     PasswordInputToggleComponent,
     ReactiveFormsModule,
     ValidationErrorsComponent
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterFormComponent {
   public readonly usernameControl = this._fb.control('', [
