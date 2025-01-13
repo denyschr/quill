@@ -4,9 +4,9 @@ import { Observable, of, throwError } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from './auth.actions';
-import { User } from '@shared/data-access/api/models';
 import { UserApiClient } from '@shared/data-access/api/services';
 import { JwtService } from '@shared/data-access/services';
+import { getMockedUser } from '../../../testing.spec';
 
 describe('AuthEffects', () => {
   let userClient: jasmine.SpyObj<UserApiClient>;
@@ -14,10 +14,10 @@ describe('AuthEffects', () => {
   let router: Router;
   let actions$: Observable<unknown>;
 
-  const user = { username: 'username', token: 'token' } as User;
+  const user = getMockedUser();
   const errors = {
     email: ['already exists'],
-    'email or password': ['is invalid']
+    password: ['is invalid']
   };
 
   beforeEach(() => {
@@ -48,10 +48,10 @@ describe('AuthEffects', () => {
   });
 
   describe('getCurrentUser$', () => {
-    it('should return a `getCurrentUserSuccess` action with user information if the token is stored', done => {
+    it('should return a `getCurrentUserSuccess` action with a user if the token is stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
-      jwtService.getToken.and.returnValue('token');
+      jwtService.getToken.and.returnValue(user.token);
       userClient.getCurrentUser.and.returnValue(of(user));
 
       authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
@@ -78,7 +78,7 @@ describe('AuthEffects', () => {
     it('should return a `getCurrentUserFailure` action on failure', done => {
       actions$ = of(authActions.getCurrentUser);
 
-      jwtService.getToken.and.returnValue('token');
+      jwtService.getToken.and.returnValue(user.token);
       userClient.getCurrentUser.and.returnValue(throwError(() => new Error('error')));
 
       authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
@@ -91,7 +91,7 @@ describe('AuthEffects', () => {
   });
 
   describe('updateCurrentUser$', () => {
-    it('should return an `updateCurrentUserSuccess` action with new user information on success', done => {
+    it('should return an `updateCurrentUserSuccess` action with an updated user on success', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(of(user));
@@ -103,7 +103,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return an `updateCurrentUserFailure` action with errors on failure', done => {
+    it('should return an `updateCurrentUserFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -116,21 +116,24 @@ describe('AuthEffects', () => {
     });
   });
 
-  // describe('updateCurrentUserSuccess$', () => {
-  //   it('should save the token on current user update success', done => {
-  //     actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
-  //
-  //     TestBed.runInInjectionContext(() => {
-  //       authEffects.updateCurrentUserSuccess$(actions$, jwtService).subscribe(() => {
-  //         expect(jwtService.saveToken).toHaveBeenCalledWith('token');
-  //         done();
-  //       });
-  //     });
-  //   });
-  // });
+  describe('updateCurrentUserSuccess$', () => {
+    it('should save the token and navigate to the new profile page', done => {
+      spyOn(router, 'navigate');
+
+      actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
+
+      TestBed.runInInjectionContext(() => {
+        authEffects.updateCurrentUserSuccess$(actions$, router, jwtService).subscribe(() => {
+          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
+          expect(router.navigate).toHaveBeenCalledWith(['/profile', user.username]);
+          done();
+        });
+      });
+    });
+  });
 
   describe('register$', () => {
-    it('should return a `registerSuccess` action with user information on success', done => {
+    it('should return a `registerSuccess` action with a user on success', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(of(user));
@@ -142,7 +145,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `registerFailure` action with errors on failure', done => {
+    it('should return a `registerFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -156,7 +159,7 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return a `loginSuccess` action with user information on success', done => {
+    it('should return a `loginSuccess` action with a user on success', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(of(user));
@@ -168,7 +171,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `loginFailure` action with errors on failure', done => {
+    it('should return a `loginFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
@@ -187,19 +190,19 @@ describe('AuthEffects', () => {
 
       TestBed.runInInjectionContext(() => {
         authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
+          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
       });
     });
 
-    it('should save the token navigate to the home page on login success', done => {
+    it('should save the token and navigate to the home page on login success', done => {
       actions$ = of(authActions.loginSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
         authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
+          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
@@ -208,7 +211,7 @@ describe('AuthEffects', () => {
   });
 
   describe('logout$', () => {
-    it('should remove the token and navigate to the home page on logout', done => {
+    it('should remove the token and navigate to the home page', done => {
       actions$ = of(authActions.logout);
 
       TestBed.runInInjectionContext(() => {
