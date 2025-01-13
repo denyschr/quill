@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import ArticleNewComponent from './article-new.component';
+import { ArticleNewComponent } from './article-new.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { articleNewActions } from '@articles/data-access/state/article-new';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
@@ -39,7 +39,7 @@ describe('ArticleNewComponent', () => {
     const article = { title: 'title' } as Article;
     const action = articleNewActions.newArticle({ article });
 
-    component.publishArticle(article);
+    component.publish(article);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

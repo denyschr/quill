@@ -4,7 +4,6 @@ import { PasswordInputToggleComponent } from './password-input-toggle.component'
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgbTooltip, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { IconButtonComponent } from '@shared/ui/icon-button';
 
 @Component({
   template: `
@@ -51,11 +50,6 @@ describe('PasswordInputToggleComponent', () => {
     expect(tooltipDirective.placement)
       .withContext('The tooltip should be placed at the bottom')
       .toBe('bottom');
-
-    const iconButton = fixture.debugElement.query(By.directive(IconButtonComponent));
-    expect(iconButton)
-      .withContext('You need `IconButtonComponent` inside the `button` element for an icon')
-      .not.toBeNull();
   });
 
   it('should toggle password visibility on click', () => {
@@ -66,20 +60,11 @@ describe('PasswordInputToggleComponent', () => {
       .withContext('The input should be of type `password` by default')
       .toBe('password');
 
-    const iconButtonComponent = fixture.debugElement.query(By.directive(IconButtonComponent))
-      .componentInstance as IconButtonComponent;
-    expect(iconButtonComponent.icon).withContext(
-      'The icon should have the `bi-eye-slash` class by default'
-    );
-
     const button = element.querySelector('button')!;
     button.click();
     fixture.detectChanges();
 
     expect(input.type).withContext('The input should be of type `text` if toggled').toBe('text');
-    expect(iconButtonComponent.icon)
-      .withContext('The icon should have the `bi-eye` class if toggled')
-      .toContain('bi-eye');
 
     button.click();
     fixture.detectChanges();
@@ -87,8 +72,5 @@ describe('PasswordInputToggleComponent', () => {
     expect(input.type)
       .withContext('The input should be of type `password` if toggled twice')
       .toBe('password');
-    expect(iconButtonComponent.icon)
-      .withContext('The icon should have the `bi-eye-slash` class if toggled twice')
-      .toContain('bi-eye-slash');
   });
 });

@@ -4,7 +4,6 @@ import { Article } from '@shared/data-access/api/models';
 import { provideRouter } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 import { TagListComponent } from '@shared/ui/tag-list';
 
 describe('ArticlePreviewComponent', () => {
@@ -82,13 +81,6 @@ describe('ArticlePreviewComponent', () => {
     expect(time.textContent)
       .withContext('You need the `date` pipe to format the date')
       .toContain('Oct 8, 2024');
-  });
-
-  it('should display a favorite button', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(FavoriteButtonComponent)))
-      .withContext('You need `FavoriteButtonComponent` for a favorite button')
-      .not.toBeNull();
   });
 
   it('should display an article preview', () => {

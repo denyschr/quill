@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserInfoComponent } from './user-info.component';
-import ProfileComponent from '../../feature/profile.component';
+import { ProfileComponent } from '@profile/feature';
 import { provideRouter } from '@angular/router';
 
 describe('UserInfoComponent', () => {

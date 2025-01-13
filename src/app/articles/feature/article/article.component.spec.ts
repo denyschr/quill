@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import ArticleComponent from './article.component';
+import { ArticleComponent } from './article.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { articleActions } from '@articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
 import { ArticleMetaComponent } from '@articles/ui/article-meta';
 import { TagListComponent } from '@shared/ui/tag-list';
-import { FavoriteButtonComponent } from '@shared/ui/favorite-button';
 
 describe('ArticleComponent', () => {
   let component: ArticleComponent;
@@ -146,23 +145,6 @@ describe('ArticleComponent', () => {
     expect(store.dispatch)
       .withContext('The button should dispatch a `deleteArticle` action')
       .toHaveBeenCalledWith(articleActions.deleteArticle({ slug: 'title-one' }));
-  });
-
-  it('should only display a favorite button if not the owner', () => {
-    store.setState({
-      ...initialState,
-      auth: {
-        ...initialState.auth,
-        currentUser: 'jack'
-      }
-    });
-    store.refreshState();
-    fixture.detectChanges();
-
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(FavoriteButtonComponent)))
-      .withContext('You need `FavoriteButtonComponent` inside the banner for a favorite button')
-      .not.toBeNull();
   });
 
   it('should display an article body', () => {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import ArticleEditComponent from './article-edit.component';
+import { ArticleEditComponent } from './article-edit.component';
 import { articleEditActions } from '@articles/data-access/state/article-edit';
 import { articleActions } from '@articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
@@ -53,7 +53,7 @@ describe('ArticleEditComponent', () => {
     const article = { ...initialState.article.article, body: 'updated article body' };
     const action = articleEditActions.editArticle({ slug: article.slug, article });
 
-    component.publishArticle(article);
+    component.publish(article);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

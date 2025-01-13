@@ -3,7 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { ArticleListComponent } from './article-list.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { environment } from '@environment';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { By } from '@angular/platform-browser';
 import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';

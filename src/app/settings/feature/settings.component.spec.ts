@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import SettingsComponent from './settings.component';
+import { SettingsComponent } from './settings.component';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';

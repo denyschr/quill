@@ -6,7 +6,7 @@ import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
 import { authActions } from '@auth/data-access/state';
 import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import RegisterComponent from './register.component';
+import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;

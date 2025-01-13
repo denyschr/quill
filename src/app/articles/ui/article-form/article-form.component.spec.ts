@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ArticleFormComponent } from './article-form.component';
 import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 
 describe('ArticleFormComponent', () => {
   let component: ArticleFormComponent;
@@ -226,7 +226,7 @@ describe('ArticleFormComponent', () => {
 
   it('should emit an event on submit', () => {
     const element: HTMLElement = fixture.nativeElement;
-    spyOn(component.published, 'emit');
+    spyOn(component.submitted, 'emit');
 
     const titleInput = element.querySelector<HTMLInputElement>('input[type=text]')!;
     expect(titleInput)
@@ -260,6 +260,6 @@ describe('ArticleFormComponent', () => {
 
     element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
-    expect(component.published.emit).toHaveBeenCalledWith(article);
+    expect(component.submitted.emit).toHaveBeenCalledWith(article);
   });
 });

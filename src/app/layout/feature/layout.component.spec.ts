@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import LayoutComponent from './layout.component';
+import { LayoutComponent } from './layout.component';
 import { provideRouter, RouterOutlet } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';

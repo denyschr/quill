@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import HomeComponent from './home.component';
+import { HomeComponent } from './home.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { FeedTabsComponent } from '@home/ui/feed-tabs';

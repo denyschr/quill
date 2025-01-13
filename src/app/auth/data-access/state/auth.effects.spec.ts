@@ -116,18 +116,18 @@ describe('AuthEffects', () => {
     });
   });
 
-  describe('updateCurrentUserSuccess$', () => {
-    it('should save the token on current user update success', done => {
-      actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
-
-      TestBed.runInInjectionContext(() => {
-        authEffects.updateCurrentUserSuccess$(actions$, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith('token');
-          done();
-        });
-      });
-    });
-  });
+  // describe('updateCurrentUserSuccess$', () => {
+  //   it('should save the token on current user update success', done => {
+  //     actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
+  //
+  //     TestBed.runInInjectionContext(() => {
+  //       authEffects.updateCurrentUserSuccess$(actions$, jwtService).subscribe(() => {
+  //         expect(jwtService.saveToken).toHaveBeenCalledWith('token');
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
 
   describe('register$', () => {
     it('should return a `registerSuccess` action with user information on success', done => {

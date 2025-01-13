@@ -1,12 +1,11 @@
-import { ArticlePreviewComponent } from '@shared/ui/article-preview';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Article } from '@shared/data-access/models';
+import { Article } from '@shared/data-access/api/models';
 import { provideRouter } from '@angular/router';
 import { ArticleMetaComponent } from './article-meta.component';
 
 describe('ArticleMetaComponent', () => {
   let component: ArticleMetaComponent;
-  let fixture: ComponentFixture<ArticlePreviewComponent>;
+  let fixture: ComponentFixture<ArticleMetaComponent>;
 
   const article = {
     createdAt: new Date('10/8/2024').toString(),
