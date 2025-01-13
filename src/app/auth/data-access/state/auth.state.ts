@@ -10,7 +10,7 @@ export interface AuthState {
   errors: BackendErrors | null;
 }
 
-export const initialState: AuthState = {
+export const authInitialState: AuthState = {
   currentUser: undefined,
   submitting: false,
   loading: false,
@@ -20,7 +20,7 @@ export const initialState: AuthState = {
 const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
-    initialState,
+    authInitialState,
     on(
       authActions.getCurrentUser,
       (state): AuthState => ({
@@ -82,7 +82,7 @@ const authFeature = createFeature({
       authActions.logout,
       (state): AuthState => ({
         ...state,
-        ...initialState,
+        ...authInitialState,
         currentUser: null
       })
     ),

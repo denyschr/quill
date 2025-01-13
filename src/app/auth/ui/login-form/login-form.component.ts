@@ -34,7 +34,7 @@ import { LoginCredentials } from '@auth/data-access/models';
         <val-errors controlName="password" label="The password" />
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="submitting || form.invalid">
+      <button class="btn btn-primary" type="submit" [disabled]="submitting || form.invalid">
         Sign in
       </button>
     </form>

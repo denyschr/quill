@@ -5,8 +5,8 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
   selector: 'ql-password-input-toggle',
   template: `
     <button
-      type="button"
       class="btn btn-outline-primary"
+      type="button"
       ngbTooltip="Toggle visibility"
       placement="bottom"
       (click)="toggle()"
