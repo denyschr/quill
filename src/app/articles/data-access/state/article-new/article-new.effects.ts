@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ArticleApiClient } from '@shared/data-access/api/services';
 import { articleNewActions } from './article-new.actions';
@@ -13,9 +12,7 @@ export const newArticle$ = createEffect(
       mergeMap(({ article }) =>
         articleClient.create(article).pipe(
           map(createdArticle => articleNewActions.newArticleSuccess({ article: createdArticle })),
-          catchError((errorResponse: HttpErrorResponse) => {
-            return of(articleNewActions.newArticleFailure({ errors: errorResponse.error.errors }));
-          })
+          catchError(error => of(articleNewActions.newArticleFailure({ errors: error.errors })))
         )
       )
     );

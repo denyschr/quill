@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { authActions } from './auth.actions';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserApiClient } from '@shared/data-access/api/services';
 import { JwtService } from '@shared/data-access/services';
@@ -17,6 +16,7 @@ export const getCurrentUser$ = createEffect(
       ofType(authActions.getCurrentUser),
       switchMap(() => {
         const token = jwtService.getToken();
+
         if (!token) {
           return of(authActions.getCurrentUserFailure());
         }
@@ -38,9 +38,7 @@ export const updateCurrentUser$ = createEffect(
       concatMap(({ user }) =>
         userClient.update(user).pipe(
           map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.updateCurrentUserFailure({ errors: errorResponse.error.errors }))
-          )
+          catchError(error => of(authActions.updateCurrentUserFailure({ errors: error.errors })))
         )
       )
     );
@@ -68,9 +66,7 @@ export const register$ = createEffect(
       switchMap(({ credentials }) =>
         userClient.register(credentials).pipe(
           map(currentUser => authActions.registerSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.registerFailure({ errors: errorResponse.error.errors }))
-          )
+          catchError(error => of(authActions.registerFailure({ errors: error.errors })))
         )
       )
     );
@@ -85,9 +81,7 @@ export const login$ = createEffect(
       switchMap(({ credentials }) =>
         userApiClient.login(credentials).pipe(
           map(currentUser => authActions.loginSuccess({ currentUser })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.loginFailure({ errors: errorResponse.error.errors }))
-          )
+          catchError(error => of(authActions.loginFailure({ errors: error.errors })))
         )
       )
     );

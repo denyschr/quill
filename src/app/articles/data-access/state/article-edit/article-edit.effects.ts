@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ArticleApiClient } from '@shared/data-access/api/services';
 import { articleEditActions } from './article-edit.actions';
 
@@ -13,11 +12,7 @@ export const editArticle$ = createEffect(
       concatMap(({ slug, article }) =>
         articleClient.update(slug, article).pipe(
           map(editedArticle => articleEditActions.editArticleSuccess({ article: editedArticle })),
-          catchError((errorResponse: HttpErrorResponse) => {
-            return of(
-              articleEditActions.editArticleFailure({ errors: errorResponse.error.errors })
-            );
-          })
+          catchError(error => of(articleEditActions.editArticleFailure({ errors: error.errors })))
         )
       )
     );

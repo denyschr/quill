@@ -106,7 +106,7 @@ describe('AuthEffects', () => {
     it('should return an `updateCurrentUserFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.updateCurrentUser);
 
-      userClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
+      userClient.update.and.returnValue(throwError(() => ({ errors })));
 
       authEffects.updateCurrentUser$(actions$, userClient).subscribe(action => {
         expect(userClient.update).toHaveBeenCalled();
@@ -148,7 +148,7 @@ describe('AuthEffects', () => {
     it('should return a `registerFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.register);
 
-      userClient.register.and.returnValue(throwError(() => ({ error: { errors } })));
+      userClient.register.and.returnValue(throwError(() => ({ errors })));
 
       authEffects.register$(actions$, userClient).subscribe(action => {
         expect(userClient.register).toHaveBeenCalled();
@@ -174,7 +174,7 @@ describe('AuthEffects', () => {
     it('should return a `loginFailure` action with a list of errors on failure', done => {
       actions$ = of(authActions.login);
 
-      userClient.login.and.returnValue(throwError(() => ({ error: { errors } })));
+      userClient.login.and.returnValue(throwError(() => ({ errors })));
 
       authEffects.login$(actions$, userClient).subscribe(action => {
         expect(userClient.login).toHaveBeenCalled();
