@@ -79,7 +79,7 @@ describe('LoginComponent', () => {
 
     const errors = element.querySelectorAll('li')!;
     expect(errors.length)
-      .withContext('You should have two `li` elements for the error messages')
+      .withContext('You should have a `li` element for each error message')
       .toBe(2);
     expect(errors[0].textContent).toContain('email already exists');
     expect(errors[1].textContent).toContain('password is invalid');

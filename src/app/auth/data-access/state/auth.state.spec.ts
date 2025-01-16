@@ -6,10 +6,11 @@ import {
   getMockedRegisterCredentials,
   getMockedUser
 } from '../../../testing.spec';
+import { BackendErrors } from '@shared/data-access/api/models';
 
 describe('AuthState', () => {
   const user = getMockedUser();
-  const errors = {
+  const errors: BackendErrors = {
     email: ['already exists'],
     password: ['is invalid']
   };

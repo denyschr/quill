@@ -9,6 +9,8 @@ describe('LoginFormComponent', () => {
   const credentials = getMockedLoginCredentials();
 
   beforeEach(() => {
+    TestBed.configureTestingModule({});
+
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
   });

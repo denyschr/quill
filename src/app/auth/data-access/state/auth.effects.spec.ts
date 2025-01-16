@@ -7,6 +7,7 @@ import { authActions } from './auth.actions';
 import { UserApiClient } from '@shared/data-access/api/services';
 import { JwtService } from '@shared/data-access/services';
 import { getMockedUser } from '../../../testing.spec';
+import { BackendErrors } from '@shared/data-access/api/models';
 
 describe('AuthEffects', () => {
   let userClient: jasmine.SpyObj<UserApiClient>;
@@ -15,7 +16,7 @@ describe('AuthEffects', () => {
   let actions$: Observable<unknown>;
 
   const user = getMockedUser();
-  const errors = {
+  const errors: BackendErrors = {
     email: ['already exists'],
     password: ['is invalid']
   };

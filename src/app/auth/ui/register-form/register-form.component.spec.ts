@@ -9,6 +9,8 @@ describe('RegisterFormComponent', () => {
   const credentials = getMockedRegisterCredentials();
 
   beforeEach(() => {
+    TestBed.configureTestingModule({});
+
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
   });
