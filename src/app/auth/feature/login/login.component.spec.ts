@@ -39,7 +39,7 @@ describe('LoginComponent', () => {
       .toContain("Don't have an account?");
   });
 
-  it('should dispatch a `login` action on submit', () => {
+  it('should dispatch a login action on submit', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     const credentials = getMockedLoginCredentials();
     fixture.detectChanges();
@@ -48,7 +48,7 @@ describe('LoginComponent', () => {
 
     const loginForm = fixture.debugElement.query(By.directive(LoginFormComponent));
     expect(loginForm)
-      .withContext('You should have LoginFormComponent to display a login form')
+      .withContext('You should have LoginFormComponent to display the login form')
       .not.toBeNull();
 
     loginForm.componentInstance.submitted.emit(credentials);

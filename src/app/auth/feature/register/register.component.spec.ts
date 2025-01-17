@@ -40,7 +40,7 @@ describe('RegisterComponent', () => {
       .toContain('Have an account?');
   });
 
-  it('should dispatch a `register` action on submit', () => {
+  it('should dispatch a register action on submit', () => {
     const fixture = TestBed.createComponent(RegisterComponent);
     const credentials = getMockedRegisterCredentials();
     fixture.detectChanges();
@@ -49,7 +49,7 @@ describe('RegisterComponent', () => {
 
     const registerForm = fixture.debugElement.query(By.directive(RegisterFormComponent));
     expect(registerForm)
-      .withContext('You should have RegisterFormComponent to display a login form')
+      .withContext('You should have RegisterFormComponent to display the register form')
       .not.toBeNull();
 
     registerForm.componentInstance.submitted.emit(credentials);

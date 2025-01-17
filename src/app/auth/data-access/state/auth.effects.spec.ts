@@ -44,12 +44,11 @@ describe('AuthEffects', () => {
     });
 
     router = TestBed.inject(Router);
-
     spyOn(router, 'navigateByUrl');
   });
 
   describe('getCurrentUser$', () => {
-    it('should return a `getCurrentUserSuccess` action with a user if the token is stored', done => {
+    it('should return a getCurrentUserSuccess action with a user if the token is stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue(user.token);
@@ -63,7 +62,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `getCurrentUserFailure` action if the token is not stored', done => {
+    it('should return a getCurrentUserFailure action if the token is not stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue(null);
@@ -76,7 +75,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `getCurrentUserFailure` action on failure', done => {
+    it('should return a getCurrentUserFailure action on failure', done => {
       actions$ = of(authActions.getCurrentUser);
 
       jwtService.getToken.and.returnValue(user.token);
@@ -92,7 +91,7 @@ describe('AuthEffects', () => {
   });
 
   describe('updateCurrentUser$', () => {
-    it('should return an `updateCurrentUserSuccess` action with an updated user on success', done => {
+    it('should return an updateCurrentUserSuccess action with an updated user on success', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(of(user));
@@ -104,7 +103,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return an `updateCurrentUserFailure` action with a list of errors on failure', done => {
+    it('should return an updateCurrentUserFailure action with a list of errors on failure', done => {
       actions$ = of(authActions.updateCurrentUser);
 
       userClient.update.and.returnValue(throwError(() => ({ errors })));
@@ -134,7 +133,7 @@ describe('AuthEffects', () => {
   });
 
   describe('register$', () => {
-    it('should return a `registerSuccess` action with a user on success', done => {
+    it('should return a registerSuccess action with a user on success', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(of(user));
@@ -146,7 +145,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `registerFailure` action with a list of errors on failure', done => {
+    it('should return a registerFailure action with a list of errors on failure', done => {
       actions$ = of(authActions.register);
 
       userClient.register.and.returnValue(throwError(() => ({ errors })));
@@ -160,7 +159,7 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return a `loginSuccess` action with a user on success', done => {
+    it('should return a loginSuccess action with a user on success', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(of(user));
@@ -172,7 +171,7 @@ describe('AuthEffects', () => {
       });
     });
 
-    it('should return a `loginFailure` action with a list of errors on failure', done => {
+    it('should return a loginFailure action with a list of errors on failure', done => {
       actions$ = of(authActions.login);
 
       userClient.login.and.returnValue(throwError(() => ({ errors })));
