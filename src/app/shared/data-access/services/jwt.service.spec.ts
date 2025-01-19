@@ -14,10 +14,6 @@ describe('JwtService', () => {
     jwtService = TestBed.inject(JwtService);
   });
 
-  it('should be created', () => {
-    expect(jwtService).toBeTruthy();
-  });
-
   it('should return a jwt token if one is stored', () => {
     localStorageGetItem.and.returnValue('token');
 
