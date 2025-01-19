@@ -27,17 +27,17 @@ describe('tokenInterceptor', () => {
   afterEach(() => httpController.verify());
 
   it('should do nothing if there is no jwt token', () => {
-    http.get('/api/whatever').subscribe();
+    http.get('/foo').subscribe();
 
-    const testRequest = httpController.expectOne('/api/whatever');
-    expect(testRequest.request.headers.get('Authorization')).toBe(null);
+    const req = httpController.expectOne('/foo');
+    expect(req.request.headers.get('Authorization')).toBe(null);
   });
 
   it('should send a jwt token', () => {
     jwtService.getToken.and.returnValue('hello');
-    http.get('/api/whatever').subscribe();
+    http.get('/foo').subscribe();
 
-    const testRequest = httpController.expectOne('/api/whatever');
-    expect(testRequest.request.headers.get('Authorization')).toBe('Token hello');
+    const req = httpController.expectOne('/foo');
+    expect(req.request.headers.get('Authorization')).toBe('Token hello');
   });
 });
