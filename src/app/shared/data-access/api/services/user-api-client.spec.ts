@@ -3,37 +3,30 @@ import { UserApiClient } from './user-api-client';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { User } from '@shared/data-access/api/models';
+import {
+  getMockedLoginCredentials,
+  getMockedRegisterCredentials,
+  getMockedUser
+} from '../../../../testing.spec';
 
 describe('UserApiClient', () => {
   let userClient: UserApiClient;
   let httpController: HttpTestingController;
 
-  const user = {
-    username: 'username',
-    email: 'email'
-  } as User;
+  const user = getMockedUser();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-
     userClient = TestBed.inject(UserApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
-  it('should be created', () => {
-    expect(userClient).toBeTruthy();
-  });
-
   it('should register a user', () => {
-    const credentials = {
-      username: user.username,
-      email: user.email,
-      password: '12345678'
-    };
+    const credentials = getMockedRegisterCredentials();
 
     let actualUser: User | undefined;
     userClient.register(credentials).subscribe(fetchedUser => {
@@ -44,16 +37,11 @@ describe('UserApiClient', () => {
     expect(req.request.body).toEqual({ user: credentials });
     req.flush({ user });
 
-    expect(actualUser)
-      .withContext('The `register` method should return a User wrapped in an Observable')
-      .toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(user);
   });
 
   it('should login a user', () => {
-    const credentials = {
-      email: user.email,
-      password: '12345678'
-    };
+    const credentials = getMockedLoginCredentials();
 
     let actualUser: User | undefined;
     userClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
@@ -62,9 +50,7 @@ describe('UserApiClient', () => {
     expect(req.request.body).toEqual({ user: credentials });
     req.flush({ user });
 
-    expect(actualUser)
-      .withContext('The `login` method should return a User wrapped in an Observable')
-      .toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(user);
   });
 
   it('should return a user', () => {
@@ -73,26 +59,24 @@ describe('UserApiClient', () => {
 
     httpController.expectOne('/user').flush({ user });
 
-    expect(actualUser)
-      .withContext('The `getCurrentUser` method should return a User wrapped in an Observable')
-      .toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(user);
   });
 
   it('should update a user', () => {
     const expectedUser = {
       ...user,
-      bio: 'bio'
+      bio: 'I like doing karate'
     };
 
     let actualUser: User | undefined;
-    userClient.update({ bio: 'bio' }).subscribe(fetchedUser => (actualUser = fetchedUser));
+    userClient
+      .update({ bio: expectedUser.bio })
+      .subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'PUT', url: '/user' });
-    expect(req.request.body).toEqual({ user: { bio: 'bio' } });
+    expect(req.request.body).toEqual({ user: { bio: expectedUser.bio } });
     req.flush({ user: expectedUser });
 
-    expect(actualUser)
-      .withContext('The `update` method should return a User wrapped in an Observable')
-      .toBe(expectedUser);
+    expect(actualUser).withContext('The observable should emit the user').toBe(expectedUser);
   });
 });
