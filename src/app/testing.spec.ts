@@ -1,5 +1,5 @@
 import { LoginCredentials, RegisterCredentials } from '@auth/data-access/models';
-import { Profile, User } from '@shared/data-access/api/models';
+import { Article, Profile, User } from '@shared/data-access/api/models';
 
 export const getMockedLoginCredentials = (
   credentials: Partial<LoginCredentials> = {}
@@ -40,5 +40,29 @@ export const getMockedProfile = (profile: Partial<Profile> = {}): Profile => {
     image: 'https://i.stack.imgur.com/xHWG8.jpg',
     following: false,
     ...profile
+  };
+};
+
+export const getMockedArticle = (
+  {
+    article,
+    profile
+  }: {
+    article?: Partial<Article>;
+    profile?: Partial<Profile>;
+  } = { article: {}, profile: {} }
+): Article => {
+  return {
+    slug: 'how-to-train-your-dragon',
+    title: 'How to train your dragon',
+    description: 'Ever wondered how?',
+    body: 'It takes a Jacobian',
+    tagList: ['dragons', 'training'],
+    createdAt: new Date('02/18/2016').toString(),
+    updatedAt: new Date('02/18/2016').toString(),
+    favorited: false,
+    favoritesCount: 0,
+    ...article,
+    author: getMockedProfile(profile)
   };
 };

@@ -54,12 +54,12 @@ describe('ProfileApiClient', () => {
       .unfollow(profile.username)
       .subscribe(fetchedProfile => (actualProfile = fetchedProfile));
 
-    const req = httpController.expectOne({
-      method: 'DELETE',
-      url: `/profiles/${profile.username}/follow`
-    });
-    expect(req.request.body).toBeNull();
-    req.flush({ profile });
+    httpController
+      .expectOne({
+        method: 'DELETE',
+        url: `/profiles/${profile.username}/follow`
+      })
+      .flush({ profile });
 
     expect(actualProfile).withContext('The observable should emit the profile').toBe(profile);
   });

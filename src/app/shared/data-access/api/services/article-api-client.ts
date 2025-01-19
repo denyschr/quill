@@ -46,7 +46,7 @@ export class ArticleApiClient {
 
   public favorite(slug: string): Observable<Article> {
     return this._http
-      .post<{ article: Article }>(`/articles/${slug}/favorite`, {})
+      .post<{ article: Article }>(`/articles/${slug}/favorite`, null)
       .pipe(map(response => response.article));
   }
 
