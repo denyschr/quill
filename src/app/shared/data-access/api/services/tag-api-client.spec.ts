@@ -11,19 +11,14 @@ describe('TagApiClient', () => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-
     tagClient = TestBed.inject(TagApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
-  it('should be created', () => {
-    expect(tagClient).toBeTruthy();
-  });
-
   it('should return a list of tags', () => {
-    const expectedTags = ['tag one', 'tag two', 'tag three'];
+    const expectedTags = ['dragons', 'training'];
 
     let actualTags: string[] | undefined;
     tagClient.getAll().subscribe(tags => (actualTags = tags));
@@ -31,7 +26,7 @@ describe('TagApiClient', () => {
     httpController.expectOne('/tags').flush({ tags: expectedTags });
 
     expect(actualTags)
-      .withContext('The `getAll` method should return an array of strings wrapped in an Observable')
+      .withContext('The observable should emit the list of tags')
       .toBe(expectedTags);
   });
 });
