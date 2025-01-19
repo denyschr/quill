@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { apiInterceptor } from './api.interceptor';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { environment } from '@environment';
+import { environment } from '@environments/environment.development';
 
 describe('apiInterceptor', () => {
   let httpController: HttpTestingController;
@@ -19,11 +19,11 @@ describe('apiInterceptor', () => {
 
   afterEach(() => httpController.verify());
 
-  it('should make a request with the apiUrl', () => {
-    const apiUrl = `${environment.apiUrl}/api/foo`;
+  it('should make a request with the api url', () => {
+    const url = `${environment.apiUrl}/api/foo`;
     http.get('/foo').subscribe();
 
-    const req = httpController.expectOne(apiUrl);
-    expect(req.request.url).toBe(apiUrl);
+    const req = httpController.expectOne(url);
+    expect(req.request.url).toBe(url);
   });
 });

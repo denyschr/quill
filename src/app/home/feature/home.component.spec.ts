@@ -7,7 +7,7 @@ import { articleListActions } from '@articles/data-access/state/article-list';
 import { ArticleListComponent } from '@articles/feature/article-list';
 import { TagsComponent } from '@home/ui/tags';
 import { ArticleListConfig } from '@shared/data-access/api/models';
-import { environment } from '@environment';
+import { environment } from '@environments/environment.development';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

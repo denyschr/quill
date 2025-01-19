@@ -23,7 +23,7 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@environment": ["src/environments/environment"],
+      "@environments/*": ["src/environments/*"],
       "@layout/feature": ["src/app/layout/feature/index.ts"],
       "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
       "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
