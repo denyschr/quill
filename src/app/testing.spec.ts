@@ -1,5 +1,5 @@
 import { LoginCredentials, RegisterCredentials } from '@auth/data-access/models';
-import { User } from '@shared/data-access/api/models';
+import { Profile, User } from '@shared/data-access/api/models';
 
 export const getMockedLoginCredentials = (
   credentials: Partial<LoginCredentials> = {}
@@ -30,5 +30,15 @@ export const getMockedUser = (user: Partial<User> = {}): User => {
     token: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjF9.5cAW816GUAg3OWKWlsYyXI4w3fDrS5BpnmbyBjVM7lo',
     username: 'jack',
     ...user
+  };
+};
+
+export const getMockedProfile = (profile: Partial<Profile> = {}): Profile => {
+  return {
+    username: 'jack',
+    bio: 'I work at a state farm',
+    image: 'https://i.stack.imgur.com/xHWG8.jpg',
+    following: false,
+    ...profile
   };
 };

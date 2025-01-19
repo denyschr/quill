@@ -21,7 +21,7 @@ describe('TagApiClient', () => {
     const expectedTags = ['dragons', 'training'];
 
     let actualTags: string[] | undefined;
-    tagClient.getAll().subscribe(tags => (actualTags = tags));
+    tagClient.getAll().subscribe(fetchedTags => (actualTags = fetchedTags));
 
     httpController.expectOne('/tags').flush({ tags: expectedTags });
 

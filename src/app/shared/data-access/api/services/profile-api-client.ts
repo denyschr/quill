@@ -17,13 +17,13 @@ export class ProfileApiClient {
 
   public follow(username: string): Observable<Profile> {
     return this._http
-      .post<{ profile: Profile }>(`/profiles/${username}/follow`, {})
+      .post<{ profile: Profile }>(`/profiles/${username}/follow`, null)
       .pipe(map(response => response.profile));
   }
 
   public unfollow(username: string): Observable<Profile> {
     return this._http
-      .delete<{ profile: Profile }>(`/profiles/${username}/follow`, {})
+      .delete<{ profile: Profile }>(`/profiles/${username}/follow`)
       .pipe(map(response => response.profile));
   }
 }

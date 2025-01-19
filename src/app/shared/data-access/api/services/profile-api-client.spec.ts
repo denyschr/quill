@@ -3,40 +3,64 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient } from '@angular/common/http';
 import { ProfileApiClient } from './profile-api-client';
 import { Profile } from '@shared/data-access/api/models';
+import { getMockedProfile } from '../../../../testing.spec';
 
 describe('ProfileApiClient', () => {
   let profileClient: ProfileApiClient;
   let httpController: HttpTestingController;
 
+  const profile = getMockedProfile();
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-
     profileClient = TestBed.inject(ProfileApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
-  it('should be created', () => {
-    expect(profileClient).toBeTruthy();
+  it('should return a profile', () => {
+    let actualProfile: Profile | undefined;
+    profileClient
+      .get(profile.username)
+      .subscribe(fetchedProfile => (actualProfile = fetchedProfile));
+
+    httpController.expectOne(`/profiles/${profile.username}`).flush({ profile });
+
+    expect(actualProfile).withContext('The observable should emit the profile').toBe(profile);
   });
 
-  it('should return a profile', () => {
-    const expectedProfile = {
-      username: 'username'
-    } as Profile;
-
+  it('should follow a user', () => {
     let actualProfile: Profile | undefined;
-    profileClient.get(expectedProfile.username).subscribe(profile => (actualProfile = profile));
+    profileClient
+      .follow(profile.username)
+      .subscribe(fetchedProfile => (actualProfile = fetchedProfile));
 
-    httpController
-      .expectOne(`/profiles/${expectedProfile.username}`)
-      .flush({ profile: expectedProfile });
+    const req = httpController.expectOne({
+      method: 'POST',
+      url: `/profiles/${profile.username}/follow`
+    });
+    expect(req.request.body).toBeNull();
+    req.flush({ profile });
 
-    expect(actualProfile)
-      .withContext('The `get` method should return a Profile object wrapped in an Observable')
-      .toBe(expectedProfile);
+    expect(actualProfile).withContext('The observable should emit the profile').toBe(profile);
+  });
+
+  it('should unfollow a user', () => {
+    let actualProfile: Profile | undefined;
+    profileClient
+      .unfollow(profile.username)
+      .subscribe(fetchedProfile => (actualProfile = fetchedProfile));
+
+    const req = httpController.expectOne({
+      method: 'DELETE',
+      url: `/profiles/${profile.username}/follow`
+    });
+    expect(req.request.body).toBeNull();
+    req.flush({ profile });
+
+    expect(actualProfile).withContext('The observable should emit the profile').toBe(profile);
   });
 });
