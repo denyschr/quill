@@ -47,8 +47,8 @@ describe('PasswordInputToggleComponent', () => {
       .withContext('The tooltip should be placed at the bottom')
       .toBe('bottom');
 
-    const icon = element.querySelector('i')!;
-    expect(icon).withContext('You should have an `i` element for the icon').not.toBeNull();
+    const icon = element.querySelector('span')!;
+    expect(icon).withContext('You should have a `span` element for the icon').not.toBeNull();
   });
 
   it('should toggle password visibility when clicking the button', () => {
@@ -61,7 +61,7 @@ describe('PasswordInputToggleComponent', () => {
       .withContext('The input should be of type `password` by default')
       .toBe('password');
 
-    const icon = element.querySelector('i')!;
+    const icon = element.querySelector('span')!;
     expect(icon.classList)
       .withContext('The icon should have the `bi-eye-slash` class by default')
       .toContain('bi-eye-slash');

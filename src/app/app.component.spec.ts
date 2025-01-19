@@ -16,7 +16,7 @@ describe('AppComponent', () => {
     store = TestBed.inject(MockStore);
   });
 
-  it('should dispatch a getCurrentUser action on create', () => {
+  it('should dispatch a getCurrentUser action on start', () => {
     spyOn(store, 'dispatch');
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();

@@ -37,13 +37,13 @@ import { User } from '@shared/data-access/api/models';
             @if (currentUser) {
               <li class="nav-item">
                 <a class="nav-link" routerLink="/editor" routerLinkActive="active">
-                  <i class="bi bi-pencil-square"></i>
+                  <span class="bi bi-pencil-square"></span>
                   New Article
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" routerLink="/settings" routerLinkActive="active">
-                  <i class="bi bi-gear-wide-connected"></i>
+                  <span class="bi bi-gear-wide-connected"></span>
                   Settings
                 </a>
               </li>

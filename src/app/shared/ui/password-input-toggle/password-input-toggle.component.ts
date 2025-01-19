@@ -11,7 +11,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
       placement="bottom"
       (click)="toggle()"
     >
-      <i class="bi" [class]="visible ? 'bi-eye' : 'bi-eye-slash'"></i>
+      <span class="bi" [class]="visible ? 'bi-eye' : 'bi-eye-slash'"></span>
     </button>
   `,
   styles: [

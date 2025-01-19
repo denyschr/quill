@@ -46,7 +46,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
                   class="btn btn-secondary p-0 border-0"
                   (click)="removeTag(tag)"
                 >
-                  <i class="bi bi-x"></i>
+                  <span class="bi bi-x"></span>
                 </button>
               </li>
             }

@@ -37,7 +37,7 @@ import { Article } from '@shared/data-access/api/models';
       <div class="d-flex align-self-end align-items-center gap-2">
         @if (canModify) {
           <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
-            <i class="bi bi-pencil-square"></i>
+            <span class="bi bi-pencil-square"></span>
             Edit
           </a>
           <button
@@ -46,7 +46,7 @@ import { Article } from '@shared/data-access/api/models';
             [disabled]="deleting"
             (click)="deleteArticle()"
           >
-            <i class="bi bi-trash3"></i>
+            <span class="bi bi-trash3"></span>
             Delete
           </button>
         } @else {
@@ -58,7 +58,7 @@ import { Article } from '@shared/data-access/api/models';
             [class.btn-outline-secondary]="!article.author.following"
             (click)="toggledFollow.emit()"
           >
-            <i class="bi bi-plus-lg"></i>
+            <span class="bi bi-plus-lg"></span>
             {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
           </button>
           <button
@@ -69,7 +69,7 @@ import { Article } from '@shared/data-access/api/models';
             [class.btn-outline-success]="!article.favorited"
             (click)="toggledFavorite.emit()"
           >
-            <i class="bi bi-heart-fill"></i>
+            <span class="bi bi-heart-fill"></span>
             {{ article.favorited ? 'Remove from Favorites' : 'Add to Favorites' }}
             ({{ article.favoritesCount }})
           </button>

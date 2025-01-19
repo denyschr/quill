@@ -43,7 +43,7 @@ import { TagListComponent } from '@shared/ui/tag-list';
           [class.btn-outline-success]="!article.favorited"
           (click)="toggleFavorite()"
         >
-          <i class="bi bi-heart-fill"></i>
+          <span class="bi bi-heart-fill"></span>
           {{ article.favoritesCount }}
         </button>
       </div>

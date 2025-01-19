@@ -25,7 +25,7 @@ import { Profile } from '@shared/data-access/api/models';
                 [class.btn-outline-secondary]="!profile.following"
                 (click)="toggledFollow.emit()"
               >
-                <i class="bi bi-plus-lg"></i>
+                <span class="bi bi-plus-lg"></span>
                 {{ profile.following ? 'Unfollow' : 'Follow' }} {{ profile.username }}
               </button>
             }

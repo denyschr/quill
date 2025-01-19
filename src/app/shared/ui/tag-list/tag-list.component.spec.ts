@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TagListComponent } from './tag-list.component';
 
 describe('TagListComponent', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
+  beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should display a list of tags', () => {
     const tags = ['dragons', 'training'];
