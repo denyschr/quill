@@ -8,7 +8,6 @@ import {
 
 @Component({
   selector: 'ql-validation-defaults',
-  standalone: true,
   template: `
     <val-default-errors>
       <ng-template valError="required" let-label>{{ label || 'Input' }} is required.</ng-template>
@@ -22,6 +21,7 @@ import {
       </ng-template>
     </val-default-errors>
   `,
+  standalone: true,
   imports: [DecimalPipe, DefaultValidationErrorsDirective, ValidationErrorDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
