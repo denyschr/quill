@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { articleActions } from './article.actions';
 import { catchError, concatMap, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ArticleApiClient, ProfileApiClient } from '@shared/data-access/api/services';
+import { ArticleApiClient, ProfileApiClient } from '@app/shared/data-access/api/services';
 
 export const loadArticle$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {

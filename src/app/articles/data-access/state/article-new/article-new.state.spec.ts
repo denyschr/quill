@@ -1,5 +1,5 @@
 import * as fromArticleNew from './article-new.state';
-import { Article } from '@shared/data-access/api/models';
+import { Article } from '@app/shared/data-access/api/models';
 import { articleNewActions } from './article-new.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
 

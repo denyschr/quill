@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
 import { profileActions } from './profile.actions';
-import { ProfileApiClient } from '@shared/data-access/api/services';
+import { ProfileApiClient } from '@app/shared/data-access/api/services';
 import { Router } from '@angular/router';
 
 export const loadProfile$ = createEffect(

@@ -3,8 +3,8 @@ import { AppComponent } from './app.component';
 import { provideRouter, RouterOutlet } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { authActions } from '@auth/data-access/state';
+import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
+import { authActions } from '@app/auth/data-access/state';
 
 describe('AppComponent', () => {
   let store: MockStore;

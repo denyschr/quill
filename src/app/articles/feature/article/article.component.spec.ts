@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { ArticleComponent } from './article.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { articleActions } from '@articles/data-access/state/article';
+import { articleActions } from '@app/articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
-import { ArticleMetaComponent } from '@articles/ui/article-meta';
-import { TagListComponent } from '@shared/ui/tag-list';
+import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+import { TagListComponent } from '@app/shared/ui/tag-list';
 
 describe('ArticleComponent', () => {
   let component: ArticleComponent;

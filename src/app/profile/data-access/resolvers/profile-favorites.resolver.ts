@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import {
   articleListActions,
   articleListInitialState
-} from '@articles/data-access/state/article-list';
+} from '@app/articles/data-access/state/article-list';
 
 export const profileFavoritesResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
   const username = route.parent!.paramMap.get('username')!;

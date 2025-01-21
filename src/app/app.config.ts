@@ -7,15 +7,15 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
-import { authEffects, authFeatureKey, authReducer } from '@auth/data-access/state';
-import { tagsEffects, tagsFeatureKey, tagsReducer } from '@home/data-access/state/tags';
-import { apiInterceptor, errorInterceptor } from '@shared/data-access/interceptors';
+import { authEffects, authFeatureKey, authReducer } from '@app/auth/data-access/state';
+import { tagsEffects, tagsFeatureKey, tagsReducer } from '@app/home/data-access/state/tags';
+import { apiInterceptor, errorInterceptor } from '@app/shared/data-access/interceptors';
 import {
   articleListEffects,
   articleListFeatureKey,
   articleListReducer
-} from '@articles/data-access/state/article-list';
-import { tokenInterceptor } from '@auth/data-access/interceptors';
+} from '@app/articles/data-access/state/article-list';
+import { tokenInterceptor } from '@app/auth/data-access/interceptors';
 
 export const APP_CONFIG: ApplicationConfig = {
   providers: [

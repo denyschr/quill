@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { authActions } from './auth.actions';
 import { routerNavigatedAction } from '@ngrx/router-store';
-import { BackendErrors, User } from '@shared/data-access/api/models';
+import { BackendErrors, User } from '@app/shared/data-access/api/models';
 
 export interface AuthState {
   currentUser: User | null | undefined;

@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { apiInterceptor } from './api.interceptor';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { environment } from '@environments/environment.development';
+import { environment } from '@env/environment.development';
 
 describe('apiInterceptor', () => {
   let httpController: HttpTestingController;

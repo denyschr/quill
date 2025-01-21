@@ -3,7 +3,7 @@ import { LayoutComponent } from './layout.component';
 import { provideRouter, RouterOutlet } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { NavbarComponent } from '@layout/ui/navbar';
+import { NavbarComponent } from '@app/layout/ui/navbar';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;

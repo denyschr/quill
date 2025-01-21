@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { authActions, selectCurrentUser } from '@auth/data-access/state';
+import { authActions, selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest, filter } from 'rxjs';
-import { selectErrors, selectSubmitting } from '@settings/data-access/state';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import { User } from '@shared/data-access/api/models';
-import { UnsavedChanges } from '@shared/data-access/guards';
-import { SettingsFormComponent } from '@settings/ui/settings-form';
+import { selectErrors, selectSubmitting } from '@app/settings/data-access/state';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
+import { User } from '@app/shared/data-access/api/models';
+import { UnsavedChanges } from '@app/shared/data-access/guards';
+import { SettingsFormComponent } from '@app/settings/ui/settings-form';
 
 @Component({
   template: `

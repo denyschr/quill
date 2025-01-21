@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
+import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
 import { By } from '@angular/platform-browser';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
-import { getMockedRegisterCredentials } from '../../../testing.spec';
+import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
+import { getMockedRegisterCredentials } from '@app/testing.spec';
 import { RegisterFormComponent } from './register-form.component';
 
 describe('RegisterFormComponent', () => {

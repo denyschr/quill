@@ -2,12 +2,12 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { UserApiClient } from './user-api-client';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { User } from '@shared/data-access/api/models';
+import { User } from '@app/shared/data-access/api/models';
 import {
   getMockedLoginCredentials,
   getMockedRegisterCredentials,
   getMockedUser
-} from '../../../../testing.spec';
+} from '@app/testing.spec';
 
 describe('UserApiClient', () => {
   let userClient: UserApiClient;

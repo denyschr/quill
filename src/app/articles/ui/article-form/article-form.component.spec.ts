@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ArticleFormComponent } from './article-form.component';
-import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
-import { Article } from '@shared/data-access/api/models';
+import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
+import { Article } from '@app/shared/data-access/api/models';
 
 describe('ArticleFormComponent', () => {
   let component: ArticleFormComponent;

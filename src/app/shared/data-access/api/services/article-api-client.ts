@@ -1,7 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Article, ArticleListConfig, ArticleListResponse } from '@shared/data-access/api/models';
+import {
+  Article,
+  ArticleListConfig,
+  ArticleListResponse
+} from '@app/shared/data-access/api/models';
 
 @Injectable({
   providedIn: 'root'

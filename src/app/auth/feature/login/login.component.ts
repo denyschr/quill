@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/state';
+import { authActions, selectErrors, selectSubmitting } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
-import { LoginCredentials } from '@auth/data-access/models';
-import { LoginFormComponent } from '@auth/ui/login-form';
+import { LoginCredentials } from '@app/auth/data-access/models';
+import { LoginFormComponent } from '@app/auth/ui/login-form';
 
 @Component({
   template: `

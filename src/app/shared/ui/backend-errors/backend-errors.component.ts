@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { KeyValuePipe } from '@angular/common';
-import { BackendErrors } from '@shared/data-access/api/models';
+import { BackendErrors } from '@app/shared/data-access/api/models';
 
 @Component({
   selector: 'ql-backend-errors',

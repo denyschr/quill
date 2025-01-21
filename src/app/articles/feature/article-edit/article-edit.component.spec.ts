@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ArticleEditComponent } from './article-edit.component';
-import { articleEditActions } from '@articles/data-access/state/article-edit';
-import { articleActions } from '@articles/data-access/state/article';
+import { articleEditActions } from '@app/articles/data-access/state/article-edit';
+import { articleActions } from '@app/articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 
 describe('ArticleEditComponent', () => {
   let component: ArticleEditComponent;

@@ -5,9 +5,9 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
+import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { LoginCredentials } from '@auth/data-access/models';
+import { LoginCredentials } from '@app/auth/data-access/models';
 
 @Component({
   selector: 'ql-login-form',

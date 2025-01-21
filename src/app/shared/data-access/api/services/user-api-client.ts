@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { User } from '@shared/data-access/api/models';
-import { LoginCredentials, RegisterCredentials } from '@auth/data-access/models';
+import { User } from '@app/shared/data-access/api/models';
+import { LoginCredentials, RegisterCredentials } from '@app/auth/data-access/models';
 
 @Injectable({
   providedIn: 'root'

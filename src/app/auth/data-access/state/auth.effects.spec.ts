@@ -4,10 +4,10 @@ import { Observable, of, throwError } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from './auth.actions';
-import { UserApiClient } from '@shared/data-access/api/services';
-import { JwtService } from '@shared/data-access/services';
-import { getMockedUser } from '../../../testing.spec';
-import { BackendErrors } from '@shared/data-access/api/models';
+import { UserApiClient } from '@app/shared/data-access/api/services';
+import { JwtService } from '@app/shared/data-access/services';
+import { getMockedUser } from '@app/testing.spec';
+import { BackendErrors } from '@app/shared/data-access/api/models';
 
 describe('AuthEffects', () => {
   let userClient: jasmine.SpyObj<UserApiClient>;

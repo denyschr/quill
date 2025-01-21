@@ -2,13 +2,13 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ArticleListComponent } from './article-list.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Article } from '@shared/data-access/api/models';
+import { Article } from '@app/shared/data-access/api/models';
 import { By } from '@angular/platform-browser';
-import { ArticlePreviewComponent } from '@shared/ui/article-preview';
+import { ArticlePreviewComponent } from '@app/shared/ui/article-preview';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input } from '@angular/core';
-import { articleListActions } from '@articles/data-access/state/article-list';
-import { environment } from '@environments/environment.development';
+import { articleListActions } from '@app/articles/data-access/state/article-list';
+import { environment } from '@env/environment.development';
 
 @Component({
   selector: 'ql-article-preview',

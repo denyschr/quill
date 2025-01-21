@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '@auth/data-access/state';
+import { selectCurrentUser } from '@app/auth/data-access/state';
 import { filter, map } from 'rxjs';
 
 export const loggedInGuard = (options: {

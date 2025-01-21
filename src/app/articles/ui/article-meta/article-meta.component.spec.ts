@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Article } from '@shared/data-access/api/models';
+import { Article } from '@app/shared/data-access/api/models';
 import { provideRouter } from '@angular/router';
 import { ArticleMetaComponent } from './article-meta.component';
 

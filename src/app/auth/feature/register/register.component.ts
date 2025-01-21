@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { authActions, selectErrors, selectSubmitting } from '@auth/data-access/state';
+import { authActions, selectErrors, selectSubmitting } from '@app/auth/data-access/state';
 import { combineLatest } from 'rxjs';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { LetDirective } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterCredentials } from '@auth/data-access/models';
-import { RegisterFormComponent } from '@auth/ui/register-form';
+import { RegisterCredentials } from '@app/auth/data-access/models';
+import { RegisterFormComponent } from '@app/auth/ui/register-form';
 
 @Component({
   template: `

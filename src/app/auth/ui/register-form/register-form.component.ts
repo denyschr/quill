@@ -5,8 +5,8 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { RegisterCredentials } from '@auth/data-access/models';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
+import { RegisterCredentials } from '@app/auth/data-access/models';
+import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
 @Component({

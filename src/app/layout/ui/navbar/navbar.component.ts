@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '@shared/data-access/api/models';
+import { User } from '@app/shared/data-access/api/models';
 
 @Component({
   selector: 'ql-navbar',

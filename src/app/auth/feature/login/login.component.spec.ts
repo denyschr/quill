@@ -3,10 +3,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
-import { LoginFormComponent } from '@auth/ui/login-form';
-import { authActions, authInitialState } from '@auth/data-access/state';
-import { getMockedLoginCredentials } from '../../../testing.spec';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
+import { LoginFormComponent } from '@app/auth/ui/login-form';
+import { authActions, authInitialState } from '@app/auth/data-access/state';
+import { getMockedLoginCredentials } from '@app/testing.spec';
 
 describe('LoginComponent', () => {
   let store: MockStore;

@@ -2,21 +2,21 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
-import { TagsComponent } from '@home/ui/tags';
+import { TagsComponent } from '@app/home/ui/tags';
 import {
   selectLoading as tagsLoading,
   selectTags,
   tagsActions
-} from '@home/data-access/state/tags';
-import { selectCurrentUser } from '@auth/data-access/state';
+} from '@app/home/data-access/state/tags';
+import { selectCurrentUser } from '@app/auth/data-access/state';
 import {
   articleListActions,
   articleListInitialState,
   selectConfig
-} from '@articles/data-access/state/article-list';
-import { ArticleListComponent } from '@articles/feature/article-list';
-import { FeedType } from '@shared/data-access/api/models';
-import { FeedTabsComponent } from '@home/ui/feed-tabs';
+} from '@app/articles/data-access/state/article-list';
+import { ArticleListComponent } from '@app/articles/feature/article-list';
+import { FeedType } from '@app/shared/data-access/api/models';
+import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
 
 @Component({
   template: `

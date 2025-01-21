@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { FeedType } from '@shared/data-access/api/models';
+import { FeedType } from '@app/shared/data-access/api/models';
 
 @Component({
   selector: 'ql-feed-tabs',

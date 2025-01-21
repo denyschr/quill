@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '@layout/ui/navbar';
+import { NavbarComponent } from '@app/layout/ui/navbar';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '@auth/data-access/state';
+import { selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { filter } from 'rxjs';
 

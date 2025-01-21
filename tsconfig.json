@@ -3,7 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -23,62 +23,63 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@environments/*": ["src/environments/*"],
-      "@layout/feature": ["src/app/layout/feature/index.ts"],
-      "@layout/ui/navbar": ["src/app/layout/ui/navbar/index.ts"],
-      "@auth/data-access/models": ["src/app/auth/data-access/models/index.ts"],
-      "@auth/data-access/guards": ["src/app/auth/data-access/guards/index.ts"],
-      "@auth/data-access/interceptors": ["src/app/auth/data-access/interceptors/index.ts"],
-      "@auth/data-access/state": ["src/app/auth/data-access/state/index.ts"],
-      "@auth/feature/login": ["src/app/auth/feature/login/index.ts"],
-      "@auth/feature/register": ["src/app/auth/feature/register/index.ts"],
-      "@auth/ui/login-form": ["src/app/auth/ui/login-form/index.ts"],
-      "@auth/ui/register-form": ["src/app/auth/ui/register-form/index.ts"],
-      "@home/data-access/state/tags": ["src/app/home/data-access/state/tags/index.ts"],
-      "@home/feature": ["src/app/home/feature/index.ts"],
-      "@home/ui/feed-tabs": ["src/app/home/ui/feed-tabs/index.ts"],
-      "@home/ui/tags": ["src/app/home/ui/tags/index.ts"],
-      "@articles/data-access/resolvers": ["src/app/articles/data-access/resolvers/index.ts"],
-      "@articles/data-access/state/article-list": [
-        "src/app/articles/data-access/state/article-list/index.ts"
+      "@env/*": ["environments/*"],
+      "@app/*": ["app/*"],
+      "@app/layout/feature": ["app/layout/feature/index.ts"],
+      "@app/layout/ui/navbar": ["app/layout/ui/navbar/index.ts"],
+      "@app/auth/data-access/models": ["app/auth/data-access/models/index.ts"],
+      "@app/auth/data-access/guards": ["app/auth/data-access/guards/index.ts"],
+      "@app/auth/data-access/interceptors": ["app/auth/data-access/interceptors/index.ts"],
+      "@app/auth/data-access/state": ["app/auth/data-access/state/index.ts"],
+      "@app/auth/feature/login": ["app/auth/feature/login/index.ts"],
+      "@app/auth/feature/register": ["app/auth/feature/register/index.ts"],
+      "@app/auth/ui/login-form": ["app/auth/ui/login-form/index.ts"],
+      "@app/auth/ui/register-form": ["app/auth/ui/register-form/index.ts"],
+      "@app/home/data-access/state/tags": ["app/home/data-access/state/tags/index.ts"],
+      "@app/home/feature": ["app/home/feature/index.ts"],
+      "@app/home/ui/feed-tabs": ["app/home/ui/feed-tabs/index.ts"],
+      "@app/home/ui/tags": ["app/home/ui/tags/index.ts"],
+      "@app/articles/data-access/resolvers": ["app/articles/data-access/resolvers/index.ts"],
+      "@app/articles/data-access/state/article-list": [
+        "app/articles/data-access/state/article-list/index.ts"
       ],
-      "@articles/data-access/state/article": [
-        "src/app/articles/data-access/state/article/index.ts"
+      "@app/articles/data-access/state/article": [
+        "app/articles/data-access/state/article/index.ts"
       ],
-      "@articles/data-access/state/article-edit": [
-        "src/app/articles/data-access/state/article-edit/index.ts"
+      "@app/articles/data-access/state/article-edit": [
+        "app/articles/data-access/state/article-edit/index.ts"
       ],
-      "@articles/data-access/state/article-new": [
-        "src/app/articles/data-access/state/article-new/index.ts"
+      "@app/articles/data-access/state/article-new": [
+        "app/articles/data-access/state/article-new/index.ts"
       ],
-      "@articles/feature/article-list": ["src/app/articles/feature/article-list/index.ts"],
-      "@articles/feature/article": ["src/app/articles/feature/article/index.ts"],
-      "@articles/feature/article-edit": ["src/app/articles/feature/article-edit/index.ts"],
-      "@articles/feature/article-new": ["src/app/articles/feature/article-new/index.ts"],
-      "@articles/ui/article-meta": ["src/app/articles/ui/article-meta/index.ts"],
-      "@articles/ui/article-form": ["src/app/articles/ui/article-form/index.ts"],
-      "@settings/data-access/state": ["src/app/settings/data-access/state/index.ts"],
-      "@settings/feature": ["src/app/settings/feature/index.ts"],
-      "@settings/ui/settings-form": ["src/app/settings/ui/settings-form/index.ts"],
-      "@profile/data-access/resolvers": ["src/app/profile/data-access/resolvers/index.ts"],
-      "@profile/data-access/state": ["src/app/profile/data-access/state/index.ts"],
-      "@profile/feature": ["src/app/profile/feature/index.ts"],
-      "@profile/ui/user-info": ["src/app/profile/ui/user-info/index.ts"],
-      "@profile/ui/articles-toggle": ["src/app/profile/ui/articles-toggle/index.ts"],
-      "@not-found/feature": ["src/app/not-found/feature/index.ts"],
-      "@shared/data-access/api/models": ["src/app/shared/data-access/api/models/index.ts"],
-      "@shared/data-access/api/services": ["src/app/shared/data-access/api/services/index.ts"],
-      "@shared/data-access/services": ["src/app/shared/data-access/services/index.ts"],
-      "@shared/data-access/interceptors": ["src/app/shared/data-access/interceptors/index.ts"],
-      "@shared/data-access/guards": ["src/app/shared/data-access/guards/index.ts"],
-      "@shared/ui/backend-errors": ["src/app/shared/ui/backend-errors/index.ts"],
-      "@shared/ui/password-input-toggle": ["src/app/shared/ui/password-input-toggle/index.ts"],
-      "@shared/ui/validation-defaults": ["src/app/shared/ui/validation-defaults/index.ts"],
-      "@shared/ui/article-preview": ["src/app/shared/ui/article-preview/index.ts"],
-      "@shared/ui/tag-list": ["src/app/shared/ui/tag-list/index.ts"],
-      "@shared/ui/confirm-modal": ["src/app/shared/ui/confirm-modal/index.ts"],
-      "@shared/directives/form-control-validation": [
-        "src/app/shared/directives/form-control-validation/index.ts"
+      "@app/articles/feature/article-list": ["app/articles/feature/article-list/index.ts"],
+      "@app/articles/feature/article": ["app/articles/feature/article/index.ts"],
+      "@app/articles/feature/article-edit": ["app/articles/feature/article-edit/index.ts"],
+      "@app/articles/feature/article-new": ["app/articles/feature/article-new/index.ts"],
+      "@app/articles/ui/article-meta": ["app/articles/ui/article-meta/index.ts"],
+      "@app/articles/ui/article-form": ["app/articles/ui/article-form/index.ts"],
+      "@app/settings/data-access/state": ["app/settings/data-access/state/index.ts"],
+      "@app/settings/feature": ["app/settings/feature/index.ts"],
+      "@app/settings/ui/settings-form": ["app/settings/ui/settings-form/index.ts"],
+      "@app/profile/data-access/resolvers": ["app/profile/data-access/resolvers/index.ts"],
+      "@app/profile/data-access/state": ["app/profile/data-access/state/index.ts"],
+      "@app/profile/feature": ["app/profile/feature/index.ts"],
+      "@app/profile/ui/user-info": ["app/profile/ui/user-info/index.ts"],
+      "@app/profile/ui/articles-toggle": ["app/profile/ui/articles-toggle/index.ts"],
+      "@app/not-found/feature": ["app/not-found/feature/index.ts"],
+      "@app/shared/data-access/api/models": ["app/shared/data-access/api/models/index.ts"],
+      "@app/shared/data-access/api/services": ["app/shared/data-access/api/services/index.ts"],
+      "@app/shared/data-access/services": ["app/shared/data-access/services/index.ts"],
+      "@app/shared/data-access/interceptors": ["app/shared/data-access/interceptors/index.ts"],
+      "@app/shared/data-access/guards": ["app/shared/data-access/guards/index.ts"],
+      "@app/shared/ui/backend-errors": ["app/shared/ui/backend-errors/index.ts"],
+      "@app/shared/ui/password-input-toggle": ["app/shared/ui/password-input-toggle/index.ts"],
+      "@app/shared/ui/validation-defaults": ["app/shared/ui/validation-defaults/index.ts"],
+      "@app/shared/ui/article-preview": ["app/shared/ui/article-preview/index.ts"],
+      "@app/shared/ui/tag-list": ["app/shared/ui/tag-list/index.ts"],
+      "@app/shared/ui/confirm-modal": ["app/shared/ui/confirm-modal/index.ts"],
+      "@app/shared/directives/form-control-validation": [
+        "app/shared/directives/form-control-validation/index.ts"
       ]
     }
   },

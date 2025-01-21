@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { Article } from '@shared/data-access/api/models';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { Article } from '@app/shared/data-access/api/models';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 import {
   articleNewActions,
   selectErrors,
   selectSubmitting
-} from '@articles/data-access/state/article-new';
-import { ArticleFormComponent } from '@articles/ui/article-form';
-import { UnsavedChanges } from '@shared/data-access/guards';
+} from '@app/articles/data-access/state/article-new';
+import { ArticleFormComponent } from '@app/articles/ui/article-form';
+import { UnsavedChanges } from '@app/shared/data-access/guards';
 
 @Component({
   template: `

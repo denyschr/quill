@@ -1,5 +1,5 @@
-import { LoginCredentials, RegisterCredentials } from '@auth/data-access/models';
-import { Article, Profile, User } from '@shared/data-access/api/models';
+import { LoginCredentials, RegisterCredentials } from '@app/auth/data-access/models';
+import { Article, Profile, User } from '@app/shared/data-access/api/models';
 
 export const getMockedLoginCredentials = (
   credentials: Partial<LoginCredentials> = {}

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { profileActions, selectLoading, selectProfile } from '@profile/data-access/state';
+import { profileActions, selectLoading, selectProfile } from '@app/profile/data-access/state';
 import { combineLatest, filter, map } from 'rxjs';
-import { selectCurrentUser } from '@auth/data-access/state';
+import { selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
-import { UserInfoComponent } from '@profile/ui/user-info';
-import { ArticlesToggleComponent } from '@profile/ui/articles-toggle';
+import { UserInfoComponent } from '@app/profile/ui/user-info';
+import { ArticlesToggleComponent } from '@app/profile/ui/articles-toggle';
 import { RouterOutlet } from '@angular/router';
-import { Profile } from '@shared/data-access/api/models';
+import { Profile } from '@app/shared/data-access/api/models';
 
 @Component({
   template: `

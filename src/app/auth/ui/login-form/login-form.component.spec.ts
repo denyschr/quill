@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ValidationDefaultsComponent } from '@shared/ui/validation-defaults';
+import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
 import { LoginFormComponent } from './login-form.component';
 import { By } from '@angular/platform-browser';
-import { PasswordInputToggleComponent } from '@shared/ui/password-input-toggle';
-import { getMockedLoginCredentials } from '../../../testing.spec';
+import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
+import { getMockedLoginCredentials } from '@app/testing.spec';
 
 describe('LoginFormComponent', () => {
   const credentials = getMockedLoginCredentials();

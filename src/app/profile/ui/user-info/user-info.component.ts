@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Profile } from '@shared/data-access/api/models';
+import { Profile } from '@app/shared/data-access/api/models';
 
 @Component({
   selector: 'ql-user-info',

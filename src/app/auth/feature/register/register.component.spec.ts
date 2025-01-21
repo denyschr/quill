@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { authActions, authInitialState } from '@auth/data-access/state';
-import { BackendErrorsComponent } from '@shared/ui/backend-errors';
+import { authActions, authInitialState } from '@app/auth/data-access/state';
+import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { RegisterComponent } from './register.component';
-import { getMockedRegisterCredentials } from '../../../testing.spec';
-import { RegisterFormComponent } from '@auth/ui/register-form';
-import { LoginComponent } from '@auth/feature/login';
+import { getMockedRegisterCredentials } from '@app/testing.spec';
+import { RegisterFormComponent } from '@app/auth/ui/register-form';
+import { LoginComponent } from '@app/auth/feature/login';
 
 describe('RegisterComponent', () => {
   let store: MockStore;

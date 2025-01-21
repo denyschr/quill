@@ -1,7 +1,7 @@
 import { CanDeactivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { of } from 'rxjs';
-import { ConfirmService } from '@shared/data-access/services';
+import { ConfirmService } from '@app/shared/data-access/services';
 
 export interface UnsavedChanges {
   hasUnsavedChanges(): boolean;
