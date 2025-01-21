@@ -6,7 +6,7 @@ import { combineLatest, filter } from 'rxjs';
 import { selectErrors, selectSubmitting } from '@app/settings/data-access/state';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { User } from '@app/shared/data-access/api/models';
-import { UnsavedChanges } from '@app/shared/data-access/guards';
+import { UnsavedChanges } from '@app/shared/utils';
 import { SettingsFormComponent } from '@app/settings/ui/settings-form';
 
 @Component({

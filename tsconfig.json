@@ -28,13 +28,12 @@
       "@app/layout/feature": ["app/layout/feature/index.ts"],
       "@app/layout/ui/navbar": ["app/layout/ui/navbar/index.ts"],
       "@app/auth/data-access/models": ["app/auth/data-access/models/index.ts"],
-      "@app/auth/data-access/guards": ["app/auth/data-access/guards/index.ts"],
-      "@app/auth/data-access/interceptors": ["app/auth/data-access/interceptors/index.ts"],
       "@app/auth/data-access/state": ["app/auth/data-access/state/index.ts"],
       "@app/auth/feature/login": ["app/auth/feature/login/index.ts"],
       "@app/auth/feature/register": ["app/auth/feature/register/index.ts"],
       "@app/auth/ui/login-form": ["app/auth/ui/login-form/index.ts"],
       "@app/auth/ui/register-form": ["app/auth/ui/register-form/index.ts"],
+      "@app/auth/utils": ["app/auth/utils/index.ts"],
       "@app/home/data-access/state/tags": ["app/home/data-access/state/tags/index.ts"],
       "@app/home/feature": ["app/home/feature/index.ts"],
       "@app/home/ui/feed-tabs": ["app/home/ui/feed-tabs/index.ts"],
@@ -70,8 +69,6 @@
       "@app/shared/data-access/api/models": ["app/shared/data-access/api/models/index.ts"],
       "@app/shared/data-access/api/services": ["app/shared/data-access/api/services/index.ts"],
       "@app/shared/data-access/services": ["app/shared/data-access/services/index.ts"],
-      "@app/shared/data-access/interceptors": ["app/shared/data-access/interceptors/index.ts"],
-      "@app/shared/data-access/guards": ["app/shared/data-access/guards/index.ts"],
       "@app/shared/ui/backend-errors": ["app/shared/ui/backend-errors/index.ts"],
       "@app/shared/ui/password-input-toggle": ["app/shared/ui/password-input-toggle/index.ts"],
       "@app/shared/ui/validation-defaults": ["app/shared/ui/validation-defaults/index.ts"],
@@ -80,7 +77,8 @@
       "@app/shared/ui/confirm-modal": ["app/shared/ui/confirm-modal/index.ts"],
       "@app/shared/directives/form-control-validation": [
         "app/shared/directives/form-control-validation/index.ts"
-      ]
+      ],
+      "@app/shared/utils": ["app/shared/utils/index.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -9,13 +9,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { authEffects, authFeatureKey, authReducer } from '@app/auth/data-access/state';
 import { tagsEffects, tagsFeatureKey, tagsReducer } from '@app/home/data-access/state/tags';
-import { apiInterceptor, errorInterceptor } from '@app/shared/data-access/interceptors';
+import { apiInterceptor, errorInterceptor } from '@app/shared/utils';
 import {
   articleListEffects,
   articleListFeatureKey,
   articleListReducer
 } from '@app/articles/data-access/state/article-list';
-import { tokenInterceptor } from '@app/auth/data-access/interceptors';
+import { tokenInterceptor } from '@app/auth/utils';
 
 export const APP_CONFIG: ApplicationConfig = {
   providers: [

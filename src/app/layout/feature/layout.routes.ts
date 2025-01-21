@@ -17,8 +17,8 @@ import {
   articleEditFeatureKey,
   articleEditReducer
 } from '@app/articles/data-access/state/article-edit';
-import { loggedInGuard } from '@app/auth/data-access/guards';
-import { formGuard } from '@app/shared/data-access/guards';
+import { loggedInGuard } from '@app/auth/utils';
+import { formGuard } from '@app/shared/utils';
 import { articleResolver } from '@app/articles/data-access/resolvers';
 
 export const LAYOUT_ROUTES: Route[] = [

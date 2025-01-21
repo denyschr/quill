@@ -10,7 +10,7 @@ import {
   selectSubmitting
 } from '@app/articles/data-access/state/article-new';
 import { ArticleFormComponent } from '@app/articles/ui/article-form';
-import { UnsavedChanges } from '@app/shared/data-access/guards';
+import { UnsavedChanges } from '@app/shared/utils';
 
 @Component({
   template: `

@@ -11,7 +11,6 @@ describe('tokenInterceptor', () => {
 
   beforeEach(() => {
     jwtService = jasmine.createSpyObj<JwtService>('JwtService', ['getToken']);
-
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([tokenInterceptor])),
@@ -19,7 +18,6 @@ describe('tokenInterceptor', () => {
         { provide: JwtService, useValue: jwtService }
       ]
     });
-
     httpController = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
   });
