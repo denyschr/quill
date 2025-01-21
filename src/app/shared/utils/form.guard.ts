@@ -9,13 +9,11 @@ export interface UnsavedChanges {
 
 export const formGuard: CanDeactivateFn<UnsavedChanges> = (component: UnsavedChanges) => {
   const confirmService = inject(ConfirmService);
-
   if (component.hasUnsavedChanges()) {
     return confirmService.confirm({
       title: 'You have unsaved changes!',
       message: 'Are you sure you want to leave this page?'
     });
   }
-
   return of(true);
 };

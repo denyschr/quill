@@ -9,7 +9,6 @@ import {
 export const profileArticlesResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
   const username = route.paramMap.get('username')!;
   const store = inject(Store);
-
   store.dispatch(
     articleListActions.setConfig({
       config: {
@@ -21,6 +20,5 @@ export const profileArticlesResolver: ResolveFn<boolean> = (route: ActivatedRout
       }
     })
   );
-
   return true;
 };
