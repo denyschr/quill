@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
+import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 import { User } from '@app/shared/data-access/api/models';
 
 @Component({

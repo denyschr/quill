@@ -6,7 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import { RegisterCredentials } from '@app/auth/data-access/models';
-import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
+import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 
 @Component({
