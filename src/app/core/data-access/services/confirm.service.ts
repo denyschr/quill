@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '@app/shared/ui/confirm-modal';
+import { ConfirmModalComponent } from '@app/core/ui/confirm-modal';
 import { from, Observable } from 'rxjs';
 
 interface ConfirmOptions {
