@@ -4,7 +4,7 @@ import { authActions } from './auth.actions';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserApiClient } from '@app/shared/data-access/api/services';
-import { JwtService } from '@app/shared/data-access/services';
+import { JwtService } from '@app/auth/data-access/services';
 
 export const getCurrentUser$ = createEffect(
   (
