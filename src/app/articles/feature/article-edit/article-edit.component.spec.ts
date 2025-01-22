@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ArticleEditComponent } from './article-edit.component';
 import { articleEditActions } from '@app/articles/data-access/state/article-edit';
-import { articleActions } from '@app/articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
+import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
 
 describe('ArticleEditComponent', () => {
   let component: ArticleEditComponent;
@@ -46,7 +46,9 @@ describe('ArticleEditComponent', () => {
   });
 
   it('should dispatch a loadArticle action on init', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(articleActions.loadArticle({ slug: 'title-one' }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleDetailActions.loadArticle({ slug: 'title-one' })
+    );
   });
 
   it('should dispatch an editArticle action on submit', () => {

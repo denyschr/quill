@@ -51,8 +51,8 @@
       "@app/articles/data-access/state/article-list": [
         "app/articles/data-access/state/article-list/index.ts"
       ],
-      "@app/articles/data-access/state/article": [
-        "app/articles/data-access/state/article/index.ts"
+      "@app/articles/data-access/state/article-detail": [
+        "app/articles/data-access/state/article-detail/index.ts"
       ],
       "@app/articles/data-access/state/article-edit": [
         "app/articles/data-access/state/article-edit/index.ts"
@@ -61,7 +61,7 @@
         "app/articles/data-access/state/article-new/index.ts"
       ],
       "@app/articles/feature/article-list": ["app/articles/feature/article-list/index.ts"],
-      "@app/articles/feature/article": ["app/articles/feature/article/index.ts"],
+      "@app/articles/feature/article-detail": ["app/articles/feature/article-detail/index.ts"],
       "@app/articles/feature/article-edit": ["app/articles/feature/article-edit/index.ts"],
       "@app/articles/feature/article-new": ["app/articles/feature/article-new/index.ts"],
       "@app/articles/ui/article-meta": ["app/articles/ui/article-meta/index.ts"],

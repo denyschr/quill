@@ -2,11 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ArticleApiClient } from './article-api-client';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import {
-  Article,
-  ArticleListConfig,
-  ArticleListResponse
-} from '@app/shared/data-access/api/models';
+import { Article, ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
 import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleApiClient', () => {

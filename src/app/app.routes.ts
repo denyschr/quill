@@ -3,11 +3,11 @@ import { loggedInGuard } from '@app/auth/utils';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import {
-  articleEffects,
-  articleFeatureKey,
-  articleReducer
-} from '@app/articles/data-access/state/article';
-import { articleResolver } from '@app/articles/data-access/resolvers';
+  articleDetailFeatureKey,
+  articleDetailReducer,
+  articleEffects
+} from '@app/articles/data-access/state/article-detail';
+import { articleDetailResolver } from '@app/articles/data-access/resolvers';
 import {
   articleNewEffects,
   articleNewFeatureKey,
@@ -38,9 +38,13 @@ export const APP_ROUTES: Route[] = [
   },
   {
     path: 'article/:slug',
-    loadComponent: () => import('@app/articles/feature/article').then(m => m.ArticleComponent),
-    providers: [provideEffects(articleEffects), provideState(articleFeatureKey, articleReducer)],
-    resolve: { articleResolver }
+    loadComponent: () =>
+      import('@app/articles/feature/article-detail').then(m => m.ArticleDetailComponent),
+    providers: [
+      provideEffects(articleEffects),
+      provideState(articleDetailFeatureKey, articleDetailReducer)
+    ],
+    resolve: { articleDetailResolver }
   },
   {
     path: 'editor',
@@ -62,10 +66,10 @@ export const APP_ROUTES: Route[] = [
           import('@app/articles/feature/article-edit').then(m => m.ArticleEditComponent),
         providers: [
           provideEffects(articleEditEffects, articleEffects),
-          provideState(articleFeatureKey, articleReducer),
+          provideState(articleDetailFeatureKey, articleDetailReducer),
           provideState(articleEditFeatureKey, articleEditReducer)
         ],
-        resolve: { articleResolver },
+        resolve: { articleDetailResolver },
         canDeactivate: [unsavedChangesGuard]
       }
     ]

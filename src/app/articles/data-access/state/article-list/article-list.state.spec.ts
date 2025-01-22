@@ -1,6 +1,6 @@
 import * as fromArticleList from './article-list.state';
 import { articleListActions } from './article-list.actions';
-import { ArticleListConfig, ArticleListResponse } from '@app/shared/data-access/api/models';
+import { ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
 
 describe('ArticleListState', () => {
   describe('unknown action', () => {

@@ -1,49 +1,49 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { articleActions } from './article.actions';
+import { articleDetailActions } from './article-detail.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { Article } from '@app/articles/data-access/models';
 import { articleListActions } from '@app/articles/data-access/state/article-list';
 
-export interface ArticleState {
+export interface ArticleDetailState {
   article: Article | null;
   loading: boolean;
 }
 
-export const articleInitialState: ArticleState = {
+export const articleDetailInitialState: ArticleDetailState = {
   article: null,
   loading: false
 };
 
-const articleFeature = createFeature({
-  name: 'article',
+const articleDetailFeature = createFeature({
+  name: 'articleDetail',
   reducer: createReducer(
-    articleInitialState,
+    articleDetailInitialState,
     on(
-      articleActions.loadArticle,
-      (state): ArticleState => ({
+      articleDetailActions.loadArticle,
+      (state): ArticleDetailState => ({
         ...state,
         loading: true
       })
     ),
     on(
-      articleActions.loadArticleSuccess,
-      (state, { article }): ArticleState => ({
+      articleDetailActions.loadArticleSuccess,
+      (state, { article }): ArticleDetailState => ({
         ...state,
         article: article,
         loading: false
       })
     ),
     on(
-      articleActions.loadArticleFailure,
-      (state): ArticleState => ({
+      articleDetailActions.loadArticleFailure,
+      (state): ArticleDetailState => ({
         ...state,
         loading: false
       })
     ),
     on(
-      articleActions.followSuccess,
-      articleActions.unfollowSuccess,
-      (state, { profile }): ArticleState => {
+      articleDetailActions.followSuccess,
+      articleDetailActions.unfollowSuccess,
+      (state, { profile }): ArticleDetailState => {
         if (!state.article) {
           return state;
         }
@@ -54,18 +54,18 @@ const articleFeature = createFeature({
     on(
       articleListActions.favoriteSuccess,
       articleListActions.unfavoriteSuccess,
-      (state, { article }): ArticleState => ({
+      (state, { article }): ArticleDetailState => ({
         ...state,
         article
       })
     ),
-    on(routerNavigationAction, (): ArticleState => articleInitialState)
+    on(routerNavigationAction, (): ArticleDetailState => articleDetailInitialState)
   )
 });
 
 export const {
-  name: articleFeatureKey,
-  reducer: articleReducer,
+  name: articleDetailFeatureKey,
+  reducer: articleDetailReducer,
   selectArticle,
   selectLoading
-} = articleFeature;
+} = articleDetailFeature;

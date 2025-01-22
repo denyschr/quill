@@ -1,11 +1,11 @@
-import { ArticleApiClient } from '@app/shared/data-access/api/services';
 import { provideRouter, Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleNewActions } from './article-new.actions';
-import { Article } from '@app/shared/data-access/api/models';
 import * as articleNewEffects from './article-new.effects';
+import { ArticleApiClient } from '@app/articles/data-access/services';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleNewEffects', () => {
   let articleClient: jasmine.SpyObj<ArticleApiClient>;

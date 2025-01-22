@@ -8,7 +8,7 @@ import {
   selectErrors,
   selectSubmitting
 } from '@app/articles/data-access/state/article-edit';
-import { selectArticle, selectLoading } from '@app/articles/data-access/state/article';
+import { selectArticle, selectLoading } from '@app/articles/data-access/state/article-detail';
 import { ArticleFormComponent } from '@app/articles/ui/article-form';
 import { Article } from '@app/articles/data-access/models';
 import { UnsavedChanges } from '@app/core/utils';

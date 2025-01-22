@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { articleActions } from './article.actions';
+import { articleDetailActions } from './article-detail.actions';
 import { catchError, concatMap, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ArticleApiClient } from '@app/articles/data-access/services';
@@ -9,11 +9,11 @@ import { ProfileApiClient } from '@app/profile/data-access/services';
 export const loadArticle$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
-      ofType(articleActions.loadArticle),
+      ofType(articleDetailActions.loadArticle),
       concatMap(({ slug }) =>
         articleClient.get(slug).pipe(
-          map(article => articleActions.loadArticleSuccess({ article })),
-          catchError(() => of(articleActions.loadArticleFailure()))
+          map(article => articleDetailActions.loadArticleSuccess({ article })),
+          catchError(() => of(articleDetailActions.loadArticleFailure()))
         )
       )
     );
@@ -24,7 +24,7 @@ export const loadArticle$ = createEffect(
 export const loadArticleFailure$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(articleActions.loadArticleFailure),
+      ofType(articleDetailActions.loadArticleFailure),
       tap(() => {
         void router.navigateByUrl('/');
       })
@@ -39,11 +39,11 @@ export const loadArticleFailure$ = createEffect(
 export const follow$ = createEffect(
   (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
-      ofType(articleActions.follow),
+      ofType(articleDetailActions.follow),
       concatMap(({ username }) => {
         return profileClient.follow(username).pipe(
-          map(profile => articleActions.followSuccess({ profile })),
-          catchError(() => of(articleActions.followFailure()))
+          map(profile => articleDetailActions.followSuccess({ profile })),
+          catchError(() => of(articleDetailActions.followFailure()))
         );
       })
     );
@@ -54,11 +54,11 @@ export const follow$ = createEffect(
 export const unfollow$ = createEffect(
   (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
-      ofType(articleActions.unfollow),
+      ofType(articleDetailActions.unfollow),
       concatMap(({ username }) => {
         return profileClient.unfollow(username).pipe(
-          map(profile => articleActions.unfollowSuccess({ profile })),
-          catchError(() => of(articleActions.unfollowFailure()))
+          map(profile => articleDetailActions.unfollowSuccess({ profile })),
+          catchError(() => of(articleDetailActions.unfollowFailure()))
         );
       })
     );
@@ -69,11 +69,11 @@ export const unfollow$ = createEffect(
 export const deleteArticle$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
-      ofType(articleActions.deleteArticle),
+      ofType(articleDetailActions.deleteArticle),
       mergeMap(({ slug }) =>
         articleClient.delete(slug).pipe(
-          map(() => articleActions.deleteArticleSuccess()),
-          catchError(() => of(articleActions.deleteArticleFailure()))
+          map(() => articleDetailActions.deleteArticleSuccess()),
+          catchError(() => of(articleDetailActions.deleteArticleFailure()))
         )
       )
     );
@@ -84,7 +84,7 @@ export const deleteArticle$ = createEffect(
 export const deleteArticleSuccess$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(articleActions.deleteArticleSuccess),
+      ofType(articleDetailActions.deleteArticleSuccess),
       tap(() => {
         void router.navigateByUrl('/');
       })

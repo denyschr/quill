@@ -2,8 +2,8 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Article } from '@app/articles/data-access/models';
 import { Profile } from '@app/profile/data-access/models';
 
-export const articleActions = createActionGroup({
-  source: 'Article API',
+export const articleDetailActions = createActionGroup({
+  source: 'Article Detail',
   events: {
     loadArticle: props<{ slug: string }>(),
     loadArticleSuccess: props<{ article: Article }>(),

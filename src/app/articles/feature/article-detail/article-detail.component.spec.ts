@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ArticleComponent } from './article.component';
+import { ArticleDetailComponent } from './article-detail.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { articleActions } from '@app/articles/data-access/state/article';
 import { By } from '@angular/platform-browser';
 import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
 import { TagListComponent } from '@app/shared/ui/tag-list';
+import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
 
-describe('ArticleComponent', () => {
-  let component: ArticleComponent;
-  let fixture: ComponentFixture<ArticleComponent>;
+describe('ArticleDetailComponent', () => {
+  let component: ArticleDetailComponent;
+  let fixture: ComponentFixture<ArticleDetailComponent>;
   let store: MockStore;
   const initialState = {
     article: {
@@ -35,11 +35,11 @@ describe('ArticleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ArticleComponent],
+      imports: [ArticleDetailComponent],
       providers: [provideRouter([]), provideMockStore({ initialState })]
     });
 
-    fixture = TestBed.createComponent(ArticleComponent);
+    fixture = TestBed.createComponent(ArticleDetailComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
     fixture.componentRef.setInput('slug', 'title-one');
@@ -54,7 +54,9 @@ describe('ArticleComponent', () => {
   });
 
   it('should dispatch a loadArticle action on init', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(articleActions.loadArticle({ slug: 'title-one' }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleDetailActions.loadArticle({ slug: 'title-one' })
+    );
   });
 
   it('should display a loading message if status is loading', () => {
@@ -144,7 +146,7 @@ describe('ArticleComponent', () => {
       .toBe(true);
     expect(store.dispatch)
       .withContext('The button should dispatch a `deleteArticle` action')
-      .toHaveBeenCalledWith(articleActions.deleteArticle({ slug: 'title-one' }));
+      .toHaveBeenCalledWith(articleDetailActions.deleteArticle({ slug: 'title-one' }));
   });
 
   it('should display an article body', () => {

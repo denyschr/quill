@@ -1,1 +1,1 @@
-export * from './article.resolver';
+export * from './article-detail.resolver';

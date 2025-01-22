@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  articleActions,
+  articleDetailActions,
   selectArticle,
   selectLoading
-} from '@app/articles/data-access/state/article';
+} from '@app/articles/data-access/state/article-detail';
 import { selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -53,7 +53,7 @@ import { Profile } from '@app/profile/data-access/models';
   imports: [LetDirective, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleComponent {
+export class ArticleDetailComponent {
   public readonly owner$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store
@@ -78,9 +78,9 @@ export class ArticleComponent {
 
   public toggleFollow(author: Profile): void {
     if (author.following) {
-      this.store.dispatch(articleActions.unfollow({ username: author.username }));
+      this.store.dispatch(articleDetailActions.unfollow({ username: author.username }));
     } else {
-      this.store.dispatch(articleActions.follow({ username: author.username }));
+      this.store.dispatch(articleDetailActions.follow({ username: author.username }));
     }
   }
 
@@ -93,6 +93,6 @@ export class ArticleComponent {
   }
 
   public delete(slug: string): void {
-    this.store.dispatch(articleActions.deleteArticle({ slug }));
+    this.store.dispatch(articleDetailActions.deleteArticle({ slug }));
   }
 }

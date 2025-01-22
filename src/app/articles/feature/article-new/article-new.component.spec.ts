@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ArticleNewComponent } from './article-new.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Article } from '@app/shared/data-access/api/models';
 import { articleNewActions } from '@app/articles/data-access/state/article-new';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleNewComponent', () => {
   let component: ArticleNewComponent;

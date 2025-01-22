@@ -1,7 +1,7 @@
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
-import { Article } from '@app/shared/data-access/api/models';
 import { routerNavigationAction } from '@ngrx/router-store';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleEditState', () => {
   const article = { title: 'title one' } as Article;

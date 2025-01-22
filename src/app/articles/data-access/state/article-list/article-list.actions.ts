@@ -2,7 +2,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Article, ArticleListConfig } from '@app/articles/data-access/models';
 
 export const articleListActions = createActionGroup({
-  source: 'Article List API',
+  source: 'Article List',
   events: {
     setPage: props<{ page: number }>(),
     setConfig: props<{ config: ArticleListConfig }>(),

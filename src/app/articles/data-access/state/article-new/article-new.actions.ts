@@ -3,7 +3,7 @@ import { BackendErrors } from '@app/core/data-access/models';
 import { Article } from '@app/articles/data-access/models';
 
 export const articleNewActions = createActionGroup({
-  source: 'Article New API',
+  source: 'Article New',
   events: {
     newArticle: props<{ article: Partial<Article> }>(),
     newArticleSuccess: props<{ article: Article }>(),
