@@ -6,8 +6,8 @@ import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
 import { articleListActions } from '@app/articles/data-access/state/article-list';
 import { ArticleListComponent } from '@app/articles/feature/article-list';
 import { TagsComponent } from '@app/home/ui/tags';
-import { ArticleListConfig } from '@app/shared/data-access/api/models';
 import { environment } from '@env/environment.development';
+import { ArticleListConfig } from '@app/articles/data-access/models';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
