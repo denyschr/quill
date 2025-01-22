@@ -84,6 +84,6 @@ export const APP_ROUTES: Route[] = [
   },
   {
     path: '**',
-    loadComponent: () => import('@app/core/not-found').then(m => m.NotFoundComponent)
+    loadComponent: () => import('@app/not-found/feature').then(m => m.NotFoundComponent)
   }
 ];
