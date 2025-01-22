@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { ProfileApiClient } from './profile-api-client';
-import { Profile } from '@app/shared/data-access/api/models';
 import { getMockedProfile } from '@app/testing.spec';
+import { Profile } from '@app/profile/data-access/models';
 
 describe('ProfileApiClient', () => {
   let profileClient: ProfileApiClient;

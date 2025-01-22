@@ -1,11 +1,11 @@
-import { ProfileApiClient } from '@app/shared/data-access/api/services';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as profileEffects from './profile.effects';
 import { provideRouter, Router } from '@angular/router';
-import { Profile } from '@app/shared/data-access/api/models';
 import { profileActions } from './profile.actions';
+import { ProfileApiClient } from '@app/profile/data-access/services';
+import { Profile } from '@app/profile/data-access/models';
 
 describe('ProfileEffects', () => {
   let profileClient: jasmine.SpyObj<ProfileApiClient>;
