@@ -1,16 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
 import { By } from '@angular/platform-browser';
-import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
 import { getMockedRegisterCredentials } from '@app/testing.spec';
 import { RegisterFormComponent } from './register-form.component';
+import { ValidationDefaultsComponent } from '@app/core/validation';
+import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 
 describe('RegisterFormComponent', () => {
   const credentials = getMockedRegisterCredentials();
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
   });

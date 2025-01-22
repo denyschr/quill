@@ -6,7 +6,7 @@ import {
   getMockedRegisterCredentials,
   getMockedUser
 } from '@app/testing.spec';
-import { BackendErrors } from '@app/shared/data-access/api/models';
+import { BackendErrors } from '@app/core/data-access/models';
 
 describe('AuthState', () => {
   const user = getMockedUser();

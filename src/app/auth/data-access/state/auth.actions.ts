@@ -3,7 +3,7 @@ import { LoginCredentials, RegisterCredentials, User } from '@app/auth/data-acce
 import { BackendErrors } from '@app/core/data-access/models';
 
 export const authActions = createActionGroup({
-  source: 'Auth API',
+  source: 'Auth',
   events: {
     getCurrentUser: emptyProps(),
     getCurrentUserSuccess: props<{ currentUser: User }>(),

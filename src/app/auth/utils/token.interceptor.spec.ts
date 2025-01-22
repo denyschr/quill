@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { tokenInterceptor } from './token.interceptor';
-import { JwtService } from '@app/shared/data-access/services';
+import { JwtService } from '@app/auth/data-access/services';
 
 describe('tokenInterceptor', () => {
   let jwtService: jasmine.SpyObj<JwtService>;
