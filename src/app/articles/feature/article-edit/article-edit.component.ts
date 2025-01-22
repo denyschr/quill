@@ -11,7 +11,7 @@ import {
 import { selectArticle, selectLoading } from '@app/articles/data-access/state/article';
 import { ArticleFormComponent } from '@app/articles/ui/article-form';
 import { Article } from '@app/shared/data-access/api/models';
-import { UnsavedChanges } from '@app/shared/utils';
+import { UnsavedChanges } from '@app/core/utils';
 
 @Component({
   template: `

@@ -13,7 +13,7 @@ import {
   articleNewFeatureKey,
   articleNewReducer
 } from '@app/articles/data-access/state/article-new';
-import { formGuard } from '@app/shared/utils';
+import { unsavedChangesGuard } from '@app/core/utils';
 import {
   articleEditEffects,
   articleEditFeatureKey,
@@ -54,7 +54,7 @@ export const APP_ROUTES: Route[] = [
           provideEffects(articleNewEffects),
           provideState(articleNewFeatureKey, articleNewReducer)
         ],
-        canDeactivate: [formGuard]
+        canDeactivate: [unsavedChangesGuard]
       },
       {
         path: ':slug',
@@ -66,7 +66,7 @@ export const APP_ROUTES: Route[] = [
           provideState(articleEditFeatureKey, articleEditReducer)
         ],
         resolve: { articleResolver },
-        canDeactivate: [formGuard]
+        canDeactivate: [unsavedChangesGuard]
       }
     ]
   },
@@ -75,7 +75,7 @@ export const APP_ROUTES: Route[] = [
     loadComponent: () => import('@app/settings/feature').then(m => m.SettingsComponent),
     providers: [provideState(settingsFeatureKey, settingsReducer)],
     canActivate: [loggedInGuard({ loggedIn: true, otherwise: '/login' })],
-    canDeactivate: [formGuard]
+    canDeactivate: [unsavedChangesGuard]
   },
   {
     path: 'profile',

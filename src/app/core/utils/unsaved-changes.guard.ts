@@ -7,7 +7,7 @@ export interface UnsavedChanges {
   hasUnsavedChanges(): boolean;
 }
 
-export const formGuard: CanDeactivateFn<UnsavedChanges> = (component: UnsavedChanges) => {
+export const unsavedChangesGuard: CanDeactivateFn<UnsavedChanges> = (component: UnsavedChanges) => {
   const confirmService = inject(ConfirmService);
   if (component.hasUnsavedChanges()) {
     return confirmService.confirm({
