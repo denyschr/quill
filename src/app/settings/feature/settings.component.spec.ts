@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { SettingsComponent } from './settings.component';
 import { By } from '@angular/platform-browser';
-import { PasswordInputToggleComponent } from '@app/shared/ui/password-input-toggle';
-import { ValidationDefaultsComponent } from '@app/shared/ui/validation-defaults';
 import { authActions } from '@app/auth/data-access/state';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
+import { ValidationDefaultsComponent } from '@app/core/validation';
+import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
