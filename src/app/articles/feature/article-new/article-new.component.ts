@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { Article } from '@app/shared/data-access/api/models';
+import { Article } from '@app/articles/data-access/models';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
 import {

@@ -1,2 +1,2 @@
-export * from './register-credentials';
-export * from './login-credentials';
+export * from './user';
+export * from './credentials';

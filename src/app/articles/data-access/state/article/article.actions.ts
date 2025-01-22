@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Article, Profile } from '@app/shared/data-access/api/models';
+import { Article } from '@app/articles/data-access/models';
+import { Profile } from '@app/profile/data-access/models';
 
 export const articleActions = createActionGroup({
   source: 'Article API',

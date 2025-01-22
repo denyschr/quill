@@ -7,7 +7,7 @@ import { LetDirective } from '@ngrx/component';
 import { UserInfoComponent } from '@app/profile/ui/user-info';
 import { ArticlesToggleComponent } from '@app/profile/ui/articles-toggle';
 import { RouterOutlet } from '@angular/router';
-import { Profile } from '@app/shared/data-access/api/models';
+import { Profile } from '@app/profile/data-access/models';
 
 @Component({
   template: `

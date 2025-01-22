@@ -11,7 +11,8 @@ import { TagListComponent } from '@app/shared/ui/tag-list';
 import { combineLatest, filter, map } from 'rxjs';
 import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
 import { articleListActions } from '@app/articles/data-access/state/article-list';
-import { Article, Profile } from '@app/shared/data-access/api/models';
+import { Article } from '@app/articles/data-access/models';
+import { Profile } from '@app/profile/data-access/models';
 
 @Component({
   template: `

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
-import { User } from '@app/shared/data-access/api/models';
+import { User } from '@app/auth/data-access/models';
 
 @Component({
   selector: 'ql-settings-form',

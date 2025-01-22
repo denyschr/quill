@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ArticleApiClient } from '@app/shared/data-access/api/services';
+import { ArticleApiClient } from '@app/articles/data-access/services';
 import { articleNewActions } from './article-new.actions';
 
 export const newArticle$ = createEffect(

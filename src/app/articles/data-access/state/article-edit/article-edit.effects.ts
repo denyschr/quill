@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ArticleApiClient } from '@app/shared/data-access/api/services';
 import { articleEditActions } from './article-edit.actions';
+import { ArticleApiClient } from '@app/articles/data-access/services';
 
 export const editArticle$ = createEffect(
   (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {

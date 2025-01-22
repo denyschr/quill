@@ -1,7 +1,7 @@
 import { authActions } from '@app/auth/data-access/state';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { BackendErrors } from '@app/shared/data-access/api/models';
+import { BackendErrors } from '@app/core/data-access/models';
 
 export interface SettingsState {
   submitting: boolean;

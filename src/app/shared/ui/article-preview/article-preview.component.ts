@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Article } from '@app/shared/data-access/api/models';
+import { Article } from '@app/articles/data-access/models';
 import { DatePipe } from '@angular/common';
 import { TagListComponent } from '@app/shared/ui/tag-list';
 

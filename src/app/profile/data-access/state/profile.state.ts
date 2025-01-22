@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { profileActions } from './profile.actions';
-import { Profile } from '@app/shared/data-access/api/models';
+import { Profile } from '@app/profile/data-access/models';
 
 export interface ProfileState {
   profile: Profile | null;
