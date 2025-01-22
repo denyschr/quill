@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ArticlePreviewComponent } from './article-preview.component';
-import { Article } from '@app/shared/data-access/api/models';
 import { provideRouter } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { TagListComponent } from '@app/shared/ui/tag-list';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticlePreviewComponent', () => {
   let component: ArticlePreviewComponent;
