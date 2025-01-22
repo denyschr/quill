@@ -3,7 +3,7 @@ import { provideRouter, RouterLink } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
 import { By } from '@angular/platform-browser';
 import { NgbCollapseConfig } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '@app/shared/data-access/api/models';
+import { User } from '@app/auth/data-access/models';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
