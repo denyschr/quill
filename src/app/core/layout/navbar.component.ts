@@ -63,6 +63,7 @@ import { combineLatest } from 'rxjs';
                   </li>
                   <li class="nav-item">
                     <a
+                      id="current-user"
                       class="nav-link"
                       [routerLink]="['/profile', currentUser.username]"
                       routerLinkActive="active"
