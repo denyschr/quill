@@ -5,6 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { authActions } from '@app/auth/data-access/state';
 import { ValidationDefaultsComponent } from '@app/core/validation';
+import { NavbarComponent } from '@app/core/layout';
 
 describe('AppComponent', () => {
   let store: MockStore;
@@ -20,23 +21,28 @@ describe('AppComponent', () => {
     spyOn(store, 'dispatch');
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-
     expect(store.dispatch).toHaveBeenCalledWith(authActions.getCurrentUser());
+  });
+
+  it('should use the navbar component', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.directive(NavbarComponent)))
+      .withContext('You should use NavbarComponent in your template to display the navbar')
+      .not.toBeNull();
   });
 
   it('should have a router outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-
     expect(fixture.debugElement.query(By.directive(RouterOutlet)))
-      .withContext('You should have RouterOutlet component in your template')
+      .withContext('You should have a RouterOutlet component in your root template')
       .not.toBeNull();
   });
 
   it('should use ValidationDefaultsComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-
     expect(fixture.debugElement.query(By.directive(ValidationDefaultsComponent)))
       .withContext(
         'You might have forgot to add ValidationDefaultsComponent to the AppComponent template'
