@@ -4,10 +4,12 @@ import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '@app/auth/data-access/state';
 import { filter, map } from 'rxjs';
 
-export const loggedInGuard = (options: {
+export interface LoggedInGuardOptions {
   readonly loggedIn: boolean;
   readonly otherwise: string;
-}): CanActivateFn => {
+}
+
+export const loggedInGuard = (options: LoggedInGuardOptions): CanActivateFn => {
   const { loggedIn, otherwise } = options;
   return () => {
     const router = inject(Router);

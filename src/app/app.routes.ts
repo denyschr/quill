@@ -29,12 +29,12 @@ export const APP_ROUTES: Route[] = [
   {
     path: 'register',
     loadComponent: () => import('@app/auth/feature/register').then(m => m.RegisterComponent),
-    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '' })]
+    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '/' })]
   },
   {
     path: 'login',
     loadComponent: () => import('@app/auth/feature/login').then(m => m.LoginComponent),
-    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '' })]
+    canActivate: [loggedInGuard({ loggedIn: false, otherwise: '/' })]
   },
   {
     path: 'article/:slug',
