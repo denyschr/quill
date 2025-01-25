@@ -4,13 +4,11 @@ import { tagsActions } from './tags.actions';
 export interface TagsState {
   tags: string[];
   loading: boolean;
-  error: string | null;
 }
 
 export const tagsInitialState: TagsState = {
   tags: [],
-  loading: false,
-  error: null
+  loading: false
 };
 
 const tagsFeature = createFeature({

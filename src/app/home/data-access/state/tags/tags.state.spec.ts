@@ -28,12 +28,12 @@ describe('TagsState', () => {
       expect(state).not.toBe(tagsInitialState);
     });
 
-    it('should retrieve an array of tags and set loading to false on success', () => {
+    it('should retrieve a list of tags and set loading to false on success', () => {
       const { tagsInitialState } = fromTags;
-      const tags = ['tag one', 'tag two'];
+      const tags = ['dragons', 'training'];
       const newState = {
         ...tagsInitialState,
-        tags: tags,
+        tags,
         loading: false
       };
       const action = tagsActions.loadTagsSuccess({ tags });
