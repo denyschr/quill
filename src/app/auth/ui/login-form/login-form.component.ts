@@ -8,6 +8,7 @@ import {
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { LoginCredentials } from '@app/auth/data-access/models';
+import { FormControlValidationDirective } from '@app/core/validation';
 
 @Component({
   selector: 'ql-login-form',
@@ -15,7 +16,7 @@ import { LoginCredentials } from '@app/auth/data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" type="email" class="form-control" formControlName="email" />
+        <input id="email" class="form-control" type="email" formControlName="email" />
         <val-errors controlName="email" label="The email" />
       </div>
 
@@ -24,8 +25,8 @@ import { LoginCredentials } from '@app/auth/data-access/models';
         <div class="input-group">
           <input
             id="password"
-            type="password"
             class="form-control"
+            type="password"
             formControlName="password"
             #passwordInput
           />
@@ -43,6 +44,7 @@ import { LoginCredentials } from '@app/auth/data-access/models';
     FormsModule,
     PasswordInputToggleComponent,
     ReactiveFormsModule,
+    FormControlValidationDirective,
     ValidationErrorsComponent
   ],
   standalone: true,

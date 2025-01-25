@@ -8,6 +8,7 @@ import {
 import { RegisterCredentials } from '@app/auth/data-access/models';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
+import { FormControlValidationDirective } from '@app/core/validation';
 
 @Component({
   selector: 'ql-register-form',
@@ -15,13 +16,13 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" type="text" class="form-control" formControlName="username" />
+        <input id="username" class="form-control" type="text" formControlName="username" />
         <val-errors controlName="username" label="The username" />
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" type="email" class="form-control" formControlName="email" />
+        <input id="email" class="form-control" type="email" formControlName="email" />
         <val-errors controlName="email" label="The email" />
       </div>
 
@@ -30,8 +31,8 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
         <div class="input-group">
           <input
             id="password"
-            type="password"
             class="form-control"
+            type="password"
             formControlName="password"
             #passwordInput
           />
@@ -50,6 +51,7 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
     FormsModule,
     PasswordInputToggleComponent,
     ReactiveFormsModule,
+    FormControlValidationDirective,
     ValidationErrorsComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
