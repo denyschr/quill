@@ -12,7 +12,6 @@ describe('apiInterceptor', () => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(withInterceptors([apiInterceptor])), provideHttpClientTesting()]
     });
-
     httpController = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
   });

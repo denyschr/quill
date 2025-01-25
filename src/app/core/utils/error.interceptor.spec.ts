@@ -16,11 +16,9 @@ describe('errorInterceptor', () => {
         provideHttpClientTesting()
       ]
     });
-
     httpController = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
     router = TestBed.inject(Router);
-
     spyOn(router, 'navigateByUrl');
   });
 
