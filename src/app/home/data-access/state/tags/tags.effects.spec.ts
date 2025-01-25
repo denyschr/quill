@@ -9,11 +9,8 @@ describe('TagsEffects', () => {
   let tagClient: jasmine.SpyObj<TagApiClient>;
   let actions$: Observable<unknown>;
 
-  const tags = ['tag one', 'tag two'];
-
   beforeEach(() => {
     tagClient = jasmine.createSpyObj<TagApiClient>('TagApiClient', ['getAll']);
-
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
@@ -23,7 +20,8 @@ describe('TagsEffects', () => {
   });
 
   describe('loadTags$', () => {
-    it('should return a `loadTagsSuccess` action with an array of tags on success', done => {
+    it('should return a loadTagsSuccess action with a list of tags on success', done => {
+      const tags = ['dragons', 'training'];
       actions$ = of(tagsActions.loadTags);
 
       tagClient.getAll.and.returnValue(of(tags));
@@ -35,7 +33,7 @@ describe('TagsEffects', () => {
       });
     });
 
-    it('should return a `loadTagsFailure` action on failure', done => {
+    it('should return a loadTagsFailure action on failure', done => {
       actions$ = of(tagsActions.loadTags);
 
       tagClient.getAll.and.returnValue(throwError(() => new Error('error')));
