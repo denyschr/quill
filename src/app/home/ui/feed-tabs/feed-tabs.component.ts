@@ -8,7 +8,7 @@ import { FeedType } from '@app/articles/data-access/models';
       <li class="nav-item">
         <a
           class="nav-link"
-          [class]="feedType === 'global' && !tag ? 'active pe-none' : ''"
+          [class]="feedType === 'global' && !tag ? 'active pe-none' : null"
           (click)="changed.emit('global')"
           >Global Feed</a
         >
@@ -18,7 +18,7 @@ import { FeedType } from '@app/articles/data-access/models';
         <li class="nav-item">
           <a
             class="nav-link"
-            [class]="feedType === 'feed' && !tag ? 'active pe-none' : ''"
+            [class]="feedType === 'feed' && !tag ? 'active pe-none' : null"
             (click)="changed.emit('feed')"
             >Your Feed</a
           >
@@ -32,13 +32,6 @@ import { FeedType } from '@app/articles/data-access/models';
       }
     </ul>
   `,
-  styles: [
-    `
-      a {
-        cursor: pointer;
-      }
-    `
-  ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
