@@ -8,7 +8,7 @@ describe('FeedTabsComponent', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
     fixture.detectChanges();
 
-    const tabLinks = fixture.nativeElement.querySelectorAll(
+    const tabLinks = (fixture.nativeElement as HTMLElement).querySelectorAll(
       '.nav.nav-tabs > .nav-item > a.nav-link'
     );
     expect(tabLinks.length).withContext('You should only have one tab for the global feed').toBe(1);
@@ -20,7 +20,7 @@ describe('FeedTabsComponent', () => {
     fixture.componentRef.setInput('feedDisabled', false);
     fixture.detectChanges();
 
-    const tabLinks = fixture.nativeElement.querySelectorAll(
+    const tabLinks = (fixture.nativeElement as HTMLElement).querySelectorAll(
       '.nav.nav-tabs > .nav-item > a.nav-link'
     );
     expect(tabLinks.length)
@@ -36,7 +36,7 @@ describe('FeedTabsComponent', () => {
     fixture.componentRef.setInput('tag', 'dragons');
     fixture.detectChanges();
 
-    const tabLinks = fixture.nativeElement.querySelectorAll(
+    const tabLinks = (fixture.nativeElement as HTMLElement).querySelectorAll(
       '.nav.nav-tabs > .nav-item > a.nav-link'
     );
     expect(tabLinks.length)
@@ -54,7 +54,7 @@ describe('FeedTabsComponent', () => {
     fixture.componentRef.setInput('feedDisabled', false);
     fixture.detectChanges();
 
-    const links = fixture.nativeElement.querySelectorAll('a.nav-link');
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
     expect(links.length).withContext('You should have two links').toBe(2);
     expect(links[0].className).withContext('The first link should be active').toContain('active');
     expect(links[1].className)
@@ -68,7 +68,7 @@ describe('FeedTabsComponent', () => {
     fixture.componentRef.setInput('feedDisabled', false);
     fixture.detectChanges();
 
-    const links = fixture.nativeElement.querySelectorAll('a.nav-link');
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
     expect(links.length).withContext('You should have two links').toBe(2);
     expect(links[0].className)
       .withContext('The first link should NOT be active')
@@ -83,7 +83,7 @@ describe('FeedTabsComponent', () => {
     fixture.componentRef.setInput('tag', 'dragons');
     fixture.detectChanges();
 
-    const links = fixture.nativeElement.querySelectorAll('a.nav-link');
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
     expect(links.length).withContext('You should have three links').toBe(3);
     expect(links[0].className)
       .withContext('The first link should NOT be active')
