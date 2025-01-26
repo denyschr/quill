@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { TagsComponent } from '@app/home/ui/tags';
 import {
-  selectLoading as tagsLoading,
+  selectLoading as selectTagsLoading,
   selectTags,
   tagsActions
 } from '@app/home/data-access/state/tags';
@@ -22,7 +22,7 @@ import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       <div class="container">
-        <div class="row py-4">
+        <div class="row py-5">
           <div class="col-md-9">
             <ql-feed-tabs
               [feedType]="vm.config.type"
@@ -48,7 +48,7 @@ export class HomeComponent {
   public readonly vm$ = combineLatest({
     config: this.store.select(selectConfig),
     tags: this.store.select(selectTags),
-    tagsLoading: this.store.select(tagsLoading),
+    tagsLoading: this.store.select(selectTagsLoading),
     authenticated: this.store.select(selectCurrentUser)
   });
 

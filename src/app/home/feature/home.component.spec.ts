@@ -1,62 +1,41 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
-import { articleListActions } from '@app/articles/data-access/state/article-list';
+import {
+  articleListActions,
+  articleListInitialState
+} from '@app/articles/data-access/state/article-list';
 import { ArticleListComponent } from '@app/articles/feature/article-list';
 import { TagsComponent } from '@app/home/ui/tags';
-import { environment } from '@env/environment.development';
-import { ArticleListConfig } from '@app/articles/data-access/models';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
   let store: MockStore;
-  const initialState = {
-    articleList: {
-      articles: [],
-      total: 0,
-      config: {
-        type: 'global',
-        currentPage: 1,
-        filters: {
-          limit: environment.limit
-        }
-      } as ArticleListConfig
-    }
-  };
+  const initialState = { articleList: articleListInitialState };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HomeComponent],
       providers: [provideMockStore({ initialState })]
     });
-
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-
-    fixture.detectChanges();
-
     spyOn(store, 'dispatch');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should show feed tabs', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(FeedTabsComponent)))
-      .withContext('You need `FeedTabsComponent` for the tabs')
+  it('should display feed tabs', () => {
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.directive(FeedTabsComponent)))
+      .withContext('You should have FeedTabsComponent in your template')
       .not.toBeNull();
   });
 
   it('should dispatch a setConfig action on feed change', () => {
-    const element = fixture.debugElement;
-    const feedTabsComponent = element.query(By.directive(FeedTabsComponent));
-    feedTabsComponent.componentInstance.changed.emit('global');
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+
+    const feedTabs = fixture.debugElement.query(By.directive(FeedTabsComponent));
+    feedTabs.componentInstance.changed.emit('global');
     expect(store.dispatch).toHaveBeenCalledWith(
       articleListActions.setConfig({
         config: {
@@ -68,23 +47,27 @@ describe('HomeComponent', () => {
   });
 
   it('should display a list of articles', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(ArticleListComponent)))
-      .withContext('You need `ArticleListComponent` for a list of articles')
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.directive(ArticleListComponent)))
+      .withContext('You should have ArticleListComponent to display the list of articles')
       .not.toBeNull();
   });
 
-  it('should display tags', () => {
-    const element = fixture.debugElement;
-    expect(element.query(By.directive(TagsComponent)))
-      .withContext('You need `TagsComponent` for tags')
+  it('should display a list of tags', () => {
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.directive(TagsComponent)))
+      .withContext('You might have forgot to add TagsComponent to the HomeComponent template')
       .not.toBeNull();
   });
 
   it('should dispatch a setConfig action on tag click', () => {
-    const element = fixture.debugElement;
-    const tagsComponent = element.query(By.directive(TagsComponent));
-    tagsComponent.componentInstance.clicked.emit('tag');
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+
+    const tags = fixture.debugElement.query(By.directive(TagsComponent));
+    tags.componentInstance.clicked.emit('tag');
     expect(store.dispatch).toHaveBeenCalledWith(
       articleListActions.setConfig({
         config: {
