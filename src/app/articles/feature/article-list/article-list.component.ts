@@ -9,7 +9,7 @@ import {
   selectTotal
 } from '@app/articles/data-access/state/article-list';
 import { combineLatest } from 'rxjs';
-import { ArticlePreviewComponent } from '@app/shared/ui/article-preview';
+import { ArticlePreviewComponent } from '@app/articles/ui/article-preview';
 import { LetDirective } from '@ngrx/component';
 
 @Component({

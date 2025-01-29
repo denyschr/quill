@@ -64,6 +64,7 @@
       "@app/articles/feature/article-detail": ["app/articles/feature/article-detail/index.ts"],
       "@app/articles/feature/article-edit": ["app/articles/feature/article-edit/index.ts"],
       "@app/articles/feature/article-new": ["app/articles/feature/article-new/index.ts"],
+      "@app/articles/ui/article-preview": ["app/articles/ui/article-preview/index.ts"],
       "@app/articles/ui/article-meta": ["app/articles/ui/article-meta/index.ts"],
       "@app/articles/ui/article-form": ["app/articles/ui/article-form/index.ts"],
       "@app/settings/data-access/state": ["app/settings/data-access/state/index.ts"],
@@ -77,7 +78,6 @@
       "@app/profile/ui/user-info": ["app/profile/ui/user-info/index.ts"],
       "@app/profile/ui/articles-toggle": ["app/profile/ui/articles-toggle/index.ts"],
       "@app/shared/ui/backend-errors": ["app/shared/ui/backend-errors/index.ts"],
-      "@app/shared/ui/article-preview": ["app/shared/ui/article-preview/index.ts"],
       "@app/shared/ui/tag-list": ["app/shared/ui/tag-list/index.ts"],
       "@app/shared/ui/not-found": ["app/shared/ui/not-found/index.ts"]
     }
