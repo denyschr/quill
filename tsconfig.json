@@ -46,7 +46,6 @@
       "@app/home/ui/feed-tabs": ["app/home/ui/feed-tabs/index.ts"],
       "@app/home/ui/tags": ["app/home/ui/tags/index.ts"],
       "@app/articles/data-access/models": ["app/articles/data-access/models/index.ts"],
-      "@app/articles/data-access/resolvers": ["app/articles/data-access/resolvers/index.ts"],
       "@app/articles/data-access/services": ["app/articles/data-access/services/index.ts"],
       "@app/articles/data-access/state/article-list": [
         "app/articles/data-access/state/article-list/index.ts"
@@ -71,7 +70,6 @@
       "@app/settings/feature": ["app/settings/feature/index.ts"],
       "@app/settings/ui/settings-form": ["app/settings/ui/settings-form/index.ts"],
       "@app/profile/data-access/models": ["app/profile/data-access/models/index.ts"],
-      "@app/profile/data-access/resolvers": ["app/profile/data-access/resolvers/index.ts"],
       "@app/profile/data-access/services": ["app/profile/data-access/services/index.ts"],
       "@app/profile/data-access/state": ["app/profile/data-access/state/index.ts"],
       "@app/profile/feature": ["app/profile/feature/index.ts"],

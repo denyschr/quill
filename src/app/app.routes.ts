@@ -7,7 +7,6 @@ import {
   articleDetailReducer,
   articleEffects
 } from '@app/articles/data-access/state/article-detail';
-import { articleDetailResolver } from '@app/articles/data-access/resolvers';
 import {
   articleNewEffects,
   articleNewFeatureKey,
@@ -20,6 +19,7 @@ import {
   articleEditReducer
 } from '@app/articles/data-access/state/article-edit';
 import { settingsFeatureKey, settingsReducer } from '@app/settings/data-access/state';
+import { articleDetailResolver } from '@app/articles/feature/article-detail';
 
 export const APP_ROUTES: Route[] = [
   {

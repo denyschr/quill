@@ -3,11 +3,9 @@ import { ProfileComponent } from './profile.component';
 import { provideState } from '@ngrx/store';
 import { profileEffects, profileFeatureKey, profileReducer } from '@app/profile/data-access/state';
 import { provideEffects } from '@ngrx/effects';
-import {
-  profileArticlesResolver,
-  profileFavoritesResolver,
-  profileResolver
-} from '@app/profile/data-access/resolvers';
+import { profileResolver } from './profile.resolver';
+import { profileArticlesResolver } from './profile-articles.resolver';
+import { profileFavoritesResolver } from './profile-favorites.resolver';
 
 export const PROFILE_ROUTES: Route[] = [
   {
