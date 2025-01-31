@@ -1,6 +1,7 @@
 import * as fromArticleList from './article-list.state';
 import { articleListActions } from './article-list.actions';
-import { ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
+import { ArticleListConfig } from '@app/articles/data-access/models';
+import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleListState', () => {
   describe('unknown action', () => {
@@ -16,7 +17,7 @@ describe('ArticleListState', () => {
   });
 
   describe('setPage action', () => {
-    it('should update the page', () => {
+    it('should change the page', () => {
       const { articleListInitialState } = fromArticleList;
       const page = 2;
       const filters = {
@@ -43,10 +44,10 @@ describe('ArticleListState', () => {
   describe('setConfig action', () => {
     it('should update the config', () => {
       const { articleListInitialState } = fromArticleList;
-      const config = {
+      const config: ArticleListConfig = {
         ...articleListInitialState.config,
         type: 'feed'
-      } as ArticleListConfig;
+      };
       const newState = {
         ...articleListInitialState,
         config
@@ -76,9 +77,12 @@ describe('ArticleListState', () => {
     it('should retrieve a list of articles and set loading to false on success', () => {
       const { articleListInitialState } = fromArticleList;
       const articleList = {
-        articles: [{ title: 'title one' }, { title: 'title two' }],
+        articles: [
+          getMockedArticle({ profile: { username: 'jack' } }),
+          getMockedArticle({ profile: { username: 'john' } })
+        ],
         articlesCount: 2
-      } as ArticleListResponse;
+      };
       const newState = {
         ...articleListInitialState,
         articles: articleList.articles,
