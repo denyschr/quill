@@ -77,10 +77,7 @@ describe('ArticleListState', () => {
     it('should retrieve a list of articles and set loading to false on success', () => {
       const { articleListInitialState } = fromArticleList;
       const articleList = {
-        articles: [
-          getMockedArticle({ profile: { username: 'jack' } }),
-          getMockedArticle({ profile: { username: 'john' } })
-        ],
+        articles: [getMockedArticle(), getMockedArticle()],
         articlesCount: 2
       };
       const newState = {
