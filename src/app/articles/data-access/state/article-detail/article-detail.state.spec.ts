@@ -1,7 +1,7 @@
 import * as fromArticle from './article-detail.state';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { articleDetailActions } from '@app/articles/data-access/state/article-detail/article-detail.actions';
-import { Article } from '@app/articles/data-access/models';
+import { articleDetailActions } from './article-detail.actions';
+import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleDetailState', () => {
   describe('unknown action', () => {
@@ -23,7 +23,7 @@ describe('ArticleDetailState', () => {
         ...articleDetailInitialState,
         loading: true
       };
-      const action = articleDetailActions.loadArticle({ slug: 'slug' });
+      const action = articleDetailActions.loadArticle({ slug: 'article-slug' });
       const state = fromArticle.articleDetailReducer(articleDetailInitialState, action);
 
       expect(state).toEqual(newState);
@@ -32,7 +32,7 @@ describe('ArticleDetailState', () => {
 
     it('should retrieve an article and set loading to false on success', () => {
       const { articleDetailInitialState } = fromArticle;
-      const article = { title: 'title one' } as Article;
+      const article = getMockedArticle();
       const newState = {
         ...articleDetailInitialState,
         article,
@@ -59,8 +59,8 @@ describe('ArticleDetailState', () => {
     });
   });
 
-  describe('routerNavigationAction', () => {
-    it('should reset the state to its initial values on navigation', () => {
+  describe('routerNavigation action', () => {
+    it('should reset to the initial state on navigation', () => {
       const { articleDetailInitialState } = fromArticle;
       const state = fromArticle.articleDetailReducer(
         articleDetailInitialState,
