@@ -10,7 +10,6 @@ import { BackendErrors } from '@app/core/data-access/models';
 
 describe('ArticleNewEffects', () => {
   let articleClient: jasmine.SpyObj<ArticleApiClient>;
-  let router: Router;
   let actions$: Observable<unknown>;
 
   const article = getMockedArticle();
@@ -23,8 +22,6 @@ describe('ArticleNewEffects', () => {
         { provide: ArticleApiClient, useValue: articleClient }
       ]
     });
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
   });
 
   describe('newArticle$', () => {
@@ -62,7 +59,10 @@ describe('ArticleNewEffects', () => {
   });
 
   describe('newArticleSuccess$', () => {
-    it('should navigate to a created article', done => {
+    it('should navigate to the created article', done => {
+      const router = TestBed.inject(Router);
+      spyOn(router, 'navigate');
+
       actions$ = of(articleNewActions.newArticleSuccess({ article }));
 
       TestBed.runInInjectionContext(() => {

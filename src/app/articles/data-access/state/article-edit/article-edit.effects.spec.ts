@@ -1,37 +1,31 @@
-import { provideRouter, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleEditActions } from './article-edit.actions';
 import * as articleEditEffects from './article-edit.effects';
 import { ArticleApiClient } from '@app/articles/data-access/services';
-import { Article } from '@app/articles/data-access/models';
+import { getMockedArticle } from '@app/testing.spec';
+import { BackendErrors } from '@app/core/data-access/models';
 
 describe('ArticleEditEffects', () => {
   let articleClient: jasmine.SpyObj<ArticleApiClient>;
-  let router: Router;
   let actions$: Observable<unknown>;
 
-  const article = { slug: 'title-one', title: 'title one' } as Article;
+  const article = getMockedArticle();
 
   beforeEach(() => {
     articleClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', ['update']);
-
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([]),
         provideMockActions(() => actions$),
         { provide: ArticleApiClient, useValue: articleClient }
       ]
     });
-
-    router = TestBed.inject(Router);
-
-    spyOn(router, 'navigate');
   });
 
   describe('editArticle$', () => {
-    it('should return an `editArticleSuccess` action with an updated article on success', done => {
+    it('should return an editArticleSuccess action with an edited article on success', done => {
       actions$ = of(articleEditActions.editArticle);
 
       articleClient.update.and.returnValue(of(article));
@@ -47,11 +41,14 @@ describe('ArticleEditEffects', () => {
       });
     });
 
-    it('should return an `editArticleFailure` action with errors on failure', done => {
-      const errors = { title: ['is missing'], body: ['is required'] };
+    it('should return an editArticleFailure action with a list of errors on failure', done => {
+      const errors: BackendErrors = {
+        title: ['is a required field'],
+        body: ['is a required field']
+      };
       actions$ = of(articleEditActions.editArticle);
 
-      articleClient.update.and.returnValue(throwError(() => ({ error: { errors } })));
+      articleClient.update.and.returnValue(throwError(() => ({ errors })));
 
       articleEditEffects.editArticle$(actions$, articleClient).subscribe(action => {
         expect(articleClient.update).toHaveBeenCalled();
@@ -62,7 +59,10 @@ describe('ArticleEditEffects', () => {
   });
 
   describe('editArticleSuccess$', () => {
-    it('should navigate to an updated article on article editing success', done => {
+    it('should navigate to the edited article', done => {
+      const router = TestBed.inject(Router);
+      spyOn(router, 'navigate');
+
       actions$ = of(articleEditActions.editArticleSuccess({ article }));
 
       TestBed.runInInjectionContext(() => {
