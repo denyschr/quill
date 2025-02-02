@@ -1,10 +1,10 @@
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@app/articles/data-access/models';
+import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleEditState', () => {
-  const article = { title: 'title one' } as Article;
+  const article = getMockedArticle();
 
   describe('unknown action', () => {
     it('should return the default state', () => {
@@ -19,14 +19,14 @@ describe('ArticleEditState', () => {
   });
 
   describe('editArticle action', () => {
-    it('should set submitting to true and reset the error state to null', () => {
+    it('should set submitting to true and reset errors to null', () => {
       const { articleEditInitialState } = fromArticleEdit;
       const newState = {
         ...articleEditInitialState,
         submitting: true,
         errors: null
       };
-      const action = articleEditActions.editArticle({ slug: 'title-one', article });
+      const action = articleEditActions.editArticle({ slug: article.slug, article });
       const state = fromArticleEdit.articleEditReducer(articleEditInitialState, action);
 
       expect(state).toEqual(newState);
@@ -48,7 +48,7 @@ describe('ArticleEditState', () => {
 
     it('should have errors and set submitting to false on failure', () => {
       const { articleEditInitialState } = fromArticleEdit;
-      const errors = { title: ['is missing'], body: ['is required'] };
+      const errors = { title: ['is a required field'], body: ['is a required field'] };
       const newState = {
         ...articleEditInitialState,
         submitting: false,
@@ -62,8 +62,8 @@ describe('ArticleEditState', () => {
     });
   });
 
-  describe('routerNavigationAction', () => {
-    it('should reset the state to its initial values on navigation', () => {
+  describe('routerNavigationAction action', () => {
+    it('should reset to the initial state', () => {
       const { articleEditInitialState } = fromArticleEdit;
       const state = fromArticleEdit.articleEditReducer(
         articleEditInitialState,
