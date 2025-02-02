@@ -24,9 +24,7 @@ export const newArticleSuccess$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(articleNewActions.newArticleSuccess),
-      tap(({ article }) => {
-        void router.navigate(['/article', article.slug]);
-      })
+      tap(({ article }) => router.navigate(['/article', article.slug]))
     );
   },
   {
