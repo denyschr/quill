@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -32,16 +32,13 @@ describe('AuthEffects', () => {
       'saveToken',
       'removeToken'
     ]);
-
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([]),
         provideMockActions(() => actions$),
         { provide: UserApiClient, useValue: userClient },
         { provide: JwtService, useValue: jwtService }
       ]
     });
-
     router = TestBed.inject(Router);
     spyOn(router, 'navigateByUrl');
   });

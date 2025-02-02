@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { articleDetailActions } from './article-detail.actions';
 import * as articleEffects from './article-detail.effects';
-import { provideRouter, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ArticleApiClient } from '@app/articles/data-access/services';
 import { ProfileApiClient } from '@app/profile/data-access/services';
 import { getMockedArticle, getMockedProfile } from '@app/testing.spec';
@@ -20,16 +20,13 @@ describe('ArticleDetailEffects', () => {
       'follow',
       'unfollow'
     ]);
-
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([]),
         provideMockActions(() => actions$),
         { provide: ArticleApiClient, useValue: articleClient },
         { provide: ProfileApiClient, useValue: profileClient }
       ]
     });
-
     router = TestBed.inject(Router);
     spyOn(router, 'navigateByUrl');
   });

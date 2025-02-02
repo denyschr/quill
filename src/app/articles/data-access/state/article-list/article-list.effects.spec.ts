@@ -23,7 +23,6 @@ describe('ArticleListEffects', () => {
       'favorite',
       'unfavorite'
     ]);
-
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
@@ -31,7 +30,6 @@ describe('ArticleListEffects', () => {
         { provide: ArticleApiClient, useValue: articleClient }
       ]
     });
-
     store = TestBed.inject(MockStore);
   });
 
