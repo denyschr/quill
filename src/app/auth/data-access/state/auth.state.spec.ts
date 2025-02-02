@@ -190,8 +190,8 @@ describe('AuthState', () => {
     });
   });
 
-  describe('routerNavigated action', () => {
-    it('should reset errors to null on navigation', () => {
+  describe('routerNavigatedAction action', () => {
+    it('should reset errors to null', () => {
       const { authInitialState } = fromAuth;
       const state = fromAuth.authReducer(authInitialState, routerNavigatedAction);
       expect(state).toEqual(authInitialState);

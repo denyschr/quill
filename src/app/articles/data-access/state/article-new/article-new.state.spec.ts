@@ -1,10 +1,10 @@
 import * as fromArticleNew from './article-new.state';
 import { articleNewActions } from './article-new.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@app/articles/data-access/models';
+import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleNewState', () => {
-  const article = { title: 'title one' } as Article;
+  const article = getMockedArticle();
 
   describe('unknown action', () => {
     it('should return the default state', () => {
@@ -19,7 +19,7 @@ describe('ArticleNewState', () => {
   });
 
   describe('newArticle action', () => {
-    it('should set submitting to true and reset the error state to null', () => {
+    it('should set submitting to true and reset errors to null', () => {
       const { articleNewInitialState } = fromArticleNew;
       const newState = {
         ...articleNewInitialState,
@@ -48,7 +48,7 @@ describe('ArticleNewState', () => {
 
     it('should have errors and set submitting to false on failure', () => {
       const { articleNewInitialState } = fromArticleNew;
-      const errors = { title: ['is missing'], body: ['is required'] };
+      const errors = { title: ['is a required field'], body: ['is a required field'] };
       const newState = {
         ...articleNewInitialState,
         submitting: false,
@@ -62,8 +62,8 @@ describe('ArticleNewState', () => {
     });
   });
 
-  describe('routerNavigationAction', () => {
-    it('should reset the state to its initial values on navigation', () => {
+  describe('routerNavigationAction action', () => {
+    it('should reset to the initial state', () => {
       const { articleNewInitialState } = fromArticleNew;
       const state = fromArticleNew.articleNewReducer(
         articleNewInitialState,

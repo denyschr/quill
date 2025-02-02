@@ -59,8 +59,8 @@ describe('ArticleDetailState', () => {
     });
   });
 
-  describe('routerNavigation action', () => {
-    it('should reset to the initial state on navigation', () => {
+  describe('routerNavigationAction action', () => {
+    it('should reset to the initial state', () => {
       const { articleDetailInitialState } = fromArticle;
       const state = fromArticle.articleDetailReducer(
         articleDetailInitialState,
