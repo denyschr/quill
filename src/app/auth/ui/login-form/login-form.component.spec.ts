@@ -16,9 +16,9 @@ describe('LoginFormComponent', () => {
 
   it('should display a form to log in', () => {
     const fixture = TestBed.createComponent(LoginFormComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const submitButton = element.querySelector('button[type="submit"]')!;
     expect(submitButton).withContext('You should have a button to submit the form').not.toBeNull();
     expect(submitButton.hasAttribute('disabled'))
@@ -114,11 +114,11 @@ describe('LoginFormComponent', () => {
 
   it('should emit an event on submit', () => {
     const fixture = TestBed.createComponent(LoginFormComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
     spyOn(fixture.componentInstance.submitted, 'emit');
 
+    const element: HTMLElement = fixture.nativeElement;
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
     emailInput.value = credentials.email;
     emailInput.dispatchEvent(new Event('input'));

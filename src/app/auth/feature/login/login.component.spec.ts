@@ -23,9 +23,9 @@ describe('LoginComponent', () => {
 
   it('should have a title and a link to the register page', () => {
     const fixture = TestBed.createComponent(LoginComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const title = element.querySelector('h1')!;
     expect(title).withContext('You should have an `h1` element for the title').not.toBeNull();
     expect(title.textContent).withContext('The title should have a text').toContain('Sign in');
@@ -40,8 +40,8 @@ describe('LoginComponent', () => {
   });
 
   it('should dispatch a login action on submit', () => {
-    const fixture = TestBed.createComponent(LoginComponent);
     const credentials = getMockedLoginCredentials();
+    const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
 
     spyOn(store, 'dispatch');
@@ -58,7 +58,6 @@ describe('LoginComponent', () => {
 
   it('should display backend error messages if login fails', () => {
     const fixture = TestBed.createComponent(LoginComponent);
-    const element: HTMLElement = fixture.nativeElement;
     store.setState({
       ...initialState,
       auth: {
@@ -72,6 +71,7 @@ describe('LoginComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have BackendErrorsComponent to display backend error messages')

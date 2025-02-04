@@ -1,76 +1,82 @@
 /* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ArticleListComponent } from './article-list.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { ArticlePreviewComponent } from '@app/articles/ui/article-preview';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { Component, Input } from '@angular/core';
-import { articleListActions } from '@app/articles/data-access/state/article-list';
-import { environment } from '@env/environment.development';
-import { Article } from '@app/articles/data-access/models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  articleListActions,
+  articleListInitialState
+} from '@app/articles/data-access/state/article-list';
+import { Article, ArticleListResponse } from '@app/articles/data-access/models';
+import { getMockedArticle } from '@app/testing.spec';
 
 @Component({
   selector: 'ql-article-preview',
-  template: '<h3>{{ article.title }}</h3>',
+  template: '',
   standalone: true
 })
 class ArticlePreviewStubComponent {
   @Input({ required: true })
   public article!: Article;
+
+  @Output()
+  public readonly favorited = new EventEmitter<string>();
+
+  @Output()
+  public readonly unfavorited = new EventEmitter<string>();
 }
 
 describe('ArticleListComponent', () => {
-  let component: ArticleListComponent;
-  let fixture: ComponentFixture<ArticleListComponent>;
   let store: MockStore;
   const initialState = {
-    articleList: {
-      articles: [],
-      total: 0,
-      config: {
-        type: 'global',
-        currentPage: 1,
-        filters: {
-          limit: environment.limit
-        }
-      },
-      loading: true
-    }
+    articleList: articleListInitialState
+  };
+
+  const mockArticleList: ArticleListResponse = {
+    articles: [
+      getMockedArticle({ article: { slug: 'article-one' } }),
+      getMockedArticle({ article: { slug: 'article-two' } })
+    ],
+    articlesCount: 12
   };
 
   beforeEach(() => {
     TestBed.overrideComponent(ArticleListComponent, {
-      remove: {
-        imports: [ArticlePreviewComponent]
-      },
-      add: {
-        imports: [ArticlePreviewStubComponent]
-      }
+      remove: { imports: [ArticlePreviewComponent] },
+      add: { imports: [ArticlePreviewStubComponent] }
     });
     TestBed.configureTestingModule({
-      imports: [ArticleListComponent],
       providers: [provideMockStore({ initialState })]
     });
-
-    fixture = TestBed.createComponent(ArticleListComponent);
-    component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-
-    fixture.detectChanges();
-
     spyOn(store, 'dispatch');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should display a loading message if status is loading', () => {
-    const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('div[data-test=articles-loading]')!;
-    expect(message).withContext('You need a `div` element for a loading message').not.toBeNull();
-    expect(message.textContent).toContain('Loading articles...');
+    store.setState({
+      ...initialState,
+      articleList: {
+        ...initialState.articleList,
+        loading: true
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleListComponent);
+    fixture.detectChanges();
+
+    const message = (fixture.nativeElement as HTMLElement).querySelector(
+      '#loading-article-list-message'
+    )!;
+    expect(message)
+      .withContext('You should have a `div` element for a loading message')
+      .not.toBeNull();
+    expect(message.textContent)
+      .withContext('The message should have a text')
+      .toContain('Loading articles');
   });
 
   it('should display every article', () => {
@@ -78,31 +84,32 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: 12,
-        articles: [
-          { slug: 'title-one', title: 'title one' },
-          { slug: 'title-two', title: 'title two' }
-        ],
-        loading: false
+        total: mockArticleList.articlesCount,
+        articles: mockArticleList.articles
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleListComponent);
     fixture.detectChanges();
 
-    const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
-    expect(articles.length).withContext('You need two `ArticlePreviewComponent` displayed').toBe(2);
+    const debugElement = fixture.debugElement;
+    const articles = debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
+    expect(articles.length)
+      .withContext('You should have two ArticlePreviewComponent displayed')
+      .toBe(2);
+    expect(articles[0].componentInstance.article).toEqual(mockArticleList.articles[0]);
 
-    const pagination = fixture.debugElement.query(By.directive(NgbPagination));
-    expect(pagination).withContext('You need a pagination').not.toBeNull();
+    const pagination = debugElement.query(By.directive(NgbPagination));
+    expect(pagination).withContext('You should have a pagination').not.toBeNull();
 
     const element: HTMLElement = fixture.nativeElement;
-
     const pageLinks = element.querySelectorAll('a.page-link');
     expect(pageLinks.length)
-      .withContext('You need 2 pages, as the total number of articles is 12')
-      .toBe(4); // including 2 arrow buttons
+      .withContext('You should have 2 pages, as the total number of articles is 12')
+      .toBe(4); // including two arrow buttons
 
-    const activePageLink = element.querySelector('.page-item.active a')!;
+    const activePageLink = element.querySelector('.page-item.active > a')!;
     expect(activePageLink.textContent!.trim())
       .withContext('The active page link should be 1')
       .toBe('1');
@@ -113,19 +120,16 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: 12,
-        articles: [
-          { slug: 'title-one', title: 'title one' },
-          { slug: 'title-two', title: 'title two' }
-        ],
-        loading: false
+        total: mockArticleList.articlesCount,
+        articles: mockArticleList.articles
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleListComponent);
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
-
     const pageLinks = element.querySelectorAll('a.page-link');
     expect(pageLinks[2].textContent!.trim()).toBe('2');
     pageLinks[2].dispatchEvent(new Event('click'));
@@ -133,42 +137,67 @@ describe('ArticleListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(articleListActions.setPage({ page: 2 }));
     fixture.detectChanges();
 
-    const activePageLink = element.querySelector('.page-item.active a')!;
+    const activePageLink = element.querySelector('.page-item.active > a')!;
     expect(activePageLink.textContent!.trim())
       .withContext('The active page link should be 2')
       .toBe('2');
   }));
 
-  it('should display an empty message if there is no articles and status is not loading', () => {
+  it('should dispatch a favorite action when favoriting an article', () => {
     store.setState({
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        loading: false
+        total: mockArticleList.articlesCount,
+        articles: mockArticleList.articles
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleListComponent);
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('div[data-test=no-articles]')!;
-    expect(message).withContext('You need a `div` element for an empty message').not.toBeNull();
-    expect(message.textContent).toContain('No articles found');
+    const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
+    const slug = mockArticleList.articles[0].slug;
+    articles[0].componentInstance.favorited.emit(slug);
+    expect(store.dispatch).toHaveBeenCalledWith(articleListActions.favorite({ slug }));
   });
 
-  it('should not display a pagination if there is no articles', () => {
+  it('should dispatch an unfavorite action when unfavoriting an article', () => {
     store.setState({
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        loading: false
+        total: mockArticleList.articlesCount,
+        articles: mockArticleList.articles
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleListComponent);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.directive(NgbPagination)))
-      .withContext('You do NOT need a pagination')
-      .toBeNull();
+    const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
+    const slug = mockArticleList.articles[0].slug;
+    articles[0].componentInstance.unfavorited.emit(slug);
+    expect(store.dispatch).toHaveBeenCalledWith(articleListActions.unfavorite({ slug }));
+  });
+
+  it('should display an empty message if there is no articles, and status is not loading', () => {
+    const fixture = TestBed.createComponent(ArticleListComponent);
+    fixture.detectChanges();
+
+    const message = (fixture.nativeElement as HTMLElement).querySelector(
+      '#no-article-list-message'
+    )!;
+    expect(message)
+      .withContext('You should have a `div` element for an empty message')
+      .not.toBeNull();
+    expect(message.textContent)
+      .withContext('The message should have a text')
+      .toContain('No articles found');
+
+    const pagination = fixture.debugElement.query(By.directive(NgbPagination));
+    expect(pagination).withContext('You should NOT have a pagination').toBeNull();
   });
 });

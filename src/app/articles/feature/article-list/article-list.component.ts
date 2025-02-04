@@ -25,7 +25,7 @@ import { LetDirective } from '@ngrx/component';
               (unfavorited)="unfavorite($event)"
             />
           } @empty {
-            <div data-test="no-articles">No articles found</div>
+            <div id="no-article-list-message">No articles found</div>
           }
         </div>
 
@@ -39,7 +39,7 @@ import { LetDirective } from '@ngrx/component';
           />
         }
       } @else {
-        <div data-test="articles-loading">Loading articles...</div>
+        <div id="loading-article-list-message">Loading articles...</div>
       }
     </ng-container>
   `,

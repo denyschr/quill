@@ -42,11 +42,11 @@ describe('TagsComponent', () => {
     expect(tagNames[1].textContent).toContain(tags[1]);
   });
 
-  it('should display an empty message if there is no tags and status is not loading', () => {
+  it('should display an empty message if there is no tags, and status is not loading', () => {
     const fixture = TestBed.createComponent(TagsComponent);
     fixture.detectChanges();
 
-    const message = (fixture.nativeElement as HTMLElement).querySelector('#empty-tags-message')!;
+    const message = (fixture.nativeElement as HTMLElement).querySelector('#no-tags-message')!;
     expect(message)
       .withContext('You should have a `div` element for an empty message')
       .not.toBeNull();

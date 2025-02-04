@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
             <span class="fs-6 badge rounded-pill text-bg-secondary">{{ tag }}</span>
           </a>
         } @empty {
-          <div id="empty-tags-message">No tags found</div>
+          <div id="no-tags-message">No tags found</div>
         }
       </div>
     } @else {
