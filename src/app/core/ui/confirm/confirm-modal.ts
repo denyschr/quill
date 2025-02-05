@@ -12,10 +12,10 @@ interface ConfirmOptions {
   providedIn: 'root'
 })
 export class ConfirmModal {
-  constructor(private readonly _modalService: NgbModal) {}
+  constructor(private readonly modal: NgbModal) {}
 
   public confirm(options: ConfirmOptions): Observable<any> {
-    const modalRef = this._modalService.open(ConfirmModalContentComponent);
+    const modalRef = this.modal.open(ConfirmModalContentComponent);
     modalRef.componentInstance.title = options.title ?? 'Confirmation';
     modalRef.componentInstance.message = options.message;
     return from(modalRef.result);

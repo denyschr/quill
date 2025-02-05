@@ -51,13 +51,13 @@ import { FormControlValidationDirective } from '@app/core/validation';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginFormComponent {
-  public readonly emailControl = this._fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this._fb.control('', [
+  public readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
+  public readonly passwordControl = this.fb.control('', [
     Validators.required,
     Validators.minLength(8)
   ]);
 
-  public readonly form = this._fb.group({
+  public readonly form = this.fb.group({
     email: this.emailControl,
     password: this.passwordControl
   });
@@ -68,7 +68,7 @@ export class LoginFormComponent {
   @Output()
   public readonly submitted = new EventEmitter<LoginCredentials>();
 
-  constructor(private readonly _fb: NonNullableFormBuilder) {}
+  constructor(private readonly fb: NonNullableFormBuilder) {}
 
   public submit(): void {
     this.submitted.emit(this.form.getRawValue());
