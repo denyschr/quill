@@ -2,20 +2,20 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { tokenInterceptor } from './token.interceptor';
-import { JwtService } from '@app/auth/data-access/services';
+import { JwtTokenStorage } from '@app/auth/data-access/services';
 
 describe('tokenInterceptor', () => {
-  let jwtService: jasmine.SpyObj<JwtService>;
+  let jwtTokenStorage: jasmine.SpyObj<JwtTokenStorage>;
   let httpController: HttpTestingController;
   let http: HttpClient;
 
   beforeEach(() => {
-    jwtService = jasmine.createSpyObj<JwtService>('JwtService', ['getToken']);
+    jwtTokenStorage = jasmine.createSpyObj<JwtTokenStorage>('JwtTokenStorage', ['get']);
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([tokenInterceptor])),
         provideHttpClientTesting(),
-        { provide: JwtService, useValue: jwtService }
+        { provide: JwtTokenStorage, useValue: jwtTokenStorage }
       ]
     });
     httpController = TestBed.inject(HttpTestingController);
@@ -32,7 +32,7 @@ describe('tokenInterceptor', () => {
   });
 
   it('should send a jwt token', () => {
-    jwtService.getToken.and.returnValue('hello');
+    jwtTokenStorage.get.and.returnValue('hello');
     http.get('/foo').subscribe();
 
     const req = httpController.expectOne('/foo');

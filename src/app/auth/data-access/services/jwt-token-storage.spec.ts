@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { JwtService } from './jwt.service';
+import { JwtTokenStorage } from './jwt-token-storage';
 
-describe('JwtService', () => {
-  let jwtService: JwtService;
+describe('JwtTokenStorage', () => {
+  let jwtTokenStorage: JwtTokenStorage;
   let localStorageGetItem: jasmine.Spy<(key: string) => string | null>;
 
   beforeEach(() => {
@@ -11,26 +11,26 @@ describe('JwtService', () => {
 
     TestBed.configureTestingModule({});
 
-    jwtService = TestBed.inject(JwtService);
+    jwtTokenStorage = TestBed.inject(JwtTokenStorage);
   });
 
   it('should return a jwt token if one is stored', () => {
     localStorageGetItem.and.returnValue('token');
 
-    jwtService.getToken();
+    jwtTokenStorage.get();
 
     expect(localStorageGetItem).toHaveBeenCalledWith('jwtToken');
   });
 
   it('should return no jwt token if none is stored ', () => {
-    const result = jwtService.getToken();
+    const result = jwtTokenStorage.get();
     expect(result).toBeNull();
   });
 
   it('should save a jwt token', () => {
     spyOn(Storage.prototype, 'setItem');
 
-    jwtService.saveToken('token');
+    jwtTokenStorage.save('token');
 
     expect(Storage.prototype.setItem).toHaveBeenCalledWith('jwtToken', 'token');
   });
@@ -38,7 +38,7 @@ describe('JwtService', () => {
   it('should remove a jwt token', () => {
     spyOn(Storage.prototype, 'removeItem');
 
-    jwtService.removeToken();
+    jwtTokenStorage.remove();
 
     expect(Storage.prototype.removeItem).toHaveBeenCalledWith('jwtToken');
   });

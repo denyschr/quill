@@ -5,12 +5,12 @@ import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { authActions } from './auth.actions';
 import { getMockedUser } from '@app/testing.spec';
-import { JwtService, UserApiClient } from '@app/auth/data-access/services';
+import { JwtTokenStorage, UserApiClient } from '@app/auth/data-access/services';
 import { BackendErrors } from '@app/core/data-access/models';
 
 describe('AuthEffects', () => {
   let userClient: jasmine.SpyObj<UserApiClient>;
-  let jwtService: jasmine.SpyObj<JwtService>;
+  let jwtTokenStorage: jasmine.SpyObj<JwtTokenStorage>;
   let router: Router;
   let actions$: Observable<unknown>;
 
@@ -27,16 +27,16 @@ describe('AuthEffects', () => {
       'register',
       'update'
     ]);
-    jwtService = jasmine.createSpyObj<JwtService>('JwtService', [
-      'getToken',
-      'saveToken',
-      'removeToken'
+    jwtTokenStorage = jasmine.createSpyObj<JwtTokenStorage>('JwtTokenStorage', [
+      'get',
+      'save',
+      'remove'
     ]);
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
         { provide: UserApiClient, useValue: userClient },
-        { provide: JwtService, useValue: jwtService }
+        { provide: JwtTokenStorage, useValue: jwtTokenStorage }
       ]
     });
     router = TestBed.inject(Router);
@@ -47,11 +47,11 @@ describe('AuthEffects', () => {
     it('should return a getCurrentUserSuccess action with a user if the token is stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
-      jwtService.getToken.and.returnValue(user.token);
+      jwtTokenStorage.get.and.returnValue(user.token);
       userClient.getCurrentUser.and.returnValue(of(user));
 
-      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
-        expect(jwtService.getToken).toHaveBeenCalled();
+      authEffects.getCurrentUser$(actions$, userClient, jwtTokenStorage).subscribe(action => {
+        expect(jwtTokenStorage.get).toHaveBeenCalled();
         expect(userClient.getCurrentUser).toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserSuccess({ currentUser: user }));
         done();
@@ -61,10 +61,10 @@ describe('AuthEffects', () => {
     it('should return a getCurrentUserFailure action if the token is not stored', done => {
       actions$ = of(authActions.getCurrentUser);
 
-      jwtService.getToken.and.returnValue(null);
+      jwtTokenStorage.get.and.returnValue(null);
 
-      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
-        expect(jwtService.getToken).toHaveBeenCalled();
+      authEffects.getCurrentUser$(actions$, userClient, jwtTokenStorage).subscribe(action => {
+        expect(jwtTokenStorage.get).toHaveBeenCalled();
         expect(userClient.getCurrentUser).not.toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
@@ -74,11 +74,11 @@ describe('AuthEffects', () => {
     it('should return a getCurrentUserFailure action on failure', done => {
       actions$ = of(authActions.getCurrentUser);
 
-      jwtService.getToken.and.returnValue(user.token);
+      jwtTokenStorage.get.and.returnValue(user.token);
       userClient.getCurrentUser.and.returnValue(throwError(() => new Error('error')));
 
-      authEffects.getCurrentUser$(actions$, userClient, jwtService).subscribe(action => {
-        expect(jwtService.getToken).toHaveBeenCalled();
+      authEffects.getCurrentUser$(actions$, userClient, jwtTokenStorage).subscribe(action => {
+        expect(jwtTokenStorage.get).toHaveBeenCalled();
         expect(userClient.getCurrentUser).toHaveBeenCalled();
         expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
@@ -119,8 +119,8 @@ describe('AuthEffects', () => {
       actions$ = of(authActions.updateCurrentUserSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
-        authEffects.updateCurrentUserSuccess$(actions$, router, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
+        authEffects.updateCurrentUserSuccess$(actions$, router, jwtTokenStorage).subscribe(() => {
+          expect(jwtTokenStorage.save).toHaveBeenCalledWith(user.token);
           expect(router.navigate).toHaveBeenCalledWith(['/profile', user.username]);
           done();
         });
@@ -185,8 +185,8 @@ describe('AuthEffects', () => {
       actions$ = of(authActions.registerSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
-        authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
+        authEffects.registerOrLoginSuccess$(actions$, router, jwtTokenStorage).subscribe(() => {
+          expect(jwtTokenStorage.save).toHaveBeenCalledWith(user.token);
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
@@ -197,8 +197,8 @@ describe('AuthEffects', () => {
       actions$ = of(authActions.loginSuccess({ currentUser: user }));
 
       TestBed.runInInjectionContext(() => {
-        authEffects.registerOrLoginSuccess$(actions$, router, jwtService).subscribe(() => {
-          expect(jwtService.saveToken).toHaveBeenCalledWith(user.token);
+        authEffects.registerOrLoginSuccess$(actions$, router, jwtTokenStorage).subscribe(() => {
+          expect(jwtTokenStorage.save).toHaveBeenCalledWith(user.token);
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });
@@ -212,7 +212,7 @@ describe('AuthEffects', () => {
 
       TestBed.runInInjectionContext(() => {
         authEffects.logout$(actions$).subscribe(() => {
-          expect(jwtService.removeToken).toHaveBeenCalled();
+          expect(jwtTokenStorage.remove).toHaveBeenCalled();
           expect(router.navigateByUrl).toHaveBeenCalledWith('/');
           done();
         });

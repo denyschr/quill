@@ -26,7 +26,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmModalComponent {
+export class ConfirmModalContentComponent {
   @Input()
   public title = '';
 
