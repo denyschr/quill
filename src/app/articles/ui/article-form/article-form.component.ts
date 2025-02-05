@@ -64,12 +64,12 @@ import { ValidationErrorsComponent } from 'ngx-valdemort';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleFormComponent {
-  public readonly titleControl = this._fb.control('', [Validators.required]);
-  public readonly descriptionControl = this._fb.control('', [Validators.required]);
-  public readonly bodyControl = this._fb.control('', [Validators.required]);
-  public readonly tagListControl = this._fb.control(<string[]>[]);
+  public readonly titleControl = this.fb.control('', [Validators.required]);
+  public readonly descriptionControl = this.fb.control('', [Validators.required]);
+  public readonly bodyControl = this.fb.control('', [Validators.required]);
+  public readonly tagListControl = this.fb.control(<string[]>[]);
 
-  public readonly form = this._fb.group({
+  public readonly form = this.fb.group({
     title: this.titleControl,
     description: this.descriptionControl,
     body: this.bodyControl,
@@ -92,7 +92,7 @@ export class ArticleFormComponent {
     });
   }
 
-  constructor(private readonly _fb: NonNullableFormBuilder) {}
+  constructor(private readonly fb: NonNullableFormBuilder) {}
 
   public submit(): void {
     this.submitted.emit(this.form.getRawValue());

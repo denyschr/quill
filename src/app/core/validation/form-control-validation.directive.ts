@@ -11,8 +11,8 @@ import { NgControl } from '@angular/forms';
 })
 export class FormControlValidationDirective {
   public get invalid(): boolean | null {
-    return this._ngControl.touched && this._ngControl.invalid;
+    return this.ngControl.touched && this.ngControl.invalid;
   }
 
-  constructor(@Optional() private readonly _ngControl: NgControl) {}
+  constructor(@Optional() private readonly ngControl: NgControl) {}
 }
