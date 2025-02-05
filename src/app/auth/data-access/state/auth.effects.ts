@@ -3,18 +3,18 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { authActions } from './auth.actions';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { JwtService, UserApiClient } from '@app/auth/data-access/services';
+import { JwtTokenStorage, UserApiClient } from '@app/auth/data-access/services';
 
 export const getCurrentUser$ = createEffect(
   (
     actions$ = inject(Actions),
     userClient = inject(UserApiClient),
-    jwtService = inject(JwtService)
+    jwtTokenStorage = inject(JwtTokenStorage)
   ) => {
     return actions$.pipe(
       ofType(authActions.getCurrentUser),
       switchMap(() => {
-        const token = jwtService.getToken();
+        const token = jwtTokenStorage.get();
 
         if (!token) {
           return of(authActions.getCurrentUserFailure());
@@ -46,11 +46,15 @@ export const updateCurrentUser$ = createEffect(
 );
 
 export const updateCurrentUserSuccess$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    jwtTokenStorage = inject(JwtTokenStorage)
+  ) => {
     return actions$.pipe(
       ofType(authActions.updateCurrentUserSuccess),
       tap(({ currentUser }) => {
-        jwtService.saveToken(currentUser.token);
+        jwtTokenStorage.save(currentUser.token);
         void router.navigate(['/profile', currentUser.username]);
       })
     );
@@ -89,11 +93,15 @@ export const login$ = createEffect(
 );
 
 export const registerOrLoginSuccess$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    jwtTokenStorage = inject(JwtTokenStorage)
+  ) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess, authActions.loginSuccess),
       tap(({ currentUser }) => {
-        jwtService.saveToken(currentUser.token);
+        jwtTokenStorage.save(currentUser.token);
         void router.navigateByUrl('/');
       })
     );
@@ -102,11 +110,15 @@ export const registerOrLoginSuccess$ = createEffect(
 );
 
 export const logout$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router), jwtService = inject(JwtService)) => {
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    jwtTokenStorage = inject(JwtTokenStorage)
+  ) => {
     return actions$.pipe(
       ofType(authActions.logout),
       tap(() => {
-        jwtService.removeToken();
+        jwtTokenStorage.remove();
         void router.navigateByUrl('/');
       })
     );
