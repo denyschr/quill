@@ -5,21 +5,23 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { articleEditActions } from './article-edit.actions';
 import * as articleEditEffects from './article-edit.effects';
 import { ArticleApiClient } from '@app/articles/data-access/services';
-import { getMockedArticle } from '@app/testing.spec';
-import { BackendErrors } from '@app/core/data-access/models';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleEditEffects', () => {
-  let articleClient: jasmine.SpyObj<ArticleApiClient>;
+  let mockArticleApiClient: jasmine.SpyObj<ArticleApiClient>;
   let actions$: Observable<unknown>;
 
-  const article = getMockedArticle();
+  const mockArticle = {
+    slug: 'how-to-train-your-dragon',
+    title: 'How to train your dragon'
+  } as Article;
 
   beforeEach(() => {
-    articleClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', ['update']);
+    mockArticleApiClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', ['update']);
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
-        { provide: ArticleApiClient, useValue: articleClient }
+        { provide: ArticleApiClient, useValue: mockArticleApiClient }
       ]
     });
   });
@@ -28,13 +30,13 @@ describe('ArticleEditEffects', () => {
     it('should return an editArticleSuccess action with an edited article on success', done => {
       actions$ = of(articleEditActions.editArticle);
 
-      articleClient.update.and.returnValue(of(article));
+      mockArticleApiClient.update.and.returnValue(of(mockArticle));
 
-      articleEditEffects.editArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.update).toHaveBeenCalled();
+      articleEditEffects.editArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.update).toHaveBeenCalled();
         expect(action).toEqual(
           articleEditActions.editArticleSuccess({
-            article
+            article: mockArticle
           })
         );
         done();
@@ -42,17 +44,17 @@ describe('ArticleEditEffects', () => {
     });
 
     it('should return an editArticleFailure action with a list of errors on failure', done => {
-      const errors: BackendErrors = {
+      const mockErrors = {
         title: ['is a required field'],
         body: ['is a required field']
       };
       actions$ = of(articleEditActions.editArticle);
 
-      articleClient.update.and.returnValue(throwError(() => ({ errors })));
+      mockArticleApiClient.update.and.returnValue(throwError(() => ({ errors: mockErrors })));
 
-      articleEditEffects.editArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.update).toHaveBeenCalled();
-        expect(action).toEqual(articleEditActions.editArticleFailure({ errors }));
+      articleEditEffects.editArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.update).toHaveBeenCalled();
+        expect(action).toEqual(articleEditActions.editArticleFailure({ errors: mockErrors }));
         done();
       });
     });
@@ -63,11 +65,11 @@ describe('ArticleEditEffects', () => {
       const router = TestBed.inject(Router);
       spyOn(router, 'navigate');
 
-      actions$ = of(articleEditActions.editArticleSuccess({ article }));
+      actions$ = of(articleEditActions.editArticleSuccess({ article: mockArticle }));
 
       TestBed.runInInjectionContext(() => {
         articleEditEffects.editArticleSuccess$(actions$, router).subscribe(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['/article', article.slug]);
+          expect(router.navigate).toHaveBeenCalledWith(['/article', mockArticle.slug]);
           done();
         });
       });

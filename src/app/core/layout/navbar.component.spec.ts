@@ -4,20 +4,20 @@ import { NavbarComponent } from './navbar.component';
 import { NgbCollapseConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { authInitialState } from '@app/auth/data-access/state';
-import { getMockedUser } from '@app/testing.spec';
+import { User } from '@app/auth/data-access/models';
 
 describe('NavbarComponent', () => {
   let store: MockStore;
   const initialState = {
     auth: authInitialState
   };
-  const user = getMockedUser();
+
+  const mockUser = { username: 'jack' } as User;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([]), provideMockStore({ initialState })]
     });
-    // turn off the animation for the collapse
     const collapseConfig = TestBed.inject(NgbCollapseConfig);
     collapseConfig.animation = false;
     store = TestBed.inject(MockStore);
@@ -25,21 +25,22 @@ describe('NavbarComponent', () => {
 
   it('should display a brand link', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
-    const brandLink = element.querySelector('a.navbar-brand[href="/"]')!;
+    const brandLink = (fixture.nativeElement as HTMLElement).querySelector(
+      'a.navbar-brand[href="/"]'
+    )!;
     expect(brandLink)
       .withContext('You should have an `a` element with a class `navbar-brand` for the brand')
       .not.toBeNull();
     expect(brandLink.textContent).withContext('The brand should have a text').toContain('Quill');
   });
 
-  it('should display nav links to navigate', () => {
+  it('should display nav links', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const links = element.querySelectorAll('#primary-navbar a.nav-link');
     expect(links.length)
       .withContext(
@@ -68,7 +69,7 @@ describe('NavbarComponent', () => {
       ...initialState,
       auth: {
         ...initialState.auth,
-        currentUser: user
+        currentUser: mockUser
       }
     });
     store.refreshState();
@@ -84,17 +85,17 @@ describe('NavbarComponent', () => {
 
   it('should display the user if logged in', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
-    const element: HTMLElement = fixture.nativeElement;
     store.setState({
       ...initialState,
       auth: {
         ...initialState.auth,
-        currentUser: user
+        currentUser: mockUser
       }
     });
     store.refreshState();
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const info = element.querySelector('#current-user')!;
     expect(info)
       .withContext(
@@ -103,14 +104,14 @@ describe('NavbarComponent', () => {
       .not.toBeNull();
     expect(info.textContent)
       .withContext('You should display the name of the user')
-      .toContain(user.username);
+      .toContain(mockUser.username);
   });
 
   it('should toggle the navigation on click', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const navbarCollapsed = element.querySelector('#primary-navbar')!;
     expect(navbarCollapsed).withContext('No element with the id `#primary-navbar`').not.toBeNull();
     expect(navbarCollapsed.classList)

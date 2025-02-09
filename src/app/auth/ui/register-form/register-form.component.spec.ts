@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { getMockedRegisterCredentials } from '@app/testing.spec';
 import { RegisterFormComponent } from './register-form.component';
 import { ValidationDefaultsComponent } from '@app/core/validation';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 
 describe('RegisterFormComponent', () => {
-  const credentials = getMockedRegisterCredentials();
-
   beforeEach(() => {
     TestBed.configureTestingModule({});
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
@@ -55,7 +52,7 @@ describe('RegisterFormComponent', () => {
       .withContext('The error message for the username field is incorrect')
       .toContain('The username must be at least 3 characters long');
 
-    usernameInput.value = credentials.username;
+    usernameInput.value = 'jack';
     usernameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -75,7 +72,7 @@ describe('RegisterFormComponent', () => {
       .withContext('The error message for the email field is incorrect')
       .toContain('The email is required');
 
-    emailInput.value = 'jack.com';
+    emailInput.value = 'jack.tld';
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -87,7 +84,7 @@ describe('RegisterFormComponent', () => {
       .withContext('The error message for the email field is incorrect')
       .toContain('The email must be a valid email address');
 
-    emailInput.value = credentials.email;
+    emailInput.value = 'jack@email.tld';
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -107,7 +104,7 @@ describe('RegisterFormComponent', () => {
       .withContext('The error message for the password field is incorrect')
       .toContain('The password is required');
 
-    passwordInput.value = 'jack12';
+    passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -121,7 +118,7 @@ describe('RegisterFormComponent', () => {
       .withContext('The error message for the password field is incorrect')
       .toContain('The password must be at least 8 characters long');
 
-    passwordInput.value = credentials.password;
+    passwordInput.value = '12345678';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -146,7 +143,7 @@ describe('RegisterFormComponent', () => {
       .not.toBeNull();
   });
 
-  it('should emit an event on submit', () => {
+  it('should emit an output event on submit', () => {
     const fixture = TestBed.createComponent(RegisterFormComponent);
     fixture.detectChanges();
 
@@ -154,20 +151,24 @@ describe('RegisterFormComponent', () => {
 
     const element: HTMLElement = fixture.nativeElement;
     const usernameInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
-    usernameInput.value = credentials.username;
+    usernameInput.value = 'jack';
     usernameInput.dispatchEvent(new Event('input'));
 
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
-    emailInput.value = credentials.email;
+    emailInput.value = 'jack@email.tld';
     emailInput.dispatchEvent(new Event('input'));
 
     const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
-    passwordInput.value = credentials.password;
+    passwordInput.value = '12345678';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
-    expect(fixture.componentInstance.submitted.emit).toHaveBeenCalledWith(credentials);
+    expect(fixture.componentInstance.submitted.emit).toHaveBeenCalledWith({
+      username: 'jack',
+      email: 'jack@email.tld',
+      password: '12345678'
+    });
   });
 });

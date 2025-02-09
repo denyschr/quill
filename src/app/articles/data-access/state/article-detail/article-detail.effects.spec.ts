@@ -6,25 +6,31 @@ import * as articleEffects from './article-detail.effects';
 import { Router } from '@angular/router';
 import { ArticleApiClient } from '@app/articles/data-access/services';
 import { ProfileApiClient } from '@app/profile/data-access/services';
-import { getMockedArticle, getMockedProfile } from '@app/testing.spec';
+import { Article } from '@app/articles/data-access/models';
+import { Profile } from '@app/profile/data-access/models';
 
 describe('ArticleDetailEffects', () => {
-  let articleClient: jasmine.SpyObj<ArticleApiClient>;
-  let profileClient: jasmine.SpyObj<ProfileApiClient>;
+  let mockArticleApiClient: jasmine.SpyObj<ArticleApiClient>;
+  let mockProfileApiClient: jasmine.SpyObj<ProfileApiClient>;
   let router: Router;
   let actions$: Observable<unknown>;
 
+  const mockProfile = { username: 'jack' } as Profile;
+
   beforeEach(() => {
-    articleClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', ['get', 'delete']);
-    profileClient = jasmine.createSpyObj<ProfileApiClient>('ProfileApiClient', [
+    mockArticleApiClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', [
+      'get',
+      'delete'
+    ]);
+    mockProfileApiClient = jasmine.createSpyObj<ProfileApiClient>('ProfileApiClient', [
       'follow',
       'unfollow'
     ]);
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
-        { provide: ArticleApiClient, useValue: articleClient },
-        { provide: ProfileApiClient, useValue: profileClient }
+        { provide: ArticleApiClient, useValue: mockArticleApiClient },
+        { provide: ProfileApiClient, useValue: mockProfileApiClient }
       ]
     });
     router = TestBed.inject(Router);
@@ -33,16 +39,16 @@ describe('ArticleDetailEffects', () => {
 
   describe('loadArticle$', () => {
     it('should return a loadArticleSuccess action with an article on success', done => {
-      const article = getMockedArticle();
+      const mockArticle = { title: 'How to train your dragon' } as Article;
       actions$ = of(articleDetailActions.loadArticle);
 
-      articleClient.get.and.returnValue(of(article));
+      mockArticleApiClient.get.and.returnValue(of(mockArticle));
 
-      articleEffects.loadArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.get).toHaveBeenCalled();
+      articleEffects.loadArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.get).toHaveBeenCalled();
         expect(action).toEqual(
           articleDetailActions.loadArticleSuccess({
-            article
+            article: mockArticle
           })
         );
         done();
@@ -52,10 +58,10 @@ describe('ArticleDetailEffects', () => {
     it('should return a loadArticleFailure action on failure', done => {
       actions$ = of(articleDetailActions.loadArticle);
 
-      articleClient.get.and.returnValue(throwError(() => new Error('error')));
+      mockArticleApiClient.get.and.returnValue(throwError(() => new Error('error')));
 
-      articleEffects.loadArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.get).toHaveBeenCalled();
+      articleEffects.loadArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.get).toHaveBeenCalled();
         expect(action).toEqual(articleDetailActions.loadArticleFailure());
         done();
       });
@@ -77,14 +83,13 @@ describe('ArticleDetailEffects', () => {
 
   describe('follow$', () => {
     it('should return a followSuccess action with a profile on success', done => {
-      const profile = getMockedProfile({ following: true });
       actions$ = of(articleDetailActions.follow);
 
-      profileClient.follow.and.returnValue(of(profile));
+      mockProfileApiClient.follow.and.returnValue(of(mockProfile));
 
-      articleEffects.follow$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.follow).toHaveBeenCalled();
-        expect(action).toEqual(articleDetailActions.followSuccess({ profile }));
+      articleEffects.follow$(actions$, mockProfileApiClient).subscribe(action => {
+        expect(mockProfileApiClient.follow).toHaveBeenCalled();
+        expect(action).toEqual(articleDetailActions.followSuccess({ profile: mockProfile }));
         done();
       });
     });
@@ -92,10 +97,10 @@ describe('ArticleDetailEffects', () => {
     it('should return a followFailure action on failure', done => {
       actions$ = of(articleDetailActions.follow);
 
-      profileClient.follow.and.returnValue(throwError(() => new Error('error')));
+      mockProfileApiClient.follow.and.returnValue(throwError(() => new Error('error')));
 
-      articleEffects.follow$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.follow).toHaveBeenCalled();
+      articleEffects.follow$(actions$, mockProfileApiClient).subscribe(action => {
+        expect(mockProfileApiClient.follow).toHaveBeenCalled();
         expect(action).toEqual(articleDetailActions.followFailure());
         done();
       });
@@ -104,14 +109,13 @@ describe('ArticleDetailEffects', () => {
 
   describe('unfollow$', () => {
     it('should return an unfollowSuccess action with a profile on success', done => {
-      const profile = getMockedProfile({ following: false });
       actions$ = of(articleDetailActions.unfollow);
 
-      profileClient.unfollow.and.returnValue(of(profile));
+      mockProfileApiClient.unfollow.and.returnValue(of(mockProfile));
 
-      articleEffects.unfollow$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.unfollow).toHaveBeenCalled();
-        expect(action).toEqual(articleDetailActions.unfollowSuccess({ profile }));
+      articleEffects.unfollow$(actions$, mockProfileApiClient).subscribe(action => {
+        expect(mockProfileApiClient.unfollow).toHaveBeenCalled();
+        expect(action).toEqual(articleDetailActions.unfollowSuccess({ profile: mockProfile }));
         done();
       });
     });
@@ -119,10 +123,10 @@ describe('ArticleDetailEffects', () => {
     it('should return an unfollowFailure action on failure', done => {
       actions$ = of(articleDetailActions.unfollow);
 
-      profileClient.unfollow.and.returnValue(throwError(() => new Error('error')));
+      mockProfileApiClient.unfollow.and.returnValue(throwError(() => new Error('error')));
 
-      articleEffects.unfollow$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.unfollow).toHaveBeenCalled();
+      articleEffects.unfollow$(actions$, mockProfileApiClient).subscribe(action => {
+        expect(mockProfileApiClient.unfollow).toHaveBeenCalled();
         expect(action).toEqual(articleDetailActions.unfollowFailure());
         done();
       });
@@ -133,10 +137,10 @@ describe('ArticleDetailEffects', () => {
     it('should return a deleteArticleSuccess action on success', done => {
       actions$ = of(articleDetailActions.deleteArticle);
 
-      articleClient.delete.and.returnValue(of(void 0));
+      mockArticleApiClient.delete.and.returnValue(of(undefined));
 
-      articleEffects.deleteArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.delete).toHaveBeenCalled();
+      articleEffects.deleteArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.delete).toHaveBeenCalled();
         expect(action).toEqual(articleDetailActions.deleteArticleSuccess());
         done();
       });
@@ -145,10 +149,10 @@ describe('ArticleDetailEffects', () => {
     it('should return a deleteArticleFailure action on failure', done => {
       actions$ = of(articleDetailActions.deleteArticle);
 
-      articleClient.delete.and.returnValue(throwError(() => new Error('error')));
+      mockArticleApiClient.delete.and.returnValue(throwError(() => new Error('error')));
 
-      articleEffects.deleteArticle$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.delete).toHaveBeenCalled();
+      articleEffects.deleteArticle$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.delete).toHaveBeenCalled();
         expect(action).toEqual(articleDetailActions.deleteArticleFailure());
         done();
       });

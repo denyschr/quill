@@ -30,13 +30,13 @@ describe('TagsState', () => {
 
     it('should retrieve a list of tags and set loading to false on success', () => {
       const { tagsInitialState } = fromTags;
-      const tags = ['dragons', 'training'];
+      const mockTags = ['dragons', 'training'];
       const newState = {
         ...tagsInitialState,
-        tags,
+        tags: mockTags,
         loading: false
       };
-      const action = tagsActions.loadTagsSuccess({ tags });
+      const action = tagsActions.loadTagsSuccess({ tags: mockTags });
       const state = fromTags.tagsReducer(tagsInitialState, action);
 
       expect(state).toEqual(newState);

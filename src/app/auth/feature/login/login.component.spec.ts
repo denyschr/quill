@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { LoginFormComponent } from '@app/auth/ui/login-form';
 import { authActions, authInitialState } from '@app/auth/data-access/state';
-import { getMockedLoginCredentials } from '@app/testing.spec';
 
 describe('LoginComponent', () => {
   let store: MockStore;
@@ -40,7 +39,7 @@ describe('LoginComponent', () => {
   });
 
   it('should dispatch a login action on submit', () => {
-    const credentials = getMockedLoginCredentials();
+    const mockCredentials = { email: 'jack@email.tld', password: '1234' };
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
 
@@ -51,9 +50,11 @@ describe('LoginComponent', () => {
       .withContext('You should have LoginFormComponent to display the login form')
       .not.toBeNull();
 
-    loginForm.componentInstance.submitted.emit(credentials);
+    loginForm.componentInstance.submitted.emit(mockCredentials);
 
-    expect(store.dispatch).toHaveBeenCalledWith(authActions.login({ credentials }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      authActions.login({ credentials: mockCredentials })
+    );
   });
 
   it('should display backend error messages if login fails', () => {

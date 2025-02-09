@@ -5,9 +5,7 @@ import { By } from '@angular/platform-browser';
 import { authActions, authInitialState } from '@app/auth/data-access/state';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { RegisterComponent } from './register.component';
-import { getMockedRegisterCredentials } from '@app/testing.spec';
 import { RegisterFormComponent } from '@app/auth/ui/register-form';
-import { LoginComponent } from '@app/auth/feature/login';
 
 describe('RegisterComponent', () => {
   let store: MockStore;
@@ -41,7 +39,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should dispatch a register action on submit', () => {
-    const credentials = getMockedRegisterCredentials();
+    const mockCredentials = { username: 'jack', email: 'jack@email.tld', password: '1234' };
     const fixture = TestBed.createComponent(RegisterComponent);
     fixture.detectChanges();
 
@@ -52,13 +50,15 @@ describe('RegisterComponent', () => {
       .withContext('You should have RegisterFormComponent to display the register form')
       .not.toBeNull();
 
-    registerForm.componentInstance.submitted.emit(credentials);
+    registerForm.componentInstance.submitted.emit(mockCredentials);
 
-    expect(store.dispatch).toHaveBeenCalledWith(authActions.register({ credentials }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      authActions.register({ credentials: mockCredentials })
+    );
   });
 
   it('should display backend error messages if registration fails', () => {
-    const fixture = TestBed.createComponent(LoginComponent);
+    const fixture = TestBed.createComponent(RegisterComponent);
     store.setState({
       ...initialState,
       auth: {

@@ -1,10 +1,13 @@
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { getMockedArticle } from '@app/testing.spec';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleEditState', () => {
-  const article = getMockedArticle();
+  const mockArticle = {
+    slug: 'how-to-train-your-dragon',
+    title: 'How to train your dragon'
+  } as Article;
 
   describe('unknown action', () => {
     it('should return the default state', () => {
@@ -26,7 +29,10 @@ describe('ArticleEditState', () => {
         submitting: true,
         errors: null
       };
-      const action = articleEditActions.editArticle({ slug: article.slug, article });
+      const action = articleEditActions.editArticle({
+        slug: mockArticle.slug,
+        article: mockArticle
+      });
       const state = fromArticleEdit.articleEditReducer(articleEditInitialState, action);
 
       expect(state).toEqual(newState);
@@ -39,7 +45,7 @@ describe('ArticleEditState', () => {
         ...articleEditInitialState,
         submitting: false
       };
-      const action = articleEditActions.editArticleSuccess({ article });
+      const action = articleEditActions.editArticleSuccess({ article: mockArticle });
       const state = fromArticleEdit.articleEditReducer(articleEditInitialState, action);
 
       expect(state).toEqual(newState);
@@ -48,13 +54,13 @@ describe('ArticleEditState', () => {
 
     it('should have errors and set submitting to false on failure', () => {
       const { articleEditInitialState } = fromArticleEdit;
-      const errors = { title: ['is a required field'], body: ['is a required field'] };
+      const mockErrors = { title: ['is a required field'], body: ['is a required field'] };
       const newState = {
         ...articleEditInitialState,
         submitting: false,
-        errors
+        errors: mockErrors
       };
-      const action = articleEditActions.editArticleFailure({ errors });
+      const action = articleEditActions.editArticleFailure({ errors: mockErrors });
       const state = fromArticleEdit.articleEditReducer(articleEditInitialState, action);
 
       expect(state).toEqual(newState);

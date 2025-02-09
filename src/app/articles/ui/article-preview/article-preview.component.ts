@@ -36,7 +36,7 @@ import { TagListComponent } from '@app/shared/ui/tag-list';
           class="btn btn-sm flex-shrink-0"
           [class.btn-success]="article.favorited"
           [class.btn-outline-success]="!article.favorited"
-          (click)="toggleFavorite()"
+          (click)="toggledFavorite.emit()"
         >
           <span class="bi bi-heart-fill"></span>
           {{ article.favoritesCount }}
@@ -74,14 +74,5 @@ export class ArticlePreviewComponent {
   public article!: Article;
 
   @Output()
-  public readonly favorited = new EventEmitter<string>();
-
-  @Output()
-  public readonly unfavorited = new EventEmitter<string>();
-
-  public toggleFavorite(): void {
-    this.article.favorited
-      ? this.unfavorited.emit(this.article.slug)
-      : this.favorited.emit(this.article.slug);
-  }
+  public readonly toggledFavorite = new EventEmitter<void>();
 }

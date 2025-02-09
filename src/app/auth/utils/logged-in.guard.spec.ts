@@ -4,7 +4,6 @@ import { authInitialState } from '@app/auth/data-access/state';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { loggedInGuard, LoggedInGuardOptions } from './logged-in.guard';
 import { Observable } from 'rxjs';
-import { getMockedUser } from '@app/testing.spec';
 
 describe('loggedInGuard', () => {
   let store: MockStore;
@@ -29,7 +28,7 @@ describe('loggedInGuard', () => {
       ...initialState,
       auth: {
         ...initialState.auth,
-        currentUser: getMockedUser()
+        currentUser: { username: 'jack' }
       }
     });
     store.refreshState();
@@ -40,7 +39,7 @@ describe('loggedInGuard', () => {
     });
   });
 
-  it('should forbid activation if the user is not logged in, and navigate to the given page', done => {
+  it('should forbid activation if the user is not logged in, and navigate to the provided page', done => {
     store.setState({
       ...initialState,
       auth: {

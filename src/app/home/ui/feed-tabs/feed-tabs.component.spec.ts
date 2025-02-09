@@ -94,7 +94,7 @@ describe('FeedTabsComponent', () => {
     expect(links[2].className).withContext('The third link should be active').toContain('active');
   });
 
-  it('should emit an event on feed change', () => {
+  it('should emit an output event on feed change', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
     const component = fixture.componentInstance;
     fixture.componentRef.setInput('feedDisabled', false);

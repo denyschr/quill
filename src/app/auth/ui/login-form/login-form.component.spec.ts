@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginFormComponent } from './login-form.component';
 import { By } from '@angular/platform-browser';
-import { getMockedLoginCredentials } from '@app/testing.spec';
 import { ValidationDefaultsComponent } from '@app/core/validation';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 
 describe('LoginFormComponent', () => {
-  const credentials = getMockedLoginCredentials();
-
   beforeEach(() => {
     TestBed.configureTestingModule({});
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
@@ -41,7 +38,7 @@ describe('LoginFormComponent', () => {
       .withContext('The error message for the email field is incorrect')
       .toContain('The email is required');
 
-    emailInput.value = 'jack.com';
+    emailInput.value = 'jack.tld';
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -53,7 +50,7 @@ describe('LoginFormComponent', () => {
       .withContext('The error message for the email field is incorrect')
       .toContain('The email must be a valid email address');
 
-    emailInput.value = credentials.email;
+    emailInput.value = 'jack@email.tld';
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -73,7 +70,7 @@ describe('LoginFormComponent', () => {
       .withContext('The error message for the password field is incorrect')
       .toContain('The password is required');
 
-    passwordInput.value = 'jack12';
+    passwordInput.value = '1234';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -87,7 +84,7 @@ describe('LoginFormComponent', () => {
       .withContext('The error message for the password field is incorrect')
       .toContain('The password must be at least 8 characters long');
 
-    passwordInput.value = credentials.password;
+    passwordInput.value = '12345678';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -112,7 +109,7 @@ describe('LoginFormComponent', () => {
       .not.toBeNull();
   });
 
-  it('should emit an event on submit', () => {
+  it('should emit an output event on submit', () => {
     const fixture = TestBed.createComponent(LoginFormComponent);
     fixture.detectChanges();
 
@@ -120,16 +117,19 @@ describe('LoginFormComponent', () => {
 
     const element: HTMLElement = fixture.nativeElement;
     const emailInput = element.querySelector<HTMLInputElement>('input[type="email"]')!;
-    emailInput.value = credentials.email;
+    emailInput.value = 'jack@gmail.com';
     emailInput.dispatchEvent(new Event('input'));
 
     const passwordInput = element.querySelector<HTMLInputElement>('input[type="password"]')!;
-    passwordInput.value = credentials.password;
+    passwordInput.value = '12345678';
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
-    expect(fixture.componentInstance.submitted.emit).toHaveBeenCalledWith(credentials);
+    expect(fixture.componentInstance.submitted.emit).toHaveBeenCalledWith({
+      email: 'jack@gmail.com',
+      password: '12345678'
+    });
   });
 });

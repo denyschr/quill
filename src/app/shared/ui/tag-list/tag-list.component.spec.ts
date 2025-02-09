@@ -5,15 +5,14 @@ describe('TagListComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should display a list of tags', () => {
-    const tags = ['dragons', 'training'];
+    const mockTags = ['dragons', 'training'];
     const fixture = TestBed.createComponent(TagListComponent);
-    const element: HTMLElement = fixture.nativeElement;
-    fixture.componentRef.setInput('tags', tags);
+    fixture.componentRef.setInput('tags', mockTags);
     fixture.detectChanges();
 
-    const tagNames = element.querySelectorAll('li');
+    const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
     expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
-    expect(tagNames[0].textContent).toContain(tags[0]);
-    expect(tagNames[1].textContent).toContain(tags[1]);
+    expect(tagNames[0].textContent).toContain(mockTags[0]);
+    expect(tagNames[1].textContent).toContain(mockTags[1]);
   });
 });

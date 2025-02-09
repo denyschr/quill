@@ -6,11 +6,11 @@ import { articleEditActions } from './article-edit.actions';
 import { ArticleApiClient } from '@app/articles/data-access/services';
 
 export const editArticle$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleEditActions.editArticle),
       concatMap(({ slug, article }) =>
-        articleClient.update(slug, article).pipe(
+        articleApiClient.update(slug, article).pipe(
           map(editedArticle => articleEditActions.editArticleSuccess({ article: editedArticle })),
           catchError(error => of(articleEditActions.editArticleFailure({ errors: error.errors })))
         )
