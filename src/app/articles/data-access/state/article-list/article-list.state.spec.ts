@@ -1,7 +1,6 @@
 import * as fromArticleList from './article-list.state';
 import { articleListActions } from './article-list.actions';
-import { ArticleListConfig } from '@app/articles/data-access/models';
-import { getMockedArticle } from '@app/testing.spec';
+import { ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
 
 describe('ArticleListState', () => {
   describe('unknown action', () => {
@@ -19,21 +18,21 @@ describe('ArticleListState', () => {
   describe('setPage action', () => {
     it('should change the page', () => {
       const { articleListInitialState } = fromArticleList;
-      const page = 2;
-      const filters = {
+      const mockPage = 2;
+      const mockFilters = {
         ...articleListInitialState.config.filters,
-        offset: (articleListInitialState.config.filters?.limit ?? 10) * (page - 1)
+        offset: (articleListInitialState.config.filters?.limit ?? 10) * (mockPage - 1)
       };
-      const config = {
+      const mockConfig = {
         ...articleListInitialState.config,
-        currentPage: page,
-        filters
+        currentPage: mockPage,
+        filters: mockFilters
       };
       const newState = {
         ...articleListInitialState,
-        config
+        config: mockConfig
       };
-      const action = articleListActions.setPage({ page });
+      const action = articleListActions.setPage({ page: mockPage });
       const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
       expect(state).toEqual(newState);
@@ -44,15 +43,15 @@ describe('ArticleListState', () => {
   describe('setConfig action', () => {
     it('should update the config', () => {
       const { articleListInitialState } = fromArticleList;
-      const config: ArticleListConfig = {
+      const mockConfig: ArticleListConfig = {
         ...articleListInitialState.config,
         type: 'feed'
       };
       const newState = {
         ...articleListInitialState,
-        config
+        config: mockConfig
       };
-      const action = articleListActions.setConfig({ config });
+      const action = articleListActions.setConfig({ config: mockConfig });
       const state = fromArticleList.articleListReducer(articleListInitialState, action);
 
       expect(state).toEqual(newState);
@@ -76,19 +75,19 @@ describe('ArticleListState', () => {
 
     it('should retrieve a list of articles and set loading to false on success', () => {
       const { articleListInitialState } = fromArticleList;
-      const articleList = {
-        articles: [getMockedArticle(), getMockedArticle()],
+      const mockArticles = {
+        articles: [{ title: 'How to train your dragon' }, { title: 'How to train your dragon 2' }],
         articlesCount: 2
-      };
+      } as ArticleListResponse;
       const newState = {
         ...articleListInitialState,
-        articles: articleList.articles,
-        total: articleList.articlesCount,
+        articles: mockArticles.articles,
+        total: mockArticles.articlesCount,
         loading: false
       };
       const action = articleListActions.loadArticlesSuccess({
-        articles: articleList.articles,
-        total: articleList.articlesCount
+        articles: mockArticles.articles,
+        total: mockArticles.articlesCount
       });
       const state = fromArticleList.articleListReducer(articleListInitialState, action);
 

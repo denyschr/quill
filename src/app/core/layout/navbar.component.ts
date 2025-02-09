@@ -16,10 +16,10 @@ import { combineLatest } from 'rxjs';
           <button
             type="button"
             class="navbar-toggler"
-            (click)="toggleNavbar()"
             aria-controls="primary-navbar"
             [attr.aria-expanded]="!navbarCollapsed"
             aria-label="Toggle navigation"
+            (click)="toggleNavbar()"
           >
             <span class="navbar-toggler-icon"></span>
           </button>

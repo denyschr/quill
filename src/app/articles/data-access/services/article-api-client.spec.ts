@@ -3,27 +3,26 @@ import { ArticleApiClient } from './article-api-client';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { Article, ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
-import { getMockedArticle } from '@app/testing.spec';
 
 describe('ArticleApiClient', () => {
-  let articleClient: ArticleApiClient;
   let httpController: HttpTestingController;
+  let articleApiClient: ArticleApiClient;
 
-  const articles: ArticleListResponse = {
+  const mockArticles = {
     articles: [
-      getMockedArticle({ article: { favorited: true }, profile: { username: 'diamond' } }),
-      getMockedArticle({ profile: { username: 'john' } })
+      { slug: 'how-to-train-your-dragon', title: 'How to train your dragon' },
+      { slug: 'how-to-train-your-dragon-2', title: 'How to train your dragon 2' }
     ],
     articlesCount: 2
-  };
-  const article = getMockedArticle();
-  const slug = article.slug;
+  } as ArticleListResponse;
+  const mockArticle = mockArticles.articles[0];
+  const mockSlug = mockArticle.slug;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-    articleClient = TestBed.inject(ArticleApiClient);
+    articleApiClient = TestBed.inject(ArticleApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
@@ -40,15 +39,17 @@ describe('ArticleApiClient', () => {
     };
 
     let actualArticles: ArticleListResponse | undefined;
-    articleClient.getAll(config).subscribe(fetchedArticles => (actualArticles = fetchedArticles));
+    articleApiClient
+      .getAll(config)
+      .subscribe(fetchedArticles => (actualArticles = fetchedArticles));
 
     httpController
       .expectOne(`/articles?tag=${config.filters.tag}&limit=${config.filters.limit}`)
-      .flush(articles);
+      .flush(mockArticles);
 
     expect(actualArticles)
       .withContext('The observable should emit the list of articles')
-      .toEqual(articles);
+      .toEqual(mockArticles);
   });
 
   it('should return a list of articles from the user feed', () => {
@@ -62,92 +63,88 @@ describe('ArticleApiClient', () => {
     };
 
     let actualArticles: ArticleListResponse | undefined;
-    articleClient.getAll(config).subscribe(fetchedArticles => (actualArticles = fetchedArticles));
+    articleApiClient
+      .getAll(config)
+      .subscribe(fetchedArticles => (actualArticles = fetchedArticles));
 
     httpController
       .expectOne(`/articles/feed?author=${config.filters.author}&offset=${config.filters.offset}`)
-      .flush(articles);
+      .flush(mockArticles);
 
     expect(actualArticles)
       .withContext('The observable should emit the list of articles')
-      .toEqual(articles);
+      .toEqual(mockArticles);
   });
 
   it('should return an article', () => {
     let actualArticle: Article | undefined;
-    articleClient.get(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleApiClient.get(mockSlug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
-    httpController.expectOne(`/articles/${slug}`).flush({ article });
+    httpController.expectOne(`/articles/${mockSlug}`).flush({ article: mockArticle });
 
-    expect(actualArticle).withContext('The observable should emit the article').toBe(article);
+    expect(actualArticle).withContext('The observable should emit the article').toBe(mockArticle);
   });
 
   it('should create an article', () => {
-    const newArticle = {
-      title: article.title,
-      description: article.description,
-      body: article.body,
-      tagList: article.tagList
-    };
-
     let actualArticle: Article | undefined;
-    articleClient.create(newArticle).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleApiClient
+      .create(mockArticle)
+      .subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
     const req = httpController.expectOne({ method: 'POST', url: '/articles' });
-    expect(req.request.body).toEqual({ article: newArticle });
-    req.flush({ article });
+    expect(req.request.body).toEqual({ article: mockArticle });
+    req.flush({ article: mockArticle });
 
-    expect(actualArticle).withContext('The observable should emit the article').toBe(article);
+    expect(actualArticle).withContext('The observable should emit the article').toBe(mockArticle);
   });
 
   it('should update an article', () => {
-    const updatedArticle = {
-      ...article,
-      body: 'You have to believe'
-    };
-
     let actualArticle: Article | undefined;
-    articleClient
-      .update(slug, { body: updatedArticle.body })
+    articleApiClient
+      .update(mockSlug, { title: mockArticle.title })
       .subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
-    const req = httpController.expectOne({ method: 'PUT', url: `/articles/${slug}` });
-    expect(req.request.body).toEqual({ article: { body: updatedArticle.body } });
-    req.flush({ article: updatedArticle });
+    const req = httpController.expectOne({ method: 'PUT', url: `/articles/${mockSlug}` });
+    expect(req.request.body).toEqual({ article: { title: mockArticle.title } });
+    req.flush({ article: mockArticle });
 
-    expect(actualArticle)
-      .withContext('The observable should emit the article')
-      .toBe(updatedArticle);
+    expect(actualArticle).withContext('The observable should emit the article').toBe(mockArticle);
   });
 
   it('should delete an article', () => {
     let called = false;
-    articleClient.delete(slug).subscribe(() => (called = true));
+    articleApiClient.delete(mockSlug).subscribe(() => (called = true));
 
-    httpController.expectOne({ method: 'DELETE', url: `/articles/${slug}` }).flush(null);
+    httpController.expectOne({ method: 'DELETE', url: `/articles/${mockSlug}` }).flush(null);
 
     expect(called).toBe(true);
   });
 
   it('should favorite an article', () => {
     let actualArticle: Article | undefined;
-    articleClient.favorite(slug).subscribe(fetchedArticle => (actualArticle = fetchedArticle));
+    articleApiClient
+      .favorite(mockSlug)
+      .subscribe(fetchedArticle => (actualArticle = fetchedArticle));
 
-    const req = httpController.expectOne({ method: 'POST', url: `/articles/${slug}/favorite` });
+    const req = httpController.expectOne({ method: 'POST', url: `/articles/${mockSlug}/favorite` });
     expect(req.request.body).toBeNull();
-    req.flush({ article });
+    req.flush({ article: mockArticle });
 
-    expect(actualArticle).withContext('The observable should emit the article').toEqual(article);
+    expect(actualArticle)
+      .withContext('The observable should emit the article')
+      .toEqual(mockArticle);
   });
 
   it('should unfavorite an article', () => {
     let actualArticle: Article | undefined;
-    articleClient.unfavorite(slug).subscribe(article => (actualArticle = article));
+    articleApiClient.unfavorite(mockSlug).subscribe(article => (actualArticle = article));
 
     httpController
-      .expectOne({ method: 'DELETE', url: `/articles/${slug}/favorite` })
-      .flush({ article });
+      .expectOne({ method: 'DELETE', url: `/articles/${mockSlug}/favorite` })
+      .flush({ article: mockArticle });
 
-    expect(actualArticle).withContext('The observable should emit the article').toEqual(article);
+    expect(actualArticle)
+      .withContext('The observable should emit the article')
+      .toEqual(mockArticle);
   });
 });

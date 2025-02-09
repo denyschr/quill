@@ -11,6 +11,7 @@ import {
 import { combineLatest } from 'rxjs';
 import { ArticlePreviewComponent } from '@app/articles/ui/article-preview';
 import { LetDirective } from '@ngrx/component';
+import { Article } from '@app/articles/data-access/models';
 
 @Component({
   selector: 'ql-article-list',
@@ -19,11 +20,7 @@ import { LetDirective } from '@ngrx/component';
       @if (!vm.loading) {
         <div class="row gap-3 mb-4">
           @for (article of vm.articles; track article.slug) {
-            <ql-article-preview
-              [article]="article"
-              (favorited)="favorite($event)"
-              (unfavorited)="unfavorite($event)"
-            />
+            <ql-article-preview [article]="article" (toggledFavorite)="toggleFavorite(article)" />
           } @empty {
             <div id="no-article-list-message">No articles found</div>
           }
@@ -57,12 +54,12 @@ export class ArticleListComponent {
 
   constructor(private readonly store: Store) {}
 
-  public favorite(slug: string): void {
-    this.store.dispatch(articleListActions.favorite({ slug }));
-  }
-
-  public unfavorite(slug: string): void {
-    this.store.dispatch(articleListActions.unfavorite({ slug }));
+  public toggleFavorite(article: Article): void {
+    if (article.favorited) {
+      this.store.dispatch(articleListActions.unfavorite({ slug: article.slug }));
+    } else {
+      this.store.dispatch(articleListActions.favorite({ slug: article.slug }));
+    }
   }
 
   public changePage(page: number): void {

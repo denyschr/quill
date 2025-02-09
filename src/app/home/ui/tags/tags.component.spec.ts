@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TagsComponent } from './tags.component';
 
 describe('TagsComponent', () => {
-  const tags = ['dragons', 'training'];
+  const mockTags = ['dragons', 'training'];
 
   beforeEach(() => TestBed.configureTestingModule({}));
 
@@ -31,15 +31,15 @@ describe('TagsComponent', () => {
 
   it('should display every tag', () => {
     const fixture = TestBed.createComponent(TagsComponent);
-    fixture.componentRef.setInput('tags', tags);
+    fixture.componentRef.setInput('tags', mockTags);
     fixture.detectChanges();
 
     const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('a > span.badge');
     expect(tagNames.length)
       .withContext('You should have a `span` element inside each `a` element for each tag')
       .toBe(2);
-    expect(tagNames[0].textContent).toContain(tags[0]);
-    expect(tagNames[1].textContent).toContain(tags[1]);
+    expect(tagNames[0].textContent).toContain(mockTags[0]);
+    expect(tagNames[1].textContent).toContain(mockTags[1]);
   });
 
   it('should display an empty message if there is no tags, and status is not loading', () => {
@@ -55,10 +55,10 @@ describe('TagsComponent', () => {
       .toContain('No tags found');
   });
 
-  it('should emit an event on click', () => {
+  it('should emit an output event on click', () => {
     const fixture = TestBed.createComponent(TagsComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('tags', tags);
+    fixture.componentRef.setInput('tags', mockTags);
     fixture.detectChanges();
 
     spyOn(component.clicked, 'emit');
@@ -68,7 +68,7 @@ describe('TagsComponent', () => {
       tagName.click();
       expect(component.clicked.emit)
         .withContext('You should have the click handler on the `a` element')
-        .toHaveBeenCalledWith(tags[index]);
+        .toHaveBeenCalledWith(mockTags[index]);
     });
   });
 });

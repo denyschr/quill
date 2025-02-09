@@ -8,7 +8,7 @@ import { JwtTokenStorage, UserApiClient } from '@app/auth/data-access/services';
 export const getCurrentUser$ = createEffect(
   (
     actions$ = inject(Actions),
-    userClient = inject(UserApiClient),
+    userApiClient = inject(UserApiClient),
     jwtTokenStorage = inject(JwtTokenStorage)
   ) => {
     return actions$.pipe(
@@ -20,7 +20,7 @@ export const getCurrentUser$ = createEffect(
           return of(authActions.getCurrentUserFailure());
         }
 
-        return userClient.getCurrentUser().pipe(
+        return userApiClient.getCurrentUser().pipe(
           map(currentUser => authActions.getCurrentUserSuccess({ currentUser })),
           catchError(() => of(authActions.getCurrentUserFailure()))
         );
@@ -31,11 +31,11 @@ export const getCurrentUser$ = createEffect(
 );
 
 export const updateCurrentUser$ = createEffect(
-  (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
+  (actions$ = inject(Actions), userApiClient = inject(UserApiClient)) => {
     return actions$.pipe(
       ofType(authActions.updateCurrentUser),
       concatMap(({ user }) =>
-        userClient.update(user).pipe(
+        userApiClient.update(user).pipe(
           map(currentUser => authActions.updateCurrentUserSuccess({ currentUser })),
           catchError(error => of(authActions.updateCurrentUserFailure({ errors: error.errors })))
         )
@@ -55,7 +55,7 @@ export const updateCurrentUserSuccess$ = createEffect(
       ofType(authActions.updateCurrentUserSuccess),
       tap(({ currentUser }) => {
         jwtTokenStorage.save(currentUser.token);
-        void router.navigate(['/profile', currentUser.username]);
+        router.navigate(['/profile', currentUser.username]);
       })
     );
   },
@@ -63,11 +63,11 @@ export const updateCurrentUserSuccess$ = createEffect(
 );
 
 export const register$ = createEffect(
-  (actions$ = inject(Actions), userClient = inject(UserApiClient)) => {
+  (actions$ = inject(Actions), userApiClient = inject(UserApiClient)) => {
     return actions$.pipe(
       ofType(authActions.register),
       switchMap(({ credentials }) =>
-        userClient.register(credentials).pipe(
+        userApiClient.register(credentials).pipe(
           map(currentUser => authActions.registerSuccess({ currentUser })),
           catchError(error => of(authActions.registerFailure({ errors: error.errors })))
         )
@@ -102,7 +102,7 @@ export const registerOrLoginSuccess$ = createEffect(
       ofType(authActions.registerSuccess, authActions.loginSuccess),
       tap(({ currentUser }) => {
         jwtTokenStorage.save(currentUser.token);
-        void router.navigateByUrl('/');
+        router.navigateByUrl('/');
       })
     );
   },
@@ -119,7 +119,7 @@ export const logout$ = createEffect(
       ofType(authActions.logout),
       tap(() => {
         jwtTokenStorage.remove();
-        void router.navigateByUrl('/');
+        router.navigateByUrl('/');
       })
     );
   },

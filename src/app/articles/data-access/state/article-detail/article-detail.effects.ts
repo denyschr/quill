@@ -7,11 +7,11 @@ import { ArticleApiClient } from '@app/articles/data-access/services';
 import { ProfileApiClient } from '@app/profile/data-access/services';
 
 export const loadArticle$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleDetailActions.loadArticle),
       concatMap(({ slug }) =>
-        articleClient.get(slug).pipe(
+        articleApiClient.get(slug).pipe(
           map(article => articleDetailActions.loadArticleSuccess({ article })),
           catchError(() => of(articleDetailActions.loadArticleFailure()))
         )
@@ -25,7 +25,7 @@ export const loadArticleFailure$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(articleDetailActions.loadArticleFailure),
-      tap(() => void router.navigateByUrl('/'))
+      tap(() => router.navigateByUrl('/'))
     );
   },
   {
@@ -35,11 +35,11 @@ export const loadArticleFailure$ = createEffect(
 );
 
 export const follow$ = createEffect(
-  (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
+  (actions$ = inject(Actions), profileApiClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
       ofType(articleDetailActions.follow),
       concatMap(({ username }) =>
-        profileClient.follow(username).pipe(
+        profileApiClient.follow(username).pipe(
           map(profile => articleDetailActions.followSuccess({ profile })),
           catchError(() => of(articleDetailActions.followFailure()))
         )
@@ -50,11 +50,11 @@ export const follow$ = createEffect(
 );
 
 export const unfollow$ = createEffect(
-  (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
+  (actions$ = inject(Actions), profileApiClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
       ofType(articleDetailActions.unfollow),
       concatMap(({ username }) =>
-        profileClient.unfollow(username).pipe(
+        profileApiClient.unfollow(username).pipe(
           map(profile => articleDetailActions.unfollowSuccess({ profile })),
           catchError(() => of(articleDetailActions.unfollowFailure()))
         )
@@ -65,11 +65,11 @@ export const unfollow$ = createEffect(
 );
 
 export const deleteArticle$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleDetailActions.deleteArticle),
       mergeMap(({ slug }) =>
-        articleClient.delete(slug).pipe(
+        articleApiClient.delete(slug).pipe(
           map(() => articleDetailActions.deleteArticleSuccess()),
           catchError(() => of(articleDetailActions.deleteArticleFailure()))
         )
@@ -83,7 +83,7 @@ export const deleteArticleSuccess$ = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(articleDetailActions.deleteArticleSuccess),
-      tap(() => void router.navigateByUrl('/'))
+      tap(() => router.navigateByUrl('/'))
     );
   },
   {

@@ -5,11 +5,11 @@ import { catchError, exhaustMap, map, of } from 'rxjs';
 import { TagApiClient } from '@app/home/data-access/services';
 
 export const loadTags$ = createEffect(
-  (actions$ = inject(Actions), tagClient = inject(TagApiClient)) => {
+  (actions$ = inject(Actions), tagApiClient = inject(TagApiClient)) => {
     return actions$.pipe(
       ofType(tagsActions.loadTags),
       exhaustMap(() =>
-        tagClient.getAll().pipe(
+        tagApiClient.getAll().pipe(
           map(tags => tagsActions.loadTagsSuccess({ tags })),
           catchError(() => of(tagsActions.loadTagsFailure()))
         )

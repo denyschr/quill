@@ -5,17 +5,17 @@ import { tokenInterceptor } from './token.interceptor';
 import { JwtTokenStorage } from '@app/auth/data-access/services';
 
 describe('tokenInterceptor', () => {
-  let jwtTokenStorage: jasmine.SpyObj<JwtTokenStorage>;
   let httpController: HttpTestingController;
   let http: HttpClient;
+  let mockJwtTokenStorage: jasmine.SpyObj<JwtTokenStorage>;
 
   beforeEach(() => {
-    jwtTokenStorage = jasmine.createSpyObj<JwtTokenStorage>('JwtTokenStorage', ['get']);
+    mockJwtTokenStorage = jasmine.createSpyObj<JwtTokenStorage>('JwtTokenStorage', ['get']);
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([tokenInterceptor])),
         provideHttpClientTesting(),
-        { provide: JwtTokenStorage, useValue: jwtTokenStorage }
+        { provide: JwtTokenStorage, useValue: mockJwtTokenStorage }
       ]
     });
     httpController = TestBed.inject(HttpTestingController);
@@ -27,15 +27,15 @@ describe('tokenInterceptor', () => {
   it('should do nothing if there is no jwt token', () => {
     http.get('/foo').subscribe();
 
-    const req = httpController.expectOne('/foo');
-    expect(req.request.headers.get('Authorization')).toBe(null);
+    const mockRequest = httpController.expectOne('/foo');
+    expect(mockRequest.request.headers.get('Authorization')).toBe(null);
   });
 
   it('should send a jwt token', () => {
-    jwtTokenStorage.get.and.returnValue('hello');
+    mockJwtTokenStorage.get.and.returnValue('bar');
     http.get('/foo').subscribe();
 
-    const req = httpController.expectOne('/foo');
-    expect(req.request.headers.get('Authorization')).toBe('Token hello');
+    const mockRequest = httpController.expectOne('/foo');
+    expect(mockRequest.request.headers.get('Authorization')).toBe('Token bar');
   });
 });

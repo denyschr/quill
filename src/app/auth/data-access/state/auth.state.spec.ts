@@ -1,16 +1,11 @@
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
 import { routerNavigatedAction } from '@ngrx/router-store';
-import {
-  getMockedLoginCredentials,
-  getMockedRegisterCredentials,
-  getMockedUser
-} from '@app/testing.spec';
-import { BackendErrors } from '@app/core/data-access/models';
+import { User } from '@app/auth/data-access/models';
 
 describe('AuthState', () => {
-  const user = getMockedUser();
-  const errors: BackendErrors = {
+  const mockUser = { username: 'jack' } as User;
+  const mockErrors = {
     email: ['already exists'],
     password: ['is invalid']
   };
@@ -45,10 +40,10 @@ describe('AuthState', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
-        currentUser: user,
+        currentUser: mockUser,
         loading: false
       };
-      const action = authActions.getCurrentUserSuccess({ currentUser: user });
+      const action = authActions.getCurrentUserSuccess({ currentUser: mockUser });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -75,9 +70,9 @@ describe('AuthState', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
-        currentUser: user
+        currentUser: mockUser
       };
-      const action = authActions.updateCurrentUserSuccess({ currentUser: user });
+      const action = authActions.updateCurrentUserSuccess({ currentUser: mockUser });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -88,13 +83,13 @@ describe('AuthState', () => {
   describe('register action', () => {
     it('should set submitting to true and reset errors to null', () => {
       const { authInitialState } = fromAuth;
-      const credentials = getMockedRegisterCredentials();
+      const mockCredentials = { username: 'jack', email: 'jack@email.tld', password: '1234' };
       const newState = {
         ...authInitialState,
         submitting: true,
         errors: null
       };
-      const action = authActions.register({ credentials });
+      const action = authActions.register({ credentials: mockCredentials });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -105,10 +100,10 @@ describe('AuthState', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
-        currentUser: user,
+        currentUser: mockUser,
         submitting: false
       };
-      const action = authActions.registerSuccess({ currentUser: user });
+      const action = authActions.registerSuccess({ currentUser: mockUser });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -120,9 +115,9 @@ describe('AuthState', () => {
       const newState = {
         ...authInitialState,
         submitting: false,
-        errors
+        errors: mockErrors
       };
-      const action = authActions.registerFailure({ errors });
+      const action = authActions.registerFailure({ errors: mockErrors });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -133,13 +128,13 @@ describe('AuthState', () => {
   describe('login action', () => {
     it('should set submitting to true and reset errors to null', () => {
       const { authInitialState } = fromAuth;
-      const credentials = getMockedLoginCredentials();
+      const mockCredentials = { email: 'jack@email.tld', password: '1234' };
       const newState = {
         ...authInitialState,
         submitting: true,
         errors: null
       };
-      const action = authActions.login({ credentials });
+      const action = authActions.login({ credentials: mockCredentials });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -150,10 +145,10 @@ describe('AuthState', () => {
       const { authInitialState } = fromAuth;
       const newState = {
         ...authInitialState,
-        currentUser: user,
+        currentUser: mockUser,
         submitting: false
       };
-      const action = authActions.loginSuccess({ currentUser: user });
+      const action = authActions.loginSuccess({ currentUser: mockUser });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);
@@ -165,9 +160,9 @@ describe('AuthState', () => {
       const newState = {
         ...authInitialState,
         submitting: false,
-        errors
+        errors: mockErrors
       };
-      const action = authActions.loginFailure({ errors });
+      const action = authActions.loginFailure({ errors: mockErrors });
       const state = fromAuth.authReducer(authInitialState, action);
 
       expect(state).toEqual(newState);

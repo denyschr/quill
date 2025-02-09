@@ -32,8 +32,8 @@ describe('errorInterceptor', () => {
       }
     });
 
-    const req = httpController.expectOne('/foo');
-    req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
+    const mockRequest = httpController.expectOne('/foo');
+    mockRequest.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
   });
 
   it('should not navigate on non-401 response ', () => {
@@ -44,7 +44,7 @@ describe('errorInterceptor', () => {
       }
     });
 
-    const req = httpController.expectOne('/foo');
-    req.flush('Server Error', { status: 500, statusText: 'Internal Server Error' });
+    const mockRequest = httpController.expectOne('/foo');
+    mockRequest.flush('Server Error', { status: 500, statusText: 'Internal Server Error' });
   });
 });

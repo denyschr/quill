@@ -9,11 +9,11 @@ describe('NotFoundComponent', () => {
     });
   });
 
-  it('should have the content', () => {
+  it('should display the content', () => {
     const fixture = TestBed.createComponent(NotFoundComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.detectChanges();
 
+    const element: HTMLElement = fixture.nativeElement;
     const title = element.querySelector('h1')!;
     expect(title).withContext('You should have an `h1` element for the title').not.toBeNull();
     expect(title.textContent).withContext('The title should have a text').toContain('404');

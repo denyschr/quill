@@ -4,29 +4,27 @@ import { provideHttpClient } from '@angular/common/http';
 import { TagApiClient } from './tag-api-client';
 
 describe('TagApiClient', () => {
-  let tagClient: TagApiClient;
   let httpController: HttpTestingController;
+  let tagApiClient: TagApiClient;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-    tagClient = TestBed.inject(TagApiClient);
+    tagApiClient = TestBed.inject(TagApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should return a list of tags', () => {
-    const expectedTags = ['dragons', 'training'];
+    const mockTags = ['dragons', 'training'];
 
     let actualTags: string[] | undefined;
-    tagClient.getAll().subscribe(fetchedTags => (actualTags = fetchedTags));
+    tagApiClient.getAll().subscribe(fetchedTags => (actualTags = fetchedTags));
 
-    httpController.expectOne('/tags').flush({ tags: expectedTags });
+    httpController.expectOne('/tags').flush({ tags: mockTags });
 
-    expect(actualTags)
-      .withContext('The observable should emit the list of tags')
-      .toBe(expectedTags);
+    expect(actualTags).withContext('The observable should emit the list of tags').toBe(mockTags);
   });
 });

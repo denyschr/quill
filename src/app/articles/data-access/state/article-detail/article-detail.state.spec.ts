@@ -1,7 +1,7 @@
 import * as fromArticle from './article-detail.state';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { articleDetailActions } from './article-detail.actions';
-import { getMockedArticle } from '@app/testing.spec';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleDetailState', () => {
   describe('unknown action', () => {
@@ -32,13 +32,13 @@ describe('ArticleDetailState', () => {
 
     it('should retrieve an article and set loading to false on success', () => {
       const { articleDetailInitialState } = fromArticle;
-      const article = getMockedArticle();
+      const mockArticle = { title: 'How to train your dragon' } as Article;
       const newState = {
         ...articleDetailInitialState,
-        article,
+        article: mockArticle,
         loading: false
       };
-      const action = articleDetailActions.loadArticleSuccess({ article });
+      const action = articleDetailActions.loadArticleSuccess({ article: mockArticle });
       const state = fromArticle.articleDetailReducer(articleDetailInitialState, action);
 
       expect(state).toEqual(newState);

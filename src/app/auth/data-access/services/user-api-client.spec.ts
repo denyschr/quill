@@ -2,81 +2,71 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { UserApiClient } from './user-api-client';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import {
-  getMockedLoginCredentials,
-  getMockedRegisterCredentials,
-  getMockedUser
-} from '@app/testing.spec';
 import { User } from '@app/auth/data-access/models';
 
 describe('UserApiClient', () => {
-  let userClient: UserApiClient;
   let httpController: HttpTestingController;
+  let userApiClient: UserApiClient;
 
-  const user = getMockedUser();
+  const mockUser = { username: 'jack' } as User;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
-    userClient = TestBed.inject(UserApiClient);
+    userApiClient = TestBed.inject(UserApiClient);
     httpController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpController.verify());
 
   it('should register a user', () => {
-    const credentials = getMockedRegisterCredentials();
+    const mockCredentials = { username: 'jack', email: 'jack@email.tld', password: '1234' };
 
     let actualUser: User | undefined;
-    userClient.register(credentials).subscribe(fetchedUser => {
+    userApiClient.register(mockCredentials).subscribe(fetchedUser => {
       actualUser = fetchedUser;
     });
 
-    const req = httpController.expectOne({ method: 'POST', url: '/users' });
-    expect(req.request.body).toEqual({ user: credentials });
-    req.flush({ user });
+    const mockRequest = httpController.expectOne({ method: 'POST', url: '/users' });
+    expect(mockRequest.request.body).toEqual({ user: mockCredentials });
+    mockRequest.flush({ user: mockUser });
 
-    expect(actualUser).withContext('The observable should emit the user').toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(mockUser);
   });
 
   it('should login a user', () => {
-    const credentials = getMockedLoginCredentials();
+    const credentials = { email: 'jack@email.tld', password: '1234' };
 
     let actualUser: User | undefined;
-    userClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
+    userApiClient.login(credentials).subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'POST', url: '/users/login' });
     expect(req.request.body).toEqual({ user: credentials });
-    req.flush({ user });
+    req.flush({ user: mockUser });
 
-    expect(actualUser).withContext('The observable should emit the user').toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(mockUser);
   });
 
   it('should return a user', () => {
     let actualUser: User | undefined;
-    userClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
+    userApiClient.getCurrentUser().subscribe(fetchedUser => (actualUser = fetchedUser));
 
-    httpController.expectOne('/user').flush({ user });
+    httpController.expectOne('/user').flush({ user: mockUser });
 
-    expect(actualUser).withContext('The observable should emit the user').toBe(user);
+    expect(actualUser).withContext('The observable should emit the user').toBe(mockUser);
   });
 
   it('should update a user', () => {
-    const expectedUser = {
-      ...user,
-      bio: 'I like doing karate'
-    };
-
     let actualUser: User | undefined;
-    userClient
-      .update({ bio: expectedUser.bio })
+    userApiClient
+      .update({ username: mockUser.username })
       .subscribe(fetchedUser => (actualUser = fetchedUser));
 
     const req = httpController.expectOne({ method: 'PUT', url: '/user' });
-    expect(req.request.body).toEqual({ user: { bio: expectedUser.bio } });
-    req.flush({ user: expectedUser });
+    expect(req.request.body).toEqual({ user: { username: mockUser.username } });
+    req.flush({ user: mockUser });
 
-    expect(actualUser).withContext('The observable should emit the user').toBe(expectedUser);
+    expect(actualUser).withContext('The observable should emit the user').toBe(mockUser);
   });
 });

@@ -11,7 +11,6 @@ import {
   articleListInitialState
 } from '@app/articles/data-access/state/article-list';
 import { Article, ArticleListResponse } from '@app/articles/data-access/models';
-import { getMockedArticle } from '@app/testing.spec';
 
 @Component({
   selector: 'ql-article-preview',
@@ -23,10 +22,7 @@ class ArticlePreviewStubComponent {
   public article!: Article;
 
   @Output()
-  public readonly favorited = new EventEmitter<string>();
-
-  @Output()
-  public readonly unfavorited = new EventEmitter<string>();
+  public readonly toggledFavorite = new EventEmitter<Article>();
 }
 
 describe('ArticleListComponent', () => {
@@ -35,13 +31,13 @@ describe('ArticleListComponent', () => {
     articleList: articleListInitialState
   };
 
-  const mockArticleList: ArticleListResponse = {
+  const mockArticles = {
     articles: [
-      getMockedArticle({ article: { slug: 'article-one' } }),
-      getMockedArticle({ article: { slug: 'article-two' } })
+      { slug: 'how-to-train-your-dragon', title: 'How to train your dragon', favorited: false },
+      { slug: 'how-to-train-your-dragon-2', title: 'How to train your dragon 2', favorited: true }
     ],
     articlesCount: 12
-  };
+  } as ArticleListResponse;
 
   beforeEach(() => {
     TestBed.overrideComponent(ArticleListComponent, {
@@ -84,8 +80,8 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: mockArticleList.articlesCount,
-        articles: mockArticleList.articles
+        total: mockArticles.articlesCount,
+        articles: mockArticles.articles
       }
     });
     store.refreshState();
@@ -98,7 +94,7 @@ describe('ArticleListComponent', () => {
     expect(articles.length)
       .withContext('You should have two ArticlePreviewComponent displayed')
       .toBe(2);
-    expect(articles[0].componentInstance.article).toEqual(mockArticleList.articles[0]);
+    expect(articles[0].componentInstance.article).toEqual(mockArticles.articles[0]);
 
     const pagination = debugElement.query(By.directive(NgbPagination));
     expect(pagination).withContext('You should have a pagination').not.toBeNull();
@@ -120,8 +116,8 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: mockArticleList.articlesCount,
-        articles: mockArticleList.articles
+        total: mockArticles.articlesCount,
+        articles: mockArticles.articles
       }
     });
     store.refreshState();
@@ -148,8 +144,8 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: mockArticleList.articlesCount,
-        articles: mockArticleList.articles
+        total: mockArticles.articlesCount,
+        articles: mockArticles.articles
       }
     });
     store.refreshState();
@@ -158,9 +154,10 @@ describe('ArticleListComponent', () => {
     fixture.detectChanges();
 
     const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
-    const slug = mockArticleList.articles[0].slug;
-    articles[0].componentInstance.favorited.emit(slug);
-    expect(store.dispatch).toHaveBeenCalledWith(articleListActions.favorite({ slug }));
+    articles[0].componentInstance.toggledFavorite.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.favorite({ slug: mockArticles.articles[0].slug })
+    );
   });
 
   it('should dispatch an unfavorite action when unfavoriting an article', () => {
@@ -168,8 +165,8 @@ describe('ArticleListComponent', () => {
       ...initialState,
       articleList: {
         ...initialState.articleList,
-        total: mockArticleList.articlesCount,
-        articles: mockArticleList.articles
+        total: mockArticles.articlesCount,
+        articles: mockArticles.articles
       }
     });
     store.refreshState();
@@ -178,9 +175,10 @@ describe('ArticleListComponent', () => {
     fixture.detectChanges();
 
     const articles = fixture.debugElement.queryAll(By.directive(ArticlePreviewStubComponent));
-    const slug = mockArticleList.articles[0].slug;
-    articles[0].componentInstance.unfavorited.emit(slug);
-    expect(store.dispatch).toHaveBeenCalledWith(articleListActions.unfavorite({ slug }));
+    articles[1].componentInstance.toggledFavorite.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.unfavorite({ slug: mockArticles.articles[1].slug })
+    );
   });
 
   it('should display an empty message if there is no articles, and status is not loading', () => {

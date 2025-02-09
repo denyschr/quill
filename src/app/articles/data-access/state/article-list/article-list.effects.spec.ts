@@ -5,20 +5,21 @@ import { articleListActions } from './article-list.actions';
 import * as articleListEffects from './article-list.effects';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ArticleApiClient } from '@app/articles/data-access/services';
-import { getMockedArticle } from '@app/testing.spec';
+import { ArticleListResponse } from '@app/articles/data-access/models';
 
 describe('ArticleListEffects', () => {
-  let articleClient: jasmine.SpyObj<ArticleApiClient>;
+  let mockArticleApiClient: jasmine.SpyObj<ArticleApiClient>;
   let store: MockStore;
   let actions$: Observable<unknown>;
 
-  const articleList = {
-    articles: [getMockedArticle(), getMockedArticle()],
+  const mockArticles = {
+    articles: [{ title: 'How to train your dragon' }, { title: 'How to train your dragon 2' }],
     articlesCount: 2
-  };
+  } as ArticleListResponse;
+  const mockArticle = mockArticles.articles[0];
 
   beforeEach(() => {
-    articleClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', [
+    mockArticleApiClient = jasmine.createSpyObj<ArticleApiClient>('ArticleApiClient', [
       'getAll',
       'favorite',
       'unfavorite'
@@ -27,7 +28,7 @@ describe('ArticleListEffects', () => {
       providers: [
         provideMockActions(() => actions$),
         provideMockStore(),
-        { provide: ArticleApiClient, useValue: articleClient }
+        { provide: ArticleApiClient, useValue: mockArticleApiClient }
       ]
     });
     store = TestBed.inject(MockStore);
@@ -57,14 +58,14 @@ describe('ArticleListEffects', () => {
     it('should return a loadArticlesSuccess action with a list of articles on success', done => {
       actions$ = of(articleListActions.loadArticles);
 
-      articleClient.getAll.and.returnValue(of(articleList));
+      mockArticleApiClient.getAll.and.returnValue(of(mockArticles));
 
-      articleListEffects.loadArticles$(actions$, store, articleClient).subscribe(action => {
-        expect(articleClient.getAll).toHaveBeenCalled();
+      articleListEffects.loadArticles$(actions$, store, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(
           articleListActions.loadArticlesSuccess({
-            articles: articleList.articles,
-            total: articleList.articlesCount
+            articles: mockArticles.articles,
+            total: mockArticles.articlesCount
           })
         );
         done();
@@ -74,10 +75,10 @@ describe('ArticleListEffects', () => {
     it('should return a loadArticlesFailure action on failure', done => {
       actions$ = of(articleListActions.loadArticles);
 
-      articleClient.getAll.and.returnValue(throwError(() => new Error('error')));
+      mockArticleApiClient.getAll.and.returnValue(throwError(() => new Error('error')));
 
-      articleListEffects.loadArticles$(actions$, store, articleClient).subscribe(action => {
-        expect(articleClient.getAll).toHaveBeenCalled();
+      articleListEffects.loadArticles$(actions$, store, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(articleListActions.loadArticlesFailure());
         done();
       });
@@ -88,13 +89,11 @@ describe('ArticleListEffects', () => {
     it('should return a favoriteSuccess action with a favorited article on success', done => {
       actions$ = of(articleListActions.favorite);
 
-      articleClient.favorite.and.returnValue(of(articleList.articles[0]));
+      mockArticleApiClient.favorite.and.returnValue(of(mockArticle));
 
-      articleListEffects.favorite$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.favorite).toHaveBeenCalled();
-        expect(action).toEqual(
-          articleListActions.favoriteSuccess({ article: articleList.articles[0] })
-        );
+      articleListEffects.favorite$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.favorite).toHaveBeenCalled();
+        expect(action).toEqual(articleListActions.favoriteSuccess({ article: mockArticle }));
         done();
       });
     });
@@ -102,10 +101,10 @@ describe('ArticleListEffects', () => {
     it('should return a favoriteFailure action on failure', done => {
       actions$ = of(articleListActions.favorite);
 
-      articleClient.favorite.and.returnValue(throwError(() => new Error('error')));
+      mockArticleApiClient.favorite.and.returnValue(throwError(() => new Error('error')));
 
-      articleListEffects.favorite$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.favorite).toHaveBeenCalled();
+      articleListEffects.favorite$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.favorite).toHaveBeenCalled();
         expect(action).toEqual(articleListActions.favoriteFailure());
         done();
       });
@@ -116,13 +115,11 @@ describe('ArticleListEffects', () => {
     it('should return an unfavoriteSuccess action with an unfavorited article on success', done => {
       actions$ = of(articleListActions.unfavorite);
 
-      articleClient.unfavorite.and.returnValue(of(articleList.articles[0]));
+      mockArticleApiClient.unfavorite.and.returnValue(of(mockArticle));
 
-      articleListEffects.unfavorite$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.unfavorite).toHaveBeenCalled();
-        expect(action).toEqual(
-          articleListActions.unfavoriteSuccess({ article: articleList.articles[0] })
-        );
+      articleListEffects.unfavorite$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.unfavorite).toHaveBeenCalled();
+        expect(action).toEqual(articleListActions.unfavoriteSuccess({ article: mockArticle }));
         done();
       });
     });
@@ -130,10 +127,10 @@ describe('ArticleListEffects', () => {
     it('should return an unfavoriteFailure action on failure', done => {
       actions$ = of(articleListActions.unfavorite);
 
-      articleClient.unfavorite.and.returnValue(throwError(() => new Error('error')));
+      mockArticleApiClient.unfavorite.and.returnValue(throwError(() => new Error('error')));
 
-      articleListEffects.unfavorite$(actions$, articleClient).subscribe(action => {
-        expect(articleClient.unfavorite).toHaveBeenCalled();
+      articleListEffects.unfavorite$(actions$, mockArticleApiClient).subscribe(action => {
+        expect(mockArticleApiClient.unfavorite).toHaveBeenCalled();
         expect(action).toEqual(articleListActions.unfavoriteFailure());
         done();
       });

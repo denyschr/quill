@@ -22,7 +22,7 @@ describe('apiInterceptor', () => {
     const url = `${environment.apiUrl}/api/foo`;
     http.get('/foo').subscribe();
 
-    const req = httpController.expectOne(url);
-    expect(req.request.url).toBe(url);
+    const mockRequest = httpController.expectOne(url);
+    expect(mockRequest.request.url).toBe(url);
   });
 });

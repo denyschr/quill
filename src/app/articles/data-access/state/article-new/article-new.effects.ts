@@ -6,11 +6,11 @@ import { ArticleApiClient } from '@app/articles/data-access/services';
 import { articleNewActions } from './article-new.actions';
 
 export const newArticle$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleNewActions.newArticle),
       mergeMap(({ article }) =>
-        articleClient.create(article).pipe(
+        articleApiClient.create(article).pipe(
           map(createdArticle => articleNewActions.newArticleSuccess({ article: createdArticle })),
           catchError(error => of(articleNewActions.newArticleFailure({ errors: error.errors })))
         )

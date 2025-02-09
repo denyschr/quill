@@ -6,14 +6,12 @@ import { By } from '@angular/platform-browser';
 describe('BackendErrorsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    // turn off the animation for the alert
     const alertConfig = TestBed.inject(NgbAlertConfig);
     alertConfig.animation = false;
   });
 
   it('should properly display error messages', () => {
     const fixture = TestBed.createComponent(BackendErrorsComponent);
-    const element: HTMLElement = fixture.nativeElement;
     fixture.componentRef.setInput('errors', {
       email: ['already exists'],
       password: ['is invalid']
@@ -29,7 +27,7 @@ describe('BackendErrorsComponent', () => {
       .withContext('The alert should NOT be dismissible')
       .toBe(false);
 
-    const errors = element.querySelectorAll('li');
+    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);

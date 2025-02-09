@@ -6,29 +6,29 @@ import * as tagsEffects from './tags.effects';
 import { TagApiClient } from '@app/home/data-access/services';
 
 describe('TagsEffects', () => {
-  let tagClient: jasmine.SpyObj<TagApiClient>;
+  let mockTagApiClient: jasmine.SpyObj<TagApiClient>;
   let actions$: Observable<unknown>;
 
   beforeEach(() => {
-    tagClient = jasmine.createSpyObj<TagApiClient>('TagApiClient', ['getAll']);
+    mockTagApiClient = jasmine.createSpyObj<TagApiClient>('TagApiClient', ['getAll']);
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
-        { provide: TagApiClient, useValue: tagClient }
+        { provide: TagApiClient, useValue: mockTagApiClient }
       ]
     });
   });
 
   describe('loadTags$', () => {
     it('should return a loadTagsSuccess action with a list of tags on success', done => {
-      const tags = ['dragons', 'training'];
+      const mockTags = ['dragons', 'training'];
       actions$ = of(tagsActions.loadTags);
 
-      tagClient.getAll.and.returnValue(of(tags));
+      mockTagApiClient.getAll.and.returnValue(of(mockTags));
 
-      tagsEffects.loadTags$(actions$, tagClient).subscribe(action => {
-        expect(tagClient.getAll).toHaveBeenCalled();
-        expect(action).toEqual(tagsActions.loadTagsSuccess({ tags }));
+      tagsEffects.loadTags$(actions$, mockTagApiClient).subscribe(action => {
+        expect(mockTagApiClient.getAll).toHaveBeenCalled();
+        expect(action).toEqual(tagsActions.loadTagsSuccess({ tags: mockTags }));
         done();
       });
     });
@@ -36,10 +36,10 @@ describe('TagsEffects', () => {
     it('should return a loadTagsFailure action on failure', done => {
       actions$ = of(tagsActions.loadTags);
 
-      tagClient.getAll.and.returnValue(throwError(() => new Error('error')));
+      mockTagApiClient.getAll.and.returnValue(throwError(() => new Error('error')));
 
-      tagsEffects.loadTags$(actions$, tagClient).subscribe(action => {
-        expect(tagClient.getAll).toHaveBeenCalled();
+      tagsEffects.loadTags$(actions$, mockTagApiClient).subscribe(action => {
+        expect(mockTagApiClient.getAll).toHaveBeenCalled();
         expect(action).toEqual(tagsActions.loadTagsFailure());
         done();
       });

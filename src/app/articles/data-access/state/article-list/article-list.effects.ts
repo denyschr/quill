@@ -28,12 +28,16 @@ export const setConfig$ = createEffect(
 );
 
 export const loadArticles$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store), articleClient = inject(ArticleApiClient)) => {
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    articleApiClient = inject(ArticleApiClient)
+  ) => {
     return actions$.pipe(
       ofType(articleListActions.loadArticles),
       concatLatestFrom(() => store.select(selectConfig)),
       exhaustMap(([_, config]) =>
-        articleClient.getAll(config).pipe(
+        articleApiClient.getAll(config).pipe(
           map(({ articles, articlesCount }) =>
             articleListActions.loadArticlesSuccess({
               articles,
@@ -49,11 +53,11 @@ export const loadArticles$ = createEffect(
 );
 
 export const favorite$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleListActions.favorite),
       concatMap(({ slug }) => {
-        return articleClient.favorite(slug).pipe(
+        return articleApiClient.favorite(slug).pipe(
           map(article => articleListActions.favoriteSuccess({ article })),
           catchError(() => of(articleListActions.favoriteFailure()))
         );
@@ -64,11 +68,11 @@ export const favorite$ = createEffect(
 );
 
 export const unfavorite$ = createEffect(
-  (actions$ = inject(Actions), articleClient = inject(ArticleApiClient)) => {
+  (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {
     return actions$.pipe(
       ofType(articleListActions.unfavorite),
       concatMap(({ slug }) => {
-        return articleClient.unfavorite(slug).pipe(
+        return articleApiClient.unfavorite(slug).pipe(
           map(article => articleListActions.unfavoriteSuccess({ article })),
           catchError(() => of(articleListActions.unfavoriteFailure()))
         );

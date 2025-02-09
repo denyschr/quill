@@ -67,14 +67,14 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
 
     const tags = fixture.debugElement.query(By.directive(TagsComponent));
-    tags.componentInstance.clicked.emit('tag');
+    tags.componentInstance.clicked.emit('dragons');
     expect(store.dispatch).toHaveBeenCalledWith(
       articleListActions.setConfig({
         config: {
           ...initialState.articleList.config,
           filters: {
             ...initialState.articleList.config.filters,
-            tag: 'tag'
+            tag: 'dragons'
           }
         }
       })
