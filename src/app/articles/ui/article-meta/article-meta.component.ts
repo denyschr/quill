@@ -8,7 +8,7 @@ import { Article } from '@app/articles/data-access/models';
   template: `
     <div class="d-flex flex-wrap align-items-center column-gap-4 row-gap-2">
       <div class="d-flex align-items-center gap-2">
-        <a data-test="article-author-image" [routerLink]="['/profile', article.author.username]">
+        <a [routerLink]="['/profile', article.author.username]">
           <img
             class="rounded-circle"
             [src]="article.author.image"
@@ -17,15 +17,14 @@ import { Article } from '@app/articles/data-access/models';
             [alt]="article.author.username"
           />
         </a>
-        <div>
+        <div class="article-info">
           <a
-            data-test="article-author-name"
-            class="fs-5 link-light text-decoration-none"
+            class="link-light text-decoration-none"
             [routerLink]="['/profile', article.author.username]"
           >
             {{ article.author.username }}
           </a>
-          <p data-test="article-created-date" class="mb-0 text-white">
+          <p class="mb-0 text-white">
             Published on
             <time [attr.datetime]="article.createdAt"
               >{{ article.createdAt | date: 'MMM d, y' }}
@@ -33,7 +32,6 @@ import { Article } from '@app/articles/data-access/models';
           </p>
         </div>
       </div>
-
       <div class="d-flex align-self-end align-items-center gap-2">
         @if (canModify) {
           <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
@@ -51,7 +49,7 @@ import { Article } from '@app/articles/data-access/models';
           </button>
         } @else {
           <button
-            data-test="follow-button"
+            id="toggle-follow-button"
             type="button"
             class="btn btn-sm"
             [class.btn-secondary]="article.author.following"
@@ -62,7 +60,7 @@ import { Article } from '@app/articles/data-access/models';
             {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
           </button>
           <button
-            data-test="favorite-button"
+            id="toggle-favorite-button"
             type="button"
             class="btn btn-sm"
             [class.btn-success]="article.favorited"
@@ -70,7 +68,7 @@ import { Article } from '@app/articles/data-access/models';
             (click)="toggledFavorite.emit()"
           >
             <span class="bi bi-heart-fill"></span>
-            {{ article.favorited ? 'Remove from Favorites' : 'Add to Favorites' }}
+            {{ article.favorited ? 'Unfavorite' : 'Favorite' }}
             ({{ article.favoritesCount }})
           </button>
         }
@@ -79,7 +77,7 @@ import { Article } from '@app/articles/data-access/models';
   `,
   styles: [
     `
-      p:has(time) {
+      .article-info > p {
         font-size: 0.875rem;
       }
     `

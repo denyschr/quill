@@ -8,7 +8,9 @@ import { TagListComponent } from '@app/shared/ui/tag-list';
   selector: 'ql-article-preview',
   template: `
     <div class="p-3 border rounded-1 bg-white">
-      <div class="article-meta | d-flex justify-content-between align-items-center mb-2">
+      <div
+        class="article-meta | d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"
+      >
         <div class="d-flex align-items-center gap-2">
           <a [routerLink]="['/profile', article.author.username]">
             <img
