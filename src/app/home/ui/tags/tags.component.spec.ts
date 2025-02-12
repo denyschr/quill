@@ -42,7 +42,7 @@ describe('TagsComponent', () => {
     expect(tagNames[1].textContent).toContain(mockTags[1]);
   });
 
-  it('should display an empty message if there is no tags, and status is not loading', () => {
+  it('should display an empty message if there are no tags and the status is not loading', () => {
     const fixture = TestBed.createComponent(TagsComponent);
     fixture.detectChanges();
 

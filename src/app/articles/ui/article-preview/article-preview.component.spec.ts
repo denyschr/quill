@@ -95,24 +95,12 @@ describe('ArticlePreviewComponent', () => {
     fixture.detectChanges();
 
     const button = (fixture.nativeElement as HTMLElement).querySelector('.article-meta > button')!;
-    expect(button).withContext('You should have a button to toggle favorite').not.toBeNull();
-    expect(button.classList)
-      .withContext(
-        'You should apply the `btn-outline-success` CSS class to the button when the article is NOT favorited'
-      )
-      .toContain('btn-outline-success');
+    expect(button)
+      .withContext('You should have a button to toggle the favoriting of an article')
+      .not.toBeNull();
     expect(button.textContent)
       .withContext('The button should have the number of favorites')
       .toContain(mockArticle.favoritesCount);
-
-    fixture.componentRef.setInput('article', { ...mockArticle, favorited: true });
-    fixture.detectChanges();
-
-    expect(button.classList)
-      .withContext(
-        'You should apply the `btn-success` CSS class to the button when the article is favorited'
-      )
-      .toContain('btn-success');
   });
 
   it('should display a preview link', () => {

@@ -181,7 +181,7 @@ describe('ArticleListComponent', () => {
     );
   });
 
-  it('should display an empty message if there is no articles, and status is not loading', () => {
+  it('should display an empty message if there are no articles and the status is not loading', () => {
     const fixture = TestBed.createComponent(ArticleListComponent);
     fixture.detectChanges();
 
