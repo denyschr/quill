@@ -1,41 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '@app/articles/data-access/models';
-import { DatePipe } from '@angular/common';
 import { TagListComponent } from '@app/shared/ui/tag-list';
+import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
 
 @Component({
   selector: 'ql-article-preview',
   template: `
     <div class="p-3 border rounded-1 bg-white">
-      <div
-        class="article-meta | d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"
-      >
-        <div class="d-flex align-items-center gap-2">
-          <a [routerLink]="['/profile', article.author.username]">
-            <img
-              class="rounded-circle"
-              [src]="article.author.image"
-              width="32"
-              height="32"
-              [alt]="article.author.username"
-            />
-          </a>
-          <div class="article-info">
-            <a class="text-decoration-none" [routerLink]="['/profile', article.author.username]">
-              {{ article.author.username }}
-            </a>
-            <p class="mb-0 text-muted">
-              Published on
-              <time [attr.datetime]="article.createdAt">{{
-                article.createdAt | date: 'MMM d, y'
-              }}</time>
-            </p>
-          </div>
-        </div>
+      <ql-article-meta class="d-block mb-2" [article]="article">
         <button
+          id="toggle-favorite-button"
           type="button"
-          class="btn btn-sm flex-shrink-0"
+          class="btn btn-sm flex-shrink-0 ms-auto"
           [class.btn-success]="article.favorited"
           [class.btn-outline-success]="!article.favorited"
           (click)="toggledFavorite.emit()"
@@ -43,7 +20,8 @@ import { TagListComponent } from '@app/shared/ui/tag-list';
           <span class="bi bi-heart-fill"></span>
           {{ article.favoritesCount }}
         </button>
-      </div>
+      </ql-article-meta>
+
       <a class="preview-link | text-decoration-none" [routerLink]="['/article', article.slug]">
         <h3 class="mb-1 fw-normal text-dark ">{{ article.title }}</h3>
         <p class="text-secondary">{{ article.description }}</p>
@@ -56,19 +34,19 @@ import { TagListComponent } from '@app/shared/ui/tag-list';
       </a>
     </div>
   `,
-  styles: [
-    `
-      .article-info > p {
-        font-size: 0.875rem;
+  styles: `
+    .preview-link {
+      @media (any-hover: hover) {
+        &:hover {
+          > h3 {
+            color: var(--bs-primary) !important;
+          }
+        }
       }
-
-      .preview-link:hover > h3 {
-        color: var(--bs-primary) !important;
-      }
-    `
-  ],
+    }
+  `,
   standalone: true,
-  imports: [RouterLink, DatePipe, TagListComponent],
+  imports: [RouterLink, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlePreviewComponent {

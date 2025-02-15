@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Article } from '@app/articles/data-access/models';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'ql-article-meta',
   template: `
-    <div class="d-flex flex-wrap align-items-center column-gap-4 row-gap-2">
+    <div class="d-flex flex-wrap align-items-center gap-2">
       <div class="d-flex align-items-center gap-2">
         <a [routerLink]="['/profile', article.author.username]">
           <img
@@ -18,94 +18,23 @@ import { Article } from '@app/articles/data-access/models';
           />
         </a>
         <div class="article-info">
-          <a
-            class="link-light text-decoration-none"
-            [routerLink]="['/profile', article.author.username]"
-          >
+          <a class="text-decoration-none" [routerLink]="['/profile', article.author.username]">
             {{ article.author.username }}
           </a>
-          <p class="mb-0 text-white">
+          <p class="mb-0 text-secondary" style="font-size: 0.875rem;">
             Published on
-            <time [attr.datetime]="article.createdAt"
-              >{{ article.createdAt | date: 'MMM d, y' }}
-            </time>
+            <time [attr.datetime]="article.createdAt">{{ article.createdAt | date }}</time>
           </p>
         </div>
       </div>
-      <div class="d-flex align-self-end align-items-center gap-2">
-        @if (canModify) {
-          <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
-            <span class="bi bi-pencil-square"></span>
-            Edit
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm btn-danger"
-            [disabled]="deleting"
-            (click)="deleteArticle()"
-          >
-            <span class="bi bi-trash3"></span>
-            Delete
-          </button>
-        } @else {
-          <button
-            id="toggle-follow-button"
-            type="button"
-            class="btn btn-sm"
-            [class.btn-secondary]="article.author.following"
-            [class.btn-outline-secondary]="!article.author.following"
-            (click)="toggledFollow.emit()"
-          >
-            <span class="bi bi-plus-lg"></span>
-            {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
-          </button>
-          <button
-            id="toggle-favorite-button"
-            type="button"
-            class="btn btn-sm"
-            [class.btn-success]="article.favorited"
-            [class.btn-outline-success]="!article.favorited"
-            (click)="toggledFavorite.emit()"
-          >
-            <span class="bi bi-heart-fill"></span>
-            {{ article.favorited ? 'Unfavorite' : 'Favorite' }}
-            ({{ article.favoritesCount }})
-          </button>
-        }
-      </div>
+      <ng-content />
     </div>
   `,
-  styles: [
-    `
-      .article-info > p {
-        font-size: 0.875rem;
-      }
-    `
-  ],
   standalone: true,
   imports: [RouterLink, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleMetaComponent {
-  public deleting = false;
-
   @Input({ required: true })
   public article!: Article;
-
-  @Input()
-  public canModify = false;
-
-  @Output()
-  public readonly toggledFollow = new EventEmitter<void>();
-
-  @Output()
-  public readonly toggledFavorite = new EventEmitter<void>();
-
-  @Output()
-  public readonly deleted = new EventEmitter<string>();
-
-  public deleteArticle(): void {
-    this.deleting = true;
-    this.deleted.emit(this.article.slug);
-  }
 }
