@@ -5,14 +5,15 @@ import {
   selectLoading
 } from '@app/articles/data-access/state/article-detail';
 import { selectCurrentUser } from '@app/auth/data-access/state';
-import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { TagListComponent } from '@app/shared/ui/tag-list';
 import { combineLatest, filter, map } from 'rxjs';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
 import { articleListActions } from '@app/articles/data-access/state/article-list';
 import { Article } from '@app/articles/data-access/models';
 import { Profile } from '@app/profile/data-access/models';
+import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+import { TagListComponent } from '@app/shared/ui/tag-list';
+import { RouterLink } from '@angular/router';
+import { LetDirective } from '@ngrx/component';
 
 @Component({
   template: `
@@ -21,17 +22,54 @@ import { Profile } from '@app/profile/data-access/models';
 
       @if (!vm.loading) {
         @if (article) {
-          <div data-test="banner" class="bg-dark">
+          <div data-test="banner" class="bg-black bg-gradient">
             <div class="container py-4">
               <h1 class="text-white">{{ article.title }}</h1>
 
-              <ql-article-meta
-                [article]="article"
-                [canModify]="vm.owner"
-                (toggledFollow)="toggleFollow(article.author)"
-                (toggledFavorite)="toggleFavorite(article)"
-                (deleted)="delete($event)"
-              />
+              <ql-article-meta [article]="article">
+                <div class="d-flex flex-wrap align-self-end align-items-center gap-2">
+                  @if (vm.owner) {
+                    <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
+                      <span class="bi bi-pencil-square"></span>
+                      Edit
+                    </a>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-danger"
+                      [disabled]="deleting"
+                      (click)="delete(article.slug)"
+                    >
+                      <span class="bi bi-trash3"></span>
+                      Delete
+                    </button>
+                  } @else {
+                    <button
+                      id="toggle-follow-button"
+                      type="button"
+                      class="btn btn-sm"
+                      [class.btn-secondary]="article.author.following"
+                      [class.btn-outline-secondary]="!article.author.following"
+                      (click)="toggleFollow(article.author)"
+                    >
+                      <span class="bi bi-plus-lg"></span>
+                      {{ article.author.following ? 'Unfollow' : 'Follow' }}
+                      {{ article.author.username }}
+                    </button>
+                    <button
+                      id="toggle-favorite-button"
+                      type="button"
+                      class="btn btn-sm"
+                      [class.btn-success]="article.favorited"
+                      [class.btn-outline-success]="!article.favorited"
+                      (click)="toggleFavorite(article)"
+                    >
+                      <span class="bi bi-heart-fill"></span>
+                      {{ article.favorited ? 'Unfavorite' : 'Favorite' }}
+                      ({{ article.favoritesCount }})
+                    </button>
+                  }
+                </div>
+              </ql-article-meta>
             </div>
           </div>
 
@@ -50,7 +88,7 @@ import { Profile } from '@app/profile/data-access/models';
     </ng-container>
   `,
   standalone: true,
-  imports: [LetDirective, ArticleMetaComponent, TagListComponent],
+  imports: [LetDirective, RouterLink, ArticleMetaComponent, TagListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleDetailComponent {
@@ -74,6 +112,8 @@ export class ArticleDetailComponent {
     owner: this.owner$
   });
 
+  public deleting = false;
+
   constructor(private readonly store: Store) {}
 
   public toggleFollow(author: Profile): void {
@@ -93,6 +133,7 @@ export class ArticleDetailComponent {
   }
 
   public delete(slug: string): void {
+    this.deleting = true;
     this.store.dispatch(articleDetailActions.deleteArticle({ slug }));
   }
 }
