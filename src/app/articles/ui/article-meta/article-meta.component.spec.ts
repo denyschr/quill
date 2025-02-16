@@ -3,16 +3,24 @@ import { provideRouter } from '@angular/router';
 import { Article } from '@app/articles/data-access/models';
 import { ArticleMetaComponent } from '@app/articles/ui/article-meta/article-meta.component';
 import { DatePipe } from '@angular/common';
+import { Component } from '@angular/core';
 
-describe('ArticleMetaComponent', () => {
-  const mockArticle = {
+@Component({
+  template: `<ql-article-meta [article]="mockArticle">Foo</ql-article-meta>`,
+  standalone: true,
+  imports: [ArticleMetaComponent]
+})
+class ArticleMetaTestComponent {
+  public mockArticle = {
     createdAt: new Date('02/09/2025').toString(),
     author: {
       username: 'jack',
       image: 'https://i.stack.imgur.com/xHWG8.jpg'
     }
   } as Article;
+}
 
+describe('ArticleMetaComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])]
@@ -20,8 +28,8 @@ describe('ArticleMetaComponent', () => {
   });
 
   it('should display a link with the author avatar inside', () => {
-    const fixture = TestBed.createComponent(ArticleMetaComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    const fixture = TestBed.createComponent(ArticleMetaTestComponent);
+    const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();
 
     const image = (fixture.nativeElement as HTMLElement).querySelector(
@@ -45,8 +53,8 @@ describe('ArticleMetaComponent', () => {
   });
 
   it('should display an article info', () => {
-    const fixture = TestBed.createComponent(ArticleMetaComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    const fixture = TestBed.createComponent(ArticleMetaTestComponent);
+    const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -64,7 +72,7 @@ describe('ArticleMetaComponent', () => {
       .toContain(mockArticle.author.username);
 
     const datePipe = new DatePipe('en-US');
-    const formattedDate = datePipe.transform(mockArticle.createdAt, 'MMM d, y');
+    const formattedDate = datePipe.transform(mockArticle.createdAt);
 
     const date = element.querySelector('.article-info > p')!;
     expect(date)
@@ -79,5 +87,14 @@ describe('ArticleMetaComponent', () => {
     expect(time.textContent)
       .withContext('You should use the `date` pipe to format the date')
       .toContain(formattedDate);
+  });
+
+  it('should display the content', () => {
+    const fixture = TestBed.createComponent(ArticleMetaTestComponent);
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).textContent)
+      .withContext('ArticleMetaComponent should use `ng-content`')
+      .toContain('Foo');
   });
 });
