@@ -1,172 +1,256 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 import { ArticleDetailComponent } from './article-detail.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+import { authInitialState } from '@app/auth/data-access/state';
+import { ArticleBannerComponent } from '@app/articles/ui/article-banner';
+import {
+  articleDetailActions,
+  articleDetailInitialState
+} from '@app/articles/data-access/state/article-detail';
+import { provideRouter } from '@angular/router';
 import { TagListComponent } from '@app/shared/ui/tag-list';
-import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
+import { articleListActions } from '@app/articles/data-access/state/article-list';
 
 describe('ArticleDetailComponent', () => {
-  let component: ArticleDetailComponent;
-  let fixture: ComponentFixture<ArticleDetailComponent>;
   let store: MockStore;
   const initialState = {
-    article: {
-      article: {
-        slug: 'title-one',
-        title: 'title one',
-        body: 'body',
-        createdAt: new Date('10/8/2024').toString(),
-        author: {
-          image: 'image',
-          username: 'john'
-        },
-        tagList: ['tag one', 'tag two']
-      },
-      loading: false
-    },
+    articleDetail: articleDetailInitialState,
     auth: {
+      ...authInitialState,
       currentUser: {
-        username: 'john'
+        username: 'jack'
       }
+    }
+  };
+
+  const mockArticle = {
+    slug: 'how-to-train-your-dragon',
+    title: 'How to train your dragon',
+    description: 'Ever wonder how?',
+    body: 'It takes a Jacobian',
+    tagList: ['dragons', 'training'],
+    createdAt: new Date('02/09/2025').toString(),
+    favorited: false,
+    favoritesCount: 0,
+    author: {
+      username: 'jack',
+      bio: 'I work at statefarm',
+      image: 'https://i.stack.imgur.com/xHWG8.jpg',
+      following: false
     }
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ArticleDetailComponent],
       providers: [provideRouter([]), provideMockStore({ initialState })]
     });
-
-    fixture = TestBed.createComponent(ArticleDetailComponent);
-    component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-    fixture.componentRef.setInput('slug', 'title-one');
-
     spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should dispatch a loadArticle action on init', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(
-      articleDetailActions.loadArticle({ slug: 'title-one' })
-    );
-  });
-
-  it('should display a loading message if status is loading', () => {
+  it('should display a loading message if the status is loading', () => {
     store.setState({
       ...initialState,
-      article: {
-        ...initialState.article,
-        article: null,
+      articleDetail: {
+        ...initialState.articleDetail,
         loading: true
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-
-    const message = element.querySelector('div[data-test=article-loading]')!;
-    expect(message).withContext('You need a `div` element for a loading message').not.toBeNull();
+    const message = (fixture.nativeElement as HTMLElement).querySelector(
+      '#loading-article-message'
+    )!;
+    expect(message)
+      .withContext('You should have a `div` element for a loading message')
+      .not.toBeNull();
     expect(message.textContent)
       .withContext('The message should have a text')
-      .toContain('Loading article...');
+      .toContain('Loading article');
   });
 
-  it('should display nothing if there is no article and status is not loading', () => {
-    store.setState({
-      ...initialState,
-      article: {
-        ...initialState.article,
-        article: null,
-        loading: false
-      }
-    });
-    store.refreshState();
+  it('should display nothing if there is no article and the status is not loading', () => {
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
+    const message = element.querySelector('#loading-article-message');
+    expect(message).withContext('You should NOT have a loading message').toBeNull();
 
-    const loadingMessage = element.querySelector('div[data-test=article-loading]')!;
-    expect(loadingMessage).toBeNull();
-    const banner = element.querySelector('div[data-test=banner]');
-    expect(banner).toBeNull();
-    const page = element.querySelector('div[data-test=page]');
-    expect(page).toBeNull();
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    expect(banner).withContext('You should NOT have a banner').toBeNull();
+
+    const body = element.querySelector('#article-body');
+    expect(body).withContext('You should NOT have a body').toBeNull();
   });
 
   it('should display a banner', () => {
-    const element: HTMLElement = fixture.nativeElement;
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
 
-    const banner = element.querySelector('div[data-test=banner]')!;
-    expect(banner).withContext('You need a `div` element for a banner').not.toBeNull();
-
-    const title = banner.querySelector('h1')!;
-    expect(title)
-      .withContext('You need an `h1` element inside the banner for a title')
-      .not.toBeNull();
-    expect(title.textContent).withContext('The title should have a text').toContain('title one');
-
-    const articleMeta = fixture.debugElement.query(By.directive(ArticleMetaComponent));
-    expect(articleMeta)
-      .withContext('You need `ArticleMetaComponent` inside the banner for an article meta')
-      .not.toBeNull();
-  });
-
-  it('should display an edit link with a delete button if the owner', () => {
-    const element: HTMLElement = fixture.nativeElement;
-    const banner = element.querySelector('div[data-test=banner]')!;
-
-    const editLink = banner.querySelector('a[href="/editor/title-one"]')!;
-    expect(editLink)
-      .withContext('You need an `a` element inside the banner for the link to the editor page')
-      .not.toBeNull();
-    expect(editLink.textContent).withContext('The link should have a text').toContain('Edit');
-
-    const deleteButton = banner.querySelector('button')!;
-    expect(deleteButton)
-      .withContext('You need a `button` element inside the banner for deleting an article')
-      .not.toBeNull();
-    expect(deleteButton.textContent)
-      .withContext('The button should have a text')
-      .toContain('Delete');
-
-    deleteButton.click();
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
     fixture.detectChanges();
 
-    expect(deleteButton.hasAttribute('disabled'))
-      .withContext('The button should be disabled on click ')
-      .toBe(true);
-    expect(store.dispatch)
-      .withContext('The button should dispatch a `deleteArticle` action')
-      .toHaveBeenCalledWith(articleDetailActions.deleteArticle({ slug: 'title-one' }));
+    expect(fixture.debugElement.query(By.directive(ArticleBannerComponent))).not.toBeNull();
   });
 
-  it('should display an article body', () => {
-    const element: HTMLElement = fixture.nativeElement;
-    const body = element.querySelector('p.lead')!;
-    expect(body)
-      .withContext('You need a `p` element with a class `lead` for a body')
-      .not.toBeNull();
-    expect(body.textContent).withContext('The body should have a text').toContain('body');
+  it('should display a body', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const body = (fixture.nativeElement as HTMLElement).querySelector('#article-body')!;
+    expect(body).withContext('You should have a `p` element for the body').not.toBeNull();
+    expect(body.textContent).withContext('The body should have a text').toContain(mockArticle.body);
   });
 
-  it('should display tags', () => {
-    const element: HTMLElement = fixture.nativeElement;
+  it('should display a list of tags', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
 
     const tagList = fixture.debugElement.query(By.directive(TagListComponent));
-    expect(tagList).withContext('You need `TagListComponent` for tags').not.toBeNull();
+    expect(tagList).withContext('You should have TagListComponent in your template').not.toBeNull();
 
-    const tagNames = element.querySelectorAll('li');
-    expect(tagNames.length).withContext('You need two `li` elements for tag names').toBe(2);
-    expect(tagNames[0].textContent).toContain('tag one');
-    expect(tagNames[1].textContent).toContain('tag two');
+    const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
+    expect(tagNames[0].textContent).toContain(mockArticle.tagList[0]);
+    expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
+  });
+
+  it('should dispatch a follow action when following the author', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    banner.componentInstance.toggledFollow.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleDetailActions.follow({
+        username: mockArticle.author.username
+      })
+    );
+  });
+
+  it('should dispatch an unfollow action when unfollowing the author', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: { ...mockArticle, author: { ...mockArticle.author, following: true } }
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    banner.componentInstance.toggledFollow.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleDetailActions.unfollow({
+        username: mockArticle.author.username
+      })
+    );
+  });
+
+  it('should dispatch a favorite action when favoriting the article', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    banner.componentInstance.toggledFavorite.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.favorite({
+        slug: mockArticle.slug
+      })
+    );
+  });
+
+  it('should dispatch an unfavorite action when unfavoriting the article', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: { ...mockArticle, favorited: true }
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    banner.componentInstance.toggledFavorite.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleListActions.unfavorite({
+        slug: mockArticle.slug
+      })
+    );
+  });
+
+  it('should dispatch a delete action when deleting the article', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleDetailComponent);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    banner.componentInstance.deleted.emit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleDetailActions.deleteArticle({
+        slug: mockArticle.slug
+      })
+    );
   });
 });
