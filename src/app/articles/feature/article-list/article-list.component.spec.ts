@@ -51,7 +51,7 @@ describe('ArticleListComponent', () => {
     spyOn(store, 'dispatch');
   });
 
-  it('should display a loading message if status is loading', () => {
+  it('should display a loading message if the status is loading', () => {
     store.setState({
       ...initialState,
       articleList: {
@@ -139,7 +139,7 @@ describe('ArticleListComponent', () => {
       .toBe('2');
   }));
 
-  it('should dispatch a favorite action when favoriting an article', () => {
+  it('should dispatch a favorite action when favoriting the article', () => {
     store.setState({
       ...initialState,
       articleList: {
@@ -160,7 +160,7 @@ describe('ArticleListComponent', () => {
     );
   });
 
-  it('should dispatch an unfavorite action when unfavoriting an article', () => {
+  it('should dispatch an unfavorite action when unfavoriting the article', () => {
     store.setState({
       ...initialState,
       articleList: {

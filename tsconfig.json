@@ -65,6 +65,7 @@
       "@app/articles/ui/article-preview": ["app/articles/ui/article-preview/index.ts"],
       "@app/articles/ui/article-meta": ["app/articles/ui/article-meta/index.ts"],
       "@app/articles/ui/article-form": ["app/articles/ui/article-form/index.ts"],
+      "@app/articles/ui/article-banner": ["app/articles/ui/article-banner/index.ts"],
       "@app/settings/data-access/state": ["app/settings/data-access/state/index.ts"],
       "@app/settings/feature": ["app/settings/feature/index.ts"],
       "@app/settings/ui/settings-form": ["app/settings/ui/settings-form/index.ts"],

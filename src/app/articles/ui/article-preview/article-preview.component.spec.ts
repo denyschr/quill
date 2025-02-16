@@ -39,12 +39,10 @@ describe('ArticlePreviewComponent', () => {
       .not.toBeNull();
   });
 
-  it('should display a favorite button', async () => {
+  it('should display a favorite button', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
     fixture.componentRef.setInput('article', mockArticle);
     fixture.detectChanges();
-
-    await fixture.whenStable();
 
     const button = (fixture.nativeElement as HTMLElement).querySelector('#toggle-favorite-button')!;
     expect(button)
@@ -100,14 +98,13 @@ describe('ArticlePreviewComponent', () => {
     expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
   });
 
-  it('should emit an output event on toggle favorite', async () => {
+  it('should emit an output event on toggle favorite', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
     const component = fixture.componentInstance;
     fixture.componentRef.setInput('article', mockArticle);
     fixture.detectChanges();
 
     spyOn(component.toggledFavorite, 'emit');
-    await fixture.whenStable();
 
     const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
       '#toggle-favorite-button'
