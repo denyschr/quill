@@ -125,13 +125,6 @@ describe('RegisterFormComponent', () => {
     expect(submitButton.hasAttribute('disabled'))
       .withContext('Your submit button should NOT be disabled if the form is valid')
       .toBe(false);
-
-    fixture.componentRef.setInput('submitting', true);
-    fixture.detectChanges();
-
-    expect(submitButton.hasAttribute('disabled'))
-      .withContext('Your submit button should be disabled if the form is submitted')
-      .toBe(true);
   });
 
   it('should use PasswordInputToggleComponent', () => {
@@ -145,9 +138,10 @@ describe('RegisterFormComponent', () => {
 
   it('should emit an output event on submit', () => {
     const fixture = TestBed.createComponent(RegisterFormComponent);
+    const component = fixture.componentInstance;
     fixture.detectChanges();
 
-    spyOn(fixture.componentInstance.submitted, 'emit');
+    spyOn(component.submitted, 'emit');
 
     const element: HTMLElement = fixture.nativeElement;
     const usernameInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
@@ -163,9 +157,16 @@ describe('RegisterFormComponent', () => {
     passwordInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
+    const submitButton = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    submitButton.click();
 
-    expect(fixture.componentInstance.submitted.emit).toHaveBeenCalledWith({
+    fixture.componentRef.setInput('submitting', true);
+    fixture.detectChanges();
+
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is submitted')
+      .toBe(true);
+    expect(component.submitted.emit).toHaveBeenCalledWith({
       username: 'jack',
       email: 'jack@email.tld',
       password: '12345678'
