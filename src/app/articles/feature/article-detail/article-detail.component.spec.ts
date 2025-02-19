@@ -27,7 +27,7 @@ describe('ArticleDetailComponent', () => {
   const mockArticle = {
     slug: 'how-to-train-your-dragon',
     title: 'How to train your dragon',
-    description: 'Ever wonder how?',
+    description: 'Ever wondered how?',
     body: 'It takes a Jacobian',
     tagList: ['dragons', 'training'],
     createdAt: new Date('02/09/2025').toString(),

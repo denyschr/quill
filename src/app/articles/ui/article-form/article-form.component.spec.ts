@@ -1,124 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ArticleFormComponent } from './article-form.component';
-import { Article } from '@app/articles/data-access/models';
 import { ValidationDefaultsComponent } from '@app/core/validation';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleFormComponent', () => {
-  let component: ArticleFormComponent;
-  let fixture: ComponentFixture<ArticleFormComponent>;
-
-  const article = {
-    title: 'title',
-    description: 'description',
-    body: 'body',
-    tagList: ['tag one', 'tag two']
+  const mockArticle = {
+    title: 'How to train your dragon',
+    description: 'Ever wondered how?',
+    body: 'It takes a Jacobian',
+    tagList: ['dragons', 'training']
   } as Article;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ArticleFormComponent]
-    });
-
+    TestBed.configureTestingModule({});
     const validationDefaults = TestBed.createComponent(ValidationDefaultsComponent);
     validationDefaults.detectChanges();
+  });
 
-    fixture = TestBed.createComponent(ArticleFormComponent);
-    component = fixture.componentInstance;
+  it('should display a form to publish an article', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
     fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should have a disabled button if the form is incomplete or has a submitting status', () => {
     const element: HTMLElement = fixture.nativeElement;
-
-    const button = element.querySelector('button[type=submit]')!;
-    expect(button).withContext('You need a `button` element to submit the form').not.toBeNull();
-    expect(button.hasAttribute('disabled'))
-      .withContext('The button should be disabled if the form is invalid')
+    const submitButton = element.querySelector('button[type="submit"]')!;
+    expect(submitButton).withContext('You should have a button to submit the form').not.toBeNull();
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is invalid')
       .toBe(true);
 
-    fixture.componentRef.setInput('submitting', true);
-    fixture.detectChanges();
-
-    expect(button.hasAttribute('disabled'))
-      .withContext('The button should be disabled on submit')
-      .toBe(true);
-  });
-
-  it('should be possible to publish an article if the form is complete', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    const titleInput = element.querySelector<HTMLInputElement>('input[type=text]')!;
+    const titleInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
     expect(titleInput)
-      .withContext('You need an input with the type `text` for the title')
-      .not.toBeNull();
-    titleInput.value = article.title;
-    titleInput.dispatchEvent(new Event('input'));
-
-    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[1]!;
-    expect(descriptionInput)
-      .withContext('You need an input with the type `text` for the description')
-      .not.toBeNull();
-    descriptionInput.value = article.description;
-    descriptionInput.dispatchEvent(new Event('input'));
-
-    const bodyInput = element.querySelector('textarea')!;
-    expect(bodyInput).withContext('You need a textarea for the body').not.toBeNull();
-    expect(bodyInput.getAttribute('rows'))
-      .withContext('The `rows` attribute of the textarea is not correct')
-      .toBe('8');
-    bodyInput.value = article.body;
-    bodyInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    expect(element.querySelector('button[type=submit]')!.hasAttribute('disabled'))
-      .withContext('The button should be enabled if the form is valid')
-      .toBe(false);
-  });
-
-  it('should display fields with initial values if an article is provided', () => {
-    fixture.componentRef.setInput('article', article);
-    fixture.detectChanges();
-
-    const element: HTMLElement = fixture.nativeElement;
-
-    const titleInput = element.querySelector<HTMLInputElement>('input[type=text]')!;
-    expect(titleInput)
-      .withContext('You need an input with the type `text` for the title')
-      .not.toBeNull();
-    expect(titleInput.value)
-      .withContext('The value of the input is not correct')
-      .toBe(article.title);
-
-    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[1]!;
-    expect(descriptionInput)
-      .withContext('You need an input with the type `text` for the description')
-      .not.toBeNull();
-    expect(descriptionInput.value)
-      .withContext('The value of the input is not correct')
-      .toBe(article.description);
-
-    const bodyInput = element.querySelector('textarea')!;
-    expect(bodyInput).withContext('You need a textarea for the body').not.toBeNull();
-    expect(bodyInput.value).withContext('The value of the input is not correct').toBe(article.body);
-
-    const tagNames = element.querySelectorAll('li.badge');
-    expect(tagNames.length)
-      .withContext('You need two `li` elements with a class `badge` for the tag names')
-      .toBe(article.tagList.length);
-    expect(tagNames[0].textContent).toContain(article.tagList[0]);
-    expect(tagNames[1].textContent).toContain(article.tagList[1]);
-  });
-
-  it('should display error messages if fields are touched and invalid', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    const titleInput = element.querySelector<HTMLInputElement>('input[type=text]')!;
-    expect(titleInput)
-      .withContext('You need an input with the type `text` for the title')
+      .withContext('You should have an input with the type `text` for the title')
       .not.toBeNull();
     titleInput.dispatchEvent(new Event('focus'));
     titleInput.dispatchEvent(new Event('blur'));
@@ -126,19 +38,19 @@ describe('ArticleFormComponent', () => {
 
     const titleRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(titleRequiredError)
-      .withContext('You need an error message if the title field is required and touched')
+      .withContext('You should have an error message if the title field is required and touched')
       .not.toBeNull();
     expect(titleRequiredError.textContent)
       .withContext('The error message for the title field is incorrect')
       .toContain('The title is required');
 
-    titleInput.value = article.title;
+    titleInput.value = mockArticle.title;
     titleInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[1]!;
+    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[1]!;
     expect(descriptionInput)
-      .withContext('You need an input with the type `text` for the description')
+      .withContext('You should have an input with the type `text` for the description')
       .not.toBeNull();
     descriptionInput.dispatchEvent(new Event('focus'));
     descriptionInput.dispatchEvent(new Event('blur'));
@@ -146,120 +58,180 @@ describe('ArticleFormComponent', () => {
 
     const descriptionRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(descriptionRequiredError)
-      .withContext('You need an error message if the description field is required and touched')
+      .withContext(
+        'You should have an error message if the description field is required and touched'
+      )
       .not.toBeNull();
     expect(descriptionRequiredError.textContent)
       .withContext('The error message for the description field is incorrect')
       .toContain('The description is required');
 
-    descriptionInput.value = article.description;
+    descriptionInput.value = mockArticle.description;
     descriptionInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const bodyInput = element.querySelector('textarea')!;
-    expect(bodyInput).withContext('You need a textarea for the body').not.toBeNull();
-    bodyInput.dispatchEvent(new Event('focus'));
-    bodyInput.dispatchEvent(new Event('blur'));
+    const bodyTextarea = element.querySelector('textarea')!;
+    expect(bodyTextarea).withContext('You should have a textarea for the body').not.toBeNull();
+    expect(bodyTextarea.rows)
+      .withContext('The `rows` attribute of the body field is not correct')
+      .toBe(8);
+    bodyTextarea.dispatchEvent(new Event('focus'));
+    bodyTextarea.dispatchEvent(new Event('blur'));
     fixture.detectChanges();
 
     const bodyRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
     expect(bodyRequiredError)
-      .withContext('You need an error message if the body field is required and touched')
+      .withContext('You should have an error message if the body field is required and touched')
       .not.toBeNull();
     expect(bodyRequiredError.textContent)
       .withContext('The error message for the body field is incorrect')
       .toContain('The body is required');
 
-    bodyInput.value = article.body;
-    bodyInput.dispatchEvent(new Event('input'));
+    bodyTextarea.value = mockArticle.body;
+    bodyTextarea.dispatchEvent(new Event('input'));
     fixture.detectChanges();
+
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should NOT be disabled if the form is valid')
+      .toBe(false);
   });
 
-  it('should update the tag list when adding new tags on enter', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[2]!;
-    expect(tagInput).withContext('You need an input for the tag list').not.toBeNull();
-    tagInput.value = article.tagList[0];
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    expect(tagInput.value).withContext('The input should be empty after adding a new tag').toBe('');
-    tagInput.value = article.tagList[1];
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    tagInput.value = '';
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    tagInput.value = article.tagList[0];
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+  it('should display a form with initial values if the article is provided', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
+    fixture.componentRef.setInput('article', mockArticle);
     fixture.detectChanges();
 
-    const tagNames = element.querySelectorAll('li.badge');
-    expect(tagNames.length)
-      .withContext('You need two `li` elements with a class `badge` for the tag names')
-      .toBe(article.tagList.length);
-    expect(tagNames[0].textContent).toContain(article.tagList[0]);
-    expect(tagNames[1].textContent).toContain(article.tagList[1]);
+    const element: HTMLElement = fixture.nativeElement;
+    const titleInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
+    expect(titleInput)
+      .withContext('You should have an input with the type `text` for the title')
+      .not.toBeNull();
+    expect(titleInput.value)
+      .withContext('The value of the title field is not correct')
+      .toBe(mockArticle.title);
+
+    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[1]!;
+    expect(descriptionInput)
+      .withContext('You should have an input with the type `text` for the description')
+      .not.toBeNull();
+    expect(descriptionInput.value)
+      .withContext('The value of the description field is not correct')
+      .toBe(mockArticle.description);
+
+    const bodyTextarea = element.querySelector('textarea')!;
+    expect(bodyTextarea).withContext('You should have a textarea for the body').not.toBeNull();
+    expect(bodyTextarea.value)
+      .withContext('The value of the body field is not correct')
+      .toBe(mockArticle.body);
+
+    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[2]!;
+    expect(tagInput)
+      .withContext('You should have an input with the type `text` for tags')
+      .not.toBeNull();
+    expect(tagInput.value).withContext('The value of the tag field is not correct').toBe('');
+
+    const tagNames = element.querySelectorAll('li');
+    expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
+    expect(tagNames[0].textContent).toContain(mockArticle.tagList[0]);
+    expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
+
+    expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
+      .withContext('Your submit button should NOT be disabled if the form is valid')
+      .toBe(false);
   });
 
-  it('should update the tag list when removing tags on click', () => {
-    const element: HTMLElement = fixture.nativeElement;
+  it('should add new tags on enter', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
+    fixture.detectChanges();
 
-    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[2]!;
-    expect(tagInput).withContext('You need an input for the tag list').not.toBeNull();
-    tagInput.value = article.tagList[0];
+    const element: HTMLElement = fixture.nativeElement;
+    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[2]!;
+    tagInput.value = mockArticle.tagList[0];
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(tagInput.value)
+      .withContext('You should reset the tag field after adding a new tag')
+      .toBe('');
+    // check for empty tag
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    tagInput.value = mockArticle.tagList[1];
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    // check for duplicates
+    tagInput.value = mockArticle.tagList[0];
     tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     fixture.detectChanges();
 
-    const tagNames = element.querySelectorAll('li.badge');
+    const tagNames = element.querySelectorAll('li');
+    expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
+    expect(tagNames[0].textContent).toContain(mockArticle.tagList[0]);
+    expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
+  });
+
+  it('should remove tags when clicking the button', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[2]!;
+    tagInput.value = mockArticle.tagList[0];
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    fixture.detectChanges();
+
+    const tagNames = element.querySelectorAll('li');
     expect(tagNames.length)
-      .withContext('You need only one `li` element with a class `badge` for the tag name')
+      .withContext('You should have only one `li` element for the tag name')
       .toBe(1);
-    expect(tagNames[0].textContent).toContain(article.tagList[0]);
+    expect(tagNames[0].textContent).toContain(mockArticle.tagList[0]);
 
-    const tagRemoveButton = tagNames[0].querySelector('button')!;
-    expect(tagRemoveButton).withContext('You need a button for removing the tag').not.toBeNull();
-    tagRemoveButton.click();
+    const removeTagButton = element.querySelector<HTMLButtonElement>('#remove-tag')!;
+    expect(removeTagButton)
+      .withContext('You should have a button to remove the tag')
+      .not.toBeNull();
+    removeTagButton.click();
     fixture.detectChanges();
 
-    expect(element.querySelectorAll('li.badge').length)
-      .withContext('The tag needs to be removed')
+    expect(element.querySelectorAll('li').length)
+      .withContext('You may have forgot the click handler on the button')
       .toBe(0);
   });
 
-  it('should emit an event on submit', () => {
-    const element: HTMLElement = fixture.nativeElement;
-    spyOn(component.submitted, 'emit');
-
-    const titleInput = element.querySelector<HTMLInputElement>('input[type=text]')!;
-    expect(titleInput)
-      .withContext('You need an input with the type `text` for the title')
-      .not.toBeNull();
-    titleInput.value = article.title;
-    titleInput.dispatchEvent(new Event('input'));
-
-    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[1]!;
-    expect(descriptionInput)
-      .withContext('You need an input with the type `text` for the description')
-      .not.toBeNull();
-    descriptionInput.value = article.description;
-    descriptionInput.dispatchEvent(new Event('input'));
-
-    const bodyInput = element.querySelector('textarea')!;
-    expect(bodyInput).withContext('You need a textarea for the body').not.toBeNull();
-    expect(bodyInput.getAttribute('rows'))
-      .withContext('The `rows` attribute of the textarea is not correct')
-      .toBe('8');
-    bodyInput.value = article.body;
-    bodyInput.dispatchEvent(new Event('input'));
+  it('should emit an output event on submit', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
+    const component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type=text]')[2]!;
-    expect(tagInput).withContext('You need an input for the tag list').not.toBeNull();
-    tagInput.value = article.tagList[0];
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    tagInput.value = article.tagList[1];
-    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    spyOn(component.submitted, 'emit');
 
-    element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
+    const element: HTMLElement = fixture.nativeElement;
+    const titleInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
+    titleInput.value = mockArticle.title;
+    titleInput.dispatchEvent(new Event('input'));
 
-    expect(component.submitted.emit).toHaveBeenCalledWith(article);
+    const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[1]!;
+    descriptionInput.value = mockArticle.description;
+    descriptionInput.dispatchEvent(new Event('input'));
+
+    const bodyTextarea = element.querySelector('textarea')!;
+    bodyTextarea.value = mockArticle.body;
+    bodyTextarea.dispatchEvent(new Event('input'));
+
+    const tagInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[2]!;
+    tagInput.value = mockArticle.tagList[0];
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    tagInput.value = mockArticle.tagList[1];
+    tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    fixture.detectChanges();
+
+    const submitButton = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    submitButton.click();
+
+    fixture.componentRef.setInput('submitting', true);
+    fixture.detectChanges();
+
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is submitted')
+      .toBe(true);
+    expect(component.submitted.emit).toHaveBeenCalledWith(mockArticle);
   });
 });
