@@ -35,7 +35,7 @@ describe('ArticleDetailComponent', () => {
     favoritesCount: 0,
     author: {
       username: 'jack',
-      bio: 'I work at statefarm',
+      bio: 'I work at a state farm',
       image: 'https://i.stack.imgur.com/xHWG8.jpg',
       following: false
     }
