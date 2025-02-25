@@ -1,66 +1,89 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ArticleEditComponent } from './article-edit.component';
-import { articleEditActions } from '@app/articles/data-access/state/article-edit';
+import {
+  articleEditActions,
+  articleEditInitialState
+} from '@app/articles/data-access/state/article-edit';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
+import { ArticleFormComponent } from '@app/articles/ui/article-form';
+import { articleDetailInitialState } from '@app/articles/data-access/state/article-detail';
 
 describe('ArticleEditComponent', () => {
-  let component: ArticleEditComponent;
-  let fixture: ComponentFixture<ArticleEditComponent>;
   let store: MockStore;
   const initialState = {
-    articleEdit: {
-      errors: null
-    },
-    article: {
-      article: {
-        slug: 'title-one',
-        title: 'title one',
-        description: 'description',
-        body: 'body',
-        tagList: []
-      }
-    }
+    articleEdit: articleEditInitialState,
+    articleDetail: articleDetailInitialState
+  };
+
+  const mockArticle = {
+    slug: 'how-to-train-your-dragon',
+    title: 'How to train your dragon',
+    description: 'Ever wondered how?',
+    body: 'It takes a Jacobian',
+    tagList: ['dragons', 'training']
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ArticleEditComponent],
       providers: [provideMockStore({ initialState })]
     });
-
-    fixture = TestBed.createComponent(ArticleEditComponent);
-    component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-    fixture.componentRef.setInput('slug', 'title-one');
+  });
 
-    spyOn(store, 'dispatch');
+  it('should display a loading message if the status is loading', () => {
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        loading: true
+      }
+    });
+    store.refreshState();
 
+    const fixture = TestBed.createComponent(ArticleEditComponent);
     fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should dispatch a loadArticle action on init', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(
-      articleDetailActions.loadArticle({ slug: 'title-one' })
-    );
+    const message = (fixture.nativeElement as HTMLElement).querySelector('#loading-message')!;
+    expect(message)
+      .withContext('You should have a `div` element for a loading message')
+      .not.toBeNull();
+    expect(message.textContent).withContext('The message should have a text').toContain('Loading');
   });
 
   it('should dispatch an editArticle action on submit', () => {
-    const article = { ...initialState.article.article, body: 'updated article body' };
-    const action = articleEditActions.editArticle({ slug: article.slug, article });
+    store.setState({
+      ...initialState,
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
+      }
+    });
+    store.refreshState();
 
-    component.publish(article);
+    const fixture = TestBed.createComponent(ArticleEditComponent);
+    fixture.componentRef.setInput('slug', mockArticle.slug);
+    fixture.detectChanges();
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    spyOn(store, 'dispatch');
+
+    const articleForm = fixture.debugElement.query(By.directive(ArticleFormComponent));
+    expect(articleForm)
+      .withContext('You should have ArticleFormComponent to display the article form')
+      .not.toBeNull();
+
+    articleForm.componentInstance.submitted.emit(mockArticle);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleEditActions.editArticle({
+        slug: mockArticle.slug,
+        article: mockArticle
+      })
+    );
   });
 
-  it('should display backend errors on article publish failure', () => {
+  it('should display backend error messages if article publishing fails', () => {
     store.setState({
       ...initialState,
       articleEdit: {
@@ -69,20 +92,24 @@ describe('ArticleEditComponent', () => {
           title: ['is a required field'],
           body: ['is a required field']
         }
+      },
+      articleDetail: {
+        ...initialState.articleDetail,
+        article: mockArticle
       }
     });
     store.refreshState();
-    fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
+    const fixture = TestBed.createComponent(ArticleEditComponent);
+    fixture.detectChanges();
 
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
-      .withContext('You need `BackendErrorsComponent` for error messages')
+      .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = element.querySelectorAll('li');
-    expect(errors.length).withContext('You need two `li` elements for error messages').toBe(2);
+    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li:not(.badge)');
+    expect(errors.length).withContext('You should have a `li` element for each error message');
     expect(errors[0].textContent).toContain('body is a required field');
     expect(errors[1].textContent).toContain('title is a required field');
   });

@@ -44,7 +44,6 @@ describe('ArticleNewComponent', () => {
   });
 
   it('should display backend error messages if article publishing fails', () => {
-    const fixture = TestBed.createComponent(ArticleNewComponent);
     store.setState({
       ...initialState,
       articleNew: {
@@ -56,11 +55,13 @@ describe('ArticleNewComponent', () => {
       }
     });
     store.refreshState();
+
+    const fixture = TestBed.createComponent(ArticleNewComponent);
     fixture.detectChanges();
 
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
-      .withContext('You should have BackendErrorsComponent backend error messages')
+      .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
     const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
