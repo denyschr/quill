@@ -72,13 +72,12 @@ describe('LoginComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = element.querySelectorAll('li')!;
+    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li')!;
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
