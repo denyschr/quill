@@ -1,50 +1,50 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ArticleNewComponent } from './article-new.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { articleNewActions } from '@app/articles/data-access/state/article-new';
+import {
+  articleNewActions,
+  articleNewInitialState
+} from '@app/articles/data-access/state/article-new';
 import { By } from '@angular/platform-browser';
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { Article } from '@app/articles/data-access/models';
+import { ArticleFormComponent } from '@app/articles/ui/article-form';
 
 describe('ArticleNewComponent', () => {
-  let component: ArticleNewComponent;
-  let fixture: ComponentFixture<ArticleNewComponent>;
   let store: MockStore;
   const initialState = {
-    articleNew: {
-      errors: null
-    }
+    articleNew: articleNewInitialState
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ArticleNewComponent],
       providers: [provideMockStore({ initialState })]
     });
-
-    fixture = TestBed.createComponent(ArticleNewComponent);
-    component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-
-    fixture.detectChanges();
-
-    spyOn(store, 'dispatch');
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should dispatch a newArticle action on submit', () => {
-    const article = { title: 'title' } as Article;
-    const action = articleNewActions.newArticle({ article });
+    const mockArticle = { title: 'How to train your dragon' };
+    const fixture = TestBed.createComponent(ArticleNewComponent);
+    fixture.detectChanges();
 
-    component.publish(article);
+    spyOn(store, 'dispatch');
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    const articleForm = fixture.debugElement.query(By.directive(ArticleFormComponent));
+    expect(articleForm)
+      .withContext('You should have ArticleFormComponent to display the article form')
+      .not.toBeNull();
+
+    articleForm.componentInstance.submitted.emit(mockArticle);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      articleNewActions.newArticle({
+        article: mockArticle
+      })
+    );
   });
 
-  it('should display backend errors on article publish failure', () => {
+  it('should display backend error messages if article publishing fails', () => {
+    const fixture = TestBed.createComponent(ArticleNewComponent);
     store.setState({
       ...initialState,
       articleNew: {
@@ -58,15 +58,15 @@ describe('ArticleNewComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-
     const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
-      .withContext('You need `BackendErrorsComponent` for error messages')
+      .withContext('You should have BackendErrorsComponent backend error messages')
       .not.toBeNull();
 
-    const errors = element.querySelectorAll('li');
-    expect(errors.length).withContext('You need two `li` elements for error messages').toBe(2);
+    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    expect(errors.length)
+      .withContext('You should have a `li` element for each error message')
+      .toBe(2);
     expect(errors[0].textContent).toContain('body is a required field');
     expect(errors[1].textContent).toContain('title is a required field');
   });
