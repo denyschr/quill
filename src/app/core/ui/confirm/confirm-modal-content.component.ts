@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'ql-confirm-modal',
+  selector: 'ql-confirm-modal-content',
   template: `
     <div class="modal-header">
-      <h1 class="fs-4 modal-title" id="confirmation-modal-title">{{ title }}</h1>
+      <h1 id="confirmation-modal-title" class="fs-4 modal-title">{{ title }}</h1>
       <button
         type="button"
         class="btn-close"
