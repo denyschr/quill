@@ -3,7 +3,7 @@ import { authActions } from '@app/auth/data-access/state';
 import { User } from '@app/auth/data-access/models';
 
 describe('SettingsState', () => {
-  const user = { username: 'username' } as User;
+  const mockUser = { username: 'jack' } as User;
 
   describe('unknown action', () => {
     it('should return the default state', () => {
@@ -18,14 +18,14 @@ describe('SettingsState', () => {
   });
 
   describe('updateCurrentUser action', () => {
-    it('should set submitting to true and reset the error state to null', () => {
+    it('should set submitting to true and reset errors to null', () => {
       const { settingsInitialState } = fromSettings;
       const newState = {
         ...settingsInitialState,
         submitting: true,
         errors: null
       };
-      const action = authActions.updateCurrentUser({ user });
+      const action = authActions.updateCurrentUser({ user: mockUser });
       const state = fromSettings.settingsReducer(settingsInitialState, action);
 
       expect(state).toEqual(newState);
@@ -38,7 +38,7 @@ describe('SettingsState', () => {
         ...settingsInitialState,
         submitting: false
       };
-      const action = authActions.updateCurrentUserSuccess({ currentUser: user });
+      const action = authActions.updateCurrentUserSuccess({ currentUser: mockUser });
       const state = fromSettings.settingsReducer(settingsInitialState, action);
 
       expect(state).toEqual(newState);
@@ -47,13 +47,13 @@ describe('SettingsState', () => {
 
     it('should have errors and set submitting to false on failure', () => {
       const { settingsInitialState } = fromSettings;
-      const errors = { email: ['already exists'] };
+      const mockErrors = { email: ['already exists'] };
       const newState = {
         ...settingsInitialState,
         submitting: false,
-        errors
+        errors: mockErrors
       };
-      const action = authActions.updateCurrentUserFailure({ errors });
+      const action = authActions.updateCurrentUserFailure({ errors: mockErrors });
       const state = fromSettings.settingsReducer(settingsInitialState, action);
 
       expect(state).toEqual(newState);
