@@ -52,7 +52,7 @@ describe('ArticleEditComponent', () => {
     expect(message.textContent).withContext('The message should have a text').toContain('Loading');
   });
 
-  it('should dispatch an editArticle action on submit', () => {
+  it('should dispatch an editArticle action when submitting the form', () => {
     store.setState({
       ...initialState,
       articleDetail: {
@@ -83,7 +83,7 @@ describe('ArticleEditComponent', () => {
     );
   });
 
-  it('should display backend error messages if article publishing fails', () => {
+  it('should display backend error messages if publication fails', () => {
     store.setState({
       ...initialState,
       articleEdit: {

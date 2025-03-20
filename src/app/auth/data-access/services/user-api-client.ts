@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { LoginCredentials, RegisterCredentials, User } from '@app/auth/data-access/models';
+import {
+  LoginCredentials,
+  RegisterCredentials,
+  User,
+  UserUpdate
+} from '@app/auth/data-access/models';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +30,7 @@ export class UserApiClient {
       .pipe(map(response => response.user));
   }
 
-  public update(user: Partial<User>): Observable<User> {
+  public update(user: UserUpdate): Observable<User> {
     return this.http.put<{ user: User }>('/user', { user }).pipe(map(response => response.user));
   }
 }

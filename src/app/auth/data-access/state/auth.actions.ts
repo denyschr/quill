@@ -1,5 +1,10 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { LoginCredentials, RegisterCredentials, User } from '@app/auth/data-access/models';
+import {
+  LoginCredentials,
+  RegisterCredentials,
+  User,
+  UserUpdate
+} from '@app/auth/data-access/models';
 import { BackendErrors } from '@app/core/data-access/models';
 
 export const authActions = createActionGroup({
@@ -9,7 +14,7 @@ export const authActions = createActionGroup({
     getCurrentUserSuccess: props<{ currentUser: User }>(),
     getCurrentUserFailure: emptyProps(),
 
-    updateCurrentUser: props<{ user: Partial<User> }>(),
+    updateCurrentUser: props<{ user: UserUpdate }>(),
     updateCurrentUserSuccess: props<{ currentUser: User }>(),
     updateCurrentUserFailure: props<{ errors: BackendErrors }>(),
 

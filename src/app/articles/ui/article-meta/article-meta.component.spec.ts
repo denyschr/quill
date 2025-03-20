@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  template: `<ql-article-meta [article]="mockArticle">Foo</ql-article-meta>`,
+  template: `<ql-article-meta [article]="mockArticle">hello</ql-article-meta>`,
   standalone: true,
   imports: [ArticleMetaComponent]
 })
@@ -89,12 +89,12 @@ describe('ArticleMetaComponent', () => {
       .toContain(formattedDate);
   });
 
-  it('should display the content', () => {
+  it('should project the content', () => {
     const fixture = TestBed.createComponent(ArticleMetaTestComponent);
     fixture.detectChanges();
 
     expect((fixture.nativeElement as HTMLElement).textContent)
       .withContext('ArticleMetaComponent should use `ng-content`')
-      .toContain('Foo');
+      .toContain('hello');
   });
 });

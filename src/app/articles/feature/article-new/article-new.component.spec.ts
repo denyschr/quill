@@ -22,7 +22,7 @@ describe('ArticleNewComponent', () => {
     store = TestBed.inject(MockStore);
   });
 
-  it('should dispatch a newArticle action on submit', () => {
+  it('should dispatch a newArticle action when submitting the form', () => {
     const mockArticle = { title: 'How to train your dragon' };
     const fixture = TestBed.createComponent(ArticleNewComponent);
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('ArticleNewComponent', () => {
     );
   });
 
-  it('should display backend error messages if article publishing fails', () => {
+  it('should display backend error messages if publication fails', () => {
     store.setState({
       ...initialState,
       articleNew: {

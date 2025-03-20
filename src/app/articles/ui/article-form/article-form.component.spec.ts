@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ArticleFormComponent } from './article-form.component';
 import { ValidationDefaultsComponent } from '@app/core/validation';
-import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleFormComponent', () => {
   const mockArticle = {
@@ -9,7 +8,7 @@ describe('ArticleFormComponent', () => {
     description: 'Ever wondered how?',
     body: 'It takes a Jacobian',
     tagList: ['dragons', 'training']
-  } as Article;
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -70,13 +69,13 @@ describe('ArticleFormComponent', () => {
     descriptionInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const bodyTextarea = element.querySelector('textarea')!;
-    expect(bodyTextarea).withContext('You should have a textarea for the body').not.toBeNull();
-    expect(bodyTextarea.rows)
+    const bodyInput = element.querySelector('textarea')!;
+    expect(bodyInput).withContext('You should have a textarea for the body').not.toBeNull();
+    expect(bodyInput.rows)
       .withContext('The `rows` attribute of the body field is not correct')
       .toBe(8);
-    bodyTextarea.dispatchEvent(new Event('focus'));
-    bodyTextarea.dispatchEvent(new Event('blur'));
+    bodyInput.dispatchEvent(new Event('focus'));
+    bodyInput.dispatchEvent(new Event('blur'));
     fixture.detectChanges();
 
     const bodyRequiredError = element.querySelector('div.mb-3 > .invalid-feedback > div')!;
@@ -87,8 +86,8 @@ describe('ArticleFormComponent', () => {
       .withContext('The error message for the body field is incorrect')
       .toContain('The body is required');
 
-    bodyTextarea.value = mockArticle.body;
-    bodyTextarea.dispatchEvent(new Event('input'));
+    bodyInput.value = mockArticle.body;
+    bodyInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     expect(submitButton.hasAttribute('disabled'))
@@ -96,7 +95,18 @@ describe('ArticleFormComponent', () => {
       .toBe(false);
   });
 
-  it('should display a form with initial values if the article is provided', () => {
+  it('should have a disabled submit button if submitting is set to true', () => {
+    const fixture = TestBed.createComponent(ArticleFormComponent);
+    fixture.componentRef.setInput('submitting', true);
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is submitted')
+      .toBe(true);
+  });
+
+  it('should populate a form with article data if provided', () => {
     const fixture = TestBed.createComponent(ArticleFormComponent);
     fixture.componentRef.setInput('article', mockArticle);
     fixture.detectChanges();
@@ -223,15 +233,8 @@ describe('ArticleFormComponent', () => {
     tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     fixture.detectChanges();
 
-    const submitButton = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    submitButton.click();
+    element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
-    fixture.componentRef.setInput('submitting', true);
-    fixture.detectChanges();
-
-    expect(submitButton.hasAttribute('disabled'))
-      .withContext('Your submit button should be disabled if the form is submitted')
-      .toBe(true);
     expect(component.submitted.emit).toHaveBeenCalledWith(mockArticle);
   });
 });
