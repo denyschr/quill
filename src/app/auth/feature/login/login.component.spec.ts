@@ -38,7 +38,7 @@ describe('LoginComponent', () => {
       .toContain("Don't have an account?");
   });
 
-  it('should dispatch a login action on submit', () => {
+  it('should dispatch a login action when submitting the form', () => {
     const mockCredentials = { email: 'jack@email.tld', password: '1234' };
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();

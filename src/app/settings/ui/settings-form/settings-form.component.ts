@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
-import { User } from '@app/auth/data-access/models';
+import { User, UserUpdate } from '@app/auth/data-access/models';
 
 @Component({
   selector: 'ql-settings-form',
@@ -10,12 +10,12 @@ import { User } from '@app/auth/data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="image" class="form-label">URL of profile picture</label>
-        <input id="image" type="text" class="form-control" formControlName="image" />
+        <input id="image" class="form-control" type="text" formControlName="image" />
       </div>
 
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" type="text" class="form-control" formControlName="username" />
+        <input id="username" class="form-control" type="text" formControlName="username" />
         <val-errors controlName="username" label="The username" />
       </div>
 
@@ -26,17 +26,20 @@ import { User } from '@app/auth/data-access/models';
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" type="email" class="form-control" formControlName="email" />
+        <input id="email" class="form-control" type="email" formControlName="email" />
         <val-errors controlName="email" label="The email" />
       </div>
 
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">
+          Password
+          <i class="text-muted">(leave blank if you don't want to change it)</i>
+        </label>
         <div class="input-group">
           <input
             id="password"
-            type="password"
             class="form-control"
+            type="password"
             formControlName="password"
             #passwordInput
           />
@@ -45,8 +48,8 @@ import { User } from '@app/auth/data-access/models';
         <val-errors controlName="password" label="The password" />
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="submitting || form.invalid">
-        Update Settings
+      <button class="btn btn-primary" type="submit" [disabled]="submitting || form.invalid">
+        Save
       </button>
     </form>
   `,
@@ -62,10 +65,7 @@ export class SettingsFormComponent {
   ]);
   public readonly bioControl = this.fb.control('');
   public readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this.fb.control('', [
-    Validators.required,
-    Validators.minLength(8)
-  ]);
+  public readonly passwordControl = this.fb.control('', [Validators.minLength(8)]);
 
   public readonly form = this.fb.group({
     image: this.imageControl,
@@ -79,7 +79,7 @@ export class SettingsFormComponent {
   public submitting!: boolean;
 
   @Output()
-  public readonly submitted = new EventEmitter<Partial<User>>();
+  public readonly submitted = new EventEmitter<UserUpdate>();
 
   @Input()
   public set user(currentUser: User) {
@@ -94,6 +94,7 @@ export class SettingsFormComponent {
   constructor(private readonly fb: NonNullableFormBuilder) {}
 
   public submit(): void {
-    this.submitted.emit(this.form.getRawValue());
+    const { password, ...settings } = this.form.getRawValue();
+    this.submitted.emit(password ? { ...settings, password } : settings);
   }
 }

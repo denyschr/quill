@@ -7,14 +7,14 @@ import { selectErrors, selectSubmitting } from '@app/settings/data-access/state'
 import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { UnsavedChanges } from '@app/core/utils';
 import { SettingsFormComponent } from '@app/settings/ui/settings-form';
-import { User } from '@app/auth/data-access/models';
+import { UserUpdate } from '@app/auth/data-access/models';
 
 @Component({
   template: `
     <div class="container">
       <div class="row py-5">
         <div class="col-md-6 offset-md-3">
-          <h1 class="mb-3 text-center">Your Settings</h1>
+          <h1 class="mb-3 text-center">Settings</h1>
           <ng-container *ngrxLet="vm$; let vm">
             @if (vm.backendErrors) {
               <ql-backend-errors [errors]="vm.backendErrors" />
@@ -28,7 +28,7 @@ import { User } from '@app/auth/data-access/models';
 
             <hr />
 
-            <button type="button" class="btn btn-outline-danger" (click)="logout()">Log out</button>
+            <button class="btn btn-outline-danger" type="button" (click)="logout()">Log out</button>
           </ng-container>
         </div>
       </div>
@@ -54,7 +54,7 @@ export class SettingsComponent implements UnsavedChanges {
     return !this.settingsForm.submitting && this.settingsForm.form.dirty;
   }
 
-  public update(user: Partial<User>): void {
+  public update(user: UserUpdate): void {
     this.store.dispatch(authActions.updateCurrentUser({ user }));
   }
 

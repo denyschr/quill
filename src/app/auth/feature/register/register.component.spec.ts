@@ -38,7 +38,7 @@ describe('RegisterComponent', () => {
       .toContain('Have an account?');
   });
 
-  it('should dispatch a register action on submit', () => {
+  it('should dispatch a register action when submitting the form', () => {
     const mockCredentials = { username: 'jack', email: 'jack@email.tld', password: '1234' };
     const fixture = TestBed.createComponent(RegisterComponent);
     fixture.detectChanges();
