@@ -28,7 +28,7 @@ describe('SettingsFormComponent', () => {
     const submitButton = element.querySelector('button[type="submit"]')!;
     expect(submitButton).withContext('You should have a button to submit the form').not.toBeNull();
     expect(submitButton.hasAttribute('disabled'))
-      .withContext('Your submit button should be disabled if the form is invalid')
+      .withContext('Your submit button should be disabled if the form is NOT dirty')
       .toBe(true);
 
     const imageUrlInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
@@ -69,6 +69,10 @@ describe('SettingsFormComponent', () => {
     usernameInput.value = mockUser.username;
     usernameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
+
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is invalid')
+      .toBe(true);
 
     const bioInput = element.querySelector('textarea')!;
     expect(bioInput).withContext('You should have a textarea for the bio').not.toBeNull();
@@ -133,7 +137,7 @@ describe('SettingsFormComponent', () => {
     fixture.detectChanges();
 
     expect(submitButton.hasAttribute('disabled'))
-      .withContext('Your submit button should NOT be disabled if the form is valid')
+      .withContext('Your submit button should NOT be disabled if the form is valid and dirty')
       .toBe(false);
   });
 
@@ -183,8 +187,8 @@ describe('SettingsFormComponent', () => {
       .toBe(mockUser.email);
 
     expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
-      .withContext('Your submit button should NOT be disabled if the form is valid')
-      .toBe(false);
+      .withContext('Your submit button should be disabled if the form is NOT dirty')
+      .toBe(true);
   });
 
   it('should have a disabled submit button if submitting is set to true', () => {

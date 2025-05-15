@@ -25,7 +25,7 @@ describe('ArticleFormComponent', () => {
     const submitButton = element.querySelector('button[type="submit"]')!;
     expect(submitButton).withContext('You should have a button to submit the form').not.toBeNull();
     expect(submitButton.hasAttribute('disabled'))
-      .withContext('Your submit button should be disabled if the form is invalid')
+      .withContext('Your submit button should be disabled if the form is NOT dirty')
       .toBe(true);
 
     const titleInput = element.querySelector<HTMLInputElement>('input[type="text"]')!;
@@ -47,6 +47,10 @@ describe('ArticleFormComponent', () => {
     titleInput.value = mockArticle.title;
     titleInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
+
+    expect(submitButton.hasAttribute('disabled'))
+      .withContext('Your submit button should be disabled if the form is invalid')
+      .toBe(true);
 
     const descriptionInput = element.querySelectorAll<HTMLInputElement>('input[type="text"]')[1]!;
     expect(descriptionInput)
@@ -147,8 +151,8 @@ describe('ArticleFormComponent', () => {
     expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
 
     expect(element.querySelector('button[type="submit"]')!.hasAttribute('disabled'))
-      .withContext('Your submit button should NOT be disabled if the form is valid')
-      .toBe(false);
+      .withContext('Your submit button should be disabled if the form is NOT dirty')
+      .toBe(true);
   });
 
   it('should add new tags on enter', () => {

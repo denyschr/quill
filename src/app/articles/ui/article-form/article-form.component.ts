@@ -50,7 +50,11 @@ import { FormControlValidationDirective } from '@app/core/validation';
         }
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="form.invalid || submitting">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!form.dirty || form.invalid || submitting"
+      >
         Publish
       </button>
     </form>

@@ -48,7 +48,11 @@ import { User, UserUpdate } from '@app/auth/data-access/models';
         <val-errors controlName="password" label="The password" />
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="submitting || form.invalid">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!form.dirty || form.invalid || submitting"
+      >
         Save
       </button>
     </form>
