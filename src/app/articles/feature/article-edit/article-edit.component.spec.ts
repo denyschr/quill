@@ -63,7 +63,7 @@ describe('ArticleEditComponent', () => {
     store.refreshState();
 
     const fixture = TestBed.createComponent(ArticleEditComponent);
-    fixture.componentRef.setInput('slug', mockArticle.slug);
+    fixture.componentInstance.slug = mockArticle.slug;
     fixture.detectChanges();
 
     spyOn(store, 'dispatch');

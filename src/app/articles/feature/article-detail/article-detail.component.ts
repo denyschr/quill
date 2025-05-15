@@ -48,19 +48,12 @@ import { ArticleBannerComponent } from '@app/articles/ui/article-banner';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleDetailComponent {
-  public readonly canModify$ = combineLatest({
+  private readonly canModify$ = combineLatest({
     article: this.store.select(selectArticle),
     currentUser: this.store
       .select(selectCurrentUser)
       .pipe(filter(currentUser => currentUser !== undefined))
-  }).pipe(
-    map(({ article, currentUser }) => {
-      if (!article || !currentUser) {
-        return false;
-      }
-      return article.author.username === currentUser.username;
-    })
-  );
+  }).pipe(map(({ article, currentUser }) => article?.author.username === currentUser?.username));
 
   public readonly vm$ = combineLatest({
     article: this.store.select(selectArticle),

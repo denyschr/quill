@@ -1,54 +1,55 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { profileActions, selectLoading, selectProfile } from '@app/profile/data-access/state';
-import { combineLatest, filter, map } from 'rxjs';
-import { selectCurrentUser } from '@app/auth/data-access/state';
+import { combineLatest, map } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
-import { UserInfoComponent } from '@app/profile/ui/user-info';
-import { ArticlesToggleComponent } from '@app/profile/ui/articles-toggle';
 import { RouterOutlet } from '@angular/router';
+import { selectCurrentUser } from '@app/auth/data-access/state';
+import { UserInfoComponent } from '@app/profile/ui/user-info';
 import { Profile } from '@app/profile/data-access/models';
+import { ArticleTabsComponent } from '@app/profile/ui/article-tabs';
+import { profileActions, selectLoading, selectProfile } from '@app/profile/data-access/state';
 
 @Component({
   template: `
     <ng-container *ngrxLet="vm$; let vm">
+      @let profile = vm.profile;
+
       @if (!vm.loading) {
-        @if (vm.profile) {
-          @let profile = vm.profile;
+        @if (profile) {
           <ql-user-info
             [profile]="profile"
-            [owner]="vm.owner"
+            [canModify]="vm.canModify"
             (toggledFollow)="toggleFollow(profile)"
           />
 
           <div class="container">
             <div class="row py-4">
               <div class="col-md-10 offset-md-1">
-                <ql-articles-toggle [username]="profile.username" />
+                <ql-article-tabs [username]="profile.username" />
                 <router-outlet />
               </div>
             </div>
           </div>
         }
       } @else {
-        <div data-test="profile-loading">Loading profile...</div>
+        <div id="loading-profile-message">Loading profile...</div>
       }
     </ng-container>
   `,
   standalone: true,
-  imports: [LetDirective, RouterOutlet, UserInfoComponent, ArticlesToggleComponent],
+  imports: [LetDirective, RouterOutlet, UserInfoComponent, ArticleTabsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
-  public readonly owner$ = combineLatest({
-    currentUser: this.store.select(selectCurrentUser).pipe(filter(Boolean)),
-    profile: this.store.select(selectProfile).pipe(filter(Boolean))
-  }).pipe(map(({ currentUser, profile }) => currentUser.username === profile.username));
+  private readonly canModify$ = combineLatest({
+    currentUser: this.store.select(selectCurrentUser),
+    profile: this.store.select(selectProfile)
+  }).pipe(map(({ currentUser, profile }) => currentUser?.username === profile?.username));
 
   public readonly vm$ = combineLatest({
     profile: this.store.select(selectProfile),
     loading: this.store.select(selectLoading),
-    owner: this.owner$
+    canModify: this.canModify$
   });
 
   constructor(private readonly store: Store) {}

@@ -29,7 +29,7 @@ describe('ArticlePreviewComponent', () => {
 
   it('should use ArticleMetaComponent', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.directive(ArticleMetaComponent)))
@@ -41,7 +41,7 @@ describe('ArticlePreviewComponent', () => {
 
   it('should display a favorite button', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     const button = (fixture.nativeElement as HTMLElement).querySelector('#toggle-favorite-button')!;
@@ -55,7 +55,7 @@ describe('ArticlePreviewComponent', () => {
 
   it('should display a preview link', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     const previewLink = (fixture.nativeElement as HTMLElement).querySelector(
@@ -98,10 +98,10 @@ describe('ArticlePreviewComponent', () => {
     expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
   });
 
-  it('should emit an output event on toggle favorite', () => {
+  it('should emit an output event when clicking the toggle favorite button', () => {
     const fixture = TestBed.createComponent(ArticlePreviewComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     spyOn(component.toggledFavorite, 'emit');

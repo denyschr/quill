@@ -74,7 +74,7 @@
       "@app/profile/data-access/state": ["app/profile/data-access/state/index.ts"],
       "@app/profile/feature": ["app/profile/feature/index.ts"],
       "@app/profile/ui/user-info": ["app/profile/ui/user-info/index.ts"],
-      "@app/profile/ui/articles-toggle": ["app/profile/ui/articles-toggle/index.ts"],
+      "@app/profile/ui/article-tabs": ["app/profile/ui/article-tabs/index.ts"],
       "@app/shared/ui/backend-errors": ["app/shared/ui/backend-errors/index.ts"],
       "@app/shared/ui/tag-list": ["app/shared/ui/tag-list/index.ts"],
       "@app/shared/ui/not-found": ["app/shared/ui/not-found/index.ts"]

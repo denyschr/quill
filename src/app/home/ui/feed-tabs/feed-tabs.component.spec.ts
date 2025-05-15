@@ -17,7 +17,7 @@ describe('FeedTabsComponent', () => {
 
   it('should display two tabs if the user is logged in', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
-    fixture.componentRef.setInput('feedDisabled', false);
+    fixture.componentInstance.feedDisabled = false;
     fixture.detectChanges();
 
     const tabLinks = (fixture.nativeElement as HTMLElement).querySelectorAll(
@@ -32,8 +32,8 @@ describe('FeedTabsComponent', () => {
 
   it('should display three tabs if the user is logged in and a tag is selected', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
-    fixture.componentRef.setInput('feedDisabled', false);
-    fixture.componentRef.setInput('tag', 'dragons');
+    fixture.componentInstance.feedDisabled = false;
+    fixture.componentInstance.tag = 'dragons';
     fixture.detectChanges();
 
     const tabLinks = (fixture.nativeElement as HTMLElement).querySelectorAll(
@@ -51,7 +51,7 @@ describe('FeedTabsComponent', () => {
 
   it('should make the first tab active when displaying the global feed', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
-    fixture.componentRef.setInput('feedDisabled', false);
+    fixture.componentInstance.feedDisabled = false;
     fixture.detectChanges();
 
     const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
@@ -64,8 +64,8 @@ describe('FeedTabsComponent', () => {
 
   it('should make the second tab active when displaying the user feed', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
-    fixture.componentRef.setInput('feedType', 'feed');
-    fixture.componentRef.setInput('feedDisabled', false);
+    fixture.componentInstance.feedType = 'feed';
+    fixture.componentInstance.feedDisabled = false;
     fixture.detectChanges();
 
     const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
@@ -78,9 +78,10 @@ describe('FeedTabsComponent', () => {
 
   it('should make the third tab active when displaying the feed based on the selected tag', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
-    fixture.componentRef.setInput('feedType', 'feed');
-    fixture.componentRef.setInput('feedDisabled', false);
-    fixture.componentRef.setInput('tag', 'dragons');
+    const component = fixture.componentInstance;
+    component.feedType = 'feed';
+    component.feedDisabled = false;
+    component.tag = 'dragons';
     fixture.detectChanges();
 
     const links = (fixture.nativeElement as HTMLElement).querySelectorAll('a.nav-link');
@@ -97,7 +98,7 @@ describe('FeedTabsComponent', () => {
   it('should emit an output event on feed change', () => {
     const fixture = TestBed.createComponent(FeedTabsComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('feedDisabled', false);
+    component.feedDisabled = false;
     fixture.detectChanges();
 
     spyOn(component.changed, 'emit');

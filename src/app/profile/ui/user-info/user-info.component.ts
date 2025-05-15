@@ -12,20 +12,20 @@ import { Profile } from '@app/profile/data-access/models';
           <h1>{{ profile.username }}</h1>
           <p class="text-body-tertiary">{{ profile.bio }}</p>
           <div class="d-flex justify-content-end">
-            @if (owner) {
+            @if (canModify) {
               <a class="btn btn-sm btn-outline-secondary" routerLink="/settings"
                 >Edit profile settings</a
               >
             } @else {
               <button
-                data-test="follow-button"
-                type="button"
+                id="toggle-follow-button"
                 class="btn btn-sm"
+                type="button"
                 [class.btn-secondary]="profile.following"
                 [class.btn-outline-secondary]="!profile.following"
                 (click)="toggledFollow.emit()"
               >
-                <span class="bi bi-plus-lg"></span>
+                <span class="bi bi-plus-lg" aria-hidden="true"></span>
                 {{ profile.following ? 'Unfollow' : 'Follow' }} {{ profile.username }}
               </button>
             }
@@ -43,7 +43,7 @@ export class UserInfoComponent {
   public profile!: Profile;
 
   @Input()
-  public owner = false;
+  public canModify = false;
 
   @Output()
   public readonly toggledFollow = new EventEmitter<void>();

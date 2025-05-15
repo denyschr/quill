@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -6,7 +6,7 @@ import {
   articleListInitialState
 } from '@app/articles/data-access/state/article-list';
 
-export const profileFavoritesResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot) => {
+export const profileFavoritesResolver: ResolveFn<boolean> = route => {
   const username = route.parent!.paramMap.get('username')!;
   const store = inject(Store);
   store.dispatch(

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'ql-tag-list',
   template: `
-    <ul data-test="article-tag-list" class="d-flex flex-wrap gap-2 list-unstyled m-0">
+    <ul class="d-flex flex-wrap gap-2 list-unstyled m-0">
       @for (tag of tags; track tag) {
         <li>
           <span class="badge border fw-normal text-secondary rounded-pill">{{ tag }}</span>

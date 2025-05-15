@@ -5,6 +5,7 @@ import { ArticleMetaComponent } from '@app/articles/ui/article-meta/article-meta
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 
+// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   template: `<ql-article-meta [article]="mockArticle">hello</ql-article-meta>`,
   standalone: true,
@@ -52,7 +53,7 @@ describe('ArticleMetaComponent', () => {
       .toBe(mockArticle.author.username);
   });
 
-  it('should display an article info', () => {
+  it('should display article info', () => {
     const fixture = TestBed.createComponent(ArticleMetaTestComponent);
     const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();

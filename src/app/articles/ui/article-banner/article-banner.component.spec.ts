@@ -25,7 +25,7 @@ describe('ArticleBannerComponent', () => {
 
   it('should have a title', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     const title = (fixture.nativeElement as HTMLElement).querySelector('h1')!;
@@ -37,8 +37,8 @@ describe('ArticleBannerComponent', () => {
 
   it('should display an edit link with a delete button if can modify', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
-    fixture.componentRef.setInput('article', mockArticle);
-    fixture.componentRef.setInput('canModify', true);
+    fixture.componentInstance.article = mockArticle;
+    fixture.componentInstance.canModify = true;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -62,8 +62,7 @@ describe('ArticleBannerComponent', () => {
 
   it('should display a toggle follow button with a toggle favorite button if cannot modify', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
-    fixture.componentRef.setInput('article', mockArticle);
-    fixture.componentRef.setInput('canModify', false);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -100,8 +99,8 @@ describe('ArticleBannerComponent', () => {
   it('should emit an output event when clicking the delete button', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('article', mockArticle);
-    fixture.componentRef.setInput('canModify', true);
+    fixture.componentInstance.article = mockArticle;
+    fixture.componentInstance.canModify = true;
     fixture.detectChanges();
 
     spyOn(component.deleted, 'emit');
@@ -121,8 +120,7 @@ describe('ArticleBannerComponent', () => {
   it('should emit an output event when clicking the toggle follow button', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('article', mockArticle);
-    fixture.componentRef.setInput('canModify', false);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     spyOn(component.toggledFollow, 'emit');
@@ -138,8 +136,7 @@ describe('ArticleBannerComponent', () => {
   it('should emit an output event when clicking the toggle favorite button', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('article', mockArticle);
-    fixture.componentRef.setInput('canModify', false);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     spyOn(component.toggledFavorite, 'emit');

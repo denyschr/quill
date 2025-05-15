@@ -17,7 +17,7 @@ describe('TagsComponent', () => {
 
   it('should display a loading message if status is loading', () => {
     const fixture = TestBed.createComponent(TagsComponent);
-    fixture.componentRef.setInput('loading', true);
+    fixture.componentInstance.loading = true;
     fixture.detectChanges();
 
     const message = (fixture.nativeElement as HTMLElement).querySelector('#loading-tags-message')!;
@@ -31,7 +31,7 @@ describe('TagsComponent', () => {
 
   it('should display every tag', () => {
     const fixture = TestBed.createComponent(TagsComponent);
-    fixture.componentRef.setInput('tags', mockTags);
+    fixture.componentInstance.tags = mockTags;
     fixture.detectChanges();
 
     const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('a > span.badge');
@@ -58,7 +58,7 @@ describe('TagsComponent', () => {
   it('should emit an output event on click', () => {
     const fixture = TestBed.createComponent(TagsComponent);
     const component = fixture.componentInstance;
-    fixture.componentRef.setInput('tags', mockTags);
+    component.tags = mockTags;
     fixture.detectChanges();
 
     spyOn(component.clicked, 'emit');
