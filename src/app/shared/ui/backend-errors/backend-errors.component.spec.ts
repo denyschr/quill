@@ -12,10 +12,10 @@ describe('BackendErrorsComponent', () => {
 
   it('should properly display error messages', () => {
     const fixture = TestBed.createComponent(BackendErrorsComponent);
-    fixture.componentRef.setInput('errors', {
+    fixture.componentInstance.errors = {
       email: ['already exists'],
       password: ['is invalid']
-    });
+    };
     fixture.detectChanges();
 
     const alert = fixture.debugElement.query(By.directive(NgbAlert));

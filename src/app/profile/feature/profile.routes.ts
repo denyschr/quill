@@ -6,6 +6,7 @@ import { provideEffects } from '@ngrx/effects';
 import { profileResolver } from './profile.resolver';
 import { profileArticlesResolver } from './profile-articles.resolver';
 import { profileFavoritesResolver } from './profile-favorites.resolver';
+import { ArticleListComponent } from '@app/articles/feature/article-list';
 
 export const PROFILE_ROUTES: Route[] = [
   {
@@ -16,14 +17,12 @@ export const PROFILE_ROUTES: Route[] = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('@app/articles/feature/article-list').then(m => m.ArticleListComponent),
+        component: ArticleListComponent,
         resolve: { profileArticlesResolver }
       },
       {
         path: 'favorites',
-        loadComponent: () =>
-          import('@app/articles/feature/article-list').then(m => m.ArticleListComponent),
+        component: ArticleListComponent,
         resolve: { profileFavoritesResolver }
       }
     ]

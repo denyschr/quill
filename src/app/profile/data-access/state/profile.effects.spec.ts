@@ -14,7 +14,6 @@ describe('ProfileEffects', () => {
 
   beforeEach(() => {
     profileClient = jasmine.createSpyObj<ProfileApiClient>('ProfileApiClient', ['get']);
-
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
@@ -22,15 +21,13 @@ describe('ProfileEffects', () => {
         { provide: ProfileApiClient, useValue: profileClient }
       ]
     });
-
     router = TestBed.inject(Router);
-
     spyOn(router, 'navigateByUrl');
   });
 
   describe('loadProfile$', () => {
-    it('should return a `loadProfileSuccess` action with a user profile on success', done => {
-      const profile = { username: 'username' } as Profile;
+    it('should return a loadProfileSuccess action with a user profile on success', done => {
+      const profile = { username: 'jack' } as Profile;
       actions$ = of(profileActions.loadProfile);
 
       profileClient.get.and.returnValue(of(profile));
@@ -46,7 +43,7 @@ describe('ProfileEffects', () => {
       });
     });
 
-    it('should return a `loadProfileFailure` action on failure', done => {
+    it('should return a loadProfileFailure action on failure', done => {
       actions$ = of(profileActions.loadProfile);
 
       profileClient.get.and.returnValue(throwError(() => new Error('error')));

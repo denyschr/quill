@@ -7,7 +7,7 @@ describe('TagListComponent', () => {
   it('should display a list of tags', () => {
     const mockTags = ['dragons', 'training'];
     const fixture = TestBed.createComponent(TagListComponent);
-    fixture.componentRef.setInput('tags', mockTags);
+    fixture.componentInstance.tags = mockTags;
     fixture.detectChanges();
 
     const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('li');

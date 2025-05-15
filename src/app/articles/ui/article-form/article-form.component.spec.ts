@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ArticleFormComponent } from './article-form.component';
 import { ValidationDefaultsComponent } from '@app/core/validation';
+import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleFormComponent', () => {
   const mockArticle = {
@@ -8,7 +9,7 @@ describe('ArticleFormComponent', () => {
     description: 'Ever wondered how?',
     body: 'It takes a Jacobian',
     tagList: ['dragons', 'training']
-  };
+  } as Article;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -97,7 +98,7 @@ describe('ArticleFormComponent', () => {
 
   it('should have a disabled submit button if submitting is set to true', () => {
     const fixture = TestBed.createComponent(ArticleFormComponent);
-    fixture.componentRef.setInput('submitting', true);
+    fixture.componentInstance.submitting = true;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -108,7 +109,7 @@ describe('ArticleFormComponent', () => {
 
   it('should populate a form with article data if provided', () => {
     const fixture = TestBed.createComponent(ArticleFormComponent);
-    fixture.componentRef.setInput('article', mockArticle);
+    fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -161,7 +162,7 @@ describe('ArticleFormComponent', () => {
     expect(tagInput.value)
       .withContext('You should reset the tag field after adding a new tag')
       .toBe('');
-    // check for empty tag
+    // check for empty tags
     tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
     tagInput.value = mockArticle.tagList[1];

@@ -4,6 +4,7 @@ import { SettingsFormComponent } from '@app/settings/ui/settings-form/settings-f
 import { RegisterFormComponent } from '@app/auth/ui/register-form';
 import { By } from '@angular/platform-browser';
 import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
+import { User } from '@app/auth/data-access/models';
 
 describe('SettingsFormComponent', () => {
   const mockUser = {
@@ -11,7 +12,7 @@ describe('SettingsFormComponent', () => {
     username: 'jack',
     bio: 'I work at a state farm',
     email: 'jack@email.tld'
-  };
+  } as User;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -147,7 +148,7 @@ describe('SettingsFormComponent', () => {
 
   it('should populate a form with user data if provided', () => {
     const fixture = TestBed.createComponent(SettingsFormComponent);
-    fixture.componentRef.setInput('user', mockUser);
+    fixture.componentInstance.user = mockUser;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
@@ -188,7 +189,7 @@ describe('SettingsFormComponent', () => {
 
   it('should have a disabled submit button if submitting is set to true', () => {
     const fixture = TestBed.createComponent(SettingsFormComponent);
-    fixture.componentRef.setInput('submitting', true);
+    fixture.componentInstance.submitting = true;
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
