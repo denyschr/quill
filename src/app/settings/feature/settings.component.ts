@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { authActions, selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest, filter } from 'rxjs';
-import { selectErrors, selectSubmitting } from '@app/settings/data-access/state';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { SettingsFormComponent } from '@app/settings/ui/settings-form';
-import { UserUpdate } from '@app/auth/data-access/models';
+
+import { authActions, selectCurrentUser } from '@/app/auth/data-access/state';
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+import { UserUpdate } from '@/app/auth/data-access/models';
+
+import { selectErrors, selectSubmitting } from '../data-access/state';
+import { SettingsFormComponent } from '../ui/settings-form';
 
 @Component({
   template: `
@@ -38,7 +40,7 @@ import { UserUpdate } from '@app/auth/data-access/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     currentUser: this.store.select(selectCurrentUser).pipe(filter(Boolean)),
     submitting: this.store.select(selectSubmitting),
     backendErrors: this.store.select(selectErrors)
@@ -46,11 +48,11 @@ export class SettingsComponent {
 
   constructor(private readonly store: Store) {}
 
-  public update(user: UserUpdate): void {
+  protected update(user: UserUpdate): void {
     this.store.dispatch(authActions.updateCurrentUser({ user }));
   }
 
-  public logout(): void {
+  protected logout(): void {
     this.store.dispatch(authActions.logout());
   }
 }

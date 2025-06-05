@@ -1,9 +1,11 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { authActions } from './auth.actions';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { JwtTokenStorage, UserApiClient } from '@app/auth/data-access/services';
+
+import { JwtTokenStorage, UserApiClient } from '../api';
+
+import { authActions } from './auth.actions';
 
 export const getCurrentUser$ = createEffect(
   (

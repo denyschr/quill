@@ -1,10 +1,12 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { articleListActions } from './article-list.actions';
 import { catchError, concatMap, exhaustMap, map, of } from 'rxjs';
-import { ArticleApiClient } from '@app/articles/data-access/services';
 import { Store } from '@ngrx/store';
 import { concatLatestFrom } from '@ngrx/operators';
+
+import { ArticleApiClient } from '../../api';
+
+import { articleListActions } from './article-list.actions';
 import { selectConfig } from './article-list.state';
 
 export const setPage$ = createEffect(

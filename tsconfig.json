@@ -3,7 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -23,60 +23,7 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@env/*": ["environments/*"],
-      "@app/*": ["app/*"],
-      "@app/core/data-access/models": ["app/core/data-access/models/index.ts"],
-      "@app/core/layout": ["app/core/layout/index.ts"],
-      "@app/core/validation": ["app/core/validation/index.ts"],
-      "@app/core/ui/password-input-toggle": ["app/core/ui/password-input-toggle/index.ts"],
-      "@app/core/utils": ["app/core/utils/index.ts"],
-      "@app/auth/data-access/models": ["app/auth/data-access/models/index.ts"],
-      "@app/auth/data-access/state": ["app/auth/data-access/state/index.ts"],
-      "@app/auth/data-access/services": ["app/auth/data-access/services/index.ts"],
-      "@app/auth/feature/login": ["app/auth/feature/login/index.ts"],
-      "@app/auth/feature/register": ["app/auth/feature/register/index.ts"],
-      "@app/auth/ui/login-form": ["app/auth/ui/login-form/index.ts"],
-      "@app/auth/ui/register-form": ["app/auth/ui/register-form/index.ts"],
-      "@app/auth/utils": ["app/auth/utils/index.ts"],
-      "@app/home/data-access/services": ["app/home/data-access/services/index.ts"],
-      "@app/home/data-access/state/tags": ["app/home/data-access/state/tags/index.ts"],
-      "@app/home/feature": ["app/home/feature/index.ts"],
-      "@app/home/ui/feed-tabs": ["app/home/ui/feed-tabs/index.ts"],
-      "@app/home/ui/tags": ["app/home/ui/tags/index.ts"],
-      "@app/articles/data-access/models": ["app/articles/data-access/models/index.ts"],
-      "@app/articles/data-access/services": ["app/articles/data-access/services/index.ts"],
-      "@app/articles/data-access/state/article-list": [
-        "app/articles/data-access/state/article-list/index.ts"
-      ],
-      "@app/articles/data-access/state/article-detail": [
-        "app/articles/data-access/state/article-detail/index.ts"
-      ],
-      "@app/articles/data-access/state/article-edit": [
-        "app/articles/data-access/state/article-edit/index.ts"
-      ],
-      "@app/articles/data-access/state/article-new": [
-        "app/articles/data-access/state/article-new/index.ts"
-      ],
-      "@app/articles/feature/article-list": ["app/articles/feature/article-list/index.ts"],
-      "@app/articles/feature/article-detail": ["app/articles/feature/article-detail/index.ts"],
-      "@app/articles/feature/article-edit": ["app/articles/feature/article-edit/index.ts"],
-      "@app/articles/feature/article-new": ["app/articles/feature/article-new/index.ts"],
-      "@app/articles/ui/article-preview": ["app/articles/ui/article-preview/index.ts"],
-      "@app/articles/ui/article-meta": ["app/articles/ui/article-meta/index.ts"],
-      "@app/articles/ui/article-form": ["app/articles/ui/article-form/index.ts"],
-      "@app/articles/ui/article-banner": ["app/articles/ui/article-banner/index.ts"],
-      "@app/settings/data-access/state": ["app/settings/data-access/state/index.ts"],
-      "@app/settings/feature": ["app/settings/feature/index.ts"],
-      "@app/settings/ui/settings-form": ["app/settings/ui/settings-form/index.ts"],
-      "@app/profile/data-access/models": ["app/profile/data-access/models/index.ts"],
-      "@app/profile/data-access/services": ["app/profile/data-access/services/index.ts"],
-      "@app/profile/data-access/state": ["app/profile/data-access/state/index.ts"],
-      "@app/profile/feature": ["app/profile/feature/index.ts"],
-      "@app/profile/ui/user-info": ["app/profile/ui/user-info/index.ts"],
-      "@app/profile/ui/article-tabs": ["app/profile/ui/article-tabs/index.ts"],
-      "@app/shared/ui/backend-errors": ["app/shared/ui/backend-errors/index.ts"],
-      "@app/shared/ui/tag-list": ["app/shared/ui/tag-list/index.ts"],
-      "@app/shared/ui/not-found": ["app/shared/ui/not-found/index.ts"]
+      "@/*": ["src/*"]
     }
   },
   "angularCompilerOptions": {

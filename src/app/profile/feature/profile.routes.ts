@@ -1,12 +1,14 @@
 import { Route } from '@angular/router';
-import { ProfileComponent } from './profile.component';
 import { provideState } from '@ngrx/store';
-import { profileEffects, profileFeatureKey, profileReducer } from '@app/profile/data-access/state';
 import { provideEffects } from '@ngrx/effects';
+
+import { ArticleListComponent } from '@/app/articles/feature/article-list';
+
+import { profileEffects, profileFeatureKey, profileReducer } from '../data-access/state';
 import { profileResolver } from './profile.resolver';
 import { profileArticlesResolver } from './profile-articles.resolver';
 import { profileFavoritesResolver } from './profile-favorites.resolver';
-import { ArticleListComponent } from '@app/articles/feature/article-list';
+import { ProfileComponent } from './profile.component';
 
 export const PROFILE_ROUTES: Route[] = [
   {

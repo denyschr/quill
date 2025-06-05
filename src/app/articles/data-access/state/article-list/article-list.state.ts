@@ -1,7 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
+
+import { environment } from '@/environments/environment';
+
+import { Article, ArticleListConfig } from '../../models';
+
 import { articleListActions } from './article-list.actions';
-import { Article, ArticleListConfig } from '@app/articles/data-access/models';
-import { environment } from '@env/environment.development';
 
 export interface ArticleListState {
   articles: Article[];

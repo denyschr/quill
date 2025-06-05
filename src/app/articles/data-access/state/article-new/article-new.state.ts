@@ -1,6 +1,8 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { BackendErrors } from '@app/core/data-access/models';
+
+import { BackendErrors } from '@/app/core/data-access/models';
+
 import { articleNewActions } from './article-new.actions';
 
 export interface ArticleNewState {

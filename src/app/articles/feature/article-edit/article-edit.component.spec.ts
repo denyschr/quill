@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ArticleEditComponent } from './article-edit.component';
-import {
-  articleEditActions,
-  articleEditInitialState
-} from '@app/articles/data-access/state/article-edit';
 import { By } from '@angular/platform-browser';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { ArticleFormComponent } from '@app/articles/ui/article-form';
-import { articleDetailInitialState } from '@app/articles/data-access/state/article-detail';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { articleEditActions, articleEditInitialState } from '../../data-access/state/article-edit';
+import { ArticleFormComponent } from '../../ui/article-form';
+import { articleDetailInitialState } from '../../data-access/state/article-detail';
+
+import { ArticleEditComponent } from './article-edit.component';
 
 describe('ArticleEditComponent', () => {
   let store: MockStore;

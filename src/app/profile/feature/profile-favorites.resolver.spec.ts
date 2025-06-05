@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { profileFavoritesResolver } from './profile-favorites.resolver';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
 import {
   articleListActions,
   articleListInitialState
-} from '@app/articles/data-access/state/article-list';
+} from '@/app/articles/data-access/state/article-list';
+
+import { profileFavoritesResolver } from './profile-favorites.resolver';
 
 describe('profileFavoritesResolver', () => {
   let store: MockStore;

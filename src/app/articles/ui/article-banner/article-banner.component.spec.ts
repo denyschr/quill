@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { Article } from '@app/articles/data-access/models';
-import { ArticleBannerComponent } from '@app/articles/ui/article-banner/article-banner.component';
+
+import { Article } from '../../data-access/models';
+
+import { ArticleBannerComponent } from './article-banner.component';
 
 describe('ArticleBannerComponent', () => {
   const mockArticle = {

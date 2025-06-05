@@ -5,10 +5,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { RegisterCredentials } from '@app/auth/data-access/models';
-import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { FormControlValidationDirective } from '@app/core/validation';
+
+import { PasswordInputToggleComponent } from '@/app/core/ui/password-input-toggle';
+import { FormControlValidationDirective } from '@/app/core/validation';
+
+import { RegisterCredentials } from '../../data-access/models';
 
 @Component({
   selector: 'ql-register-form',
@@ -57,17 +59,17 @@ import { FormControlValidationDirective } from '@app/core/validation';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterFormComponent {
-  public readonly usernameControl = this.fb.control('', [
+  protected readonly usernameControl = this.fb.control('', [
     Validators.required,
     Validators.minLength(3)
   ]);
-  public readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this.fb.control('', [
+  protected readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
+  protected readonly passwordControl = this.fb.control('', [
     Validators.required,
     Validators.minLength(8)
   ]);
 
-  public readonly form = this.fb.group({
+  protected readonly form = this.fb.group({
     username: this.usernameControl,
     email: this.emailControl,
     password: this.passwordControl
@@ -81,7 +83,7 @@ export class RegisterFormComponent {
 
   constructor(private readonly fb: NonNullableFormBuilder) {}
 
-  public submit(): void {
+  protected submit(): void {
     this.submitted.emit(this.form.getRawValue());
   }
 }

@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Article } from '@app/articles/data-access/models';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { FormControlValidationDirective } from '@app/core/validation';
+
+import { FormControlValidationDirective } from '@/app/core/validation';
+
+import { Article } from '../../data-access/models';
 
 @Component({
   selector: 'ql-article-form',
@@ -21,7 +23,9 @@ import { FormControlValidationDirective } from '@app/core/validation';
       </div>
 
       <div class="mb-3">
-        <label for="body" class="form-label">Write your article (in markdown)</label>
+        <label for="body" class="form-label"
+          >Write your article <i class="text-muted">(in markdown)</i></label
+        >
         <textarea id="body" class="form-control" rows="8" formControlName="body"></textarea>
         <val-errors controlName="body" label="The body" />
       </div>
@@ -64,12 +68,12 @@ import { FormControlValidationDirective } from '@app/core/validation';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleFormComponent {
-  public readonly titleControl = this.fb.control('', [Validators.required]);
-  public readonly descriptionControl = this.fb.control('', [Validators.required]);
-  public readonly bodyControl = this.fb.control('', [Validators.required]);
-  public readonly tagListControl = this.fb.control(<string[]>[]);
+  protected readonly titleControl = this.fb.control('', [Validators.required]);
+  protected readonly descriptionControl = this.fb.control('', [Validators.required]);
+  protected readonly bodyControl = this.fb.control('', [Validators.required]);
+  protected readonly tagListControl = this.fb.control(<string[]>[]);
 
-  public readonly form = this.fb.group({
+  protected readonly form = this.fb.group({
     title: this.titleControl,
     description: this.descriptionControl,
     body: this.bodyControl,
@@ -94,11 +98,11 @@ export class ArticleFormComponent {
 
   constructor(private readonly fb: NonNullableFormBuilder) {}
 
-  public submit(): void {
+  protected submit(): void {
     this.submitted.emit(this.form.getRawValue());
   }
 
-  public addTag(event: Event): void {
+  protected addTag(event: Event): void {
     event.preventDefault();
 
     const tagInput = event.target as HTMLInputElement;
@@ -111,7 +115,7 @@ export class ArticleFormComponent {
     tagInput.value = '';
   }
 
-  public removeTag(tagName: string): void {
+  protected removeTag(tagName: string): void {
     this.tagListControl.patchValue(this.tagListControl.value.filter(tag => tag !== tagName));
   }
 }

@@ -1,11 +1,12 @@
-/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { authActions } from '@app/auth/data-access/state';
 import { Store } from '@ngrx/store';
-import { ValidationDefaultsComponent } from '@app/core/validation';
-import { NavbarComponent } from '@app/core/layout';
 
+import { authActions } from './auth/data-access/state';
+import { ValidationDefaultsComponent } from './core/validation';
+import { NavbarComponent } from './core/layout';
+
+// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   selector: 'ql-root',
   template: `

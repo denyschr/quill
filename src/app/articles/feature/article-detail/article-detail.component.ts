@@ -1,24 +1,25 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { combineLatest, filter, map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { LetDirective } from '@ngrx/component';
+
+import { selectCurrentUser } from '@/app/auth/data-access/state';
+import { Profile } from '@/app/profile/data-access/models';
+import { TagListComponent } from '@/app/shared/ui/tag-list';
+
 import {
   articleDetailActions,
   selectArticle,
   selectLoading
-} from '@app/articles/data-access/state/article-detail';
-import { selectCurrentUser } from '@app/auth/data-access/state';
-import { Store } from '@ngrx/store';
-import { combineLatest, filter, map } from 'rxjs';
-import { articleListActions } from '@app/articles/data-access/state/article-list';
-import { Article } from '@app/articles/data-access/models';
-import { Profile } from '@app/profile/data-access/models';
-import { TagListComponent } from '@app/shared/ui/tag-list';
-import { LetDirective } from '@ngrx/component';
-import { ArticleBannerComponent } from '@app/articles/ui/article-banner';
+} from '../../data-access/state/article-detail';
+import { articleListActions } from '../../data-access/state/article-list';
+import { Article } from '../../data-access/models';
+import { ArticleBannerComponent } from '../../ui/article-banner';
 
 @Component({
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       @let article = vm.article;
-
       @if (!vm.loading) {
         @if (article) {
           <ql-article-banner
@@ -55,7 +56,7 @@ export class ArticleDetailComponent {
       .pipe(filter(currentUser => currentUser !== undefined))
   }).pipe(map(({ article, currentUser }) => article?.author.username === currentUser?.username));
 
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     article: this.store.select(selectArticle),
     loading: this.store.select(selectLoading),
     canModify: this.canModify$
@@ -63,7 +64,7 @@ export class ArticleDetailComponent {
 
   constructor(private readonly store: Store) {}
 
-  public toggleFollow(author: Profile): void {
+  protected toggleFollow(author: Profile): void {
     if (author.following) {
       this.store.dispatch(articleDetailActions.unfollow({ username: author.username }));
     } else {
@@ -71,7 +72,7 @@ export class ArticleDetailComponent {
     }
   }
 
-  public toggleFavorite(article: Article): void {
+  protected toggleFavorite(article: Article): void {
     if (article.favorited) {
       this.store.dispatch(articleListActions.unfavorite({ slug: article.slug }));
     } else {
@@ -79,7 +80,7 @@ export class ArticleDetailComponent {
     }
   }
 
-  public delete(slug: string): void {
+  protected delete(slug: string): void {
     this.store.dispatch(articleDetailActions.deleteArticle({ slug }));
   }
 }

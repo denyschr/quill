@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { ArticlePreviewComponent } from './article-preview.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { TagListComponent } from '@app/shared/ui/tag-list';
-import { Article } from '@app/articles/data-access/models';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+
+import { TagListComponent } from '@/app/shared/ui/tag-list';
+
+import { Article } from '../../data-access/models';
+
+import { ArticleMetaComponent } from '../article-meta';
+
+import { ArticlePreviewComponent } from './article-preview.component';
 
 describe('ArticlePreviewComponent', () => {
   const mockArticle = {

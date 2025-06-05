@@ -1,16 +1,18 @@
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of, switchMap, tap } from 'rxjs';
+
+import { ProfileApiClient } from '../api';
+
 import { profileActions } from './profile.actions';
-import { ProfileApiClient } from '@app/profile/data-access/services';
-import { Router } from '@angular/router';
 
 export const loadProfile$ = createEffect(
-  (actions$ = inject(Actions), profileClient = inject(ProfileApiClient)) => {
+  (actions$ = inject(Actions), profileApiClient = inject(ProfileApiClient)) => {
     return actions$.pipe(
       ofType(profileActions.loadProfile),
       switchMap(({ username }) =>
-        profileClient.get(username).pipe(
+        profileApiClient.get(username).pipe(
           map(profile => profileActions.loadProfileSuccess({ profile })),
           catchError(() => of(profileActions.loadProfileFailure()))
         )
@@ -25,7 +27,7 @@ export const loadProfileFailure$ = createEffect(
     return actions$.pipe(
       ofType(profileActions.loadProfileFailure),
       tap(() => {
-        void router.navigateByUrl('/');
+        router.navigateByUrl('/');
       })
     );
   },

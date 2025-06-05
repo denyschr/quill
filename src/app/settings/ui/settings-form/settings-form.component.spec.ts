@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ValidationDefaultsComponent } from '@app/core/validation';
-import { SettingsFormComponent } from '@app/settings/ui/settings-form/settings-form.component';
-import { RegisterFormComponent } from '@app/auth/ui/register-form';
 import { By } from '@angular/platform-browser';
-import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
-import { User } from '@app/auth/data-access/models';
+
+import { ValidationDefaultsComponent } from '@/app/core/validation';
+import { PasswordInputToggleComponent } from '@/app/core/ui/password-input-toggle';
+import { User } from '@/app/auth/data-access/models';
+
+import { SettingsFormComponent } from './settings-form.component';
 
 describe('SettingsFormComponent', () => {
   const mockUser = {
@@ -142,7 +143,7 @@ describe('SettingsFormComponent', () => {
   });
 
   it('should use PasswordInputToggleComponent', () => {
-    const fixture = TestBed.createComponent(RegisterFormComponent);
+    const fixture = TestBed.createComponent(SettingsFormComponent);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.directive(PasswordInputToggleComponent)))

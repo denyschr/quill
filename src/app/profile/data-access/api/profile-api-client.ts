@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Profile } from '@app/profile/data-access/models';
 import { map, Observable } from 'rxjs';
+
+import { Profile } from '../models';
 
 @Injectable({
   providedIn: 'root'

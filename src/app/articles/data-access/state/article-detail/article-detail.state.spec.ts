@@ -1,7 +1,9 @@
-import * as fromArticle from './article-detail.state';
 import { routerNavigationAction } from '@ngrx/router-store';
+
+import { Article } from '../../models';
+
 import { articleDetailActions } from './article-detail.actions';
-import { Article } from '@app/articles/data-access/models';
+import * as fromArticle from './article-detail.state';
 
 describe('ArticleDetailState', () => {
   describe('unknown action', () => {

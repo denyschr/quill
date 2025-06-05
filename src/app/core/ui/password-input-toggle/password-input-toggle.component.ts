@@ -28,12 +28,12 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordInputToggleComponent {
-  public visible = false;
+  protected visible = false;
 
   @Input({ required: true })
   public input!: HTMLInputElement;
 
-  public toggle(): void {
+  protected toggle(): void {
     this.visible = !this.visible;
     this.input.type = this.visible ? 'text' : 'password';
     this.input.focus();

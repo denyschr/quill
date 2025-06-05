@@ -1,7 +1,8 @@
 import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
+
+import { articleDetailActions } from '../../data-access/state/article-detail';
 
 export const articleDetailResolver: ResolveFn<boolean> = route => {
   const store = inject(Store);

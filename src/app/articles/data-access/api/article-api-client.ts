@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Article, ArticleListConfig, ArticleListResponse } from '@app/articles/data-access/models';
+
+import { Article, ArticleListConfig, ArticleListResponse } from '../models';
 
 @Injectable({
   providedIn: 'root'

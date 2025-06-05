@@ -1,8 +1,9 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '@app/auth/data-access/state';
 import { filter, map } from 'rxjs';
+
+import { selectCurrentUser } from '../data-access/state';
 
 export interface LoggedInGuardOptions {
   readonly loggedIn: boolean;

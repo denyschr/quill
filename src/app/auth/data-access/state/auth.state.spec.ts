@@ -1,7 +1,9 @@
+import { routerNavigatedAction } from '@ngrx/router-store';
+
+import { User } from '../models';
+
 import * as fromAuth from './auth.state';
 import { authActions } from './auth.actions';
-import { routerNavigatedAction } from '@ngrx/router-store';
-import { User } from '@app/auth/data-access/models';
 
 describe('AuthState', () => {
   const mockUser = { username: 'jack' } as User;

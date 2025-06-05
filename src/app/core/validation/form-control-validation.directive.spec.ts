@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, inject } from '@angular/core';
-import { FormControlValidationDirective } from './form-control-validation.directive';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+
+import { FormControlValidationDirective } from './form-control-validation.directive';
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({

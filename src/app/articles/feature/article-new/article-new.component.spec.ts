@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { ArticleNewComponent } from './article-new.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import {
-  articleNewActions,
-  articleNewInitialState
-} from '@app/articles/data-access/state/article-new';
 import { By } from '@angular/platform-browser';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { ArticleFormComponent } from '@app/articles/ui/article-form';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { articleNewActions, articleNewInitialState } from '../../data-access/state/article-new';
+import { ArticleFormComponent } from '../../ui/article-form';
+
+import { ArticleNewComponent } from './article-new.component';
 
 describe('ArticleNewComponent', () => {
   let store: MockStore;

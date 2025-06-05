@@ -1,17 +1,16 @@
-/* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ArticleListComponent } from './article-list.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { ArticlePreviewComponent } from '@app/articles/ui/article-preview';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  articleListActions,
-  articleListInitialState
-} from '@app/articles/data-access/state/article-list';
-import { Article, ArticleListResponse } from '@app/articles/data-access/models';
 
+import { ArticlePreviewComponent } from '../../ui/article-preview';
+import { articleListActions, articleListInitialState } from '../../data-access/state/article-list';
+import { Article, ArticleListResponse } from '../../data-access/models';
+
+import { ArticleListComponent } from './article-list.component';
+
+// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   selector: 'ql-article-preview',
   template: '',

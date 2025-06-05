@@ -1,6 +1,8 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { BackendErrors } from '@app/core/data-access/models';
-import { Article } from '@app/articles/data-access/models';
+
+import { BackendErrors } from '@/app/core/data-access/models';
+
+import { Article } from '../../models';
 
 export const articleNewActions = createActionGroup({
   source: 'Article New',

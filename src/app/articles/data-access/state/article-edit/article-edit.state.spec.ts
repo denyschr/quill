@@ -1,7 +1,9 @@
+import { routerNavigationAction } from '@ngrx/router-store';
+
+import { Article } from '../../models';
+
 import * as fromArticleEdit from './article-edit.state';
 import { articleEditActions } from './article-edit.actions';
-import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleEditState', () => {
   const mockArticle = {

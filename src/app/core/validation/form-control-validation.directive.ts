@@ -1,8 +1,8 @@
-/* eslint-disable @angular-eslint/directive-selector */
 import { Directive, Optional } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[formControlName]',
   standalone: true,
   host: {
@@ -10,7 +10,7 @@ import { NgControl } from '@angular/forms';
   }
 })
 export class FormControlValidationDirective {
-  public get invalid(): boolean | null {
+  protected get invalid(): boolean | null {
     return this.ngControl.touched && this.ngControl.invalid;
   }
 

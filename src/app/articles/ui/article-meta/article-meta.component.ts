@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Article } from '@app/articles/data-access/models';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+
+import { Article } from '../../data-access/models';
 
 @Component({
   selector: 'ql-article-meta',

@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs';
+import { LetDirective } from '@ngrx/component';
+
 import {
   articleListActions,
   selectArticles,
   selectConfig,
   selectLoading,
   selectTotal
-} from '@app/articles/data-access/state/article-list';
-import { combineLatest } from 'rxjs';
-import { ArticlePreviewComponent } from '@app/articles/ui/article-preview';
-import { LetDirective } from '@ngrx/component';
-import { Article } from '@app/articles/data-access/models';
+} from '../../data-access/state/article-list';
+import { ArticlePreviewComponent } from '../../ui/article-preview';
+import { Article } from '../../data-access/models';
 
 @Component({
   selector: 'ql-article-list',
@@ -45,7 +46,7 @@ import { Article } from '@app/articles/data-access/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleListComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     articles: this.store.select(selectArticles),
     total: this.store.select(selectTotal),
     config: this.store.select(selectConfig),
@@ -54,7 +55,7 @@ export class ArticleListComponent {
 
   constructor(private readonly store: Store) {}
 
-  public toggleFavorite(article: Article): void {
+  protected toggleFavorite(article: Article): void {
     if (article.favorited) {
       this.store.dispatch(articleListActions.unfavorite({ slug: article.slug }));
     } else {
@@ -62,7 +63,7 @@ export class ArticleListComponent {
     }
   }
 
-  public changePage(page: number): void {
+  protected changePage(page: number): void {
     this.store.dispatch(articleListActions.setPage({ page }));
   }
 }

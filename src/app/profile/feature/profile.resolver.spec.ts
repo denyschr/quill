@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { profileActions } from '@app/profile/data-access/state';
+
+import { profileActions } from '../data-access/state';
+
 import { profileResolver } from './profile.resolver';
 
 describe('profileResolver', () => {

@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
 import {
   articleEditActions,
   selectErrors,
   selectSubmitting
-} from '@app/articles/data-access/state/article-edit';
-import { selectArticle, selectLoading } from '@app/articles/data-access/state/article-detail';
-import { ArticleFormComponent } from '@app/articles/ui/article-form';
-import { Article } from '@app/articles/data-access/models';
+} from '../../data-access/state/article-edit';
+import { selectArticle, selectLoading } from '../../data-access/state/article-detail';
+import { ArticleFormComponent } from '../../ui/article-form';
+import { Article } from '../../data-access/models';
 
 @Component({
   template: `
@@ -43,7 +45,7 @@ import { Article } from '@app/articles/data-access/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleEditComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     article: this.store.select(selectArticle),
     submitting: this.store.select(selectSubmitting),
     loading: this.store.select(selectLoading),
@@ -55,7 +57,7 @@ export class ArticleEditComponent {
 
   constructor(private readonly store: Store) {}
 
-  public publish(article: Partial<Article>): void {
+  protected publish(article: Partial<Article>): void {
     this.store.dispatch(articleEditActions.editArticle({ slug: this.slug, article }));
   }
 }

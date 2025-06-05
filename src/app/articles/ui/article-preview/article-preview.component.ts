@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Article } from '@app/articles/data-access/models';
-import { TagListComponent } from '@app/shared/ui/tag-list';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+
+import { TagListComponent } from '@/app/shared/ui/tag-list';
+
+import { Article } from '../../data-access/models';
+import { ArticleMetaComponent } from '../article-meta';
 
 @Component({
   selector: 'ql-article-preview',

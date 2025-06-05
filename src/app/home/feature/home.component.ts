@@ -2,21 +2,23 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
-import { TagsComponent } from '@app/home/ui/tags';
-import {
-  selectLoading as selectTagsLoading,
-  selectTags,
-  tagsActions
-} from '@app/home/data-access/state/tags';
-import { selectCurrentUser } from '@app/auth/data-access/state';
+
+import { selectCurrentUser } from '@/app/auth/data-access/state';
 import {
   articleListActions,
   articleListInitialState,
   selectConfig
-} from '@app/articles/data-access/state/article-list';
-import { ArticleListComponent } from '@app/articles/feature/article-list';
-import { FeedType } from '@app/articles/data-access/models';
-import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
+} from '@/app/articles/data-access/state/article-list';
+import { ArticleListComponent } from '@/app/articles/feature/article-list';
+import { FeedType } from '@/app/articles/data-access/models';
+
+import { TagsComponent } from '../ui/tags';
+import {
+  selectLoading as selectTagsLoading,
+  selectTags,
+  tagsActions
+} from '../data-access/state/tags';
+import { FeedTabsComponent } from '../ui/feed-tabs';
 
 @Component({
   template: `
@@ -45,7 +47,7 @@ import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     config: this.store.select(selectConfig),
     tags: this.store.select(selectTags),
     tagsLoading: this.store.select(selectTagsLoading),
@@ -57,7 +59,7 @@ export class HomeComponent {
     this.changeFeed('global');
   }
 
-  public changeFeed(type: FeedType = 'global'): void {
+  protected changeFeed(type: FeedType = 'global'): void {
     this.store.dispatch(
       articleListActions.setConfig({
         config: {
@@ -68,7 +70,7 @@ export class HomeComponent {
     );
   }
 
-  public setTag(tag: string): void {
+  protected setTag(tag: string): void {
     this.store.dispatch(
       articleListActions.setConfig({
         config: {

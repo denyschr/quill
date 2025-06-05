@@ -1,7 +1,9 @@
+import { routerNavigationAction } from '@ngrx/router-store';
+
+import { Article } from '../../models';
+
 import * as fromArticleNew from './article-new.state';
 import { articleNewActions } from './article-new.actions';
-import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleNewState', () => {
   const mockArticle = { title: 'How to train your dragon' } as Article;

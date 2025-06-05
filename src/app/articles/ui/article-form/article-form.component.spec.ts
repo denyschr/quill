@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+
+import { ValidationDefaultsComponent } from '@/app/core/validation';
+
+import { Article } from '../../data-access/models';
+
 import { ArticleFormComponent } from './article-form.component';
-import { ValidationDefaultsComponent } from '@app/core/validation';
-import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleFormComponent', () => {
   const mockArticle = {

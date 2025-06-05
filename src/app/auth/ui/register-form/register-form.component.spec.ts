@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
+import { ValidationDefaultsComponent } from '@/app/core/validation';
+import { PasswordInputToggleComponent } from '@/app/core/ui/password-input-toggle';
+
 import { RegisterFormComponent } from './register-form.component';
-import { ValidationDefaultsComponent } from '@app/core/validation';
-import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
 
 describe('RegisterFormComponent', () => {
   beforeEach(() => {

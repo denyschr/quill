@@ -1,11 +1,13 @@
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { ArticleApiClient } from '../../api';
+import { ArticleListResponse } from '../../models';
+
 import { articleListActions } from './article-list.actions';
 import * as articleListEffects from './article-list.effects';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ArticleApiClient } from '@app/articles/data-access/services';
-import { ArticleListResponse } from '@app/articles/data-access/models';
 
 describe('ArticleListEffects', () => {
   let mockArticleApiClient: jasmine.SpyObj<ArticleApiClient>;

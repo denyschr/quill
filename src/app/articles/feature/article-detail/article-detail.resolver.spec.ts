@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { articleDetailActions } from '../../data-access/state/article-detail';
 
 import { articleDetailResolver } from './article-detail.resolver';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { articleDetailActions } from '@app/articles/data-access/state/article-detail';
 
 describe('articleDetailResolver', () => {
   let store: MockStore;

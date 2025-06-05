@@ -1,16 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { ArticleDetailComponent } from './article-detail.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { authInitialState } from '@app/auth/data-access/state';
-import { ArticleBannerComponent } from '@app/articles/ui/article-banner';
+import { provideRouter } from '@angular/router';
+
+import { TagListComponent } from '@/app/shared/ui/tag-list';
+import { authInitialState } from '@/app/auth/data-access/state';
+
+import { ArticleBannerComponent } from '../../ui/article-banner';
 import {
   articleDetailActions,
   articleDetailInitialState
-} from '@app/articles/data-access/state/article-detail';
-import { provideRouter } from '@angular/router';
-import { TagListComponent } from '@app/shared/ui/tag-list';
-import { articleListActions } from '@app/articles/data-access/state/article-list';
+} from '../../data-access/state/article-detail';
+import { articleListActions } from '../../data-access/state/article-list';
+
+import { ArticleDetailComponent } from './article-detail.component';
 
 describe('ArticleDetailComponent', () => {
   let store: MockStore;

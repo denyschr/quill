@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { Component } from '@angular/core';
 
-import { ArticleTabsComponent } from '@app/profile/ui/article-tabs/article-tabs.component';
+import { ArticleTabsComponent } from './article-tabs.component';
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({

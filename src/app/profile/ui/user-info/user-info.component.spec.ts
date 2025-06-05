@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { UserInfoComponent } from '@app/profile/ui/user-info/user-info.component';
+
+import { UserInfoComponent } from './user-info.component';
 
 describe('UserInfoComponent', () => {
   const mockProfile = {

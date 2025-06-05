@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { authActions, selectErrors, selectSubmitting } from '@app/auth/data-access/state';
 import { combineLatest } from 'rxjs';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { LetDirective } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterCredentials } from '@app/auth/data-access/models';
-import { RegisterFormComponent } from '@app/auth/ui/register-form';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { authActions, selectErrors, selectSubmitting } from '../../data-access/state';
+import { RegisterCredentials } from '../../data-access/models';
+import { RegisterFormComponent } from '../../ui/register-form';
 
 @Component({
   template: `
@@ -19,10 +21,8 @@ import { RegisterFormComponent } from '@app/auth/ui/register-form';
             <a class="link-opacity-100" routerLink="/login">Have an account?</a>
           </div>
           <ng-container *ngrxLet="vm$; let vm">
-            @let errors = vm.errors;
-
-            @if (errors) {
-              <ql-backend-errors [errors]="errors" />
+            @if (vm.errors) {
+              <ql-backend-errors [errors]="vm.errors" />
             }
 
             <ql-register-form [submitting]="vm.submitting" (submitted)="register($event)" />
@@ -42,14 +42,14 @@ import { RegisterFormComponent } from '@app/auth/ui/register-form';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
     errors: this.store.select(selectErrors)
   });
 
   constructor(private readonly store: Store) {}
 
-  public register(credentials: RegisterCredentials): void {
+  protected register(credentials: RegisterCredentials): void {
     this.store.dispatch(authActions.register({ credentials }));
   }
 }

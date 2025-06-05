@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { SettingsComponent } from './settings.component';
 import { By } from '@angular/platform-browser';
-import { authActions, authInitialState } from '@app/auth/data-access/state';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { settingsInitialState } from '@app/settings/data-access/state';
-import { SettingsFormComponent } from '@app/settings/ui/settings-form';
+
+import { authActions, authInitialState } from '@/app/auth/data-access/state';
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { settingsInitialState } from '../data-access/state';
+import { SettingsFormComponent } from '../ui/settings-form';
 
 describe('SettingsComponent', () => {
   let store: MockStore;

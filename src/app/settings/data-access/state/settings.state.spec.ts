@@ -1,6 +1,7 @@
 import * as fromSettings from './settings.state';
-import { authActions } from '@app/auth/data-access/state';
-import { User } from '@app/auth/data-access/models';
+
+import { authActions } from '@/app/auth/data-access/state';
+import { User } from '@/app/auth/data-access/models';
 
 describe('SettingsState', () => {
   const mockUser = { username: 'jack' } as User;

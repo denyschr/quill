@@ -4,12 +4,14 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-import { ArticleListComponent } from '@app/articles/feature/article-list';
-import { ProfileComponent } from '@app/profile/feature/profile.component';
-import { profileActions, profileInitialState } from '@app/profile/data-access/state';
-import { authInitialState } from '@app/auth/data-access/state';
-import { UserInfoComponent } from '@app/profile/ui/user-info';
-import { ArticleTabsComponent } from '@app/profile/ui/article-tabs';
+import { ArticleListComponent } from '@/app/articles/feature/article-list';
+import { authInitialState } from '@/app/auth/data-access/state';
+
+import { profileActions, profileInitialState } from '../data-access/state';
+import { UserInfoComponent } from '../ui/user-info';
+import { ArticleTabsComponent } from '../ui/article-tabs';
+
+import { ProfileComponent } from './profile.component';
 
 describe('ProfileComponent', () => {
   const mockProfile = {

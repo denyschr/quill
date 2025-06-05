@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '@app/auth/data-access/state';
 import { LetDirective } from '@ngrx/component';
 import { combineLatest } from 'rxjs';
+
+import { selectCurrentUser } from '@/app/auth/data-access/state';
 
 @Component({
   selector: 'ql-navbar',
@@ -84,14 +85,14 @@ import { combineLatest } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  public navbarCollapsed = true;
-  public readonly vm$ = combineLatest({
+  protected navbarCollapsed = true;
+  protected readonly vm$ = combineLatest({
     currentUser: this.store.select(selectCurrentUser)
   });
 
   constructor(private readonly store: Store) {}
 
-  public toggleNavbar(): void {
+  protected toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;
   }
 }

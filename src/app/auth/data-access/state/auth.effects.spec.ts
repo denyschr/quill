@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import * as authEffects from './auth.effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+
+import { JwtTokenStorage, UserApiClient } from '../api';
+import { User } from '../models';
+
 import { authActions } from './auth.actions';
-import { JwtTokenStorage, UserApiClient } from '@app/auth/data-access/services';
-import { User } from '@app/auth/data-access/models';
+import * as authEffects from './auth.effects';
 
 describe('AuthEffects', () => {
   let mockUserApiClient: jasmine.SpyObj<UserApiClient>;

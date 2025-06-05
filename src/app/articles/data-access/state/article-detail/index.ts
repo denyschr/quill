@@ -1,4 +1,4 @@
 export * from './article-detail.actions';
 export * from './article-detail.state';
 
-export * as articleEffects from './article-detail.effects';
+export * as articleDetailEffects from './article-detail.effects';

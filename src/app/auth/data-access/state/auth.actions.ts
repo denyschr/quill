@@ -1,11 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import {
-  LoginCredentials,
-  RegisterCredentials,
-  User,
-  UserUpdate
-} from '@app/auth/data-access/models';
-import { BackendErrors } from '@app/core/data-access/models';
+
+import { BackendErrors } from '@/app/core/data-access/models';
+
+import { LoginCredentials, RegisterCredentials, User, UserUpdate } from '../models';
 
 export const authActions = createActionGroup({
   source: 'Auth',

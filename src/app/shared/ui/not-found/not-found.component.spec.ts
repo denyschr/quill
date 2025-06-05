@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { NotFoundComponent } from './not-found.component';
 import { provideRouter } from '@angular/router';
+
+import { NotFoundComponent } from './not-found.component';
 
 describe('NotFoundComponent', () => {
   beforeEach(() => {

@@ -1,10 +1,11 @@
 import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import {
   articleListActions,
   articleListInitialState
-} from '@app/articles/data-access/state/article-list';
+} from '@/app/articles/data-access/state/article-list';
 
 export const profileArticlesResolver: ResolveFn<boolean> = route => {
   const username = route.paramMap.get('username')!;

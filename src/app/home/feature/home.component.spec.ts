@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { HomeComponent } from './home.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { FeedTabsComponent } from '@app/home/ui/feed-tabs';
+
 import {
   articleListActions,
   articleListInitialState
-} from '@app/articles/data-access/state/article-list';
-import { ArticleListComponent } from '@app/articles/feature/article-list';
-import { TagsComponent } from '@app/home/ui/tags';
+} from '@/app/articles/data-access/state/article-list';
+import { ArticleListComponent } from '@/app/articles/feature/article-list';
+
+import { FeedTabsComponent } from '../ui/feed-tabs';
+import { TagsComponent } from '../ui/tags';
+
+import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
   let store: MockStore;

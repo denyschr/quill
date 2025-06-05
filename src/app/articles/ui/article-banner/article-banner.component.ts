@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Article } from '@app/articles/data-access/models';
 import { RouterLink } from '@angular/router';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
+
+import { Article } from '../../data-access/models';
+
+import { ArticleMetaComponent } from '../article-meta';
 
 @Component({
   selector: 'ql-article-banner',
@@ -62,7 +64,7 @@ import { ArticleMetaComponent } from '@app/articles/ui/article-meta';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleBannerComponent {
-  public deleting = false;
+  protected deleting = false;
 
   @Input({ required: true })
   public article!: Article;
@@ -79,7 +81,7 @@ export class ArticleBannerComponent {
   @Output()
   public readonly deleted = new EventEmitter<void>();
 
-  public delete() {
+  protected delete() {
     this.deleting = true;
     this.deleted.emit();
   }

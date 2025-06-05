@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { authInitialState } from '@app/auth/data-access/state';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { loggedInGuard, LoggedInGuardOptions } from './logged-in.guard';
 import { Observable } from 'rxjs';
+
+import { authInitialState } from '../data-access/state';
+
+import { loggedInGuard, LoggedInGuardOptions } from './logged-in.guard';
 
 describe('loggedInGuard', () => {
   let store: MockStore;

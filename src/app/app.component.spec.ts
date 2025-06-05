@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
 import { provideRouter, RouterOutlet } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
-import { authActions } from '@app/auth/data-access/state';
-import { ValidationDefaultsComponent } from '@app/core/validation';
-import { NavbarComponent } from '@app/core/layout';
+
+import { authActions } from './auth/data-access/state';
+import { ValidationDefaultsComponent } from './core/validation';
+import { NavbarComponent } from './core/layout';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let store: MockStore;

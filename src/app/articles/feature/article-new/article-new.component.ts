@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { Article } from '@app/articles/data-access/models';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
 import { combineLatest } from 'rxjs';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { Article } from '../../data-access/models';
 import {
   articleNewActions,
   selectErrors,
   selectSubmitting
-} from '@app/articles/data-access/state/article-new';
-import { ArticleFormComponent } from '@app/articles/ui/article-form';
+} from '../../data-access/state/article-new';
+import { ArticleFormComponent } from '../../ui/article-form';
 
 @Component({
   template: `
@@ -32,14 +34,14 @@ import { ArticleFormComponent } from '@app/articles/ui/article-form';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleNewComponent {
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     submitting: this.store.select(selectSubmitting),
     backendErrors: this.store.select(selectErrors)
   });
 
   constructor(private store: Store) {}
 
-  public publish(article: Partial<Article>) {
+  protected publish(article: Partial<Article>) {
     this.store.dispatch(articleNewActions.newArticle({ article }));
   }
 }

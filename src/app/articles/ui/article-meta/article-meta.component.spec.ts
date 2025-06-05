@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { Article } from '@app/articles/data-access/models';
-import { ArticleMetaComponent } from '@app/articles/ui/article-meta/article-meta.component';
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
+
+import { Article } from '../../data-access/models';
+
+import { ArticleMetaComponent } from './article-meta.component';
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({

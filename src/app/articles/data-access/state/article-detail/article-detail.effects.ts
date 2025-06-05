@@ -1,10 +1,13 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { articleDetailActions } from './article-detail.actions';
 import { catchError, concatMap, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ArticleApiClient } from '@app/articles/data-access/services';
-import { ProfileApiClient } from '@app/profile/data-access/services';
+
+import { ProfileApiClient } from '@/app/profile/data-access/api';
+
+import { ArticleApiClient } from '../../api';
+
+import { articleDetailActions } from './article-detail.actions';
 
 export const loadArticle$ = createEffect(
   (actions$ = inject(Actions), articleApiClient = inject(ArticleApiClient)) => {

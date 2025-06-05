@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NavbarComponent } from './navbar.component';
 import { NgbCollapseConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { authInitialState } from '@app/auth/data-access/state';
-import { User } from '@app/auth/data-access/models';
+
+import { authInitialState } from '@/app/auth/data-access/state';
+import { User } from '@/app/auth/data-access/models';
+
+import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
   let store: MockStore;

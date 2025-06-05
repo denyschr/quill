@@ -1,8 +1,11 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { articleDetailActions } from './article-detail.actions';
 import { routerNavigationAction } from '@ngrx/router-store';
-import { Article } from '@app/articles/data-access/models';
-import { articleListActions } from '@app/articles/data-access/state/article-list';
+
+import { Article } from '../../models';
+
+import { articleListActions } from '../article-list';
+
+import { articleDetailActions } from './article-detail.actions';
 
 export interface ArticleDetailState {
   article: Article | null;

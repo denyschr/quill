@@ -1,24 +1,26 @@
-import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as profileEffects from './profile.effects';
 import { provideRouter, Router } from '@angular/router';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Observable, of, throwError } from 'rxjs';
+
+import { ProfileApiClient } from '../api';
+import { Profile } from '../models';
+
+import * as profileEffects from './profile.effects';
 import { profileActions } from './profile.actions';
-import { ProfileApiClient } from '@app/profile/data-access/services';
-import { Profile } from '@app/profile/data-access/models';
 
 describe('ProfileEffects', () => {
-  let profileClient: jasmine.SpyObj<ProfileApiClient>;
+  let profileApiClient: jasmine.SpyObj<ProfileApiClient>;
   let router: Router;
   let actions$: Observable<unknown>;
 
   beforeEach(() => {
-    profileClient = jasmine.createSpyObj<ProfileApiClient>('ProfileApiClient', ['get']);
+    profileApiClient = jasmine.createSpyObj<ProfileApiClient>('ProfileApiClient', ['get']);
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         provideMockActions(() => actions$),
-        { provide: ProfileApiClient, useValue: profileClient }
+        { provide: ProfileApiClient, useValue: profileApiClient }
       ]
     });
     router = TestBed.inject(Router);
@@ -30,10 +32,10 @@ describe('ProfileEffects', () => {
       const profile = { username: 'jack' } as Profile;
       actions$ = of(profileActions.loadProfile);
 
-      profileClient.get.and.returnValue(of(profile));
+      profileApiClient.get.and.returnValue(of(profile));
 
-      profileEffects.loadProfile$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.get).toHaveBeenCalled();
+      profileEffects.loadProfile$(actions$, profileApiClient).subscribe(action => {
+        expect(profileApiClient.get).toHaveBeenCalled();
         expect(action).toEqual(
           profileActions.loadProfileSuccess({
             profile
@@ -46,10 +48,10 @@ describe('ProfileEffects', () => {
     it('should return a loadProfileFailure action on failure', done => {
       actions$ = of(profileActions.loadProfile);
 
-      profileClient.get.and.returnValue(throwError(() => new Error('error')));
+      profileApiClient.get.and.returnValue(throwError(() => new Error('error')));
 
-      profileEffects.loadProfile$(actions$, profileClient).subscribe(action => {
-        expect(profileClient.get).toHaveBeenCalled();
+      profileEffects.loadProfile$(actions$, profileApiClient).subscribe(action => {
+        expect(profileApiClient.get).toHaveBeenCalled();
         expect(action).toEqual(profileActions.loadProfileFailure());
         done();
       });

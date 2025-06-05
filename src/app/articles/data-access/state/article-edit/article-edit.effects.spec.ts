@@ -2,10 +2,12 @@ import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+
+import { ArticleApiClient } from '../../api';
+import { Article } from '../../models';
+
 import { articleEditActions } from './article-edit.actions';
 import * as articleEditEffects from './article-edit.effects';
-import { ArticleApiClient } from '@app/articles/data-access/services';
-import { Article } from '@app/articles/data-access/models';
 
 describe('ArticleEditEffects', () => {
   let mockArticleApiClient: jasmine.SpyObj<ArticleApiClient>;

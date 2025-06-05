@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorsComponent } from 'ngx-valdemort';
-import { PasswordInputToggleComponent } from '@app/core/ui/password-input-toggle';
-import { User, UserUpdate } from '@app/auth/data-access/models';
+
+import { PasswordInputToggleComponent } from '@/app/core/ui/password-input-toggle';
+import { User, UserUpdate } from '@/app/auth/data-access/models';
 
 @Component({
   selector: 'ql-settings-form',
@@ -62,16 +63,16 @@ import { User, UserUpdate } from '@app/auth/data-access/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsFormComponent {
-  public readonly imageControl = this.fb.control('');
-  public readonly usernameControl = this.fb.control('', [
+  protected readonly imageControl = this.fb.control('');
+  protected readonly usernameControl = this.fb.control('', [
     Validators.required,
     Validators.minLength(3)
   ]);
-  public readonly bioControl = this.fb.control('');
-  public readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
-  public readonly passwordControl = this.fb.control('', [Validators.minLength(8)]);
+  protected readonly bioControl = this.fb.control('');
+  protected readonly emailControl = this.fb.control('', [Validators.required, Validators.email]);
+  protected readonly passwordControl = this.fb.control('', [Validators.minLength(8)]);
 
-  public readonly form = this.fb.group({
+  protected readonly form = this.fb.group({
     image: this.imageControl,
     username: this.usernameControl,
     bio: this.bioControl,
@@ -97,7 +98,7 @@ export class SettingsFormComponent {
 
   constructor(private readonly fb: NonNullableFormBuilder) {}
 
-  public submit(): void {
+  protected submit(): void {
     const { password, ...settings } = this.form.getRawValue();
     this.submitted.emit(password ? { ...settings, password } : settings);
   }

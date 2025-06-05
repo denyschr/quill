@@ -1,8 +1,10 @@
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { UserApiClient } from './user-api-client';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { User } from '@app/auth/data-access/models';
+
+import { User } from '../models';
+
+import { UserApiClient } from './user-api-client';
 
 describe('UserApiClient', () => {
   let httpController: HttpTestingController;

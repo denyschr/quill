@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { JwtTokenStorage } from '@app/auth/data-access/services';
+
+import { JwtTokenStorage } from '@/app/auth/data-access/api';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const token = inject(JwtTokenStorage).get();

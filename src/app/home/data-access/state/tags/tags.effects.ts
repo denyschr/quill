@@ -1,8 +1,10 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tagsActions } from './tags.actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
-import { TagApiClient } from '@app/home/data-access/services';
+
+import { TagApiClient } from '../../api';
+
+import { tagsActions } from './tags.actions';
 
 export const loadTags$ = createEffect(
   (actions$ = inject(Actions), tagApiClient = inject(TagApiClient)) => {

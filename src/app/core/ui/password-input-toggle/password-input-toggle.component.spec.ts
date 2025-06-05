@@ -1,9 +1,10 @@
 /* eslint-disable @angular-eslint/prefer-on-push-component-change-detection */
 import { TestBed } from '@angular/core/testing';
-import { PasswordInputToggleComponent } from './password-input-toggle.component';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgbTooltip, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+
+import { PasswordInputToggleComponent } from './password-input-toggle.component';
 
 @Component({
   template: `
@@ -21,7 +22,6 @@ class PasswordInputToggleTestComponent {}
 describe('PasswordInputToggleComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    // turn off the animation for the tooltip
     const tooltipConfig = TestBed.inject(NgbTooltipConfig);
     tooltipConfig.animation = false;
   });

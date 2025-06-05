@@ -3,17 +3,18 @@ import { Store } from '@ngrx/store';
 import { combineLatest, map } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
 import { RouterOutlet } from '@angular/router';
-import { selectCurrentUser } from '@app/auth/data-access/state';
-import { UserInfoComponent } from '@app/profile/ui/user-info';
-import { Profile } from '@app/profile/data-access/models';
-import { ArticleTabsComponent } from '@app/profile/ui/article-tabs';
-import { profileActions, selectLoading, selectProfile } from '@app/profile/data-access/state';
+
+import { selectCurrentUser } from '@/app/auth/data-access/state';
+
+import { Profile } from '../data-access/models';
+import { profileActions, selectLoading, selectProfile } from '../data-access/state';
+import { ArticleTabsComponent } from '../ui/article-tabs';
+import { UserInfoComponent } from '../ui/user-info';
 
 @Component({
   template: `
     <ng-container *ngrxLet="vm$; let vm">
       @let profile = vm.profile;
-
       @if (!vm.loading) {
         @if (profile) {
           <ql-user-info
@@ -46,7 +47,7 @@ export class ProfileComponent {
     profile: this.store.select(selectProfile)
   }).pipe(map(({ currentUser, profile }) => currentUser?.username === profile?.username));
 
-  public readonly vm$ = combineLatest({
+  protected readonly vm$ = combineLatest({
     profile: this.store.select(selectProfile),
     loading: this.store.select(selectLoading),
     canModify: this.canModify$
@@ -54,7 +55,7 @@ export class ProfileComponent {
 
   constructor(private readonly store: Store) {}
 
-  public toggleFollow(author: Profile): void {
+  protected toggleFollow(author: Profile): void {
     if (author.following) {
       this.store.dispatch(profileActions.unfollow({ username: author.username }));
     } else {

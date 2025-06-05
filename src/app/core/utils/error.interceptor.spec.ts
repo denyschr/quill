@@ -1,8 +1,9 @@
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { errorInterceptor } from './error.interceptor';
 import { Router } from '@angular/router';
+
+import { errorInterceptor } from './error.interceptor';
 
 describe('errorInterceptor', () => {
   let httpController: HttpTestingController;

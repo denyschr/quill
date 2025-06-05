@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
-import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
-import { BackendErrorsComponent } from '@app/shared/ui/backend-errors';
-import { LoginFormComponent } from '@app/auth/ui/login-form';
-import { authActions, authInitialState } from '@app/auth/data-access/state';
+
+import { BackendErrorsComponent } from '@/app/shared/ui/backend-errors';
+
+import { LoginFormComponent } from '../../ui/login-form';
+import { authActions, authInitialState } from '../../data-access/state';
+
+import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let store: MockStore;

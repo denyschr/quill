@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { BackendErrorsComponent } from './backend-errors.component';
 import { NgbAlert, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
+
+import { BackendErrorsComponent } from './backend-errors.component';
 
 describe('BackendErrorsComponent', () => {
   beforeEach(() => {
