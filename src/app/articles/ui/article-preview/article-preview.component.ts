@@ -12,6 +12,7 @@ import { ArticleMetaComponent } from '../article-meta';
     <div class="p-3 border rounded-1 bg-white">
       <ql-article-meta class="d-block mb-2" [article]="article">
         <button
+          data-test="toggle-favorite-button"
           id="toggle-favorite-button"
           type="button"
           class="btn btn-sm flex-shrink-0 ms-auto"
@@ -24,9 +25,13 @@ import { ArticleMetaComponent } from '../article-meta';
         </button>
       </ql-article-meta>
 
-      <a class="preview-link | text-decoration-none" [routerLink]="['/article', article.slug]">
-        <h3 class="mb-1 fw-normal text-dark ">{{ article.title }}</h3>
-        <p class="text-secondary">{{ article.description }}</p>
+      <a
+        data-test="article-preview-link"
+        class="preview-link | text-decoration-none"
+        [routerLink]="['/article', article.slug]"
+      >
+        <h3 data-test="article-title" class="mb-1 fw-normal text-dark ">{{ article.title }}</h3>
+        <p data-test="article-description" class="text-secondary">{{ article.description }}</p>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
           <span class="btn btn-primary flex-shrink-0">Read more</span>
           @if (article.tagList.length) {

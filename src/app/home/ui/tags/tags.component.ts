@@ -7,15 +7,15 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
     @if (!loading) {
       <div class="d-flex flex-wrap gap-2 m-0">
         @for (tag of tags; track tag) {
-          <a (click)="clicked.emit(tag)">
+          <a data-test="tag-link" (click)="clicked.emit(tag)">
             <span class="fs-6 badge rounded-pill text-bg-secondary">{{ tag }}</span>
           </a>
         } @empty {
-          <div id="no-tags-message">No tags found</div>
+          <div data-test="no-tags-message" id="no-tags-message">No tags found</div>
         }
       </div>
     } @else {
-      <div id="loading-tags-message">Loading tags...</div>
+      <div data-test="loading-tag-list-message" id="loading-tags-message">Loading tags...</div>
     }
   `,
   styles: [

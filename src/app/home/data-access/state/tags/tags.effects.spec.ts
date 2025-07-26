@@ -1,9 +1,10 @@
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+
 import { tagsActions } from './tags.actions';
 import * as tagsEffects from './tags.effects';
-import { TagApiClient } from 'app/home/data-access/api';
+import { TagApiClient } from '../../api/tag-api-client';
 
 describe('TagsEffects', () => {
   let mockTagApiClient: jasmine.SpyObj<TagApiClient>;

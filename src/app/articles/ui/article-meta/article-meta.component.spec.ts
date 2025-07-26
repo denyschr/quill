@@ -30,7 +30,7 @@ describe('ArticleMetaComponent', () => {
     });
   });
 
-  it('should display a link with the author avatar inside', () => {
+  it('should display the author avatar', () => {
     const fixture = TestBed.createComponent(ArticleMetaTestComponent);
     const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();

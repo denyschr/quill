@@ -13,10 +13,11 @@ import { selectCurrentUser } from '@/app/auth/data-access/state';
     <header class="fixed-top">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-          <a class="navbar-brand" routerLink="/">Quill</a>
+          <a data-test="navbar-brand" class="navbar-brand" routerLink="/">Quill</a>
           <button
-            type="button"
+            data-test="navbar-toggler"
             class="navbar-toggler"
+            type="button"
             aria-controls="primary-navbar"
             [attr.aria-expanded]="!navbarCollapsed"
             aria-label="Toggle navigation"
@@ -29,6 +30,7 @@ import { selectCurrentUser } from '@/app/auth/data-access/state';
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
                 <a
+                  data-test="navbar-link"
                   class="nav-link"
                   routerLink="/"
                   routerLinkActive="active"
@@ -42,28 +44,51 @@ import { selectCurrentUser } from '@/app/auth/data-access/state';
 
                 @if (currentUser === null) {
                   <li class="nav-item">
-                    <a class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</a>
+                    <a
+                      data-test="navbar-link"
+                      class="nav-link"
+                      routerLink="/login"
+                      routerLinkActive="active"
+                      >Sign in</a
+                    >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</a>
+                    <a
+                      data-test="navbar-link"
+                      class="nav-link"
+                      routerLink="/register"
+                      routerLinkActive="active"
+                      >Sign up</a
+                    >
                   </li>
                 }
 
                 @if (currentUser) {
                   <li class="nav-item">
-                    <a class="nav-link" routerLink="/editor" routerLinkActive="active">
+                    <a
+                      data-test="navbar-link"
+                      class="nav-link"
+                      routerLink="/editor"
+                      routerLinkActive="active"
+                    >
                       <span class="bi bi-pencil-square" aria-hidden="true"></span>
                       New Article
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" routerLink="/settings" routerLinkActive="active">
+                    <a
+                      data-test="navbar-link"
+                      class="nav-link"
+                      routerLink="/settings"
+                      routerLinkActive="active"
+                    >
                       <span class="bi bi-gear-wide-connected" aria-hidden="true"></span>
                       Settings
                     </a>
                   </li>
                   <li class="nav-item">
                     <a
+                      data-test="navbar-link"
                       id="current-user"
                       class="nav-link"
                       [routerLink]="['/profile', currentUser.username]"

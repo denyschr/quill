@@ -8,6 +8,7 @@ import { FeedType } from '@/app/articles/data-access/models';
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
+          data-test="feed-tab"
           class="nav-link"
           [class]="feedType === 'global' && !tag ? 'active pe-none' : null"
           (click)="changed.emit('global')"
@@ -18,6 +19,7 @@ import { FeedType } from '@/app/articles/data-access/models';
       @if (!feedDisabled) {
         <li class="nav-item">
           <a
+            data-test="feed-tab"
             class="nav-link"
             [class]="feedType === 'feed' && !tag ? 'active pe-none' : null"
             (click)="changed.emit('feed')"
@@ -28,7 +30,7 @@ import { FeedType } from '@/app/articles/data-access/models';
 
       @if (tag) {
         <li class="nav-item">
-          <a class="nav-link active pe-none">#{{ tag }}</a>
+          <a data-test="feed-tab" class="nav-link active pe-none">#{{ tag }}</a>
         </li>
       }
     </ul>
