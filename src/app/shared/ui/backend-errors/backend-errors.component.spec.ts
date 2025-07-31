@@ -28,11 +28,11 @@ describe('BackendErrorsComponent', () => {
       .withContext('The alert should NOT be dismissible')
       .toBe(false);
 
-    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    const errors = fixture.debugElement.queryAll(By.css('[data-test=error-message]'));
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
-    expect(errors[0].textContent).toContain('email already exists');
-    expect(errors[1].textContent).toContain('password is invalid');
+    expect(errors[0].nativeElement.textContent).toContain('email already exists');
+    expect(errors[1].nativeElement.textContent).toContain('password is invalid');
   });
 });

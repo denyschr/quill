@@ -75,13 +75,11 @@ describe('ProfileComponent', () => {
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/profile/jack');
 
-    const message = harness.routeNativeElement!.querySelector<HTMLElement>(
-      '#loading-profile-message'
-    )!;
+    const message = harness.routeDebugElement!.query(By.css('[data-test=loading-profile-message]'));
     expect(message)
       .withContext('You should have a `div` element for a loading message')
       .not.toBeNull();
-    expect(message.textContent)
+    expect(message.nativeElement.textContent)
       .withContext('The message should have a text')
       .toContain('Loading profile');
   });

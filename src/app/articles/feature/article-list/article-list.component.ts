@@ -23,9 +23,7 @@ import { Article } from '../../data-access/models';
           @for (article of vm.articles; track article.slug) {
             <ql-article-preview [article]="article" (toggledFavorite)="toggleFavorite(article)" />
           } @empty {
-            <div data-test="no-article-list-message" id="no-article-list-message">
-              No articles found
-            </div>
+            <div data-test="no-article-list-message">No articles found</div>
           }
         </div>
 
@@ -39,9 +37,7 @@ import { Article } from '../../data-access/models';
           />
         }
       } @else {
-        <div data-test="loading-article-list-message" id="loading-article-list-message">
-          Loading articles...
-        </div>
+        <div data-test="loading-article-list-message">Loading articles...</div>
       }
     </ng-container>
   `,

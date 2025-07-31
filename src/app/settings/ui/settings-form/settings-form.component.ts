@@ -11,23 +11,47 @@ import { User, UserUpdate } from '@/app/auth/data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="image" class="form-label">URL of profile picture</label>
-        <input id="image" class="form-control" type="text" formControlName="image" />
+        <input
+          data-test="image-url-input"
+          id="image"
+          class="form-control"
+          type="text"
+          formControlName="image"
+        />
       </div>
 
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" class="form-control" type="text" formControlName="username" />
+        <input
+          data-test="username-input"
+          id="username"
+          class="form-control"
+          type="text"
+          formControlName="username"
+        />
         <val-errors controlName="username" label="The username" />
       </div>
 
       <div class="mb-3">
         <label for="bio" class="form-label">Bio</label>
-        <textarea id="bio" class="form-control" rows="8" formControlName="bio"></textarea>
+        <textarea
+          data-test="bio-input"
+          id="bio"
+          class="form-control"
+          rows="8"
+          formControlName="bio"
+        ></textarea>
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" type="email" formControlName="email" />
+        <input
+          data-test="email-input"
+          id="email"
+          class="form-control"
+          type="email"
+          formControlName="email"
+        />
         <val-errors controlName="email" label="The email" />
       </div>
 
@@ -38,6 +62,7 @@ import { User, UserUpdate } from '@/app/auth/data-access/models';
         </label>
         <div class="input-group">
           <input
+            data-test="password-input"
             id="password"
             class="form-control"
             type="password"
@@ -50,6 +75,7 @@ import { User, UserUpdate } from '@/app/auth/data-access/models';
       </div>
 
       <button
+        data-test="submit-button"
         class="btn btn-primary"
         type="submit"
         [disabled]="!form.dirty || form.invalid || submitting"

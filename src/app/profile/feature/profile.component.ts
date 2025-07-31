@@ -33,7 +33,7 @@ import { UserInfoComponent } from '../ui/user-info';
           </div>
         }
       } @else {
-        <div id="loading-profile-message">Loading profile...</div>
+        <div data-test="loading-profile-message">Loading profile...</div>
       }
     </ng-container>
   `,

@@ -18,7 +18,13 @@ import { LoginCredentials } from '../../data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" type="email" formControlName="email" />
+        <input
+          data-test="email-input"
+          id="email"
+          class="form-control"
+          type="email"
+          formControlName="email"
+        />
         <val-errors controlName="email" label="The email" />
       </div>
 
@@ -26,6 +32,7 @@ import { LoginCredentials } from '../../data-access/models';
         <label for="password" class="form-label">Password</label>
         <div class="input-group">
           <input
+            data-test="password-input"
             id="password"
             class="form-control"
             type="password"
@@ -37,7 +44,12 @@ import { LoginCredentials } from '../../data-access/models';
         <val-errors controlName="password" label="The password" />
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="submitting || form.invalid">
+      <button
+        data-test="submit-button"
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="submitting || form.invalid"
+      >
         Sign in
       </button>
     </form>

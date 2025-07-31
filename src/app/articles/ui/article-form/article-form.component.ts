@@ -12,13 +12,25 @@ import { Article } from '../../data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="title" class="form-label">Article title</label>
-        <input id="title" class="form-control" type="text" formControlName="title" />
+        <input
+          data-test="title-input"
+          id="title"
+          class="form-control"
+          type="text"
+          formControlName="title"
+        />
         <val-errors controlName="title" label="The title" />
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">What's this article about?</label>
-        <input id="description" class="form-control" type="text" formControlName="description" />
+        <input
+          data-test="description-input"
+          id="description"
+          class="form-control"
+          type="text"
+          formControlName="description"
+        />
         <val-errors controlName="description" label="The description" />
       </div>
 
@@ -26,22 +38,34 @@ import { Article } from '../../data-access/models';
         <label for="body" class="form-label"
           >Write your article <i class="text-muted">(in markdown)</i></label
         >
-        <textarea id="body" class="form-control" rows="8" formControlName="body"></textarea>
+        <textarea
+          data-test="body-input"
+          id="body"
+          class="form-control"
+          rows="8"
+          formControlName="body"
+        ></textarea>
         <val-errors controlName="body" label="The body" />
       </div>
 
       <div class="mb-3">
         <label for="tag" class="form-label">Enter tags</label>
-        <input id="tag" class="form-control mb-2" type="text" (keydown.enter)="addTag($event)" />
+        <input
+          data-test="tag-input"
+          id="tag"
+          class="form-control mb-2"
+          type="text"
+          (keydown.enter)="addTag($event)"
+        />
 
         @let tagList = tagListControl.value;
         @if (tagList.length) {
           <ul class="d-flex flex-wrap gap-2 list-unstyled m-0">
             @for (tag of tagList; track tag) {
               <li class="d-flex align-items-center column-gap-1 badge text-bg-secondary">
-                <span>{{ tag }}</span>
+                <span data-test="tag">{{ tag }}</span>
                 <button
-                  id="remove-tag"
+                  data-test="remove-tag-button"
                   class="btn btn-secondary p-0 border-0"
                   type="button"
                   (click)="removeTag(tag)"
@@ -55,6 +79,7 @@ import { Article } from '../../data-access/models';
       </div>
 
       <button
+        data-test="submit-button"
         class="btn btn-primary"
         type="submit"
         [disabled]="!form.dirty || form.invalid || submitting"

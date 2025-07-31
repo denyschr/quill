@@ -7,6 +7,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
+          data-test="article-tab-link"
           class="nav-link"
           [routerLink]="['/profile', username]"
           routerLinkActive="active pe-none"
@@ -17,6 +18,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       </li>
       <li class="nav-item">
         <a
+          data-test="article-tab-link"
           class="nav-link"
           [routerLink]="['/profile', username, 'favorites']"
           routerLinkActive="active pe-none"

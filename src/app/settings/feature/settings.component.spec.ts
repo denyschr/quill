@@ -34,9 +34,11 @@ describe('SettingsComponent', () => {
     const fixture = TestBed.createComponent(SettingsComponent);
     fixture.detectChanges();
 
-    const title = (fixture.nativeElement as HTMLElement).querySelector('h1')!;
+    const title = fixture.debugElement.query(By.css('[data-test=settings-title]'));
     expect(title).withContext('You should have an `h1` element for the title').not.toBeNull();
-    expect(title.textContent).withContext('The title should have a text').toContain('Settings');
+    expect(title.nativeElement.textContent)
+      .withContext('The title should have a text')
+      .toContain('Settings');
   });
 
   it('should dispatch an updateCurrentUser action when submitting the form', () => {
@@ -76,31 +78,30 @@ describe('SettingsComponent', () => {
     store.refreshState();
 
     const fixture = TestBed.createComponent(SettingsComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
+    const backendErrors = debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li')!;
+    const errors = debugElement.queryAll(By.css('[data-test=error-message]'));
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
-    expect(errors[0].textContent).toContain('email already exists');
-    expect(errors[1].textContent).toContain('username has already been taken');
+    expect(errors[0].nativeElement.textContent).toContain('email already exists');
+    expect(errors[1].nativeElement.textContent).toContain('username has already been taken');
   });
 
   it('should dispatch a logout action when clicking the logout button', () => {
     const fixture = TestBed.createComponent(SettingsComponent);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
-      'button.btn-outline-danger'
-    )!;
+    const button = fixture.debugElement.query(By.css('[data-test=logout-button]'));
     expect(button).withContext('You should have a button to logout the user').not.toBeNull();
 
-    button.click();
+    button.triggerEventHandler('click');
 
     expect(store.dispatch).toHaveBeenCalledWith(authActions.logout());
   });

@@ -45,11 +45,13 @@ describe('ArticleEditComponent', () => {
     const fixture = TestBed.createComponent(ArticleEditComponent);
     fixture.detectChanges();
 
-    const message = (fixture.nativeElement as HTMLElement).querySelector('#loading-message')!;
+    const message = fixture.debugElement.query(By.css('[data-test=loading-message]'));
     expect(message)
       .withContext('You should have a `div` element for a loading message')
       .not.toBeNull();
-    expect(message.textContent).withContext('The message should have a text').toContain('Loading');
+    expect(message.nativeElement.textContent)
+      .withContext('The message should have a text')
+      .toContain('Loading');
   });
 
   it('should dispatch an editArticle action when submitting the form', () => {
@@ -101,16 +103,17 @@ describe('ArticleEditComponent', () => {
     store.refreshState();
 
     const fixture = TestBed.createComponent(ArticleEditComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
+    const backendErrors = debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li:not(.badge)');
+    const errors = debugElement.queryAll(By.css('[data-test=error-message]'));
     expect(errors.length).withContext('You should have a `li` element for each error message');
-    expect(errors[0].textContent).toContain('body is a required field');
-    expect(errors[1].textContent).toContain('title is a required field');
+    expect(errors[0].nativeElement.textContent).toContain('body is a required field');
+    expect(errors[1].nativeElement.textContent).toContain('title is a required field');
   });
 });

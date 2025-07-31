@@ -16,8 +16,10 @@ import { LoginFormComponent } from '../../ui/login-form';
       <div class="row py-5">
         <div class="col-md-6 offset-md-3">
           <div class="mb-3 text-center">
-            <h1>Sign in</h1>
-            <a class="link-opacity-100" routerLink="/register">Don't have an account?</a>
+            <h1 data-test="login-title">Sign in</h1>
+            <a data-test="register-link" class="link-opacity-100" routerLink="/register"
+              >Don't have an account?</a
+            >
           </div>
           <ng-container *ngrxLet="vm$; let vm">
             @if (vm.errors) {

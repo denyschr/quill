@@ -10,7 +10,7 @@ import { BackendErrors } from '@/app/core/data-access/models';
     <ngb-alert type="danger" [dismissible]="false">
       <ul class="m-0">
         @for (error of errors | keyvalue; track error.key) {
-          <li>{{ error.key }} {{ error.value }}</li>
+          <li data-test="error-message">{{ error.key }} {{ error.value }}</li>
         }
       </ul>
     </ngb-alert>

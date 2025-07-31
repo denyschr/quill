@@ -5,13 +5,18 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
   selector: 'ql-password-input-toggle',
   template: `
     <button
+      data-test="toggle-password-button"
       class="btn btn-outline-primary"
       type="button"
       ngbTooltip="Toggle visibility"
       placement="bottom"
       (click)="toggle()"
     >
-      <span class="bi" [class]="visible ? 'bi-eye' : 'bi-eye-slash'"></span>
+      <span
+        data-test="toggle-password-button-icon"
+        class="bi"
+        [class]="visible ? 'bi-eye' : 'bi-eye-slash'"
+      ></span>
     </button>
   `,
   styles: [

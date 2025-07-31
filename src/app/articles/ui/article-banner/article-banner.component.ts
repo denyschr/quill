@@ -10,18 +10,23 @@ import { ArticleMetaComponent } from '../article-meta';
   template: `
     <div class="bg-black bg-gradient">
       <div class="container py-4">
-        <h1 class="text-white">{{ article.title }}</h1>
+        <h1 data-test="article-title" class="text-white">{{ article.title }}</h1>
 
         <ql-article-meta [article]="article">
           <div class="d-flex flex-wrap align-self-end align-items-center gap-2">
             @if (canModify) {
-              <a class="btn btn-sm btn-secondary" [routerLink]="['/editor', article.slug]">
+              <a
+                data-test="edit-article-link"
+                class="btn btn-sm btn-secondary"
+                [routerLink]="['/editor', article.slug]"
+              >
                 <span class="bi bi-pencil-square"></span>
                 Edit
               </a>
               <button
-                type="button"
+                data-test="delete-article-button"
                 class="btn btn-sm btn-danger"
+                type="button"
                 [disabled]="deleting"
                 (click)="delete()"
               >
@@ -30,9 +35,9 @@ import { ArticleMetaComponent } from '../article-meta';
               </button>
             } @else {
               <button
-                id="toggle-follow-button"
-                type="button"
+                data-test="toggle-follow-button"
                 class="btn btn-sm"
+                type="button"
                 [class.btn-secondary]="article.author.following"
                 [class.btn-outline-secondary]="!article.author.following"
                 (click)="toggledFollow.emit()"
@@ -42,9 +47,9 @@ import { ArticleMetaComponent } from '../article-meta';
                 {{ article.author.username }}
               </button>
               <button
-                id="toggle-favorite-button"
-                type="button"
+                data-test="toggle-favorite-button"
                 class="btn btn-sm"
+                type="button"
                 [class.btn-success]="article.favorited"
                 [class.btn-outline-success]="!article.favorited"
                 (click)="toggledFavorite.emit()"
@@ -81,7 +86,7 @@ export class ArticleBannerComponent {
   @Output()
   public readonly deleted = new EventEmitter<void>();
 
-  protected delete() {
+  protected delete(): void {
     this.deleting = true;
     this.deleted.emit();
   }

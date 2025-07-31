@@ -28,13 +28,13 @@ describe('PasswordInputToggleComponent', () => {
 
   it('should display a button with a tooltip and an icon', () => {
     const fixture = TestBed.createComponent(PasswordInputToggleTestComponent);
-    const element: HTMLElement = fixture.nativeElement;
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const button = element.querySelector('button');
+    const button = debugElement.query(By.css('[data-test=toggle-password-button]'));
     expect(button).withContext('No `button` element to toggle password visibility').not.toBeNull();
 
-    const tooltip = fixture.debugElement.query(By.directive(NgbTooltip));
+    const tooltip = debugElement.query(By.directive(NgbTooltip));
     expect(tooltip)
       .withContext('The `button` element should use the `ngbTooltip` directive')
       .not.toBeNull();
@@ -47,43 +47,45 @@ describe('PasswordInputToggleComponent', () => {
       .withContext('The tooltip should be placed at the bottom')
       .toBe('bottom');
 
-    const icon = element.querySelector('span')!;
+    const icon = debugElement.query(By.css('[data-test=toggle-password-button-icon]'));
     expect(icon).withContext('You should have a `span` element for the icon').not.toBeNull();
   });
 
   it('should toggle password visibility when clicking the button', () => {
     const fixture = TestBed.createComponent(PasswordInputToggleTestComponent);
-    const element: HTMLElement = fixture.nativeElement;
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const input = element.querySelector<HTMLInputElement>('input')!;
-    expect(input.type)
+    const inputElement = debugElement.query(By.css('input')).nativeElement;
+    expect(inputElement.type)
       .withContext('The input should be of type `password` by default')
       .toBe('password');
 
-    const icon = element.querySelector('span')!;
-    expect(icon.classList)
+    const iconElement = debugElement.query(
+      By.css('[data-test=toggle-password-button-icon]')
+    ).nativeElement;
+    expect(iconElement.classList)
       .withContext('The icon should have the `bi-eye-slash` class by default')
       .toContain('bi-eye-slash');
 
-    const button = element.querySelector('button')!;
-    button.click();
+    const button = debugElement.query(By.css('[data-test=toggle-password-button]'));
+    button.triggerEventHandler('click');
     fixture.detectChanges();
 
-    expect(input.type)
+    expect(inputElement.type)
       .withContext('The input should be of type `text` if toggled once')
       .toBe('text');
-    expect(icon.classList)
+    expect(iconElement.classList)
       .withContext('The icon should have the `bi-eye` class if toggled once')
       .toContain('bi-eye');
 
-    button.click();
+    button.triggerEventHandler('click');
     fixture.detectChanges();
 
-    expect(input.type)
+    expect(inputElement.type)
       .withContext('The input should be of type `password` if toggled twice')
       .toBe('password');
-    expect(icon.classList)
+    expect(iconElement.classList)
       .withContext('The icon should have the `bi-eye-slash` class if toggled twice')
       .toContain('bi-eye-slash');
   });

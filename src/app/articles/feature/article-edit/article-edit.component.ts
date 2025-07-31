@@ -36,7 +36,7 @@ import { Article } from '../../data-access/models';
           </div>
         }
       } @else {
-        <div id="loading-message">Loading...</div>
+        <div data-test="loading-message">Loading...</div>
       }
     </ng-container>
   `,

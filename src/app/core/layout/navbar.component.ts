@@ -26,7 +26,12 @@ import { selectCurrentUser } from '@/app/auth/data-access/state';
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div id="primary-navbar" class="navbar-collapse" [ngbCollapse]="navbarCollapsed">
+          <div
+            data-test="navbar-content"
+            id="primary-navbar"
+            class="navbar-collapse"
+            [ngbCollapse]="navbarCollapsed"
+          >
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
                 <a
@@ -89,7 +94,6 @@ import { selectCurrentUser } from '@/app/auth/data-access/state';
                   <li class="nav-item">
                     <a
                       data-test="navbar-link"
-                      id="current-user"
                       class="nav-link"
                       [routerLink]="['/profile', currentUser.username]"
                       routerLinkActive="active"

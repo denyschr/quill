@@ -17,7 +17,7 @@ import { Article } from '../../data-access/models';
           [alt]="article.author.username"
         />
       </a>
-      <div class="article-info">
+      <div>
         <a
           data-test="author-name"
           class="text-decoration-none"
