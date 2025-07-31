@@ -198,7 +198,7 @@ describe('Home', () => {
       .within(() => {
         cy.get('[data-test=article-title]').should('contain', mockArticles[0].title);
         cy.get('[data-test=article-description]').should('contain', mockArticles[0].description);
-        cy.get('[data-test=article-tag]').should('have.length', 2).contains(mockTags[0]);
+        cy.get('[data-test=tag]').should('have.length', 2).contains(mockTags[0]);
       });
 
     getPaginationItems().should('have.length', 4);

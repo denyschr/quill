@@ -18,13 +18,25 @@ import { RegisterCredentials } from '../../data-access/models';
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" class="form-control" type="text" formControlName="username" />
+        <input
+          data-test="username-input"
+          id="username"
+          class="form-control"
+          type="text"
+          formControlName="username"
+        />
         <val-errors controlName="username" label="The username" />
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" type="email" formControlName="email" />
+        <input
+          data-test="email-input"
+          id="email"
+          class="form-control"
+          type="email"
+          formControlName="email"
+        />
         <val-errors controlName="email" label="The email" />
       </div>
 
@@ -32,6 +44,7 @@ import { RegisterCredentials } from '../../data-access/models';
         <label for="password" class="form-label">Password</label>
         <div class="input-group">
           <input
+            data-test="password-input"
             id="password"
             class="form-control"
             type="password"
@@ -43,7 +56,12 @@ import { RegisterCredentials } from '../../data-access/models';
         <val-errors controlName="password" label="The password" />
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="submitting || form.invalid">
+      <button
+        data-test="submit-button"
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="submitting || form.invalid"
+      >
         Sign up
       </button>
     </form>

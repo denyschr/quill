@@ -64,11 +64,11 @@ describe('ArticleNewComponent', () => {
       .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    const errors = fixture.debugElement.queryAll(By.css('[data-test=error-message]'));
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
-    expect(errors[0].textContent).toContain('body is a required field');
-    expect(errors[1].textContent).toContain('title is a required field');
+    expect(errors[0].nativeElement.textContent).toContain('body is a required field');
+    expect(errors[1].nativeElement.textContent).toContain('title is a required field');
   });
 });

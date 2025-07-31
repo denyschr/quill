@@ -28,16 +28,15 @@ describe('FormControlValidationDirective', () => {
 
   it('should add the is-invalid CSS class', () => {
     const fixture = TestBed.createComponent(FormTestComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const directive = fixture.debugElement.query(By.directive(FormControlValidationDirective));
+    const directive = debugElement.query(By.directive(FormControlValidationDirective));
     expect(directive)
       .withContext('The directive should be applied to an element with a class `form-control`')
       .not.toBeNull();
 
-    const lastName = (fixture.nativeElement as HTMLElement).querySelector<HTMLInputElement>(
-      '#lastName'
-    )!;
+    const lastName = debugElement.query(By.css('#lastName')).nativeElement;
     expect(lastName.classList).not.toContain('is-invalid');
 
     lastName.value = 'Whatever';

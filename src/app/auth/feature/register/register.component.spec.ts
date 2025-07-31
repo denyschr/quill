@@ -25,18 +25,20 @@ describe('RegisterComponent', () => {
 
   it('should have a title and a link to the login page', () => {
     const fixture = TestBed.createComponent(RegisterComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const title = element.querySelector('h1')!;
+    const title = debugElement.query(By.css('[data-test=register-title]'));
     expect(title).withContext('You should have an `h1` element for the title').not.toBeNull();
-    expect(title.textContent).withContext('The title should have a text').toContain('Sign up');
+    expect(title.nativeElement.textContent)
+      .withContext('The title should have a text')
+      .toContain('Sign up');
 
-    const link = element.querySelector('a[href="/login"]')!;
-    expect(link)
+    const loginLink = debugElement.query(By.css('[data-test=login-link]'));
+    expect(loginLink)
       .withContext('You should have an `a` element for the link to the login page')
       .not.toBeNull();
-    expect(link.textContent)
+    expect(loginLink.nativeElement.textContent)
       .withContext('The link should have a text')
       .toContain('Have an account?');
   });
@@ -62,6 +64,7 @@ describe('RegisterComponent', () => {
 
   it('should display backend error messages if registration fails', () => {
     const fixture = TestBed.createComponent(RegisterComponent);
+    const debugElement = fixture.debugElement;
     store.setState({
       ...initialState,
       auth: {
@@ -75,16 +78,16 @@ describe('RegisterComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const backendErrors = fixture.debugElement.query(By.directive(BackendErrorsComponent));
+    const backendErrors = debugElement.query(By.directive(BackendErrorsComponent));
     expect(backendErrors)
       .withContext('You should have BackendErrorsComponent to display backend error messages')
       .not.toBeNull();
 
-    const errors = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    const errors = debugElement.queryAll(By.css('[data-test=error-message]'));
     expect(errors.length)
       .withContext('You should have a `li` element for each error message')
       .toBe(2);
-    expect(errors[0].textContent).toContain('email already exists');
-    expect(errors[1].textContent).toContain('username has already been taken');
+    expect(errors[0].nativeElement.textContent).toContain('email already exists');
+    expect(errors[1].nativeElement.textContent).toContain('username has already been taken');
   });
 });

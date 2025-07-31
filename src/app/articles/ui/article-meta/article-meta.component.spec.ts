@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 import { Article } from '../../data-access/models';
 
 import { ArticleMetaComponent } from './article-meta.component';
+import { By } from '@angular/platform-browser';
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
@@ -35,59 +36,65 @@ describe('ArticleMetaComponent', () => {
     const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();
 
-    const image = (fixture.nativeElement as HTMLElement).querySelector(
-      `a[href="/profile/${mockArticle.author.username}"] > img`
-    )!;
-    expect(image)
+    const avatarLink = fixture.debugElement.query(By.css('[data-test=author-avatar-link]'));
+    expect(avatarLink)
+      .withContext('You should have an `a` element for the author avatar')
+      .not.toBeNull();
+    expect(avatarLink.nativeElement.getAttribute('href'))
+      .withContext('The `href` attribute of the `a` element is not correct')
+      .toBe(`/profile/${mockArticle.author.username}`);
+
+    const avatar = avatarLink.query(By.css('img'));
+    expect(avatar)
       .withContext('You should have an image for the author avatar wrapped around an `a` element')
       .not.toBeNull();
-    expect(image.getAttribute('src'))
+
+    const avatarElement = avatar.nativeElement;
+    expect(avatarElement.getAttribute('src'))
       .withContext('The `src` attribute of the image is not correct')
       .toBe(mockArticle.author.image);
-    expect(image.getAttribute('width'))
+    expect(avatarElement.getAttribute('width'))
       .withContext('The `width` attribute of the image is not correct')
       .toBe('32');
-    expect(image.getAttribute('height'))
+    expect(avatarElement.getAttribute('height'))
       .withContext('The `height` attribute of the image is not correct')
       .toBe('32');
-    expect(image.getAttribute('alt'))
+    expect(avatarElement.getAttribute('alt'))
       .withContext('The `alt` attribute of the image is not correct')
       .toBe(mockArticle.author.username);
   });
 
   it('should display article info', () => {
     const fixture = TestBed.createComponent(ArticleMetaTestComponent);
+    const debugElement = fixture.debugElement;
     const mockArticle = fixture.componentInstance.mockArticle;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const authorName = element.querySelector(
-      `.article-info > a[href="/profile/${mockArticle.author.username}"]`
-    )!;
+    const authorName = debugElement.query(By.css('[data-test=author-name]'));
     expect(authorName)
       .withContext('You should have an `a` element for the author name')
       .not.toBeNull();
-    expect(authorName.getAttribute('href'))
+    expect(authorName.nativeElement.getAttribute('href'))
       .withContext('The `href` attribute of the `a` element is not correct')
       .toBe(`/profile/${mockArticle.author.username}`);
-    expect(authorName.textContent)
-      .withContext('The `a` element should have the author name')
+    expect(authorName.nativeElement.textContent)
+      .withContext('The `a` element should have a text')
       .toContain(mockArticle.author.username);
 
     const datePipe = new DatePipe('en-US');
     const formattedDate = datePipe.transform(mockArticle.createdAt);
 
-    const date = element.querySelector('.article-info > p')!;
+    const date = debugElement.query(By.css('[data-test=article-creation-date]'));
     expect(date)
-      .withContext('You should have a `p` element for the publication date of the article')
+      .withContext('You should have a `p` element for the creation date of the article')
       .not.toBeNull();
-    expect(date.textContent)
+    expect(date.nativeElement.textContent)
       .withContext('You should have a `time` element inside the `p` element')
       .toContain(`Published on ${formattedDate}`);
 
-    const time = date.querySelector('time')!;
+    const time = date.query(By.css('time'));
     expect(time).withContext('You should have a `time` element for the date').not.toBeNull();
-    expect(time.textContent)
+    expect(time.nativeElement.textContent)
       .withContext('You should use the `date` pipe to format the date')
       .toContain(formattedDate);
   });
@@ -96,7 +103,7 @@ describe('ArticleMetaComponent', () => {
     const fixture = TestBed.createComponent(ArticleMetaTestComponent);
     fixture.detectChanges();
 
-    expect((fixture.nativeElement as HTMLElement).textContent)
+    expect(fixture.debugElement.nativeElement.textContent)
       .withContext('ArticleMetaComponent should use `ng-content`')
       .toContain('hello');
   });

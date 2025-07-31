@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { TagListComponent } from './tag-list.component';
+import { By } from '@angular/platform-browser';
 
 describe('TagListComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -11,9 +12,9 @@ describe('TagListComponent', () => {
     fixture.componentInstance.tags = mockTags;
     fixture.detectChanges();
 
-    const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    const tagNames = fixture.debugElement.queryAll(By.css('[data-test=tag]'));
     expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
-    expect(tagNames[0].textContent).toContain(mockTags[0]);
-    expect(tagNames[1].textContent).toContain(mockTags[1]);
+    expect(tagNames[0].nativeElement.textContent).toContain(mockTags[0]);
+    expect(tagNames[1].nativeElement.textContent).toContain(mockTags[1]);
   });
 });

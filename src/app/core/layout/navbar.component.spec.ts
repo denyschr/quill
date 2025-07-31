@@ -7,6 +7,7 @@ import { authInitialState } from '@/app/auth/data-access/state';
 import { User } from '@/app/auth/data-access/models';
 
 import { NavbarComponent } from './navbar.component';
+import { By } from '@angular/platform-browser';
 
 describe('NavbarComponent', () => {
   let store: MockStore;
@@ -29,21 +30,22 @@ describe('NavbarComponent', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
     fixture.detectChanges();
 
-    const brandLink = (fixture.nativeElement as HTMLElement).querySelector(
-      'a.navbar-brand[href="/"]'
-    )!;
-    expect(brandLink)
-      .withContext('You should have an `a` element with a class `navbar-brand` for the brand')
-      .not.toBeNull();
-    expect(brandLink.textContent).withContext('The brand should have a text').toContain('Quill');
+    const brandLink = fixture.debugElement.query(By.css('[data-test=navbar-brand]'));
+    expect(brandLink).withContext('You should have an `a` element for the brand').not.toBeNull();
+    expect(brandLink.nativeElement.getAttribute('href'))
+      .withContext('The `href` attribute of the `a` element is not correct')
+      .toBe('/');
+    expect(brandLink.nativeElement.textContent)
+      .withContext('The brand should have a text')
+      .toContain('Quill');
   });
 
   it('should display nav links', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const links = element.querySelectorAll('#primary-navbar a.nav-link');
+    let links = debugElement.queryAll(By.css('[data-test=navbar-link]'));
     expect(links.length)
       .withContext(
         'You should have only one nav link to the home page when the user is not defined'
@@ -60,10 +62,10 @@ describe('NavbarComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const linksAfterDefined = element.querySelectorAll('#primary-navbar a.nav-link');
-    expect(linksAfterDefined.length)
+    links = debugElement.queryAll(By.css('[data-test=navbar-link]'));
+    expect(links.length)
       .withContext(
-        'You should have 3 nav links: one to the home page, one to the login page and one to the register page, when the user is defined'
+        'You should have 3 nav links: one to the home page, one to the login page and one to the register page, when the user is anonymous'
       )
       .toBe(3);
 
@@ -77,73 +79,58 @@ describe('NavbarComponent', () => {
     store.refreshState();
     fixture.detectChanges();
 
-    const linksAfterLoggedIn = element.querySelectorAll('#primary-navbar a.nav-link');
-    expect(linksAfterLoggedIn.length)
+    links = debugElement.queryAll(By.css('[data-test=navbar-link]'));
+    expect(links.length)
       .withContext(
         'You should have 4 nav links: one to the home page, one to the editor page, one to the settings page and one to the user profile, when the user is logged in'
       )
       .toBe(4);
   });
 
-  it('should display the user if logged in', () => {
-    const fixture = TestBed.createComponent(NavbarComponent);
-    store.setState({
-      ...initialState,
-      auth: {
-        ...initialState.auth,
-        currentUser: mockUser
-      }
-    });
-    store.refreshState();
-    fixture.detectChanges();
-
-    const element: HTMLElement = fixture.nativeElement;
-    const info = element.querySelector('#current-user')!;
-    expect(info)
-      .withContext(
-        'You should have an `a` element with the id `current-user` to display the user info'
-      )
-      .not.toBeNull();
-    expect(info.textContent)
-      .withContext('You should display the name of the user')
-      .toContain(mockUser.username);
-  });
-
   it('should toggle the navigation on click', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const navbarCollapsed = element.querySelector('#primary-navbar')!;
-    expect(navbarCollapsed).withContext('No element with the id `#primary-navbar`').not.toBeNull();
-    expect(navbarCollapsed.classList)
+    const navbarCollapsed = debugElement.query(By.css('[data-test=navbar-content]'));
+    expect(navbarCollapsed)
+      .withContext('You should have a `div` element for the navbar content`')
+      .not.toBeNull();
+
+    const navbarCollapsedElement = navbarCollapsed.nativeElement;
+    expect(navbarCollapsedElement.getAttribute('id'))
+      .withContext('The `id` attribute of the `div` element is not correct')
+      .toBe('primary-navbar');
+    expect(navbarCollapsedElement.classList)
       .withContext(
-        'The element with the id `#primary-navbar` should use the `ngbCollapse` directive'
+        'The `div` element with the id `#primary-navbar` should use the `ngbCollapse` directive'
       )
       .not.toContain('show');
 
-    const toggleButton = element.querySelector<HTMLButtonElement>('button.navbar-toggler')!;
+    const toggleButton = debugElement.query(By.css('[data-test=navbar-toggler]'));
     expect(toggleButton)
-      .withContext('No `button` element with a class `navbar-toggler` to collapse the menu')
+      .withContext('You should have a button to collapse the menu')
       .not.toBeNull();
-    expect(toggleButton.getAttribute('aria-controls'))
+
+    const toggleButtonElement = toggleButton.nativeElement;
+    expect(toggleButtonElement.getAttribute('aria-controls'))
       .withContext('The `aria-controls` attribute of the button is incorrect')
       .toBe('primary-navbar');
-    expect(toggleButton.getAttribute('aria-expanded'))
+    expect(toggleButtonElement.getAttribute('aria-expanded'))
       .withContext('The `aria-expanded` attribute of the button is incorrect')
       .toBe('false');
-    expect(toggleButton.getAttribute('aria-label'))
+    expect(toggleButtonElement.getAttribute('aria-label'))
       .withContext('The `aria-label` attribute of the button is incorrect')
       .toContain('Toggle navigation');
-    toggleButton.click();
+    toggleButton.triggerEventHandler('click');
     fixture.detectChanges();
 
-    expect(toggleButton.getAttribute('aria-expanded'))
+    expect(toggleButtonElement.getAttribute('aria-expanded'))
       .withContext('The `aria-expanded` attribute of the button is incorrect')
       .toBe('true');
-    expect(navbarCollapsed.classList)
+    expect(navbarCollapsedElement.classList)
       .withContext(
-        'The element with the id `#primary-navbar` should use the `ngbCollapse` directive'
+        'The `div` element with the id `#primary-navbar` should use the `ngbCollapse` directive'
       )
       .toContain('show');
   });

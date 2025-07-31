@@ -65,29 +65,27 @@ describe('ArticleDetailComponent', () => {
     const fixture = TestBed.createComponent(ArticleDetailComponent);
     fixture.detectChanges();
 
-    const message = (fixture.nativeElement as HTMLElement).querySelector(
-      '#loading-article-message'
-    )!;
+    const message = fixture.debugElement.query(By.css('[data-test=loading-article-message]'));
     expect(message)
       .withContext('You should have a `div` element for a loading message')
       .not.toBeNull();
-    expect(message.textContent)
+    expect(message.nativeElement.textContent)
       .withContext('The message should have a text')
       .toContain('Loading article');
   });
 
   it('should display nothing if there is no article and the status is not loading', () => {
     const fixture = TestBed.createComponent(ArticleDetailComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('#loading-article-message');
+    const message = debugElement.query(By.css('[data-test=loading-article-message]'));
     expect(message).withContext('You should NOT have a loading message').toBeNull();
 
-    const banner = fixture.debugElement.query(By.directive(ArticleBannerComponent));
+    const banner = debugElement.query(By.directive(ArticleBannerComponent));
     expect(banner).withContext('You should NOT have a banner').toBeNull();
 
-    const body = element.querySelector('#article-body');
+    const body = debugElement.query(By.css('[data-test=article-body]'));
     expect(body).withContext('You should NOT have a body').toBeNull();
   });
 
@@ -120,9 +118,11 @@ describe('ArticleDetailComponent', () => {
     const fixture = TestBed.createComponent(ArticleDetailComponent);
     fixture.detectChanges();
 
-    const body = (fixture.nativeElement as HTMLElement).querySelector('#article-body')!;
+    const body = fixture.debugElement.query(By.css('[data-test=article-body]'));
     expect(body).withContext('You should have a `p` element for the body').not.toBeNull();
-    expect(body.textContent).withContext('The body should have a text').toContain(mockArticle.body);
+    expect(body.nativeElement.textContent)
+      .withContext('The body should have a text')
+      .toContain(mockArticle.body);
   });
 
   it('should display a list of tags', () => {
@@ -136,15 +136,16 @@ describe('ArticleDetailComponent', () => {
     store.refreshState();
 
     const fixture = TestBed.createComponent(ArticleDetailComponent);
+    const debugElement = fixture.debugElement;
     fixture.detectChanges();
 
-    const tagList = fixture.debugElement.query(By.directive(TagListComponent));
+    const tagList = debugElement.query(By.directive(TagListComponent));
     expect(tagList).withContext('You should have TagListComponent in your template').not.toBeNull();
 
-    const tagNames = (fixture.nativeElement as HTMLElement).querySelectorAll('li');
+    const tagNames = debugElement.queryAll(By.css('[data-test=tag]'));
     expect(tagNames.length).withContext('You should have a `li` element for each tag name').toBe(2);
-    expect(tagNames[0].textContent).toContain(mockArticle.tagList[0]);
-    expect(tagNames[1].textContent).toContain(mockArticle.tagList[1]);
+    expect(tagNames[0].nativeElement.textContent).toContain(mockArticle.tagList[0]);
+    expect(tagNames[1].nativeElement.textContent).toContain(mockArticle.tagList[1]);
   });
 
   it('should dispatch a follow action when following the author', () => {

@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { Article } from '../../data-access/models';
 
 import { ArticleBannerComponent } from './article-banner.component';
+import { By } from '@angular/platform-browser';
 
 describe('ArticleBannerComponent', () => {
   const mockArticle = {
@@ -30,60 +31,69 @@ describe('ArticleBannerComponent', () => {
     fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
-    const title = (fixture.nativeElement as HTMLElement).querySelector('h1')!;
+    const title = fixture.debugElement.query(By.css('[data-test=article-title]'));
     expect(title).withContext('You should have an `h1` element for the title').not.toBeNull();
-    expect(title.textContent)
+    expect(title.nativeElement.textContent)
       .withContext('The title should have a text')
       .toContain(mockArticle.title);
   });
 
   it('should display an edit link with a delete button if can modify', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
+    const debugElement = fixture.debugElement;
     fixture.componentInstance.article = mockArticle;
     fixture.componentInstance.canModify = true;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const editLink = element.querySelector(`a[href="/editor/${mockArticle.slug}"]`)!;
+    const editLink = debugElement.query(By.css('[data-test=edit-article-link]'));
     expect(editLink)
       .withContext('You should have an `a` element for the link to the editor page')
       .not.toBeNull();
-    expect(editLink.textContent).withContext('The link should have a text').toContain('Edit');
+    expect(editLink.nativeElement.getAttribute('href'))
+      .withContext('The `href` attribute of the `a` element is not correct')
+      .toBe(`/editor/${mockArticle.slug}`);
+    expect(editLink.nativeElement.textContent)
+      .withContext('The link should have a text')
+      .toContain('Edit');
 
-    const deleteButton = element.querySelector('button.btn-danger')!;
+    const deleteButton = debugElement.query(By.css('[data-test=delete-article-button]'));
     expect(deleteButton)
-      .withContext('You should have a button with a class `btn-danger` to delete the article')
+      .withContext('You should have a button to delete the article')
       .not.toBeNull();
-    expect(deleteButton.hasAttribute('disabled'))
+    expect(deleteButton.nativeElement.hasAttribute('disabled'))
       .withContext('Your delete button should NOT be disabled if the status is not deleting')
       .toBe(false);
-    expect(deleteButton.textContent)
+    expect(deleteButton.nativeElement.textContent)
       .withContext('The button should have a text')
       .toContain('Delete');
   });
 
   it('should display a toggle follow button with a toggle favorite button if cannot modify', () => {
     const fixture = TestBed.createComponent(ArticleBannerComponent);
+    const debugElement = fixture.debugElement;
     fixture.componentInstance.article = mockArticle;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const toggleFollowButton = element.querySelector('#toggle-follow-button')!;
+    const toggleFollowButton = debugElement.query(By.css('[data-test=toggle-follow-button]'));
     expect(toggleFollowButton)
       .withContext('You should have a button to toggle the following of the author')
       .not.toBeNull();
-    expect(toggleFollowButton.textContent)
+
+    const toggleFollowButtonElement = toggleFollowButton.nativeElement;
+    expect(toggleFollowButtonElement.textContent)
       .withContext('The button should have a text')
       .toContain(`Follow ${mockArticle.author.username}`);
 
-    const toggleFavoriteButton = element.querySelector('#toggle-favorite-button')!;
+    const toggleFavoriteButton = debugElement.query(By.css('[data-test=toggle-favorite-button]'));
     expect(toggleFavoriteButton)
-      .withContext('You should have a button to toggle the favoriting of an article')
+      .withContext('You should have a button to toggle the favoriting of the article')
       .not.toBeNull();
-    expect(toggleFavoriteButton.textContent)
+
+    const toggleFavoriteButtonElement = toggleFavoriteButton.nativeElement;
+    expect(toggleFavoriteButtonElement.textContent)
       .withContext('The button should have the number of favorites')
       .toContain(mockArticle.favoritesCount);
-    expect(toggleFavoriteButton.textContent)
+    expect(toggleFavoriteButtonElement.textContent)
       .withContext('The button should have a text')
       .toContain('Favorite');
 
@@ -94,8 +104,10 @@ describe('ArticleBannerComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(toggleFollowButton.textContent).toContain(`Unfollow ${mockArticle.author.username}`);
-    expect(toggleFavoriteButton.textContent).toContain('Unfavorite');
+    expect(toggleFollowButtonElement.textContent).toContain(
+      `Unfollow ${mockArticle.author.username}`
+    );
+    expect(toggleFavoriteButtonElement.textContent).toContain('Unfavorite');
   });
 
   it('should emit an output event when clicking the delete button', () => {
@@ -107,13 +119,11 @@ describe('ArticleBannerComponent', () => {
 
     spyOn(component.deleted, 'emit');
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
-      'button.btn-danger'
-    )!;
-    button.click();
+    const button = fixture.debugElement.query(By.css('[data-test=delete-article-button]'));
+    button.triggerEventHandler('click');
     fixture.detectChanges();
 
-    expect(button.hasAttribute('disabled'))
+    expect(button.nativeElement.hasAttribute('disabled'))
       .withContext('Your delete button should be disabled if the status is deleting')
       .toBe(true);
     expect(component.deleted.emit).toHaveBeenCalled();
@@ -127,10 +137,8 @@ describe('ArticleBannerComponent', () => {
 
     spyOn(component.toggledFollow, 'emit');
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
-      '#toggle-follow-button'
-    )!;
-    button.click();
+    const button = fixture.debugElement.query(By.css('[data-test=toggle-follow-button]'));
+    button.triggerEventHandler('click');
 
     expect(component.toggledFollow.emit).toHaveBeenCalled();
   });
@@ -143,10 +151,8 @@ describe('ArticleBannerComponent', () => {
 
     spyOn(component.toggledFavorite, 'emit');
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
-      '#toggle-favorite-button'
-    )!;
-    button.click();
+    const button = fixture.debugElement.query(By.css('[data-test=toggle-favorite-button]'));
+    button.triggerEventHandler('click');
 
     expect(component.toggledFavorite.emit).toHaveBeenCalled();
   });

@@ -4,6 +4,7 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { Component } from '@angular/core';
 
 import { ArticleTabsComponent } from './article-tabs.component';
+import { By } from '@angular/platform-browser';
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
@@ -42,26 +43,24 @@ describe('ArticleTabsComponent', () => {
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/profile/jack');
 
-    const tabLinks = harness.routeNativeElement!.querySelectorAll<HTMLAnchorElement>(
-      '.nav.nav-tabs .nav-item a.nav-link'
-    );
+    const tabLinks = harness.routeDebugElement!.queryAll(By.css('[data-test=article-tab-link]'));
     expect(tabLinks.length)
       .withContext('You should have two tabs: one for user articles and one for favorited articles')
       .toBe(2);
-    expect(tabLinks[0].href).toContain('/profile/jack');
-    expect(tabLinks[1].href).toContain('/profile/jack/favorites');
+    expect(tabLinks[0].nativeElement.href).toContain('/profile/jack');
+    expect(tabLinks[1].nativeElement.href).toContain('/profile/jack/favorites');
   });
 
   it('should make the first tab active when showing user articles', async () => {
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/profile/jack');
 
-    const tabLinks = harness.routeNativeElement!.querySelectorAll<HTMLAnchorElement>('a.nav-link');
+    const tabLinks = harness.routeDebugElement!.queryAll(By.css('[data-test=article-tab-link]'));
     expect(tabLinks.length).withContext('You should have two tab links').toBe(2);
-    expect(tabLinks[0].className)
+    expect(tabLinks[0].nativeElement.className)
       .withContext('The first link should be active')
       .toContain('active');
-    expect(tabLinks[1].className)
+    expect(tabLinks[1].nativeElement.className)
       .withContext('The second link should NOT be active')
       .not.toContain('active');
   });
@@ -70,12 +69,12 @@ describe('ArticleTabsComponent', () => {
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/profile/jack/favorites');
 
-    const tabLinks = harness.routeNativeElement!.querySelectorAll<HTMLAnchorElement>('a.nav-link');
+    const tabLinks = harness.routeDebugElement!.queryAll(By.css('[data-test=article-tab-link]'));
     expect(tabLinks.length).withContext('You should have two tab links').toBe(2);
-    expect(tabLinks[0].className)
+    expect(tabLinks[0].nativeElement.className)
       .withContext('The first link should NOT be active')
       .not.toContain('active');
-    expect(tabLinks[1].className)
+    expect(tabLinks[1].nativeElement.className)
       .withContext('The second link should be active')
       .toContain('active');
   });

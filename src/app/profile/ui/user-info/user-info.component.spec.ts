@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { UserInfoComponent } from './user-info.component';
+import { By } from '@angular/platform-browser';
 
 describe('UserInfoComponent', () => {
   const mockProfile = {
@@ -19,65 +20,67 @@ describe('UserInfoComponent', () => {
 
   it('should display user info', () => {
     const fixture = TestBed.createComponent(UserInfoComponent);
+    const debugElement = fixture.debugElement;
     fixture.componentInstance.profile = mockProfile;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    const image = element.querySelector('img')!;
+    const image = debugElement.query(By.css('[data-test=user-profile-image]'));
     expect(image).withContext('You should have an image for the user avatar').not.toBeNull();
-    expect(image.getAttribute('src'))
+
+    const imageElement = image.nativeElement;
+    expect(imageElement.getAttribute('src'))
       .withContext('The `src` attribute of the image is not correct')
       .toBe(mockProfile.image);
-    expect(image.getAttribute('width'))
+    expect(imageElement.getAttribute('width'))
       .withContext('The `width` attribute of the image is not correct')
       .toBe('120');
-    expect(image.getAttribute('height'))
+    expect(imageElement.getAttribute('height'))
       .withContext('The `height` attribute of the image is not correct')
       .toBe('120');
-    expect(image.getAttribute('alt'))
+    expect(imageElement.getAttribute('alt'))
       .withContext('The `alt` attribute of the image is not correct')
       .toBe(mockProfile.username);
 
-    const username = element.querySelector('h1')!;
+    const username = debugElement.query(By.css('[data-test=user-profile-name]'));
     expect(username).withContext('You should have an `h1` element for the username').not.toBeNull();
-    expect(username.textContent).toContain(mockProfile.username);
+    expect(username.nativeElement.textContent).toContain(mockProfile.username);
 
-    const bio = element.querySelector('p')!;
+    const bio = debugElement.query(By.css('[data-test=user-profile-bio]'));
     expect(bio).withContext('You should have a `p` element for the bio').not.toBeNull();
-    expect(bio.textContent).toContain(mockProfile.bio);
+    expect(bio.nativeElement.textContent).toContain(mockProfile.bio);
 
-    const toggleFollowButton = element.querySelector<HTMLButtonElement>('#toggle-follow-button')!;
+    const toggleFollowButton = debugElement.query(By.css('[data-test=toggle-follow-button]'));
     expect(toggleFollowButton)
       .withContext('You should have a button to toggle the following of a user')
       .not.toBeNull();
-    expect(toggleFollowButton.textContent)
+    expect(toggleFollowButton.nativeElement.textContent)
       .withContext('The button should have a text containing the username')
       .toContain(`Follow ${mockProfile.username}`);
 
     fixture.componentRef.setInput('profile', { ...mockProfile, following: true });
     fixture.detectChanges();
 
-    expect(toggleFollowButton.textContent)
+    expect(toggleFollowButton.nativeElement.textContent)
       .withContext('The button should have a text containing the username')
       .toContain(`Unfollow ${mockProfile.username}`);
   });
 
   it('should display an edit profile link if can modify', () => {
     const fixture = TestBed.createComponent(UserInfoComponent);
+    const debugElement = fixture.debugElement;
     fixture.componentInstance.profile = mockProfile;
     fixture.componentInstance.canModify = true;
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    expect(element.querySelector('#toggle-follow-button'))
+    expect(debugElement.query(By.css('toggle-follow-button')))
       .withContext('You should NOT have a button to toggle the following of a user')
       .toBeNull();
 
-    const editProfileLink = element.querySelector('a[href="/settings"]')!;
+    const editProfileLink = debugElement.query(By.css('[data-test=edit-profile-link]'));
     expect(editProfileLink)
       .withContext('You should have an `a` element for the link to the settings page')
       .not.toBeNull();
-    expect(editProfileLink.textContent)
+    expect(editProfileLink.nativeElement.textContent)
       .withContext('The link should have a text')
       .toContain('Edit profile settings');
   });
@@ -90,10 +93,9 @@ describe('UserInfoComponent', () => {
 
     spyOn(component.toggledFollow, 'emit');
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
-      '#toggle-follow-button'
-    )!;
-    button.click();
+    fixture.debugElement
+      .query(By.css('[data-test=toggle-follow-button]'))
+      .triggerEventHandler('click');
 
     expect(component.toggledFollow.emit).toHaveBeenCalled();
   });

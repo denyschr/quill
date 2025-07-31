@@ -15,7 +15,7 @@ import { SettingsFormComponent } from '../ui/settings-form';
     <div class="container">
       <div class="row py-5">
         <div class="col-md-6 offset-md-3">
-          <h1 class="mb-3 text-center">Settings</h1>
+          <h1 data-test="settings-title" class="mb-3 text-center">Settings</h1>
           <ng-container *ngrxLet="vm$; let vm">
             @if (vm.backendErrors) {
               <ql-backend-errors [errors]="vm.backendErrors" />
@@ -29,7 +29,14 @@ import { SettingsFormComponent } from '../ui/settings-form';
 
             <hr />
 
-            <button class="btn btn-outline-danger" type="button" (click)="logout()">Log out</button>
+            <button
+              data-test="logout-button"
+              class="btn btn-outline-danger"
+              type="button"
+              (click)="logout()"
+            >
+              Log out
+            </button>
           </ng-container>
         </div>
       </div>

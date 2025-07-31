@@ -17,8 +17,10 @@ import { RegisterFormComponent } from '../../ui/register-form';
       <div class="row py-5">
         <div class="col-md-6 offset-md-3">
           <div class="mb-3 text-center">
-            <h1>Sign up</h1>
-            <a class="link-opacity-100" routerLink="/login">Have an account?</a>
+            <h1 data-test="register-title">Sign up</h1>
+            <a data-test="login-link" class="link-opacity-100" routerLink="/login"
+              >Have an account?</a
+            >
           </div>
           <ng-container *ngrxLet="vm$; let vm">
             @if (vm.errors) {

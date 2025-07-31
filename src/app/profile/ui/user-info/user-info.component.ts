@@ -9,17 +9,26 @@ import { Profile } from '../../data-access/models';
     <div class="bg-body-secondary">
       <div class="container py-4">
         <div class="col-md-10 offset-md-1 text-center">
-          <img [src]="profile.image" width="120" height="120" [alt]="profile.username" />
-          <h1>{{ profile.username }}</h1>
-          <p class="text-body-tertiary">{{ profile.bio }}</p>
+          <img
+            data-test="user-profile-image"
+            [src]="profile.image"
+            width="120"
+            height="120"
+            [alt]="profile.username"
+          />
+          <h1 data-test="user-profile-name">{{ profile.username }}</h1>
+          <p data-test="user-profile-bio" class="text-body-tertiary">{{ profile.bio }}</p>
           <div class="d-flex justify-content-end">
             @if (canModify) {
-              <a class="btn btn-sm btn-outline-secondary" routerLink="/settings"
+              <a
+                data-test="edit-profile-link"
+                class="btn btn-sm btn-outline-secondary"
+                routerLink="/settings"
                 >Edit profile settings</a
               >
             } @else {
               <button
-                id="toggle-follow-button"
+                data-test="toggle-follow-button"
                 class="btn btn-sm"
                 type="button"
                 [class.btn-secondary]="profile.following"

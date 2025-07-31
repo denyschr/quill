@@ -32,7 +32,7 @@ import { ArticleBannerComponent } from '../../ui/article-banner';
 
           <div class="container py-3">
             <div class="row">
-              <p id="article-body" class="lead">{{ article.body }}</p>
+              <p data-test="article-body" class="lead">{{ article.body }}</p>
               @if (article.tagList.length) {
                 <ql-tag-list [tags]="article.tagList" />
               }
@@ -40,7 +40,7 @@ import { ArticleBannerComponent } from '../../ui/article-banner';
           </div>
         }
       } @else {
-        <div id="loading-article-message">Loading article...</div>
+        <div data-test="loading-article-message">Loading article...</div>
       }
     </ng-container>
   `,
