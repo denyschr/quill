@@ -124,8 +124,8 @@ describe('Home', () => {
       .and('have.attr', 'href', `/profile/${mockUser.username}`);
   });
 
-  const getFeedTabs = () => cy.get('[data-test=feed-tab]');
-  const getGlobalFeedTab = () => getFeedTabs().first();
+  const getFeedTabLinks = () => cy.get('[data-test=feed-tab-link]');
+  const getGlobalFeedTab = () => getFeedTabLinks().first();
   const getToggleFavoriteButton = () => cy.get('[data-test=toggle-favorite-button]');
   const getArticlePreviewLink = () => cy.get('[data-test=article-preview-link]');
   const getPaginationItems = () => cy.get('.pagination .page-item');
@@ -164,7 +164,7 @@ describe('Home', () => {
     cy.visit('/');
     cy.wait('@getGlobalFeed');
 
-    getFeedTabs().should('have.length', 1);
+    getFeedTabLinks().should('have.length', 1);
     getGlobalFeedTab().should('have.class', 'active').and('contain', 'Global Feed');
 
     const getAuthorAvatarLink = () => cy.get('[data-test=author-avatar-link]');
@@ -222,9 +222,9 @@ describe('Home', () => {
     cy.visit('/');
     cy.wait(['@getCurrentUser', '@getGlobalFeed']);
 
-    const getYourFeedTab = () => getFeedTabs().eq(1);
+    const getYourFeedTab = () => getFeedTabLinks().eq(1);
 
-    getFeedTabs().should('have.length', 2);
+    getFeedTabLinks().should('have.length', 2);
     getGlobalFeedTab().should('have.class', 'active');
     getYourFeedTab().should('not.have.class', 'active').and('contain', 'Your Feed');
     getYourFeedTab().click();
@@ -249,9 +249,9 @@ describe('Home', () => {
 
     getTagLink().first().click();
 
-    getFeedTabs().should('have.length', 2);
+    getFeedTabLinks().should('have.length', 2);
     getGlobalFeedTab().should('not.have.class', 'active');
-    getFeedTabs().eq(1).should('have.class', 'active').and('contain', `#${mockTags[0]}`);
+    getFeedTabLinks().eq(1).should('have.class', 'active').and('contain', `#${mockTags[0]}`);
 
     cy.wait('@getSelectedTagFeed');
 
@@ -261,7 +261,7 @@ describe('Home', () => {
     getGlobalFeedTab().click();
     cy.wait('@getGlobalFeed');
 
-    getFeedTabs().should('have.length', 1);
+    getFeedTabLinks().should('have.length', 1);
     getArticlePreviewLink().should('have.length', 2);
   });
 
@@ -321,7 +321,7 @@ describe('Home', () => {
     cy.wait('@getEmptyTags');
     cy.get('[data-test=loading-tag-list-message]').should('not.exist');
 
-    cy.get('[data-test=no-tags-message]').should('be.visible').and('contain', 'No tags found');
+    cy.get('[data-test=no-tag-list-message]').should('be.visible').and('contain', 'No tags found');
     getTagLink().should('not.exist');
   });
 
@@ -329,7 +329,7 @@ describe('Home', () => {
     cy.visit('/');
     cy.wait('@getTags');
 
-    cy.contains('Popular tags');
+    cy.contains('h2', 'Popular tags');
     getTagLink().should('have.length', 2);
     getTagLink().first().should('contain', mockTags[0]);
     getTagLink().eq(1).should('contain', mockTags[1]);
