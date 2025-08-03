@@ -54,7 +54,7 @@ describe('ArticleFormComponent', () => {
     titleInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const titleRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const titleRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(titleRequiredError)
       .withContext('You should have an error message if the title field is required and touched')
       .not.toBeNull();
@@ -78,9 +78,7 @@ describe('ArticleFormComponent', () => {
     descriptionInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const descriptionRequiredError = debugElement.query(
-      By.css('div.mb-3 > .invalid-feedback > div')
-    );
+    const descriptionRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(descriptionRequiredError)
       .withContext(
         'You should have an error message if the description field is required and touched'
@@ -103,7 +101,7 @@ describe('ArticleFormComponent', () => {
     bodyInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const bodyRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const bodyRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(bodyRequiredError)
       .withContext('You should have an error message if the body field is required and touched')
       .not.toBeNull();

@@ -7,12 +7,12 @@ describe('Register', () => {
     image: 'https://i.stack.imgur.com/xHWG8.jpg'
   };
 
-  const usernameInput = () => cy.get('input[type=text]');
-  const emailInput = () => cy.get('input[type=email]');
-  const passwordInput = () => cy.get('input[type=password]');
-  const errorMessage = () => cy.get('div.mb-3 > .invalid-feedback > div');
-  const passwordToggleButton = () => cy.get('button.btn-outline-primary');
-  const submitButton = () => cy.get('button[type=submit]');
+  const getUsernameInput = () => cy.get('[data-test=username-input]');
+  const getEmailInput = () => cy.get('[data-test=email-input]');
+  const getPasswordInput = () => cy.get('[data-test=password-input]');
+  const getValidationErrorMessage = () => cy.get('.invalid-feedback');
+  const getPasswordToggleButton = () => cy.get('[data-test=toggle-password-button]');
+  const getSubmitButton = () => cy.get('[data-test=submit-button]');
 
   it('should display a register page', () => {
     cy.intercept('POST', 'api/users', { user: mockUser }).as('registerUser');
@@ -21,41 +21,43 @@ describe('Register', () => {
     cy.contains('h1', 'Sign up');
     cy.contains('a', 'Have an account?').should('have.attr', 'href', '/login');
 
-    submitButton().should('be.visible').and('be.disabled');
-    usernameInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The username is required');
-    usernameInput().type('ja');
-    errorMessage()
+    getSubmitButton().should('be.visible').and('be.disabled');
+    getUsernameInput().focus().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The username is required');
+    getUsernameInput().type('ja');
+    getValidationErrorMessage()
       .should('be.visible')
       .and('contain', 'The username must be at least 3 characters long');
-    usernameInput().clear();
-    usernameInput().type('jack');
-    errorMessage().should('not.exist');
+    getUsernameInput().clear();
+    getUsernameInput().type('jack');
+    getValidationErrorMessage().should('not.be.visible');
 
-    emailInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The email is required');
-    emailInput().type('jack@');
-    errorMessage().should('be.visible').and('contain', 'The email must be a valid email address');
-    emailInput().clear();
-    emailInput().type('jack@gmail.com');
-    errorMessage().should('not.exist');
+    getEmailInput().focus().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The email is required');
+    getEmailInput().type('jack@');
+    getValidationErrorMessage()
+      .should('be.visible')
+      .and('contain', 'The email must be a valid email address');
+    getEmailInput().clear();
+    getEmailInput().type('jack@gmail.com');
+    getValidationErrorMessage().should('not.be.visible');
 
-    passwordInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The password is required');
-    passwordInput().type('1234');
-    errorMessage()
+    getPasswordInput().focus().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The password is required');
+    getPasswordInput().type('1234');
+    getValidationErrorMessage()
       .should('be.visible')
       .and('contain', 'The password must be at least 8 characters long');
-    passwordInput().clear();
-    passwordInput().type('12345678');
-    errorMessage().should('not.exist');
+    getPasswordInput().clear();
+    getPasswordInput().type('12345678');
+    getValidationErrorMessage().should('not.be.visible');
 
-    passwordToggleButton().click();
-    cy.get('input#password').should('have.attr', 'type', 'text');
-    passwordToggleButton().click();
-    cy.get('input#password').should('have.attr', 'type', 'password');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'text');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'password');
 
-    submitButton().click();
+    getSubmitButton().click();
     cy.wait('@registerUser');
 
     cy.location('pathname').should('eq', '/');
@@ -73,16 +75,18 @@ describe('Register', () => {
     }).as('failedRegisterUser');
     cy.visit('/register');
 
-    usernameInput().type('jack');
-    emailInput().type('jack@gmail.com');
-    passwordInput().type('12345678');
+    getUsernameInput().type('jack');
+    getEmailInput().type('jack@gmail.com');
+    getPasswordInput().type('12345678');
 
-    submitButton().click();
+    getSubmitButton().click();
     cy.wait('@failedRegisterUser');
 
     cy.location('pathname').should('eq', '/register');
 
-    cy.get('.alert-danger').should('contain', 'username has already been taken');
-    cy.get('.alert-danger').should('contain', 'email or password is invalid');
+    const getErrorMessage = () => cy.get('[data-test=error-message]');
+
+    getErrorMessage().should('contain', 'username has already been taken');
+    getErrorMessage().should('contain', 'email or password is invalid');
   });
 });

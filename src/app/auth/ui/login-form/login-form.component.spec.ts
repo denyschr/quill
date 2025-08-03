@@ -32,7 +32,7 @@ describe('LoginFormComponent', () => {
     emailInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const emailRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const emailRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(emailRequiredError)
       .withContext('You should have an error message if the email field is required and touched')
       .not.toBeNull();
@@ -44,7 +44,7 @@ describe('LoginFormComponent', () => {
     emailInput.triggerEventHandler('input', { target: emailInput.nativeElement });
     fixture.detectChanges();
 
-    const emailError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const emailError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(emailError)
       .withContext('You should have an error message if the email field is invalid and touched')
       .not.toBeNull();
@@ -64,7 +64,7 @@ describe('LoginFormComponent', () => {
     passwordInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const passwordRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const passwordRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(passwordRequiredError)
       .withContext('You should have an error message if the password field is required and touched')
       .not.toBeNull();
@@ -76,7 +76,7 @@ describe('LoginFormComponent', () => {
     passwordInput.triggerEventHandler('input', { target: passwordInput.nativeElement });
     fixture.detectChanges();
 
-    const passwordLengthError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const passwordLengthError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(passwordLengthError)
       .withContext(
         'You should have an error message if the password field is too short and touched'

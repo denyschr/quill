@@ -47,7 +47,7 @@ describe('SettingsFormComponent', () => {
     usernameInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const usernameRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const usernameRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(usernameRequiredError)
       .withContext('You should have an error message if the username field is required and touched')
       .not.toBeNull();
@@ -59,7 +59,7 @@ describe('SettingsFormComponent', () => {
     usernameInput.triggerEventHandler('input', { target: usernameInput.nativeElement });
     fixture.detectChanges();
 
-    const usernameLengthError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const usernameLengthError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(usernameLengthError)
       .withContext(
         'You should have an error message if the username field is too short and touched'
@@ -88,7 +88,7 @@ describe('SettingsFormComponent', () => {
     emailInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const emailRequiredError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const emailRequiredError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(emailRequiredError)
       .withContext('You should have an error message if the email field is required and touched')
       .not.toBeNull();
@@ -100,7 +100,7 @@ describe('SettingsFormComponent', () => {
     emailInput.triggerEventHandler('input', { target: emailInput.nativeElement });
     fixture.detectChanges();
 
-    const emailError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const emailError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(emailError)
       .withContext('You should have an error message if the email field is invalid and touched')
       .not.toBeNull();
@@ -121,7 +121,7 @@ describe('SettingsFormComponent', () => {
     passwordInput.triggerEventHandler('blur');
     fixture.detectChanges();
 
-    const passwordLengthError = debugElement.query(By.css('div.mb-3 > .invalid-feedback > div'));
+    const passwordLengthError = debugElement.query(By.css('.invalid-feedback > *'));
     expect(passwordLengthError)
       .withContext(
         'You should have an error message if the password field is too short and touched'

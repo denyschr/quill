@@ -7,11 +7,11 @@ describe('Login', () => {
     image: 'https://i.stack.imgur.com/xHWG8.jpg'
   };
 
-  const emailInput = () => cy.get('input[type=email]');
-  const passwordInput = () => cy.get('input[type=password]');
-  const errorMessage = () => cy.get('div.mb-3 > .invalid-feedback > div');
-  const passwordToggleButton = () => cy.get('button.btn-outline-primary');
-  const submitButton = () => cy.get('button[type=submit]');
+  const getEmailInput = () => cy.get('[data-test=email-input]');
+  const getPasswordInput = () => cy.get('[data-test=password-input]');
+  const getValidationErrorMessage = () => cy.get('.invalid-feedback');
+  const getPasswordToggleButton = () => cy.get('[data-test=toggle-password-button]');
+  const getSubmitButton = () => cy.get('[data-test=submit-button]');
 
   it('should display a login page', () => {
     cy.intercept('POST', 'api/users/login', { user: mockUser }).as('loginUser');
@@ -20,31 +20,33 @@ describe('Login', () => {
     cy.contains('h1', 'Sign in');
     cy.contains('a', "Don't have an account?").should('have.attr', 'href', '/register');
 
-    submitButton().should('be.visible').and('be.disabled');
-    emailInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The email is required');
-    emailInput().type('jack@');
-    errorMessage().should('be.visible').and('contain', 'The email must be a valid email address');
-    emailInput().clear();
-    emailInput().type('jack@gmail.com');
-    errorMessage().should('not.exist');
+    getSubmitButton().should('be.visible').and('be.disabled');
+    getEmailInput().focus().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The email is required');
+    getEmailInput().type('jack@');
+    getValidationErrorMessage()
+      .should('be.visible')
+      .and('contain', 'The email must be a valid email address');
+    getEmailInput().clear();
+    getEmailInput().type('jack@gmail.com');
+    getValidationErrorMessage().should('not.be.visible');
 
-    passwordInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The password is required');
-    passwordInput().type('1234');
-    errorMessage()
+    getPasswordInput().focus().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The password is required');
+    getPasswordInput().type('1234');
+    getValidationErrorMessage()
       .should('be.visible')
       .and('contain', 'The password must be at least 8 characters long');
-    passwordInput().clear();
-    passwordInput().type('12345678');
-    errorMessage().should('not.exist');
+    getPasswordInput().clear();
+    getPasswordInput().type('12345678');
+    getValidationErrorMessage().should('not.be.visible');
 
-    passwordToggleButton().click();
-    cy.get('input#password').should('have.attr', 'type', 'text');
-    passwordToggleButton().click();
-    cy.get('input#password').should('have.attr', 'type', 'password');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'text');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'password');
 
-    submitButton().click();
+    getSubmitButton().click();
     cy.wait('@loginUser');
 
     cy.location('pathname').should('eq', '/');
@@ -62,15 +64,17 @@ describe('Login', () => {
     }).as('failedLoginUser');
     cy.visit('/login');
 
-    emailInput().type('jack@gmail.com');
-    passwordInput().type('12345678');
+    getEmailInput().type('jack@gmail.com');
+    getPasswordInput().type('12345678');
 
-    submitButton().click();
+    getSubmitButton().click();
     cy.wait('@failedLoginUser');
 
     cy.location('pathname').should('eq', '/login');
 
-    cy.get('.alert-danger').should('contain', 'email already exists');
-    cy.get('.alert-danger').should('contain', 'email or password is invalid');
+    const getErrorMessage = () => cy.get('[data-test=error-message]');
+
+    getErrorMessage().should('contain', 'email already exists');
+    getErrorMessage().should('contain', 'email or password is invalid');
   });
 });
