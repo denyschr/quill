@@ -118,7 +118,7 @@ describe('Home', () => {
       .and('not.have.class', 'active')
       .and('have.attr', 'href', '/settings');
     getNavbarLink()
-      .eq(3)
+      .last()
       .should('contain', mockUser.username)
       .and('not.have.class', 'active')
       .and('have.attr', 'href', `/profile/${mockUser.username}`);

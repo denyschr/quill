@@ -1,92 +1,91 @@
 describe('Settings', () => {
-  const user = {
-    email: 'email@gmail.com',
-    token: 'token',
-    username: 'username',
-    bio: 'bio',
-    image: 'image'
+  const mockUser = {
+    email: 'jack@gmail.com',
+    token: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjF9.5cAW816GUAg3OWKWlsYyXI4w3fDrS5BpnmbyBjVM7lo',
+    username: 'jack',
+    bio: 'I work at a state farm',
+    image: 'https://i.stack.imgur.com/xHWG8.jpg'
   };
 
-  const updatedSettings = {
-    image: 'new image',
-    username: 'new username',
-    bio: 'new bio',
-    email: 'newemail@gmail.com',
-    password: '12345678'
+  const mockNewUser = {
+    ...mockUser,
+    username: 'john',
+    bio: 'I do karate'
   };
 
-  function startBackend(): void {
-    cy.intercept('GET', 'api/user', { user }).as('getCurrentUser');
-    cy.intercept('PUT', 'api/user', { user: updatedSettings }).as('updateSettings');
-  }
+  const startBackend = (): void => {
+    cy.intercept('GET', 'api/user', { user: mockUser }).as('getCurrentUser');
+    cy.intercept('PUT', 'api/user', { user: mockNewUser }).as('updateSettings');
+  };
 
-  const imageInput = () => cy.get('#image');
-  const usernameInput = () => cy.get('#username');
-  const bioInput = () => cy.get('#bio');
-  const emailInput = () => cy.get('#email');
-  const passwordInput = () => cy.get('#password');
-  const errorMessage = () => cy.get('div.mb-3 > .invalid-feedback > div');
-  const passwordToggleButton = () => cy.get('button[type="button"].btn-outline-primary');
-  const submitButton = () => cy.get('button[type="submit"]');
+  const getImageUrlInput = () => cy.get('[data-test=image-url-input]');
+  const getUsernameInput = () => cy.get('[data-test=username-input]');
+  const getBioInput = () => cy.get('[data-test=bio-input]');
+  const getEmailInput = () => cy.get('[data-test=email-input]');
+  const getPasswordInput = () => cy.get('[data-test=password-input]');
+  const getValidationErrorMessage = () => cy.get('.invalid-feedback');
+  const getPasswordToggleButton = () => cy.get('[data-test=toggle-password-button]');
+  const getSubmitButton = () => cy.get('[data-test=submit-button]');
 
   beforeEach(() => {
-    window.localStorage.setItem('jwtToken', user.token);
+    localStorage.setItem('jwtToken', mockUser.token);
     startBackend();
   });
 
   it('should display a settings page', () => {
     cy.visit('/settings');
     cy.wait('@getCurrentUser');
-    cy.contains('h1', 'Your Settings');
 
-    submitButton().should('be.visible').and('be.disabled');
-    imageInput().should('have.value', user.image);
-    imageInput().type(updatedSettings.image);
+    cy.contains('h1', 'Settings');
 
-    usernameInput().should('have.value', user.username);
-    usernameInput().clear().blur();
-    errorMessage().should('be.visible').and('contain', 'The username is required');
-    usernameInput().type('us');
-    errorMessage()
+    getSubmitButton().should('be.visible').and('be.disabled');
+    getImageUrlInput().should('have.value', mockUser.image);
+
+    getUsernameInput().should('have.value', mockUser.username);
+    getUsernameInput().clear().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The username is required');
+    getUsernameInput().type('us');
+    getValidationErrorMessage()
       .should('be.visible')
       .and('contain', 'The username must be at least 3 characters long');
-    usernameInput().clear();
-    usernameInput().type(updatedSettings.username);
-    errorMessage().should('not.exist');
+    getUsernameInput().clear();
+    getUsernameInput().type(mockNewUser.username);
+    getValidationErrorMessage().should('not.be.visible');
 
-    bioInput().should('have.value', user.bio);
-    bioInput().clear();
-    bioInput().type(updatedSettings.bio);
+    getBioInput().should('have.value', mockUser.bio);
+    getBioInput().clear();
+    getBioInput().type(mockNewUser.bio);
 
-    emailInput().should('have.value', user.email);
-    emailInput().clear().blur();
-    errorMessage().should('be.visible').and('contain', 'The email is required');
-    emailInput().type('email@');
-    errorMessage().should('be.visible').and('contain', 'The email must be a valid email address');
-    emailInput().clear();
-    emailInput().type(updatedSettings.email);
-    errorMessage().should('not.exist');
+    getEmailInput().should('have.value', mockUser.email);
+    getEmailInput().clear().blur();
+    getValidationErrorMessage().should('be.visible').and('contain', 'The email is required');
+    getEmailInput().type('email@');
+    getValidationErrorMessage()
+      .should('be.visible')
+      .and('contain', 'The email must be a valid email address');
+    getEmailInput().clear();
+    getEmailInput().type(mockUser.email);
+    getValidationErrorMessage().should('not.be.visible');
 
-    passwordInput().focus().blur();
-    errorMessage().should('be.visible').and('contain', 'The password is required');
-    passwordInput().type('1234');
-    errorMessage()
+    getPasswordInput().type('1234').blur();
+    getValidationErrorMessage()
       .should('be.visible')
       .and('contain', 'The password must be at least 8 characters long');
-    passwordInput().clear();
-    passwordInput().type(updatedSettings.password);
-    errorMessage().should('not.exist');
-    passwordToggleButton().click();
-    passwordInput().should('have.attr', 'type', 'text');
-    passwordToggleButton().click();
-    passwordInput().should('have.attr', 'type', 'password');
-    submitButton().click();
+    getPasswordInput().clear();
+    getValidationErrorMessage().should('not.be.visible');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'text');
+    getPasswordToggleButton().click();
+    getPasswordInput().should('have.attr', 'type', 'password');
 
+    getSubmitButton().click();
     cy.wait('@updateSettings');
-    cy.get('.navbar-nav .nav-link').eq(3).should('contain', updatedSettings.username);
+
+    cy.location('pathname').should('eq', `/profile/${mockNewUser.username}`);
+    cy.get('[data-test=navbar-link]').last().should('contain', mockNewUser.username);
   });
 
-  it('should display backend errors if settings update fails', () => {
+  it('should display backend errors if updating the user fails', () => {
     cy.intercept('PUT', 'api/user', {
       statusCode: 404,
       body: {
@@ -100,29 +99,26 @@ describe('Settings', () => {
     cy.visit('/settings');
     cy.wait('@getCurrentUser');
 
-    imageInput().clear();
-    imageInput().type(updatedSettings.image);
-    usernameInput().clear();
-    usernameInput().type(updatedSettings.username);
-    bioInput().clear();
-    bioInput().type(updatedSettings.bio);
-    emailInput().clear();
-    emailInput().type(updatedSettings.email);
-    passwordInput().type(updatedSettings.password);
-    submitButton().click();
+    getUsernameInput().clear();
+    getUsernameInput().type(mockNewUser.username);
 
+    getSubmitButton().click();
     cy.wait('@failedUpdateSettings');
-    cy.get('.alert-danger').should('contain', 'username has already been taken');
-    cy.get('.alert-danger').should('contain', 'email or password is invalid');
+
+    const getErrorMessage = () => cy.get('[data-test=error-message]');
+
+    getErrorMessage().should('contain', 'username has already been taken');
+    getErrorMessage().should('contain', 'email or password is invalid');
   });
 
   it('should log out the user', () => {
     cy.visit('/settings');
     cy.wait('@getCurrentUser');
-    cy.get('button.btn-outline-danger').click();
+
+    cy.get('[data-test=logout-button]').click();
     cy.location('pathname')
       .should('eq', '/')
       .and(() => expect(localStorage.getItem('jwtToken')).to.eq(null));
-    cy.get('.navbar-nav .nav-link').should('have.length', 3);
+    cy.get('[data-test=navbar-link]').should('have.length', 3);
   });
 });
